@@ -1,5 +1,6 @@
 
 <div class="page-header">
-	<h3>New Experience</h3>
+    <h3>New Experience</h3>
 </div>
-<?php echo $this->renderPartial('_formExperience',array('model'=>$modelExperience)); 
+<?php
+echo $this->renderPartial('_formExperience', array('model' => $modelExperience));

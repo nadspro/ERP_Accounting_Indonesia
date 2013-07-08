@@ -5,26 +5,25 @@
  * LoginForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
  */
-class fImage extends CFormModel
-{
-	public $image;
+class fImage extends CFormModel {
 
-	public function rules()
-	{
-		return array(
-				// username and password are required
-				array('image', 'required'),
-				array('image', 'file', 'types'=>'jpg, gif, png'),
-		);
-	}
+    public $image;
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'image'=>'Nama File Image',
-		);
-	}
+    public function rules() {
+        return array(
+            // username and password are required
+            array('image', 'required'),
+            array('image', 'file', 'types' => 'jpg, gif, png'),
+        );
+    }
+
+    /**
+     * Declares attribute labels.
+     */
+    public function attributeLabels() {
+        return array(
+            'image' => 'Nama File Image',
+        );
+    }
+
 }

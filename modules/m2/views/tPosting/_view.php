@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerScript('search'.$data->id, "
+Yii::app()->clientScript->registerScript('search' . $data->id, "
 		$('.hide-info'+$data->id).click(function(){
 		$('.list'+$data->id).toggle('slow');
 		return false;
@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerScript('search'.$data->id, "
 
 
 <?php
-Yii::app()->clientScript->registerScript('myCap'.$data->id, "
+Yii::app()->clientScript->registerScript('myCap' . $data->id, "
 
 		$('#myCap'+$data->id).click(function(){
 		$(this).slideUp();
@@ -28,50 +28,51 @@ Yii::app()->clientScript->registerScript('myCap'.$data->id, "
 
 
 		");
-
 ?>
 
 
 <div id="list-<?php echo $data->id; ?>" class="well">
 
-	<div class="pull-right">
-	<?php echo CHtml::link('detail<i class="icon-chevron-right"></i>','#',array('class'=>'hide-info'.$data->id)); ?>
-	</div>
-	
-	<h4><?php 
-	echo CHtml::encode($data->system_ref);
-	if ($data->state_id != 1) echo " (" .sParameter::item("cStatus",$data->state_id) .")";
-	?> </h4>
+    <div class="pull-right">
+        <?php echo CHtml::link('detail<i class="icon-chevron-right"></i>', '#', array('class' => 'hide-info' . $data->id)); ?>
+    </div>
 
-	<br /> <br />
-	<div class="list<?php echo $data->id ?>" style="display: none">
+    <h4><?php
+        echo CHtml::encode($data->system_ref);
+        if ($data->state_id != 1)
+            echo " (" . sParameter::item("cStatus", $data->state_id) . ")";
+        ?> </h4>
 
-		<?php
-		//$this->widget('bootstrap.widgets.TbDetailView', array(
-		$this->widget('ext.XDetailView', array(
-				'ItemColumns' => 2,
-				'data'=>array(
-						'id'=>1,
-						'module_id'=>$data->module->name,
-						'input_date'=>$data->input_date,
-						'yearmonth_periode'=>$data->yearmonth_periode,
-						'user_ref'=>$data->user_ref,
-						'entity_id'=>$data->entity->name,
-						'remark'=>$data->remark,
-				),
-				'attributes'=>array(
-						array('name'=>'module_id', 'label'=>'Module'),
-						array('name'=>'input_date', 'label'=>'Input Date'),
-						array('name'=>'yearmonth_periode', 'label'=>'Periode'),
-						array('name'=>'user_ref', 'label'=>'User Ref'),
-						array('name'=>'entity_id', 'label'=>'Entity'),
-						array('name'=>'remark', 'label'=>'Remark'),
-				),
-		)); ?>
+    <br /> <br />
+    <div class="list<?php echo $data->id ?>" style="display: none">
+
+        <?php
+        //$this->widget('bootstrap.widgets.TbDetailView', array(
+        $this->widget('ext.XDetailView', array(
+            'ItemColumns' => 2,
+            'data' => array(
+                'id' => 1,
+                'module_id' => $data->module->name,
+                'input_date' => $data->input_date,
+                'yearmonth_periode' => $data->yearmonth_periode,
+                'user_ref' => $data->user_ref,
+                'entity_id' => $data->entity->name,
+                'remark' => $data->remark,
+            ),
+            'attributes' => array(
+                array('name' => 'module_id', 'label' => 'Module'),
+                array('name' => 'input_date', 'label' => 'Input Date'),
+                array('name' => 'yearmonth_periode', 'label' => 'Periode'),
+                array('name' => 'user_ref', 'label' => 'User Ref'),
+                array('name' => 'entity_id', 'label' => 'Entity'),
+                array('name' => 'remark', 'label' => 'Remark'),
+            ),
+        ));
+        ?>
 
 
-	</div>
+    </div>
 
-	<?php echo $this->renderPartial('_viewDetail', array('id'=>$data->id,'data'=>$data)); ?>
+<?php echo $this->renderPartial('_viewDetail', array('id' => $data->id, 'data' => $data)); ?>
 </div>
 

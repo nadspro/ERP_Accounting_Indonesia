@@ -1,52 +1,46 @@
 <?php
 
-class TAccountReportController extends Controller
-{
-	public $layout='//layouts/column1';
+class TAccountReportController extends Controller {
 
-	public function filters()
-	{
-		return array(
-				'rights',
-		);
-	}
+    public $layout = '//layouts/column1';
 
-	public function actionIndex()
-	{
-		$model=new fReport;
+    public function filters() {
+        return array(
+            'rights',
+        );
+    }
 
-		if(isset($_POST['fReport']))
-		{
-			$model->attributes=$_POST['fReport'];
-			if($model->validate()) {
+    public function actionIndex() {
+        $model = new fReport;
 
-				$modelReport=tAccountReport::model()->findByPk((int)$model->report_id);
+        if (isset($_POST['fReport'])) {
+            $model->attributes = $_POST['fReport'];
+            if ($model->validate()) {
 
-				$pdf=new $modelReport->link('P','mm','A4');
-				//$pdf=new profitlost1('P','mm','A4');
-				//$pdf=new balanceSheet1('P','mm','A4');
+                $modelReport = tAccountReport::model()->findByPk((int) $model->report_id);
 
-				$pdf->AliasNbPages();
-				$pdf->AddPage();
-				$pdf->SetFont('Arial','',12);
-				$pdf->report($model->periode_date,$model->report_id);
+                $pdf = new $modelReport->link('P', 'mm', 'A4');
+                //$pdf=new profitlost1('P','mm','A4');
+                //$pdf=new balanceSheet1('P','mm','A4');
 
-				$pdf->Output();
-					
-			}
-		}
+                $pdf->AliasNbPages();
+                $pdf->AddPage();
+                $pdf->SetFont('Arial', '', 12);
+                $pdf->report($model->periode_date, $model->report_id);
 
-		$model->periode_date=Yii::app()->settings->get("System", "cCurrentPeriod");
-		$this->render('index',array('model'=>$model));
-	}
+                $pdf->Output();
+            }
+        }
 
+        $model->periode_date = Yii::app()->settings->get("System", "cCurrentPeriod");
+        $this->render('index', array('model' => $model));
+    }
 
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='t-account-report-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 't-account-report-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
 }

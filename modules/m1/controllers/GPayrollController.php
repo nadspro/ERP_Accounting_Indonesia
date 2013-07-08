@@ -1,182 +1,167 @@
 <?php
 
-class GPayrollController extends Controller
-{
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column2left';
+class GPayrollController extends Controller {
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'rights', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column2left';
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$modelPayroll=$this->newPayroll($id);
-		$modelPayrollBenefit=$this->newPayrollBenefit($id);
-		$modelPayrollDeduction=$this->newPayrollDeduction($id);
-		
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-			'modelPayroll'=>$modelPayroll,
-			'modelPayrollBenefit'=>$modelPayrollBenefit,
-			'modelPayrollDeduction'=>$modelPayrollDeduction,
-		));
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            'rights', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
 
-	public function newPayroll($id)
-	{
-		$model=new gPayroll;
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id) {
+        $modelPayroll = $this->newPayroll($id);
+        $modelPayrollBenefit = $this->newPayrollBenefit($id);
+        $modelPayrollDeduction = $this->newPayrollDeduction($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+            'modelPayroll' => $modelPayroll,
+            'modelPayrollBenefit' => $modelPayrollBenefit,
+            'modelPayrollDeduction' => $modelPayrollDeduction,
+        ));
+    }
 
-		if(isset($_POST['gPayroll']))
-		{
-			$model->attributes=$_POST['gPayroll'];
-			$model->parent_id = $id;
-			if($model->save())
-				$this->redirect(array('view','id'=>$id,'tab'=>'Salary History'));
-		}
+    public function newPayroll($id) {
+        $model = new gPayroll;
 
-		return $model;
-	}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-	public function newPayrollBenefit($id)
-	{
-		$model=new gPayrollBenefit;
+        if (isset($_POST['gPayroll'])) {
+            $model->attributes = $_POST['gPayroll'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Salary History'));
+        }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        return $model;
+    }
 
-		if(isset($_POST['gPayrollBenefit']))
-		{
-			$model->attributes=$_POST['gPayrollBenefit'];
-			$model->parent_id = $id;
-			if($model->save())
-				$this->redirect(array('view','id'=>$id,'tab'=>'Benefit'));
-		}
+    public function newPayrollBenefit($id) {
+        $model = new gPayrollBenefit;
 
-		return $model;
-	}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-	public function newPayrollDeduction($id)
-	{
-		$model=new gPayrollDeduction;
+        if (isset($_POST['gPayrollBenefit'])) {
+            $model->attributes = $_POST['gPayrollBenefit'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Benefit'));
+        }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        return $model;
+    }
 
-		if(isset($_POST['gPayrollDeduction']))
-		{
-			$model->attributes=$_POST['gPayrollDeduction'];
-			$model->parent_id = $id;
-			if($model->save())
-				$this->redirect(array('view','id'=>$id,'tab'=>'Deduction'));
-		}
+    public function newPayrollDeduction($id) {
+        $model = new gPayrollDeduction;
 
-		return $model;
-	}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-	public function actionIndex()
-	{
-		$this->render('index',array(
-		));
-	}
+        if (isset($_POST['gPayrollDeduction'])) {
+            $model->attributes = $_POST['gPayrollDeduction'];
+            $model->parent_id = $id;
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $id, 'tab' => 'Deduction'));
+        }
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionCurrentMonth()
-	{
-		$criteria=new CDbCriteria;
+        return $model;
+    }
 
-		//if (Yii::app()->user->name != "admin") {
-			$criteria2 = new CDbCriteria;
-			$criteria2->condition=
-			'(select s.status_id from g_person_status s WHERE t.id=s.parent_id ORDER BY s.start_date DESC LIMIT 1) NOT IN 
-			('.implode(",",Yii::app()->getModule("m1")->PARAM_RESIGN_ARRAY).') AND '.
-			
-			'(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN ('.
-				implode(',',Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY).
-				') ORDER BY c.start_date DESC LIMIT 1) IN ('.
-				implode(",",sUser::model()->getGroupArray()).')';
-			$criteria->mergeWith($criteria2);
-		//}
+    public function actionIndex() {
+        $this->render('index', array(
+        ));
+    }
 
-		$criteria->order='updated_date DESC';
+    /**
+     * Lists all models.
+     */
+    public function actionCurrentMonth() {
+        $criteria = new CDbCriteria;
 
-		$dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person');
-		
-		$dataProvider=new CActiveDataProvider(gPerson::model()->cache(3600, $dependency, 2), array(
-				'criteria'=>$criteria,
-				'pagination'=>false,
-		)
-		);
+        //if (Yii::app()->user->name != "admin") {
+        $criteria2 = new CDbCriteria;
+        $criteria2->condition =
+                '(select s.status_id from g_person_status s WHERE t.id=s.parent_id ORDER BY s.start_date DESC LIMIT 1) NOT IN 
+			(' . implode(",", Yii::app()->getModule("m1")->PARAM_RESIGN_ARRAY) . ') AND ' .
+                '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
+                implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                implode(",", sUser::model()->getGroupArray()) . ')';
+        $criteria->mergeWith($criteria2);
+        //}
 
-		$this->render('currentMonth',array(
-				'dataProvider'=>$dataProvider,
-		));
-	}
+        $criteria->order = 'updated_date DESC';
 
+        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person');
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return gPayroll the loaded model
-	 * @throws CHttpException
-	 */
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
-	 */
-	public function loadModel($id)
-	{
-		$criteria=new CDbCriteria;
+        $dataProvider = new CActiveDataProvider(gPerson::model()->cache(3600, $dependency, 2), array(
+            'criteria' => $criteria,
+            'pagination' => false,
+                )
+        );
 
-		if (Yii::app()->user->name != "admin") {
-			$criteria->condition='(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN ('.
-				implode(',',Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY).
-				') ORDER BY c.start_date DESC LIMIT 1) IN ('.
-				implode(",",sUser::model()->getGroupArray()).') OR '.
-				'(select c2.company_id from g_person_career2 c2 WHERE t.id=c2.parent_id AND c2.company_id IN ('.
-				implode(",",sUser::model()->getGroupArray()).') ORDER BY c2.start_date DESC LIMIT 1) IN ('.
-				implode(",",sUser::model()->getGroupArray()).')' ;
-				
-		}
+        $this->render('currentMonth', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
 
-		$model=gPerson::model()->findByPk((int)$id,$criteria);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer $id the ID of the model to be loaded
+     * @return gPayroll the loaded model
+     * @throws CHttpException
+     */
 
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer the ID of the model to be loaded
+     */
+    public function loadModel($id) {
+        $criteria = new CDbCriteria;
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param gPayroll $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='g-payroll-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+        if (Yii::app()->user->name != "admin") {
+            $criteria->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' .
+                    implode(',', Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                    ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                    implode(",", sUser::model()->getGroupArray()) . ') OR ' .
+                    '(select c2.company_id from g_person_career2 c2 WHERE t.id=c2.parent_id AND c2.company_id IN (' .
+                    implode(",", sUser::model()->getGroupArray()) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
+                    implode(",", sUser::model()->getGroupArray()) . ')';
+        }
+
+        $model = gPerson::model()->findByPk((int) $id, $criteria);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    /**
+     * Performs the AJAX validation.
+     * @param gPayroll $model the model to be validated
+     */
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'g-payroll-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
 }

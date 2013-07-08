@@ -1,10 +1,13 @@
-<?php $form=$this->beginWidget('TbActiveForm', array(
-		'action'=>Yii::app()->createUrl($this->route),
-		'method'=>'get',
-)); ?>
+<?php
 
-<?php echo $form->label($model,'title'); ?>
-<?php echo $form->textField($model,'title',array('class'=>'span3')); ?>
+$form = $this->beginWidget('TbActiveForm', array(
+    'action' => Yii::app()->createUrl($this->route),
+    'method' => 'get',
+        ));
+?>
+
+<?php echo $form->label($model, 'title'); ?>
+<?php echo $form->textField($model, 'title', array('class' => 'span3')); ?>
 
 <?php echo CHtml::submitButton('Search'); ?>
 

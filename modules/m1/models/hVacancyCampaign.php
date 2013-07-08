@@ -16,94 +16,89 @@
  * @property integer $updated_date
  * @property string $updated_by
  */
-class hVacancyCampaign extends BaseModel
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return hVacancySch the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class hVacancyCampaign extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'h_vacancy_campaign';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return hVacancySch the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('parent_id, campaign_name, start_date, end_date', 'required'),
-			array('parent_id, status_id, created_date, updated_date', 'numerical', 'integerOnly'=>true),
-			array('campaign_name', 'length', 'max'=>100),
-			array('additional_info', 'length', 'max'=>500),
-			array('created_by, updated_by', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, parent_id, campaign_name, start_date, end_date, additional_info, status_id, created_date, created_by, updated_date, updated_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'h_vacancy_campaign';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('parent_id, campaign_name, start_date, end_date', 'required'),
+            array('parent_id, status_id, created_date, updated_date', 'numerical', 'integerOnly' => true),
+            array('campaign_name', 'length', 'max' => 100),
+            array('additional_info', 'length', 'max' => 500),
+            array('created_by, updated_by', 'length', 'max' => 50),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, parent_id, campaign_name, start_date, end_date, additional_info, status_id, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'parent_id' => 'Parent',
-			'campaign_name' => 'Campaign Name',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
-			'additional_info' => 'Additional Info',
-			'status_id' => 'Status',
-			'created_date' => 'Created Date',
-			'created_by' => 'Created By',
-			'updated_date' => 'Updated Date',
-			'updated_by' => 'Updated By',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search($id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'parent_id' => 'Parent',
+            'campaign_name' => 'Campaign Name',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+            'additional_info' => 'Additional Info',
+            'status_id' => 'Status',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'updated_date' => 'Updated Date',
+            'updated_by' => 'Updated By',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($id) {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('parent_id',$id);
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-				'defaultOrder'=>'start_date DESC',
-			),
-		));
-	}
+        $criteria->compare('parent_id', $id);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 'start_date DESC',
+            ),
+        ));
+    }
+
 }

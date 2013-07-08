@@ -1,10 +1,13 @@
-<?php $form=$this->beginWidget('TbActiveForm', array(
-		'action'=>Yii::app()->createUrl($this->route),
-		'method'=>'get',
-)); ?>
+<?php
 
-<?php echo $form->label($model,'message'); ?>
-<?php echo $form->textField($model,'message',array('size'=>60,'maxlength'=>1000)); ?>
+$form = $this->beginWidget('TbActiveForm', array(
+    'action' => Yii::app()->createUrl($this->route),
+    'method' => 'get',
+        ));
+?>
+
+<?php echo $form->label($model, 'message'); ?>
+<?php echo $form->textField($model, 'message', array('size' => 60, 'maxlength' => 1000)); ?>
 
 <?php echo CHtml::submitButton('Search'); ?>
 <?php $this->endWidget(); ?>

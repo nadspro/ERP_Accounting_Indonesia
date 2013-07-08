@@ -1,7 +1,7 @@
 <?php
-$this->breadcrumbs=array(
-		'SMS'=>array('index'),
-		'Manage',
+$this->breadcrumbs = array(
+    'SMS' => array('index'),
+    'Manage',
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -19,45 +19,47 @@ Yii::app()->clientScript->registerScript('search', "
 ?>
 
 <div class="page-header">
-	<h1>		<i class="icon-fa-phone"></i>
-Data SMS</h1>
+    <h1>		<i class="icon-fa-phone"></i>
+        Data SMS</h1>
 </div>
-<?php 
-$this->beginWidget('zii.widgets.jui.CJuiDialog',
-		array('id'=>'advancedsearch_dialog',
-				// additional javascript options for the dialog plugin
-				'options'=>array(
-						'title'=>'Advanced Search',
-						'width'=>'auto',
-						'autoOpen'=>false,
-				),
-		));
-$this->renderPartial('_search', array('model'=>$model));
+<?php
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array('id' => 'advancedsearch_dialog',
+    // additional javascript options for the dialog plugin
+    'options' => array(
+        'title' => 'Advanced Search',
+        'width' => 'auto',
+        'autoOpen' => false,
+    ),
+));
+$this->renderPartial('_search', array('model' => $model));
 
 $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 
 <div class="mymenu">
-	<?php echo CHtml::link('Add New', array('create')); 
-	echo CHtml::label(' | ','#');
-	echo CHtml::link('Advanced Search', '#',array('onclick'=>'$("#advancedsearch_dialog").dialog("open"); return false;',))
-	?>
+    <?php
+    echo CHtml::link('Add New', array('create'));
+    echo CHtml::label(' | ', '#');
+    echo CHtml::link('Advanced Search', '#', array('onclick' => '$("#advancedsearch_dialog").dialog("open"); return false;',))
+    ?>
 </div>
 
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
-		'id'=>'ssmsin-grid',
-		'dataProvider'=>$model->search(),
-		'itemsCssClass'=>'table table-striped table-bordered',
-		'template'=>'{items}{pager}',
-		'columns'=>array(
-				array(
-						'class'=>'TbButtonColumn',
-				),
-				'filename',
-				'cfrom',
-				'sent',
-				'received',
-				'modem',
-				'message',
-		),
-)); ?>
+<?php
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'id' => 'ssmsin-grid',
+    'dataProvider' => $model->search(),
+    'itemsCssClass' => 'table table-striped table-bordered',
+    'template' => '{items}{pager}',
+    'columns' => array(
+        array(
+            'class' => 'TbButtonColumn',
+        ),
+        'filename',
+        'cfrom',
+        'sent',
+        'received',
+        'modem',
+        'message',
+    ),
+));
+?>

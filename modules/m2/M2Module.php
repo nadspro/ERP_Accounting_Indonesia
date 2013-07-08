@@ -15,6 +15,23 @@ class M2Module extends CWebModule
 		));
 	}
 
+	public $ACCOUNT_TYPE_ALL=array(
+		'accmain_id'=>'accmain_id',
+		'haschild_id'=>'haschild_id',
+		'cashbank_id'=>'cashbank_id',
+		'cashbank_code'=>'cashbank_code',
+		'currency_id'=>'currency_id',
+		'state_id'=>'state_id'
+	);
+
+	public $ACCOUNT_TYPE_SPEC1=array(
+		'cashbank_id'=>'cashbank_id',
+		'cashbank_code'=>'cashbank_code',
+		'currency_id'=>'currency_id',
+		'state_id'=>'state_id'
+	);
+
+
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))

@@ -22,113 +22,108 @@
  * @property integer $created_date
  * @property string $created_by
  */
-class iLearningSchPartFb extends BaseModel
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return iLearningSchPartFb the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class iLearningSchPartFb extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'i_learning_sch_part_fb';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return iLearningSchPartFb the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2', 'required'),
-			array('parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2, created_date', 'numerical', 'integerOnly'=>true),
-			array('D1, D2', 'length', 'max'=>500),
-			array('created_by', 'length', 'max'=>45),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2, D1, D2, created_date, created_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'i_learning_sch_part_fb';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'getparent'=>array(self::BELONGS_TO, 'iLearningSchPart', 'parent_id'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2', 'required'),
+            array('parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2, created_date', 'numerical', 'integerOnly' => true),
+            array('D1, D2', 'length', 'max' => 500),
+            array('created_by', 'length', 'max' => 45),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, parent_id, A1, A2, A3, A4, A5, B1, B2, B3, B4, C1, C2, D1, D2, created_date, created_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'parent_id' => 'Parent',
-			'A1' => 'A1',
-			'A2' => 'A2',
-			'A3' => 'A3',
-			'A4' => 'A4',
-			'A5' => 'A5',
-			'B1' => 'B1',
-			'B2' => 'B2',
-			'B3' => 'B3',
-			'B4' => 'B4',
-			'C1' => 'C1',
-			'C2' => 'C2',
-			'D1' => 'D1',
-			'D2' => 'D2',
-			'created_date' => 'Created Date',
-			'created_by' => 'Created By',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'getparent' => array(self::BELONGS_TO, 'iLearningSchPart', 'parent_id'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'parent_id' => 'Parent',
+            'A1' => 'A1',
+            'A2' => 'A2',
+            'A3' => 'A3',
+            'A4' => 'A4',
+            'A5' => 'A5',
+            'B1' => 'B1',
+            'B2' => 'B2',
+            'B3' => 'B3',
+            'B4' => 'B4',
+            'C1' => 'C1',
+            'C2' => 'C2',
+            'D1' => 'D1',
+            'D2' => 'D2',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('parent_id',$this->parent_id);
-		$criteria->compare('A1',$this->A1);
-		$criteria->compare('A2',$this->A2);
-		$criteria->compare('A3',$this->A3);
-		$criteria->compare('A4',$this->A4);
-		$criteria->compare('A5',$this->A5);
-		$criteria->compare('B1',$this->B1);
-		$criteria->compare('B2',$this->B2);
-		$criteria->compare('B3',$this->B3);
-		$criteria->compare('B4',$this->B4);
-		$criteria->compare('C1',$this->C1);
-		$criteria->compare('C2',$this->C2);
-		$criteria->compare('D1',$this->D1,true);
-		$criteria->compare('D2',$this->D2,true);
-		$criteria->compare('created_date',$this->created_date);
-		$criteria->compare('created_by',$this->created_by,true);
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        $criteria->compare('id', $this->id);
+        $criteria->compare('parent_id', $this->parent_id);
+        $criteria->compare('A1', $this->A1);
+        $criteria->compare('A2', $this->A2);
+        $criteria->compare('A3', $this->A3);
+        $criteria->compare('A4', $this->A4);
+        $criteria->compare('A5', $this->A5);
+        $criteria->compare('B1', $this->B1);
+        $criteria->compare('B2', $this->B2);
+        $criteria->compare('B3', $this->B3);
+        $criteria->compare('B4', $this->B4);
+        $criteria->compare('C1', $this->C1);
+        $criteria->compare('C2', $this->C2);
+        $criteria->compare('D1', $this->D1, true);
+        $criteria->compare('D2', $this->D2, true);
+        $criteria->compare('created_date', $this->created_date);
+        $criteria->compare('created_by', $this->created_by, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }

@@ -9,31 +9,28 @@
  * @property integer $notification_id
  * @property integer $readed
  */
-class sNotificationMessageRead extends BaseModel
-{
+class sNotificationMessageRead extends BaseModel {
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return NotifyiiReads the static model class
      */
-    public static function model($className = __CLASS__)
-    {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName()
-    {
+    public function tableName() {
         return 's_notification_message_read';
     }
 
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules()
-    {
+    public function rules() {
         return array(
             array('username', 'required'),
             array('notification_id, readed', 'numerical', 'integerOnly' => true),
@@ -44,18 +41,16 @@ class sNotificationMessageRead extends BaseModel
     /**
      * @return array relational rules.
      */
-    public function relations()
-    {
+    public function relations() {
         return array(
-           'notification' => array(self::BELONGS_TO, 'sNotificationMessage', 'notification_id'),
+            'notification' => array(self::BELONGS_TO, 'sNotificationMessage', 'notification_id'),
         );
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return array(
             'id' => 'ID',
             'username' => 'User',
@@ -68,8 +63,7 @@ class sNotificationMessageRead extends BaseModel
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search()
-    {
+    public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
@@ -81,8 +75,8 @@ class sNotificationMessageRead extends BaseModel
         $criteria->compare('readed', $this->readed);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                ));
+            'criteria' => $criteria,
+        ));
     }
 
 }

@@ -14,142 +14,133 @@
  * @property integer $updated_date
  * @property integer $updated_by
  */
-class gParamLevel extends BaseModel
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return gParamLevel the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class gParamLevel extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'g_param_level';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return gParamLevel the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('name', 'required'),
-				array('parent_id, sort, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly'=>true),
-				array('name', 'length', 'max'=>100),
-				array('golongan', 'length', 'max'=>50),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, parent_id, sort, name, golongan, created_date, created_by, updated_date, updated_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'g_param_level';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'getparent' => array(self::BELONGS_TO, 'gParamLevel', 'parent_id'),
-				'childs' => array(self::HAS_MANY, 'gParamLevel', 'parent_id', 'order' => 'id ASC'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('name', 'required'),
+            array('parent_id, sort, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly' => true),
+            array('name', 'length', 'max' => 100),
+            array('golongan', 'length', 'max' => 50),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, parent_id, sort, name, golongan, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'parent_id' => 'Parent',
-				'sort' => 'Sort',
-				'name' => 'Name',
-				'golongan' => 'Golongan',
-				'created_date' => 'Created Date',
-				'created_by' => 'Created By',
-				'updated_date' => 'Updated Date',
-				'updated_by' => 'Updated By',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'getparent' => array(self::BELONGS_TO, 'gParamLevel', 'parent_id'),
+            'childs' => array(self::HAS_MANY, 'gParamLevel', 'parent_id', 'order' => 'id ASC'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'parent_id' => 'Parent',
+            'sort' => 'Sort',
+            'name' => 'Name',
+            'golongan' => 'Golongan',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'updated_date' => 'Updated Date',
+            'updated_by' => 'Updated By',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search() {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('name',$this->name,true);
-		$criteria->order='sort';
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				'pagination'=>array(
-					'pageSize'=>50,
-				)
-		));
-	}
+        $criteria->compare('name', $this->name, true);
+        $criteria->order = 'sort';
 
-	public static function levelDropDown()
-	{
-		$_items=array();
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
+            )
+        ));
+    }
 
-		$criteria=new CDbCriteria;
-		$criteria->order='sort';
-		$criteria->compare('parent_id',0);
-		$models=self::model()->findAll($criteria);
-		foreach($models as $model)
-			foreach($model->childs as $mod)
-			$_items[$mod->getparent->name][$mod->id]=$mod->name;
+    public static function levelDropDown() {
+        $_items = array();
 
-		return $_items;
-	}
+        $criteria = new CDbCriteria;
+        $criteria->order = 'sort';
+        $criteria->compare('parent_id', 0);
+        $models = self::model()->findAll($criteria);
+        foreach ($models as $model)
+            foreach ($model->childs as $mod)
+                $_items[$mod->getparent->name][$mod->id] = $mod->name;
 
-	public static function levelDropDownParent()
-	{
-		$_items=array();
+        return $_items;
+    }
 
-		$criteria=new CDbCriteria;
-		$criteria->order='sort';
-		$criteria->compare('parent_id',0);
-		$models=self::model()->findAll($criteria);
-		
-		$_items['0']=".:ROOT:.";
-		foreach($models as $model)
-			$_items[$model->id]=$model->name;
+    public static function levelDropDownParent() {
+        $_items = array();
 
-		return $_items;
-	}
-	
-	public function levelMenuList($route) {
+        $criteria = new CDbCriteria;
+        $criteria->order = 'sort';
+        $criteria->compare('parent_id', 0);
+        $models = self::model()->findAll($criteria);
 
-		$criteria=new CDbCriteria;
-		$criteria->compare('parent_id',0);
-		$models=self::model()->findAll($criteria);
+        $_items['0'] = ".:ROOT:.";
+        foreach ($models as $model)
+            $_items[$model->id] = $model->name;
 
-		$returnarray = array();
+        return $_items;
+    }
 
-		foreach ($models as $model) {
-			$returnarray[] = array('id' => $model->id, 'label' => $model->name, 'icon'=>'list-alt', 'url' => array('/'.$route.'/filter','id'=>$model->id));
-		}
+    public function levelMenuList($route) {
 
-		return $returnarray;
-	}
-	
+        $criteria = new CDbCriteria;
+        $criteria->compare('parent_id', 0);
+        $models = self::model()->findAll($criteria);
+
+        $returnarray = array();
+
+        foreach ($models as $model) {
+            $returnarray[] = array('id' => $model->id, 'label' => $model->name, 'icon' => 'list-alt', 'url' => array('/' . $route . '/filter', 'id' => $model->id));
+        }
+
+        return $returnarray;
+    }
 
 }

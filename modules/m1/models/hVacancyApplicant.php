@@ -9,140 +9,132 @@
  * @property integer $vacancy_id
  * @property integer $status_id
  */
-class hVacancyApplicant extends BaseModel
-{
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return GVacancyApplicant the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class hVacancyApplicant extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'h_vacancy_applicant';
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return GVacancyApplicant the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('applicant_id, vacancy_id', 'required'),
-			array('applicant_id, vacancy_id, status_id, email_status_id', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, applicant_id, vacancy_id, status_id', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'h_vacancy_applicant';
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'applicant'=>array(self::BELONGS_TO, 'hApplicant', 'applicant_id'),
-			'vacancy'=>array(self::BELONGS_TO, 'hVacancy', 'vacancy_id'),
-			'status' => array(self::BELONGS_TO, 'sParameter', array('status_id'=>'code'),'condition'=>'type = \'cApplicantStatus\''),
-			'comment'=>array(self::HAS_MANY, 'hVacancyApplicantComment', 'parent_id'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('applicant_id, vacancy_id', 'required'),
+            array('applicant_id, vacancy_id, status_id, email_status_id', 'numerical', 'integerOnly' => true),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, applicant_id, vacancy_id, status_id', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'applicant_id' => 'Applicant',
-			'vacancy_id' => 'Vacancy',
-			'status_id' => 'Status',
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'applicant' => array(self::BELONGS_TO, 'hApplicant', 'applicant_id'),
+            'vacancy' => array(self::BELONGS_TO, 'hVacancy', 'vacancy_id'),
+            'status' => array(self::BELONGS_TO, 'sParameter', array('status_id' => 'code'), 'condition' => 'type = \'cApplicantStatus\''),
+            'comment' => array(self::HAS_MANY, 'hVacancyApplicantComment', 'parent_id'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search($id,$act)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'applicant_id' => 'Applicant',
+            'vacancy_id' => 'Vacancy',
+            'status_id' => 'Status',
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($id, $act) {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('vacancy_id',$id);
-		$criteria->compare('status_id',$act);
-		$criteria->with=array('applicant');
-		$criteria->order='t.created_date DESC';
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			//'pagination'=>array(
-			//	'pageSize'=>20,
-			//)
-		));
-	}
+        $criteria->compare('vacancy_id', $id);
+        $criteria->compare('status_id', $act);
+        $criteria->with = array('applicant');
+        $criteria->order = 't.created_date DESC';
 
-	public function searchByApplicant($id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+                //'pagination'=>array(
+                //	'pageSize'=>20,
+                //)
+        ));
+    }
 
-		$criteria=new CDbCriteria;
+    public function searchByApplicant($id) {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria->compare('applicant_id',$id);
-		$criteria->with=array('applicant');
-		$criteria->order='t.created_date DESC';
+        $criteria = new CDbCriteria;
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			//'pagination'=>array(
-			//	'pageSize'=>20,
-			//)
-		));
-	}
-	
-	public static function getTopRecentInterview() {
+        $criteria->compare('applicant_id', $id);
+        $criteria->with = array('applicant');
+        $criteria->order = 't.created_date DESC';
 
-		$criteria=new CDbCriteria;
-		$criteria->limit=10;
-		$criteria->together=true;
-		//$criteria->order="vacancy.created_date DESC";
-		$criteria->compare('t.status_id',4);
-		$criteria->with=array('comment');
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+                //'pagination'=>array(
+                //	'pageSize'=>20,
+                //)
+        ));
+    }
 
-		if (Yii::app()->user->name != "admin") {
-			$criteria2 = new CDbCriteria;
-			$criteria2->with=array('vacancy');
-			$criteria2->condition='vacancy.company_id IN ('.implode(",",sUser::model()->getGroupArray()).')' ;
-			$criteria->mergeWith($criteria2);
-		}
-				
+    public static function getTopRecentInterview() {
 
-		$models=self::model()->findAll($criteria);
+        $criteria = new CDbCriteria;
+        $criteria->limit = 10;
+        $criteria->together = true;
+        //$criteria->order="vacancy.created_date DESC";
+        $criteria->compare('t.status_id', 4);
+        $criteria->with = array('comment');
 
-		$returnarray = array();
+        if (Yii::app()->user->name != "admin") {
+            $criteria2 = new CDbCriteria;
+            $criteria2->with = array('vacancy');
+            $criteria2->condition = 'vacancy.company_id IN (' . implode(",", sUser::model()->getGroupArray()) . ')';
+            $criteria->mergeWith($criteria2);
+        }
 
-		foreach ($models as $model) {
-			$returnarray[] = array('id' => $model->id, 'label' => $model->applicant->applicant_name." - ".$model->vacancy->vacancy_title, 'icon'=>'list-alt', 'url' => array('/m1/hVacancy/interviewDetail','id'=>$model->id));
-		}
 
-		return $returnarray;
-	}
-	
-	
+        $models = self::model()->findAll($criteria);
+
+        $returnarray = array();
+
+        foreach ($models as $model) {
+            $returnarray[] = array('id' => $model->id, 'label' => $model->applicant->applicant_name . " - " . $model->vacancy->vacancy_title, 'icon' => 'list-alt', 'url' => array('/m1/hVacancy/interviewDetail', 'id' => $model->id));
+        }
+
+        return $returnarray;
+    }
+
 }

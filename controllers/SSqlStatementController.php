@@ -1,32 +1,29 @@
 <?php
 
-class SSqlStatementController extends Controller
-{
-	public $layout='//layouts/column1';
+class SSqlStatementController extends Controller {
 
-	public function filters()
-	{
-		return array(
-			'rights',
-		);
-	}
+    public $layout = '//layouts/column1';
 
-	public function actionIndex()
-	{
-		$model=new fSqlStatement;
+    public function filters() {
+        return array(
+            'rights',
+        );
+    }
 
-		if(isset($_POST['fSqlStatement']))
-		{
-			$model->attributes=$_POST['fSqlStatement'];
-			if($model->validate())
-			{
-				$commandD=Yii::app()->db->createCommand($model->sql);
-				$commandD->execute();
+    public function actionIndex() {
+        $model = new fSqlStatement;
 
-				Yii::app()->user->setFlash('success','SQL statement has been executed');
-				$this->refresh();
-			}
-		}
-		$this->render('/sParameter/sqlstatement',array('model'=>$model));
-	}
+        if (isset($_POST['fSqlStatement'])) {
+            $model->attributes = $_POST['fSqlStatement'];
+            if ($model->validate()) {
+                $commandD = Yii::app()->db->createCommand($model->sql);
+                $commandD->execute();
+
+                Yii::app()->user->setFlash('success', 'SQL statement has been executed');
+                $this->refresh();
+            }
+        }
+        $this->render('/sParameter/sqlstatement', array('model' => $model));
+    }
+
 }

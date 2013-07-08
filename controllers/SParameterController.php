@@ -1,117 +1,104 @@
 <?php
 
-class SParameterController extends Controller
-{
-	public $layout='//layouts/column1';
+class SParameterController extends Controller {
 
-	public function filters()
-	{
-		return array(
-			'rights',
-		);
-	}
+    public $layout = '//layouts/column1';
 
-	public function newParameter($type=null)
-	{
-		$model=new sParameter;
+    public function filters() {
+        return array(
+            'rights',
+        );
+    }
 
-		// $this->performAjaxValidation($model);
+    public function newParameter($type = null) {
+        $model = new sParameter;
 
-		if(isset($_POST['sParameter']))
-		{
-			$model->attributes=$_POST['sParameter'];
-			if($model->save()) {
-				Yii::app()->user->setFlash('success','<strong>Great!</strong> data has been saved successfully');
-				$this->redirect(array('/sParameter/index','type'=>$type));
-			}
-		}
+        // $this->performAjaxValidation($model);
 
-		if(isset($_GET['type'])) {
-			$model->type=$_GET['type'];
-			$model->code=sParameter::lastItem($_GET['type']);
-		}
+        if (isset($_POST['sParameter'])) {
+            $model->attributes = $_POST['sParameter'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', '<strong>Great!</strong> data has been saved successfully');
+                $this->redirect(array('/sParameter/index', 'type' => $type));
+            }
+        }
 
-		return $model;
-	}
+        if (isset($_GET['type'])) {
+            $model->type = $_GET['type'];
+            $model->code = sParameter::lastItem($_GET['type']);
+        }
 
+        return $model;
+    }
 
-	public function actionUpdateEducation($id)
-	{
-		$model=$this->loadModelEducation($id);
+    public function actionUpdateEducation($id) {
+        $model = $this->loadModelEducation($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-		if(isset($_POST['gPersonEducation']))
-		{
-			$model->attributes=$_POST['gPersonEducation'];
-			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-				EQuickDlgs::checkDialogJsScript();
-		}
+        if (isset($_POST['gPersonEducation'])) {
+            $model->attributes = $_POST['gPersonEducation'];
+            if ($model->save())
+            //$this->redirect(array('view','id'=>$model->id));
+                EQuickDlgs::checkDialogJsScript();
+        }
 
-		EQuickDlgs::render('_formEducation',array('model'=>$model));
-	}
+        EQuickDlgs::render('_formEducation', array('model' => $model));
+    }
 
+    public function actionUpdate($pk1, $pk2) {
 
-	public function actionUpdate($pk1,$pk2)
-	{
+        $model = $this->loadModel($pk1, $pk2);
 
-		$model=$this->loadModel($pk1,$pk2);
+        // $this->performAjaxValidation($model);
 
-		// $this->performAjaxValidation($model);
+        if (isset($_POST['sParameter'])) {
+            $model->attributes = $_POST['sParameter'];
+            if ($model->save()) {
+                EQuickDlgs::checkDialogJsScript();
+            }
+        }
 
-		if(isset($_POST['sParameter']))
-		{
-			$model->attributes=$_POST['sParameter'];
-			if($model->save()) {
-				EQuickDlgs::checkDialogJsScript();
-			}
-		}
+        EQuickDlgs::render('update', array('model' => $model));
+    }
 
-		EQuickDlgs::render('update',array('model'=>$model));
-	}
+    public function actionDelete($pk1, $pk2) {
+        $this->loadModel($pk1, $pk2)->delete();
 
-	public function actionDelete($pk1,$pk2)
-	{
-		$this->loadModel($pk1,$pk2)->delete();
+        $this->redirect(array('/sParameter'));
+    }
 
-		$this->redirect(array('/sParameter'));
-	}
+    public function actionIndex($type = null) {
+        $parameter = $this->newParameter($type);
 
-	public function actionIndex($type=null)
-	{
-		$parameter=$this->newParameter($type);
+        $model = new sParameter('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['sParameter']))
+            $model->attributes = $_GET['sParameter'];
 
-		$model=new sParameter('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['sParameter']))
-			$model->attributes=$_GET['sParameter'];
+        $this->render('index', array(
+            'model' => $model,
+            'type' => $type,
+            'modelParameter' => $parameter,
+        ));
+    }
 
-		$this->render('index',array(
-			'model'=>$model,
-			'type'=>$type,
-			'modelParameter'=>$parameter,
-		));
-	}
+    public function loadModel($pk1, $pk2) {
+        $model = sParameter::model()->find(array(
+            'condition' => 'type = :pk1 AND code = :pk2',
+            'params' => array(':pk1' => $pk1, ':pk2' => $pk2),
+        ));
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
 
-	public function loadModel($pk1,$pk2)
-	{
-		$model=sParameter::model()->find(array(
-			'condition'=>'type = :pk1 AND code = :pk2',
-			'params'=>array(':pk1'=>$pk1,':pk2'=>$pk2),
-		));
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'parameter-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
 
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='parameter-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
 }

@@ -1,15 +1,18 @@
 <?php
-$this->breadcrumbs=array(
-		'send SMS',
-);?>
+$this->breadcrumbs = array(
+    'send SMS',
+);
+?>
 <div class="page-header">
-	<h1>		<i class="icon-fa-phone"></i>
-Send SMS</h1>
+    <h1>		<i class="icon-fa-phone"></i>
+        Send SMS</h1>
 </div>
-<?php echo $this->renderPartial('_form', array('model'=>$modelSmsout)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $modelSmsout)); ?>
 <br />
 <hr />
-<?php $this->widget('zii.widgets.CListView', array(
-		'dataProvider'=>$dataProvider,
-		'itemView'=>'_view',
-)); ?>
+<?php
+$this->widget('zii.widgets.CListView', array(
+    'dataProvider' => $dataProvider,
+    'itemView' => '_view',
+));
+?>

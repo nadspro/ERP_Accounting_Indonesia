@@ -1,96 +1,86 @@
 <?php
 
-class SMatrixController extends Controller
-{
-	public $layout='//layouts/column2';
+class SMatrixController extends Controller {
 
-	public function filters()
-	{
-		return array(
-			'rights',
-		);
-	}
+    public $layout = '//layouts/column2';
 
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
+    public function filters() {
+        return array(
+            'rights',
+        );
+    }
 
-	public function newMatrix()
-	{
-		$model=new sMatrix;
+    public function actionView($id) {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
 
-		// $this->performAjaxValidation($model);
+    public function newMatrix() {
+        $model = new sMatrix;
 
-		if(isset($_POST['sMatrix']))
-		{
-			$model->attributes=$_POST['sMatrix'];
-			if($model->save()) {
-				Yii::app()->user->setFlash('success','<strong>Great!</strong> data has been saved successfully');
-				$this->redirect(array('index'));
-			}
-		}
+        // $this->performAjaxValidation($model);
 
-		return $model;
-	}
+        if (isset($_POST['sMatrix'])) {
+            $model->attributes = $_POST['sMatrix'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', '<strong>Great!</strong> data has been saved successfully');
+                $this->redirect(array('index'));
+            }
+        }
 
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+        return $model;
+    }
 
-		// $this->performAjaxValidation($model);
+    public function actionUpdate($id) {
+        $model = $this->loadModel($id);
 
-		if(isset($_POST['sMatrix']))
-		{
-			$model->attributes=$_POST['sMatrix'];
-			if($model->save()) {
-				Yii::app()->user->setFlash('success','<strong>Great!</strong> data has been saved successfully');
-				$this->redirect(array('view','id'=>$model->id));
-			}
-		}
+        // $this->performAjaxValidation($model);
 
-		$this->render('update',array(
-				'model'=>$model,
-		));
-	}
+        if (isset($_POST['sMatrix'])) {
+            $model->attributes = $_POST['sMatrix'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', '<strong>Great!</strong> data has been saved successfully');
+                $this->redirect(array('view', 'id' => $model->id));
+            }
+        }
 
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-		//$this->redirect(array('admin'));
-	}
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
 
-	public function actionIndex()
-	{
-		$matrix=$this->newMatrix();
+    public function actionDelete($id) {
+        $this->loadModel($id)->delete();
+        //$this->redirect(array('admin'));
+    }
 
-		$model=new sMatrix('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['sMatrix']))
-			$model->attributes=$_GET['sMatrix'];
+    public function actionIndex() {
+        $matrix = $this->newMatrix();
 
-		$this->render('index',array(
-			'model'=>$model,
-			'modelmatrix'=>$matrix,
-		));
-	}
+        $model = new sMatrix('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['sMatrix']))
+            $model->attributes = $_GET['sMatrix'];
 
-	public function loadModel($id)
-	{
-		$model=sMatrix::model()->findByPk((int)$id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+        $this->render('index', array(
+            'model' => $model,
+            'modelmatrix' => $matrix,
+        ));
+    }
 
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='module-matrix-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+    public function loadModel($id) {
+        $model = sMatrix::model()->findByPk((int) $id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'module-matrix-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
 }

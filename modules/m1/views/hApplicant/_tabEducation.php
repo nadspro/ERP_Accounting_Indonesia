@@ -1,5 +1,6 @@
 
 <div class="page-header">
-	<h3>New Education</h3>
+    <h3>New Education</h3>
 </div>
-<?php echo $this->renderPartial('_formEducation',array('model'=>$modelEducation)); 
+<?php
+echo $this->renderPartial('_formEducation', array('model' => $modelEducation));
