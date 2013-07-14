@@ -32,10 +32,10 @@ Yii::app()->clientScript->registerScript('datepicker12', "
 
         <?php echo $form->textFieldRow($model, 'end_date', array()); ?>
 
-            <?php echo $form->dropDownListRow($model, 'status_id', array('8' => 'Assignment')); ?>
+        <?php echo $form->dropDownListRow($model, 'status_id', array('8' => 'Assignment')); ?>
 
         <div class="control-group">
-                <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
+            <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
             <div class="controls">
                 <?php
                 echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(
@@ -57,7 +57,7 @@ Yii::app()->clientScript->registerScript('datepicker12', "
 
         <?php echo $form->textFieldRow($model, 'job_title', array('class' => 'span4')); ?>
 
-<?php echo $form->textAreaRow($model, 'reason', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->textAreaRow($model, 'reason', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -69,7 +69,7 @@ Yii::app()->clientScript->registerScript('datepicker12', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

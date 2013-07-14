@@ -13,10 +13,9 @@
  * echo $data->dump(true,true);
  * </pre>
  */
-
 //require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'excel_reader2.php';
-require_once dirname(__FILE__).DIRECTORY_SEPARATOR.'excel_reader2.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'excel_reader2.php';
 
-class JPhpExcelReader extends Spreadsheet_Excel_Reader
-{
+class JPhpExcelReader extends Spreadsheet_Excel_Reader {
+    
 }

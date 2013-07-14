@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperLine
  *
@@ -7,8 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="line") */
 class JasperLine extends AbstractJasper {
+
     /** @BeanAnnotation(className="JasperReportElement") */
     public $reportElement = null;
+
 }

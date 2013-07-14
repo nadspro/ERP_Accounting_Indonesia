@@ -24,49 +24,49 @@
 ?>
 <?php $action = $model->getIsNewRecord() ? Yii::t('translate', 'Create') : Yii::t('translate', 'Update'); ?>
 <h1 class="translate">
-	<?php echo Yii::t('translate', ($action) . ' Message') . " # " . $model->id . " - " . Yii::app()->translate->languages[$model->language] ?>
+    <?php echo Yii::t('translate', ($action) . ' Message') . " # " . $model->id . " - " . Yii::app()->translate->languages[$model->language] ?>
 </h1>
 <p class="title-translate-original">Original</p>
 <div class="translate-original">
-	<p>
-		<?php echo $model->source->message; ?>
-	</p>
+    <p>
+        <?php echo $model->source->message; ?>
+    </p>
 </div>
 
 <div class="translate-form">
-	<?php
-	$form = $this->beginWidget('CActiveForm', array(
-			'id' => 'message-form',
-			'enableAjaxValidation' => false,
-			'action' => $model->getIsNewRecord() ? $this->createUrl('create') : $this->createUrl('update', array('id' => $model->id))
-	));
-	?>
-	<?php echo $form->hiddenField($model, 'id'); ?>
-	<?php echo $form->hiddenField($model, 'language'); ?>
-	<?php echo $form->hiddenField($model->source, 'category'); ?>
+    <?php
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'message-form',
+        'enableAjaxValidation' => false,
+        'action' => $model->getIsNewRecord() ? $this->createUrl('create') : $this->createUrl('update', array('id' => $model->id))
+    ));
+    ?>
+    <?php echo $form->hiddenField($model, 'id'); ?>
+    <?php echo $form->hiddenField($model, 'language'); ?>
+    <?php echo $form->hiddenField($model->source, 'category'); ?>
 
 
-	<div class="translate-row">
-		<div class="translate-category">
-			<?php echo $model->getAttributeLabel('category'); ?>
-			- <span><?php echo $model->source->category; ?> </span>
-		</div>
-	</div>
+    <div class="translate-row">
+        <div class="translate-category">
+            <?php echo $model->getAttributeLabel('category'); ?>
+            - <span><?php echo $model->source->category; ?> </span>
+        </div>
+    </div>
 
-	<div class="translate-row">
-		<div class="translate-category">
-			<?php echo $model->getAttributeLabel('translation'); ?>
-		</div>
-		<?php echo $form->textArea($model, 'translation', array('rows' => 2, 'cols' => 80, 'class' => 'wtranslate-wysiwyg', 'style' => 'width:750px;')); ?>
-		<?php echo $form->error($model, 'translation'); ?>
-	</div>
+    <div class="translate-row">
+        <div class="translate-category">
+            <?php echo $model->getAttributeLabel('translation'); ?>
+        </div>
+        <?php echo $form->textArea($model, 'translation', array('rows' => 2, 'cols' => 80, 'class' => 'wtranslate-wysiwyg', 'style' => 'width:750px;')); ?>
+        <?php echo $form->error($model, 'translation'); ?>
+    </div>
 
-	<div class="translate-buttons">
-		<a class="wtranslator-button large green" href="#" rel="close"><?php echo Yii::t('translate', Yii::t('translate', 'Close')); ?>
-		</a> <a class="wtranslator-button large green" href="#" rel="submit"><?php echo Yii::t('translate', '{action} translation', array('{action}' => $action)); ?>
-		</a>
-	</div>
+    <div class="translate-buttons">
+        <a class="wtranslator-button large green" href="#" rel="close"><?php echo Yii::t('translate', Yii::t('translate', 'Close')); ?>
+        </a> <a class="wtranslator-button large green" href="#" rel="submit"><?php echo Yii::t('translate', '{action} translation', array('{action}' => $action)); ?>
+        </a>
+    </div>
 
-	<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div>

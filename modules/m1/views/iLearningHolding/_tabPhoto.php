@@ -13,7 +13,7 @@
 
         <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model, 'title', array('class' => 'span5')); ?>
+        <?php echo $form->textFieldRow($model, 'title', array('class' => 'span5')); ?>
 
         <div class="control-group">
             <label class="control-label required">Upload Files</label>
@@ -31,10 +31,10 @@
         </div>
 
         <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

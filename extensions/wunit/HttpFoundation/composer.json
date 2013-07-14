@@ -20,7 +20,7 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\HttpFoundation": "" }
+        "psr-0": {"Symfony\\Component\\HttpFoundation": ""}
     },
     "target-dir": "Symfony/Component/HttpFoundation"
 }

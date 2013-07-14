@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DecimalI18NBehavior
  *
@@ -33,65 +34,58 @@
  * @version $Id$
  * @author Michael Härtl <haertl.mike@googlemail.com>
  */
-class DecimalI18NBehavior  extends CActiveRecordBehavior
-{
-	const REGEX_DECIMALS='/^decimal\(\d+,(\d+)\)/';
+class DecimalI18NBehavior extends CActiveRecordBehavior {
 
-	/**
-	 * @var mixed Default decimal format for attributes not specified in 'formats'.
-	 * If not set, system specific decimal format will be used. If 'db', the number of decimals will be read from DB.
-	 */
-	public $format;
+    const REGEX_DECIMALS = '/^decimal\(\d+,(\d+)\)/';
 
-	/**
-	 * @var array CNumberFormatter format patterns per attribute (indexed by attribute name)
-	 */
-	public $formats=array();
+    /**
+     * @var mixed Default decimal format for attributes not specified in 'formats'.
+     * If not set, system specific decimal format will be used. If 'db', the number of decimals will be read from DB.
+     */
+    public $format;
 
-	/**
-	 * @var mixed A valid PHP expression string to convert a formatted number back to
-	 * a valid decimal before save, for example "strtr(\$value,',','.')". $value will contain the attribute value.
-	 */
-	public $parseExpression;
+    /**
+     * @var array CNumberFormatter format patterns per attribute (indexed by attribute name)
+     */
+    public $formats = array();
 
+    /**
+     * @var mixed A valid PHP expression string to convert a formatted number back to
+     * a valid decimal before save, for example "strtr(\$value,',','.')". $value will contain the attribute value.
+     */
+    public $parseExpression;
 
-	public function beforeSave($e)
-	{
-		if ($this->parseExpression!==null)
-		{
-			$model=$this->owner;
-			$evalcode="return {$this->parseExpression};";
-			foreach($this->owner->getTableSchema()->columns as $name => $column)
-			{
-				if (preg_match(self::REGEX_DECIMALS,$column->dbType,$m) && ($value=$model->$name)!==null)
-					$model->$name=eval($evalcode);
-			}
-		}
+    public function beforeSave($e) {
+        if ($this->parseExpression !== null) {
+            $model = $this->owner;
+            $evalcode = "return {$this->parseExpression};";
+            foreach ($this->owner->getTableSchema()->columns as $name => $column) {
+                if (preg_match(self::REGEX_DECIMALS, $column->dbType, $m) && ($value = $model->$name) !== null)
+                    $model->$name = eval($evalcode);
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public function afterFind($e)
-	{
-		$model=$this->owner;
-		$nf=Yii::app()->numberFormatter;
+    public function afterFind($e) {
+        $model = $this->owner;
+        $nf = Yii::app()->numberFormatter;
 
-		foreach($model->getTableSchema()->columns as $name => $column)
-		{
-			// Find DECIMAL(x,y) and match y as $m[1]
-			if ($model->$name!==null && preg_match(self::REGEX_DECIMALS,$column->dbType,$m) && $m[1]!=0)
-			{
-				if (isset($this->formats[$name]))
-					$model->$name=$nf->format($this->formats[$name],$model->$name);
-				elseif($this->format===null)
-				$model->$name=$nf->formatDecimal($model->$name);
-				else
-				{
-					$format= $this->format==='db' ? sprintf("0.%0{$m[1]}d",0) : $this->format;
-					$model->$name=$nf->format($format,$model->$name);
-				}
-			}
-		}
-		return true;
-	}
+        foreach ($model->getTableSchema()->columns as $name => $column) {
+            // Find DECIMAL(x,y) and match y as $m[1]
+            if ($model->$name !== null && preg_match(self::REGEX_DECIMALS, $column->dbType, $m) && $m[1] != 0) {
+                if (isset($this->formats[$name]))
+                    $model->$name = $nf->format($this->formats[$name], $model->$name);
+                elseif ($this->format === null)
+                    $model->$name = $nf->formatDecimal($model->$name);
+                else {
+                    $format = $this->format === 'db' ? sprintf("0.%0{$m[1]}d", 0) : $this->format;
+                    $model->$name = $nf->format($format, $model->$name);
+                }
+            }
+        }
+        return true;
+    }
+
 }

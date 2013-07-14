@@ -17,9 +17,9 @@ $this->menu = array(
 
 <ul>
     <li>
-<?php echo CHtml::link('Training by Employee', Yii::app()->createUrl('/m1/iLearning/report2')); ?>
+        <?php echo CHtml::link('Training by Employee', Yii::app()->createUrl('/m1/iLearning/report2')); ?>
     </li>
     <li>
-<?php echo CHtml::link('Training by Month', Yii::app()->createUrl('/m1/iLearning/report3')); ?>
+        <?php echo CHtml::link('Training by Month', Yii::app()->createUrl('/m1/iLearning/report3')); ?>
     </li>
 </ul>

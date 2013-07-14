@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The base widget for EAjaxJuiDlg and EFrameJuiDlg
  *
@@ -9,8 +10,8 @@
  * @package ext.quickdlgs
  * @since 1.0
  */
-abstract class EBaseJuiDlg extends CWidget
-{
+abstract class EBaseJuiDlg extends CWidget {
+
     /**
      * The title of the dialog
      * @var string
@@ -133,21 +134,18 @@ abstract class EBaseJuiDlg extends CWidget
     /**
      * Register the clientScript
      */
-    protected function registerClientScript()
-    {
-       if($this->isAutoOpen())
-       {
-           $script = $this->getHideTitleBarScript();
-           //Yii::app()->getClientScript()->registerScript(__CLASS__.'#Htb'.$this->id,$script,CClientScript::POS_READY);
-       }
+    protected function registerClientScript() {
+        if ($this->isAutoOpen()) {
+            $script = $this->getHideTitleBarScript();
+            //Yii::app()->getClientScript()->registerScript(__CLASS__.'#Htb'.$this->id,$script,CClientScript::POS_READY);
+        }
     }
 
     /**
      * Getter for the jsBeforeOpenDialog attribute
      * @return string
      */
-    protected function jsBeforeOpenClick()
-    {
+    protected function jsBeforeOpenClick() {
         return $this->jsBeforeOpenDialog;
     }
 
@@ -155,28 +153,23 @@ abstract class EBaseJuiDlg extends CWidget
      * Getter for the jsAfterOpenClick attribute
      * @return string
      */
-    protected function jsAfterOpenClick()
-    {
+    protected function jsAfterOpenClick() {
         return $this->jsAfterOpenDialog;
     }
-
 
     /**
      * Initialize the widget
      */
-    public function init()
-    {
+    public function init() {
         $this->registerClientScript();
     }
-
 
     /**
      * Get the dialog id for the htmlOptions
      *
      * @return string
      */
-    public function getDialogId()
-    {
+    public function getDialogId() {
         return $this->id . '-dlg';
     }
 
@@ -184,8 +177,7 @@ abstract class EBaseJuiDlg extends CWidget
      * Get the id for content div inside the dialog
      * @return string
      */
-    public function getContentWrapperId()
-    {
+    public function getContentWrapperId() {
         return $this->id . '-content';
     }
 
@@ -193,8 +185,7 @@ abstract class EBaseJuiDlg extends CWidget
      * Get the jQuery selector js-code
      * @return string
      */
-    public function getJQDialogSelector()
-    {
+    public function getJQDialogSelector() {
         $dialogId = $this->getDialogId();
         return "$('#$dialogId')";
     }
@@ -203,8 +194,7 @@ abstract class EBaseJuiDlg extends CWidget
      * Check if autoopen option is true
      * @return bool
      */
-    public function isAutoOpen()
-    {
+    public function isAutoOpen() {
         return isset($this->dialogAttributes['options']['autoOpen']) && $this->dialogAttributes['options']['autoOpen'];
     }
 
@@ -214,8 +204,7 @@ abstract class EBaseJuiDlg extends CWidget
      * @param $method
      * @return string
      */
-    public function getJsDialogMethod($method)
-    {
+    public function getJsDialogMethod($method) {
         $script = $method == 'open' ? "$('#{$this->getContentWrapperId()}').show();" : '';
         $script .= $this->getJQDialogSelector() . ".dialog('$method');";
 
@@ -230,69 +219,60 @@ abstract class EBaseJuiDlg extends CWidget
      * Add the code to make the contentcontainer visible and to hide the titlebar
      * It's only done when the dialogAttributes['options']['open'] are not assigned
      */
-    public function setOptionsOpen()
-    {
-       if(empty($this->dialogAttributes['options']['open']))
-       {
-           $script = "$('#{$this->getContentWrapperId()}').show();";
+    public function setOptionsOpen() {
+        if (empty($this->dialogAttributes['options']['open'])) {
+            $script = "$('#{$this->getContentWrapperId()}').show();";
 
-           if ($this->hideTitleBar)
-               $script .= 'var dlgid=this.id; $("."+dlgid+" div.ui-dialog-titlebar").hide();';
+            if ($this->hideTitleBar)
+                $script .= 'var dlgid=this.id; $("."+dlgid+" div.ui-dialog-titlebar").hide();';
 
-           $script = 'js:function(event, ui) {'.$script.'}';
-           $this->dialogAttributes['options']['open'] = $script;
-       }
+            $script = 'js:function(event, ui) {' . $script . '}';
+            $this->dialogAttributes['options']['open'] = $script;
+        }
     }
 
     /**
      * Get the script to hide the titlebar
      * @return string
      */
-    public function getHideTitleBarScript()
-    {
+    public function getHideTitleBarScript() {
         if ($this->hideTitleBar)
             return "$('.{$this->getDialogId()} div.ui-dialog-titlebar').hide();";
 
         return '';
     }
 
-
     /**
      * Generate the attributes for the CJuiDialog widget
      * @return array
      */
-    protected function getDialogAttributes()
-    {
+    protected function getDialogAttributes() {
         $juiOptions = isset($this->dialogAttributes['options']) ? $this->dialogAttributes['options'] : array();
         $this->dialogAttributes['options'] = array_merge($this->defaultJuiOptions, $juiOptions);
 
         $this->dialogAttributes['id'] = $this->getDialogId();
         $this->dialogAttributes['options']['dialogClass'] = $this->getDialogId();
 
-        if(empty($this->dialogAttributes['options']))
+        if (empty($this->dialogAttributes['options']))
             $this->dialogAttributes['options'] = array();
 
         //add closeButton
-        if(!empty($this->closeButtonText))
-        {
-            if(empty($this->dialogAttributes['options']['buttons']))
+        if (!empty($this->closeButtonText)) {
+            if (empty($this->dialogAttributes['options']['buttons']))
                 $this->dialogAttributes['options']['buttons'] = array();
 
             $this->dialogAttributes['options']['buttons'][$this->closeButtonText] = 'js:function() {$(this).dialog("close");}';
         }
 
-        if(isset($this->dialogTitle))
-        {
+        if (isset($this->dialogTitle)) {
             $this->dialogAttributes['options']['title'] = $this->dialogTitle;
         }
 
-        if(isset($this->dialogWidth))
-        {
+        if (isset($this->dialogWidth)) {
             $this->dialogAttributes['options']['width'] = $this->dialogWidth;
         }
 
-        if(isset($this->dialogHeight))
-        {
+        if (isset($this->dialogHeight)) {
             $this->dialogAttributes['options']['height'] = $this->dialogHeight;
         }
 
@@ -301,22 +281,19 @@ abstract class EBaseJuiDlg extends CWidget
         return $this->dialogAttributes;
     }
 
-
-
     /**
      * Add the quickdlgs specific GET params
      * @param $params
      */
-    public function addDlgsParams(&$params)
-    {
-        if(!is_array($params))
+    public function addDlgsParams(&$params) {
+        if (!is_array($params))
             $params = array();
 
         $params[EQuickDlgs::URLPARAM_CLASS] = get_class($this);
         $params[EQuickDlgs::URLPARAM_DIALOGID] = $this->getDialogId();
         $params[EQuickDlgs::URLPARAM_CONTENTWRAPPERID] = $this->getContentWrapperId();
 
-        if(method_exists($this,'getFrameId'))
+        if (method_exists($this, 'getFrameId'))
             $params[EQuickDlgs::URLPARAM_IFRAMEID] = $this->getFrameId();
 
         if (!empty($this->refreshGridId))
@@ -326,15 +303,13 @@ abstract class EBaseJuiDlg extends CWidget
             $this->urlParams[EQuickDlgs::URLPARAM_CLOSEONACTION] = 1;
     }
 
-
     /**
      * Render a button, link or icon
      *
      * @param $config
      * @throws CException
      */
-    public function renderButton($config)
-    {
+    public function renderButton($config) {
         $text = isset($config['text']) ? $config['text'] : 'Buttontext';
         $type = isset($config['type']) ? $config['type'] : 'button';
         $buttonHtmlOptions = isset($config['htmlOptions']) ? $config['htmlOptions'] : array();
@@ -343,15 +318,13 @@ abstract class EBaseJuiDlg extends CWidget
         if (!empty($imageUrl))
             $type = 'icon';
 
-        if ($type == 'icon')
-        {
+        if ($type == 'icon') {
             $buttonHtmlOptions['style'] = isset($buttonHtmlOptions['style']) ? $buttonHtmlOptions['style'] . 'cursor:pointer;' : 'cursor:pointer;';
             echo CHtml::image($imageUrl, $text, $buttonHtmlOptions);
         } elseif ($type == 'button')
             echo CHtml::button($text, $buttonHtmlOptions);
-        elseif ($type == 'link')
-        {
-            $url = method_exists($this,'getActionUrl') ? $this->getActionUrl() : '#';
+        elseif ($type == 'link') {
+            $url = method_exists($this, 'getActionUrl') ? $this->getActionUrl() : '#';
             echo CHtml::link($text, $url, $buttonHtmlOptions);
         }
         else
@@ -361,8 +334,7 @@ abstract class EBaseJuiDlg extends CWidget
     /**
      * Render the open dialog button
      */
-    public function renderDialogOpenButton()
-    {
+    public function renderDialogOpenButton() {
         $dialogId = $this->getDialogId();
         $onClick = $this->jsBeforeOpenClick() . $this->getJsDialogMethod('open') . $this->jsAfterOpenClick();
         $buttonHtmlOptions = array_merge($this->openButtonHtmlOptions, array('onclick' => $onClick));
@@ -375,12 +347,10 @@ abstract class EBaseJuiDlg extends CWidget
         $this->renderButton($config);
     }
 
-
     /**
      * Render the CJuiDialog
      */
-    public function renderDialog()
-    {
+    public function renderDialog() {
         $this->beginWidget('zii.widgets.jui.CJuiDialog', $this->getDialogAttributes());
 
         //render the container
@@ -401,13 +371,10 @@ abstract class EBaseJuiDlg extends CWidget
         $this->endWidget();
     }
 
-
-
     /**
      * Render the code for the CJuiDialog and the open dialog button
      */
-    public function run()
-    {
+    public function run() {
         $this->renderDialog();
         if ($this->renderOpenButton)
             $this->renderDialogOpenButton();

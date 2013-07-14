@@ -17,8 +17,13 @@ $this->menu5 = array('PO');
     <h1>
         <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/shopcart.png') ?>
         PO Inventory:
-        <?php if ($id == 1) echo "UnApproved"; elseif ($id == 2) echo "Unpaid/Partial Paid";
-        else "Paid"; ?>
+        <?php
+        if ($id == 1)
+            echo "UnApproved"; elseif ($id == 2)
+            echo "Unpaid/Partial Paid";
+        else
+            "Paid";
+        ?>
     </h1>
 </div>
 

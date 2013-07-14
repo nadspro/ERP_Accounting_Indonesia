@@ -57,7 +57,7 @@ $subject.= '</span>';
 ?>
 <tr
     class="mailbox-item <?php echo $itemCssClass; ?> <?php if ($this->getAction()->getId() != 'sent') echo 'mailbox-draggable-row'; ?>">
-<?php if ($this->getAction()->getId() != 'sent'): // add dragdrop handle  ?>
+        <?php if ($this->getAction()->getId() != 'sent'): // add dragdrop handle  ?>
         <td style="width:5%"><div
                 class="mailbox-item-wrapper mailbox-drag">&nbsp;</div></td>
         <?php endif; ?>
@@ -76,21 +76,21 @@ $subject.= '</span>';
 </td>
 <td style="width:10%">
     <div class="mailbox-item-wrapper mailbox-from mailbox-ellipsis">
-<?php echo $username; ?>
+        <?php echo $username; ?>
     </div>
 </td>
 <td style="width:60%" class="mailbox-subject-brief">
     <div class="mailbox-item-wrapper mailbox-item-outer mailbox-subject">
         <div class="mailbox-item-inner mailbox-ellipsis">
-<?php echo $subject; ?>
+            <?php echo $subject; ?>
         </div>
     </div>
 </td>
 <td style="width:20%" class="mailbox-received">
     <div align="right" class="mailbox-item-wrapper" style="width: 80px">
-<?php if ($data->is_replied) : ?>
+        <?php if ($data->is_replied) : ?>
             <div class="mailbox-replied" title="this message has been replied to">&nbsp;&nbsp;</div>
-<?php endif; ?>
+        <?php endif; ?>
         <?php echo $received; ?>
     </div>
 

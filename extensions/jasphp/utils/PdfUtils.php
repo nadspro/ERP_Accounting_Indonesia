@@ -118,8 +118,8 @@ class PdfUtils {
 
             //TODO melhorar
             if ($textField->pattern) {
-                $pattern = str_replace('¤','R$',$textField->pattern);
-                
+                $pattern = str_replace('¤', 'R$', $textField->pattern);
+
                 $value = Yii::app()->getLocale()->getNumberFormatter()->format($pattern, $value);
             }
 

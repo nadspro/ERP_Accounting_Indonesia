@@ -52,10 +52,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         //	'name'=>'content',
         //	'value'=>'peterFunc::shorten_string($data->content,20)',
         //),
-        'sender_by',
+        //'sender_by',
         //'sender_title',
-        'approved_by',
-    //'approved_title',
+        //'approved_by',
+        //'approved_title',
+        'created.username',
     ),
 ));
 ?>

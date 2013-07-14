@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperDefaultValueExpression
  *
@@ -7,7 +8,10 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="defaultValueExpression") */
 class JasperDefaultValueExpression extends AbstractJasper {
+
     public $content = null;
+
 }

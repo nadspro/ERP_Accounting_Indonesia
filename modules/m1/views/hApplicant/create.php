@@ -19,7 +19,7 @@ $this->menu = array(
 <div class="page-header">
     <h1>
         <i class="icon-fa-copy"></i>
-<?php echo "Create"; ?>
+        <?php echo "Create"; ?>
     </h1>
 </div>
 

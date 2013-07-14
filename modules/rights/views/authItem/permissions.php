@@ -1,66 +1,72 @@
-<?php $this->breadcrumbs = array(
-		'Rights'=>Rights::getBaseUrl(),
-		Rights::t('core', 'Permissions'),
-); ?>
+<?php
+$this->breadcrumbs = array(
+    'Rights' => Rights::getBaseUrl(),
+    Rights::t('core', 'Permissions'),
+);
+?>
 
 <div class="row">
-<div class="span12">
+    <div class="span12">
 
-	<div class="page-header">
-		<h1>
-			<?php echo Rights::t('core', 'Permissions'); ?>
-		</h1>
-	</div>
+        <div class="page-header">
+            <h1>
+                <?php echo Rights::t('core', 'Permissions'); ?>
+            </h1>
+        </div>
 
-	<p>
-		<?php echo Rights::t('core', 'Here you can view and manage the permissions assigned to each role.'); ?>
-		<br />
-		<?php echo Rights::t('core', 'Authorization items can be managed under {roleLink}, {taskLink} and {operationLink}.', array(
-				'{roleLink}'=>CHtml::link(Rights::t('core', 'Roles'), array('authItem/roles')),
-				'{taskLink}'=>CHtml::link(Rights::t('core', 'Tasks'), array('authItem/tasks')),
-				'{operationLink}'=>CHtml::link(Rights::t('core', 'Operations'), array('authItem/operations')),
-		)); ?>
-	</p>
+        <p>
+            <?php echo Rights::t('core', 'Here you can view and manage the permissions assigned to each role.'); ?>
+            <br />
+            <?php
+            echo Rights::t('core', 'Authorization items can be managed under {roleLink}, {taskLink} and {operationLink}.', array(
+                '{roleLink}' => CHtml::link(Rights::t('core', 'Roles'), array('authItem/roles')),
+                '{taskLink}' => CHtml::link(Rights::t('core', 'Tasks'), array('authItem/tasks')),
+                '{operationLink}' => CHtml::link(Rights::t('core', 'Operations'), array('authItem/operations')),
+            ));
+            ?>
+        </p>
 
-	<p>
-		<?php //echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array('class'=>'generator-link btn',)); 
-		?>
-	</p>
+        <p>
+            <?php //echo CHtml::link(Rights::t('core', 'Generate items for controller actions'), array('authItem/generate'), array('class'=>'generator-link btn',)); 
+            ?>
+        </p>
 
-	<?php $this->widget('bootstrap.widgets.TbGridView', array(
-			'itemsCssClass'=>'table table-striped table-bordered',
-			'template'=>'{items}{pager}{summary}',
-			'dataProvider'=>$dataProvider,
-			'template'=>'{items}',
-			'emptyText'=>Rights::t('core', 'No authorization items found.'),
-			'htmlOptions'=>array('class'=>'grid-view permission-table'),
-			'columns'=>$columns,
-	)); ?>
+        <?php
+        $this->widget('bootstrap.widgets.TbGridView', array(
+            'itemsCssClass' => 'table table-striped table-bordered',
+            'template' => '{items}{pager}{summary}',
+            'dataProvider' => $dataProvider,
+            'template' => '{items}',
+            'emptyText' => Rights::t('core', 'No authorization items found.'),
+            'htmlOptions' => array('class' => 'grid-view permission-table'),
+            'columns' => $columns,
+        ));
+        ?>
 
-	<p class="info">
-		*)
-		<?php echo Rights::t('core', 'Hover to see from where the permission is inherited.'); ?>
-	</p>
+        <p class="info">
+            *)
+            <?php echo Rights::t('core', 'Hover to see from where the permission is inherited.'); ?>
+        </p>
 
-	<script type="text/javascript">
+        <script type="text/javascript">
 
-		/**
-		* Attach the tooltip to the inherited items.
-		*/
-		jQuery('.inherited-item').rightsTooltip({
-			title:'<?php echo Rights::t('core', 'Source'); ?>: '
-		});
+            /**
+             * Attach the tooltip to the inherited items.
+             */
+            jQuery('.inherited-item').rightsTooltip({
+                title: '<?php echo Rights::t('core', 'Source'); ?>: '
+            });
 
-		/**
-		* Hover functionality for rights' tables.
-		*/
-		$('#rights tbody tr').hover(function() {
-			$(this).addClass('hover'); // On mouse over
-		}, function() {
-			$(this).removeClass('hover'); // On mouse out
-		});
+            /**
+             * Hover functionality for rights' tables.
+             */
+            $('#rights tbody tr').hover(function() {
+                $(this).addClass('hover'); // On mouse over
+            }, function() {
+                $(this).removeClass('hover'); // On mouse out
+            });
 
-	</script>
+        </script>
 
-</div>
+    </div>
 </div>

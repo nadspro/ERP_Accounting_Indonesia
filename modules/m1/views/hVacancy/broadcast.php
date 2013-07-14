@@ -21,12 +21,12 @@ $this->menu8 = hApplicant::model()->getTopRecentApplicant();
 
 <div class="raw">
     <div class="span10">
-<?php
-$form = $this->beginWidget('TbActiveForm', array(
-    'id' => 'c-form',
-    'enableAjaxValidation' => false,
+        <?php
+        $form = $this->beginWidget('TbActiveForm', array(
+            'id' => 'c-form',
+            'enableAjaxValidation' => false,
         ));
-?>
+        ?>
 
         <?php echo $form->errorSummary($model); ?>
 
@@ -37,32 +37,32 @@ $form = $this->beginWidget('TbActiveForm', array(
         <?php //echo $form->textAreaRow($model,'body',array('class'=>'span7', 'rows'=>25));  ?>
 
         <div class="control-group">
-        <?php echo $form->labelEx($model, 'body', array('class' => 'control-label')); ?>
+            <?php echo $form->labelEx($model, 'body', array('class' => 'control-label')); ?>
             <div class="controls">
-            <?php
-            $this->widget('ext.tinymce.TinyMce', array(
-                'model' => $model,
-                'attribute' => 'body',
-                // Optional config
-                'compressorRoute' => 'sCompanyNews/compressor',
-                'spellcheckerRoute' => 'sCompanyNews/spellchecker',
-                    //'fileManager' => array(
-                    //	'class' => 'ext.elFinder.TinyMceElFinder',
-                    //	'connectorRoute'=>'sFileBrowser/connectorPublicFolder',
-                    //),
-                    //'htmlOptions' => array(
-                    //	'rows' => 6,
-                    //	'cols' => '100%',
-                    //),
-            ));
-            ?>
+                <?php
+                $this->widget('ext.tinymce.TinyMce', array(
+                    'model' => $model,
+                    'attribute' => 'body',
+                    // Optional config
+                    'compressorRoute' => 'sCompanyNews/compressor',
+                    'spellcheckerRoute' => 'sCompanyNews/spellchecker',
+                        //'fileManager' => array(
+                        //	'class' => 'ext.elFinder.TinyMceElFinder',
+                        //	'connectorRoute'=>'sFileBrowser/connectorPublicFolder',
+                        //),
+                        //'htmlOptions' => array(
+                        //	'rows' => 6,
+                        //	'cols' => '100%',
+                        //),
+                ));
+                ?>
             </div>
         </div>
 
         <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
-            <?php //echo CHtml::submitButton('Submit');  ?>
+        <?php //echo CHtml::submitButton('Submit');  ?>
 
         <?php $this->endWidget(); ?>
 

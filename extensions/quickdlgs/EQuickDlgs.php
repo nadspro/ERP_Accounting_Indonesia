@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EQuickDlgs provides static methods to a button/link or icon to display ajax, iframe or simple content in a CJuiDialog
  *
@@ -9,62 +10,62 @@
  *
  * Usage:
  *
-        EQuickDlgs::ajaxButton(
-                    array(
-                            'controllerRoute' => 'view',
-                            'actionParams' => array('id'=>$model->id),
-                            'dialogTitle' => 'The dialog title',
-                            'dialogWidth' => 800,
-                            'dialogHeight' => 600,
-                            'openButtonText' => 'Show record',
-                            //'closeButtonText' => 'Close', //uncomment to add a closebutton to the dialog
-                    )
-        );
+  EQuickDlgs::ajaxButton(
+  array(
+  'controllerRoute' => 'view',
+  'actionParams' => array('id'=>$model->id),
+  'dialogTitle' => 'The dialog title',
+  'dialogWidth' => 800,
+  'dialogHeight' => 600,
+  'openButtonText' => 'Show record',
+  //'closeButtonText' => 'Close', //uncomment to add a closebutton to the dialog
+  )
+  );
  *
  *      Use EQuickDlgs::render in the actionView of the controller instead of
  *      the controller method 'render'. This will not render the full page
  *      if the content has to be rendered as ajax-reponse for the dialog. This will use 'renderPartial'
 
-        public function actionView($id)
-        {
-           EQuickDlgs::render('view',array('model'=>$this->loadModel($id)));
-           //$this->render('view',array('model'=>$this->loadModel($id)));
-        }
+  public function actionView($id)
+  {
+  EQuickDlgs::render('view',array('model'=>$this->loadModel($id)));
+  //$this->render('view',array('model'=>$this->loadModel($id)));
+  }
  *
  *      Changes to the action update if used in an iframe or EJuiDlgsColumn:
  *
-        public function actionUpdate($id)
-        {
-            ....
+  public function actionUpdate($id)
+  {
+  ....
 
-            if(model->save())
-            {
-                //close the dialog and update the grid instead of redirect if called by the update-dialog
-                EQuickDlgs::checkDialogJsScript();
-                $this->redirect(array('admin','id'=>$model->id));
-            }
+  if(model->save())
+  {
+  //close the dialog and update the grid instead of redirect if called by the update-dialog
+  EQuickDlgs::checkDialogJsScript();
+  $this->redirect(array('admin','id'=>$model->id));
+  }
 
-            EQuickDlgs::render('update',array('model'=>$model));
-            //$this->render('update',array('model'=>$model));
-        }
+  EQuickDlgs::render('update',array('model'=>$model));
+  //$this->render('update',array('model'=>$model));
+  }
 
  *
  *     Changes to the action create if used in an iframe or EJuiDlgsColumn: The same as above
  *
-        public function actionCreate()
-        {
-                ....
+  public function actionCreate()
+  {
+  ....
 
-                if(model->save())
-                {
-                    //close the dialog and update the grid instead of redirect if called by the create-dialog
-                    EQuickDlgs::checkDialogJsScript();
-                    $this->redirect(....);
-                }
+  if(model->save())
+  {
+  //close the dialog and update the grid instead of redirect if called by the create-dialog
+  EQuickDlgs::checkDialogJsScript();
+  $this->redirect(....);
+  }
 
-                EQuickDlgs::render('create',array('model'=>$model));
-                //$this->render('create',array('model'=>$model));
-        }
+  EQuickDlgs::render('create',array('model'=>$model));
+  //$this->render('create',array('model'=>$model));
+  }
  *
  *
  *
@@ -75,14 +76,12 @@
  * @package ext.quickdlgs
  * @since 1.0
  */
-class EQuickDlgs
-{
-    const STDDIALOGATTRIBUTES = 'juimodal';
+class EQuickDlgs {
 
+    const STDDIALOGATTRIBUTES = 'juimodal';
     const TYPECONTENT = 'content';
     const TYPEAJAX = 'ajax';
     const TYPEIFRAME = 'iframe';
-
     const URLPARAM_CLASS = 'qdsClass';
     const URLPARAM_DIALOGID = 'qdsDialogId';
     const URLPARAM_CONTENTWRAPPERID = 'qdsContentWrapperId';
@@ -90,35 +89,32 @@ class EQuickDlgs
     const URLPARAM_GRIDID = 'qdsGridId';
     const URLPARAM_CLOSEONACTION = 'qdsCloseDialog';
     const URLPARAM_HIDETITLEBAR = 'qdsHideTitle';
-
     const EXTINSTALLDIR = 'ext.quickdlgs';
-
 
     /**
      * Render a open ajax-dialog button.
      * The dialog attributes are initialized by default from the array returned from 'ext.quickdlgs.config.juimodal'
      * Usage:
      *
-        EQuickDlgs::ajaxButton(
-                array(
-                        'controllerRoute' => 'view',
-                        'actionParams' => array('id'=>30),
-                        'dialogTitle' => 'DetailView',
-                        'dialogWidth' => 800,
-                        'dialogHeight' => 600,
-                        'openButtonText' => 'Show record',
-                        'closeButtonText' => 'Close',
-                        //'openButtonHtmlOptions' => array(...),
-                      )
-                );
+      EQuickDlgs::ajaxButton(
+      array(
+      'controllerRoute' => 'view',
+      'actionParams' => array('id'=>30),
+      'dialogTitle' => 'DetailView',
+      'dialogWidth' => 800,
+      'dialogHeight' => 600,
+      'openButtonText' => 'Show record',
+      'closeButtonText' => 'Close',
+      //'openButtonHtmlOptions' => array(...),
+      )
+      );
 
      * @static
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function ajaxButton($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('button',self::TYPEAJAX,$attributes,$defaultConfig);
+    public static function ajaxButton($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('button', self::TYPEAJAX, $attributes, $defaultConfig);
     }
 
     /**
@@ -129,9 +125,8 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function ajaxLink($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('link',self::TYPEAJAX,$attributes,$defaultConfig);
+    public static function ajaxLink($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('link', self::TYPEAJAX, $attributes, $defaultConfig);
     }
 
     /**
@@ -143,11 +138,9 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function ajaxIcon($imageUrl,$attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogIcon($imageUrl,self::TYPEAJAX,$attributes,$defaultConfig);
+    public static function ajaxIcon($imageUrl, $attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogIcon($imageUrl, self::TYPEAJAX, $attributes, $defaultConfig);
     }
-
 
     /**
      * Render an autoopen ajax-dialog
@@ -156,13 +149,11 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function ajaxPopup($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
+    public static function ajaxPopup($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
         self::renderPopup($attributes, self::TYPEAJAX, $defaultConfig);
     }
 
-    public static function renderPopup($attributes, $type, $defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
+    public static function renderPopup($attributes, $type, $defaultConfig = self::STDDIALOGATTRIBUTES) {
         $widgetAttributes = self::getDialogWidgetAttributes($attributes, $defaultConfig);
         $widgetAttributes['dialogAttributes']['options']['autoOpen'] = true;
         $widgetAttributes['renderOpenButton'] = false;
@@ -174,36 +165,35 @@ class EQuickDlgs
      *
      * Usage:
      *
-            EQuickDlgs::iframeButton(
-                    array(
-                            'controllerRoute' => 'index',
-                            'dialogTitle' => 'Recordlist',
-                            'dialogWidth' => 800,
-                            'dialogHeight' => 600,
-                            'openButtonText' => 'List records',
-                            'closeButtonText' => 'Close',
-                            //'openButtonHtmlOptions' => array(...),
-                    )
-            );
+      EQuickDlgs::iframeButton(
+      array(
+      'controllerRoute' => 'index',
+      'dialogTitle' => 'Recordlist',
+      'dialogWidth' => 800,
+      'dialogHeight' => 600,
+      'openButtonText' => 'List records',
+      'closeButtonText' => 'Close',
+      //'openButtonHtmlOptions' => array(...),
+      )
+      );
      *
-            EQuickDlgs::iframeButton(
-                                array(
-                                'url' => 'http://www.yiiframework.com',
-                                'dialogTitle' => 'Yii',
-                                'dialogWidth' => 800,
-                                'dialogHeight' => 600,
-                                'openButtonText' => 'Show Yii',
-                                //'closeButtonText' => 'Close',
-                                )
-            );
+      EQuickDlgs::iframeButton(
+      array(
+      'url' => 'http://www.yiiframework.com',
+      'dialogTitle' => 'Yii',
+      'dialogWidth' => 800,
+      'dialogHeight' => 600,
+      'openButtonText' => 'Show Yii',
+      //'closeButtonText' => 'Close',
+      )
+      );
 
      * @static
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function iframeButton($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('button',self::TYPEIFRAME,$attributes,$defaultConfig);
+    public static function iframeButton($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('button', self::TYPEIFRAME, $attributes, $defaultConfig);
     }
 
     /**
@@ -214,9 +204,8 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function iframeLink($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('link',self::TYPEIFRAME,$attributes,$defaultConfig);
+    public static function iframeLink($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('link', self::TYPEIFRAME, $attributes, $defaultConfig);
     }
 
     /**
@@ -228,11 +217,9 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function iframeIcon($imageUrl,$attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogIcon($imageUrl,self::TYPEIFRAME,$attributes,$defaultConfig);
+    public static function iframeIcon($imageUrl, $attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogIcon($imageUrl, self::TYPEIFRAME, $attributes, $defaultConfig);
     }
-
 
     /**
      * Render an autoopen iframe-dialog
@@ -241,8 +228,7 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function iframePopup($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
+    public static function iframePopup($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
         self::renderPopup($attributes, self::TYPEIFRAME, $defaultConfig);
     }
 
@@ -254,22 +240,21 @@ class EQuickDlgs
      *
      * Usage:
      *
-            EQuickDlgs::iframeButton(
-                                array(
-                                        'content' => 'Hello world',  //$this->renderPartial('_welcome')
-                                        'dialogTitle' => 'Welcome',
-                                        'dialogWidth' => 200,
-                                        'dialogHeight' => 300,
-                                        'openButtonText' => 'Show welcome',
-                             )
-            );
+      EQuickDlgs::iframeButton(
+      array(
+      'content' => 'Hello world',  //$this->renderPartial('_welcome')
+      'dialogTitle' => 'Welcome',
+      'dialogWidth' => 200,
+      'dialogHeight' => 300,
+      'openButtonText' => 'Show welcome',
+      )
+      );
      * @static
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function contentButton($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('button',self::TYPECONTENT,$attributes,$defaultConfig);
+    public static function contentButton($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('button', self::TYPECONTENT, $attributes, $defaultConfig);
     }
 
     /**
@@ -280,9 +265,8 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function contentLink($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogButton('link',self::TYPECONTENT,$attributes,$defaultConfig);
+    public static function contentLink($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogButton('link', self::TYPECONTENT, $attributes, $defaultConfig);
     }
 
     /**
@@ -294,9 +278,8 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function contentIcon($imageUrl,$attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        self::dialogIcon($imageUrl,self::TYPECONTENT,$attributes,$defaultConfig);
+    public static function contentIcon($imageUrl, $attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        self::dialogIcon($imageUrl, self::TYPECONTENT, $attributes, $defaultConfig);
     }
 
     /**
@@ -306,12 +289,9 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function contentPopup($attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
+    public static function contentPopup($attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
         self::renderPopup($attributes, self::TYPECONTENT, $defaultConfig);
     }
-
-
 
     /**
      * Internal rendering of a dialog button or link
@@ -322,11 +302,10 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function dialogButton($buttonType,$dialogType,$attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        $widgetAttributes = self::getDialogWidgetAttributes($attributes,$defaultConfig);
+    public static function dialogButton($buttonType, $dialogType, $attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        $widgetAttributes = self::getDialogWidgetAttributes($attributes, $defaultConfig);
         $widgetAttributes['openButtonType'] = $buttonType;
-        self::renderDialogWidget($widgetAttributes,$dialogType);
+        self::renderDialogWidget($widgetAttributes, $dialogType);
     }
 
     /**
@@ -338,11 +317,10 @@ class EQuickDlgs
      * @param $attributes
      * @param string $defaultConfig
      */
-    public static function dialogIcon($imageUrl,$dialogType,$attributes,$defaultConfig=self::STDDIALOGATTRIBUTES)
-    {
-        $widgetAttributes = self::getDialogWidgetAttributes($attributes,$defaultConfig);
+    public static function dialogIcon($imageUrl, $dialogType, $attributes, $defaultConfig = self::STDDIALOGATTRIBUTES) {
+        $widgetAttributes = self::getDialogWidgetAttributes($attributes, $defaultConfig);
         $widgetAttributes['openImageUrl'] = $imageUrl;
-        self::renderDialogWidget($widgetAttributes,$dialogType);
+        self::renderDialogWidget($widgetAttributes, $dialogType);
     }
 
     /**
@@ -355,18 +333,17 @@ class EQuickDlgs
      * @return array
      * @throws CException
      */
-    public static function getDialogWidgetAttributes($attributes,$defaultConfig)
-    {
+    public static function getDialogWidgetAttributes($attributes, $defaultConfig) {
 
-        $path = strpos($defaultConfig,'.')===false ? self::EXTINSTALLDIR.'.config.'.$defaultConfig : $defaultConfig;
+        $path = strpos($defaultConfig, '.') === false ? self::EXTINSTALLDIR . '.config.' . $defaultConfig : $defaultConfig;
         $configFile = Yii::getPathOfAlias($path) . '.php';
 
-        if(!is_file($configFile))
+        if (!is_file($configFile))
             throw new CException('Configfile not found: ' . $configFile);
 
         $defaultAttributes = include($configFile);
 
-        return CMap::mergeArray($defaultAttributes,$attributes);
+        return CMap::mergeArray($defaultAttributes, $attributes);
     }
 
     /**
@@ -377,41 +354,37 @@ class EQuickDlgs
      * @param $type
      * @throws CException
      */
-    public static function renderDialogWidget($attributes, $type)
-    {
-        switch ($type)
-        {
+    public static function renderDialogWidget($attributes, $type) {
+        switch ($type) {
             case self::TYPECONTENT:
-                Yii::app()->controller->widget(self::EXTINSTALLDIR.'.EContentJuiDlg',$attributes);
+                Yii::app()->controller->widget(self::EXTINSTALLDIR . '.EContentJuiDlg', $attributes);
                 break;
             case self::TYPEAJAX:
-                Yii::app()->controller->widget(self::EXTINSTALLDIR.'.EAjaxJuiDlg',$attributes);
+                Yii::app()->controller->widget(self::EXTINSTALLDIR . '.EAjaxJuiDlg', $attributes);
                 break;
             case self::TYPEIFRAME:
-                Yii::app()->controller->widget(self::EXTINSTALLDIR.'.EFrameJuiDlg',$attributes);
+                Yii::app()->controller->widget(self::EXTINSTALLDIR . '.EFrameJuiDlg', $attributes);
                 break;
             default:
-                throw new CException('Invalid dialog type: '.$type);
+                throw new CException('Invalid dialog type: ' . $type);
         }
     }
-
 
     /*
      * Check if the quickdlgs GET param URLPARAM_CLASS isset
      */
-    public static function isDialogRequest()
-    {
+
+    public static function isDialogRequest() {
         return isset($_GET[self::URLPARAM_CLASS]) ? $_GET[self::URLPARAM_CLASS] : false;
     }
 
     /*
      * Check if the quickdlgs GET param URLPARAM_IFRAMEID isset
      */
-    public static function isIFrameRequest()
-    {
+
+    public static function isIFrameRequest() {
         return isset($_GET[self::URLPARAM_IFRAMEID]) ? $_GET[self::URLPARAM_IFRAMEID] : false;
     }
-
 
     /**
      * Render partial if a request comes from a dialog (the necessary quickdlgs GET params are set)
@@ -425,32 +398,28 @@ class EQuickDlgs
      * @param null $controller
      * @return bool
      */
-    public static function renderPartial($view,$data=array(),$return=false,$processOutput=false, $iframeLayout=null,&$controller=null)
-    {
-        if(!isset($iframeLayout))
-             $iframeLayout = self::EXTINSTALLDIR . '.layouts.iframe';
+    public static function renderPartial($view, $data = array(), $return = false, $processOutput = false, $iframeLayout = null, &$controller = null) {
+        if (!isset($iframeLayout))
+            $iframeLayout = self::EXTINSTALLDIR . '.layouts.iframe';
 
-        if(!isset($controller))
+        if (!isset($controller))
             $controller = Yii::app()->controller;
 
         $class = self::isDialogRequest();
 
-        if($class && !self::checkIFrameLayout($controller,$iframeLayout))
-        {
-            $output = $controller->renderPartial($view,$data,$return,$processOutput);
+        if ($class && !self::checkIFrameLayout($controller, $iframeLayout)) {
+            $output = $controller->renderPartial($view, $data, $return, $processOutput);
 
-            if (Yii::app()->request->isAjaxRequest)
-            {
+            if (Yii::app()->request->isAjaxRequest) {
                 echo $output;
 
                 //js-code to open the dialog after submitted the ajax content
-                if($class=='EJuiDlgsColumn')
-                {
+                if ($class == 'EJuiDlgsColumn') {
                     $dialogId = $_GET[self::URLPARAM_DIALOGID];
 
                     $script = "$('#$dialogId').dialog('open');";
 
-                    if(isset($_GET[self::URLPARAM_HIDETITLEBAR]))
+                    if (isset($_GET[self::URLPARAM_HIDETITLEBAR]))
                         $script .= "$('.$dialogId div.ui-dialog-titlebar').hide();";
 
                     echo CHtml::script($script);
@@ -477,12 +446,11 @@ class EQuickDlgs
      * @param null $controller
      * @return bool
      */
-    public static function render($view,$data=array(),$return=false,$iframeLayout=null,$controller=null)
-    {
-        if(($result=self::renderPartial($view,$data,$return,true,$iframeLayout,$controller)) === false)
-           return $controller->render($view,$data,$return);
+    public static function render($view, $data = array(), $return = false, $iframeLayout = null, $controller = null) {
+        if (($result = self::renderPartial($view, $data, $return, true, $iframeLayout, $controller)) === false)
+            return $controller->render($view, $data, $return);
         else
-           return $result;
+            return $result;
     }
 
     /**
@@ -493,15 +461,13 @@ class EQuickDlgs
      * @param null $iframeLayout
      * @return bool
      */
-    public static function checkIFrameLayout(&$controller,$iframeLayout=null)
-    {
+    public static function checkIFrameLayout(&$controller, $iframeLayout = null) {
 
-        if(self::isIFrameRequest())
-        {
-            if(!isset($iframeLayout))
-             $iframeLayout = self::EXTINSTALLDIR . '.layouts.iframe';
+        if (self::isIFrameRequest()) {
+            if (!isset($iframeLayout))
+                $iframeLayout = self::EXTINSTALLDIR . '.layouts.iframe';
 
-            $controller->layout=$iframeLayout;
+            $controller->layout = $iframeLayout;
             return true;
         }
 
@@ -516,38 +482,35 @@ class EQuickDlgs
      * @param null $customJsScript
      * @return bool
      */
-    public static function checkDialogJsScript($customJsScript=null)
-    {
-        if(!self::isDialogRequest())
+    public static function checkDialogJsScript($customJsScript = null) {
+        if (!self::isDialogRequest())
             return false;
 
         $script = '';
 
         $closeOnAction = !empty($_GET[self::URLPARAM_CLOSEONACTION]) ? $_GET[self::URLPARAM_CLOSEONACTION] : false;
-        if($closeOnAction)
-        {
+        if ($closeOnAction) {
             $dialogId = !empty($_GET[self::URLPARAM_DIALOGID]) ? $_GET[self::URLPARAM_DIALOGID] : null;
             $gridId = !empty($_GET[self::URLPARAM_GRIDID]) ? $_GET[self::URLPARAM_GRIDID] : null;
             $iframeId = !empty($_GET[self::URLPARAM_IFRAMEID]) ? $_GET[self::URLPARAM_IFRAMEID] : null;
 
-            if(!empty($dialogId))
+            if (!empty($dialogId))
                 $script .= "window.parent.$('#$dialogId').dialog('close');";
 
-            if(!empty($iframeId))
+            if (!empty($iframeId))
                 $script .= "window.parent.$('#$iframeId').attr('src','');";
         }
 
-        if(!empty($gridId))
+        if (!empty($gridId))
             $script .= "window.parent.$.fn.yiiGridView.update('$gridId');";
 
-        if(!empty($customJsScript))
+        if (!empty($customJsScript))
             $script .= $customJsScript;
 
-        if(!empty($script))
-              echo CHtml::script($script);
+        if (!empty($script))
+            echo CHtml::script($script);
 
-        if($closeOnAction && !empty($dialogId))
-        {
+        if ($closeOnAction && !empty($dialogId)) {
             Yii::app()->end();
         }
 
@@ -555,4 +518,5 @@ class EQuickDlgs
 
         return !empty($script);
     }
+
 }

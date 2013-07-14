@@ -7,7 +7,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 ?>
 
 <?php echo $form->errorSummary($model); ?>
-<?php if (Yii::app()->user->name == 'admin')
+<?php
+if (Yii::app()->user->name == 'admin')
     echo $form->dropDownListRow($model, 'type_id', sParameter::items("cNotifType"));
 ?>
 
@@ -30,12 +31,13 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->dropDownListRow($model, 'priority_level_id', sParameter::items("cPriority")); ?>
 
-<?php if (Yii::app()->user->name == 'admin')
+<?php
+if (Yii::app()->user->name == 'admin')
     echo $form->dropDownListRow($model, 'status_id', sParameter::items("cRead"));
 ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Send', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

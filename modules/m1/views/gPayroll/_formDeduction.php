@@ -18,8 +18,8 @@
 
         <?php echo $form->textFieldRow($model, 'yearmonth_start'); ?>
         <?php echo $form->textFieldRow($model, 'yearmonth_end'); ?>
-<?php echo $form->dropDownListRow($model, 'deduction_id', gParamDeduction::model()->deductionDropDown()); ?>
-            <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->dropDownListRow($model, 'deduction_id', gParamDeduction::model()->deductionDropDown()); ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -31,7 +31,7 @@
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

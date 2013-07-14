@@ -18,7 +18,7 @@ $this->menu2 = sFeedback::getTopCreated();
     <h1>
         <i class="iconic-comment"></i>
         Update:
-<?php echo $model->id; ?>
+        <?php echo $model->id; ?>
     </h1>
 </div>
 

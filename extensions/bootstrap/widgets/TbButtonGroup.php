@@ -1,5 +1,6 @@
 <?php
-/*##  TbButtonGroup class file.
+
+/* ##  TbButtonGroup class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
@@ -14,124 +15,122 @@ Yii::import('bootstrap.widgets.TbButton');
  * Bootstrap button group widget.
  * @see <http://twitter.github.com/bootstrap/components.html#buttonGroups>
  */
-class TbButtonGroup extends CWidget
-{
-	// Toggle options.
-	const TOGGLE_CHECKBOX = 'checkbox';
-	const TOGGLE_RADIO    = 'radio';
+class TbButtonGroup extends CWidget {
+    // Toggle options.
 
-	/**
-	 * @var string the button callback type.
-	 * @see BootButton::buttonType
-	 */
-	public $buttonType = TbButton::BUTTON_LINK;
-	
+    const TOGGLE_CHECKBOX = 'checkbox';
+    const TOGGLE_RADIO = 'radio';
+
     /**
-	 * @var string the button type.
-	 * @see BootButton::type
-	 */
-	public $type;
-	
+     * @var string the button callback type.
+     * @see BootButton::buttonType
+     */
+    public $buttonType = TbButton::BUTTON_LINK;
+
     /**
-	 * @var string the button size.
-	 * @see BootButton::size
-	 */
-	public $size;
-	
+     * @var string the button type.
+     * @see BootButton::type
+     */
+    public $type;
+
     /**
-	 * @var boolean indicates whether to encode the button labels.
-	 */
-	public $encodeLabel = true;
-	
+     * @var string the button size.
+     * @see BootButton::size
+     */
+    public $size;
+
     /**
-	 * @var array the HTML attributes for the widget container.
-	 */
-	public $htmlOptions = array();
-	
+     * @var boolean indicates whether to encode the button labels.
+     */
+    public $encodeLabel = true;
+
     /**
-	 * @var array the button configuration.
-	 */
-	public $buttons = array();
-	
+     * @var array the HTML attributes for the widget container.
+     */
+    public $htmlOptions = array();
+
     /**
-	 * @var boolean indicates whether to enable button toggling.
-	 */
-	public $toggle;
-	
+     * @var array the button configuration.
+     */
+    public $buttons = array();
+
     /**
-	 * @var boolean indicates whether the button group appears vertically stacked. Defaults to 'false'.
-	 */
-	public $stacked = false;
-	
+     * @var boolean indicates whether to enable button toggling.
+     */
+    public $toggle;
+
     /**
-	 * @var boolean indicates whether dropdowns should be dropups instead. Defaults to 'false'.
-	 */
-	public $dropup = false;
-	/**
-	 * @var boolean indicates whether button is disabled or not. Defaults to 'false'.
-	 */
-	public $disabled = false;
+     * @var boolean indicates whether the button group appears vertically stacked. Defaults to 'false'.
+     */
+    public $stacked = false;
 
-	/**
-	 *### .init()
-	 *
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		$classes = array('btn-group');
+    /**
+     * @var boolean indicates whether dropdowns should be dropups instead. Defaults to 'false'.
+     */
+    public $dropup = false;
 
-		if ($this->stacked === true)
-			$classes[] = 'btn-group-vertical';
+    /**
+     * @var boolean indicates whether button is disabled or not. Defaults to 'false'.
+     */
+    public $disabled = false;
 
-		if ($this->dropup === true)
-			$classes[] = 'dropup';
+    /**
+     * ### .init()
+     *
+     * Initializes the widget.
+     */
+    public function init() {
+        $classes = array('btn-group');
 
-		if (!empty($classes))
-		{
-			$classes = implode(' ', $classes);
-			if (isset($this->htmlOptions['class']))
-				$this->htmlOptions['class'] .= ' '.$classes;
-			else
-				$this->htmlOptions['class'] = $classes;
-		}
+        if ($this->stacked === true)
+            $classes[] = 'btn-group-vertical';
 
-		$validToggles = array(self::TOGGLE_CHECKBOX, self::TOGGLE_RADIO);
+        if ($this->dropup === true)
+            $classes[] = 'dropup';
 
-		if (isset($this->toggle) && in_array($this->toggle, $validToggles))
-			$this->htmlOptions['data-toggle'] = 'buttons-'.$this->toggle;
-	}
+        if (!empty($classes)) {
+            $classes = implode(' ', $classes);
+            if (isset($this->htmlOptions['class']))
+                $this->htmlOptions['class'] .= ' ' . $classes;
+            else
+                $this->htmlOptions['class'] = $classes;
+        }
 
-	/**
-	 *### .run()
-	 *
-	 * Runs the widget.
-	 */
-	public function run()
-	{
-		echo CHtml::openTag('div', $this->htmlOptions);
+        $validToggles = array(self::TOGGLE_CHECKBOX, self::TOGGLE_RADIO);
 
-		foreach ($this->buttons as $button)
-		{
-			if (isset($button['visible']) && $button['visible'] === false)
-				continue;
+        if (isset($this->toggle) && in_array($this->toggle, $validToggles))
+            $this->htmlOptions['data-toggle'] = 'buttons-' . $this->toggle;
+    }
 
-			$this->controller->widget('bootstrap.widgets.TbButton', array(
-				'buttonType'=>isset($button['buttonType']) ? $button['buttonType'] : $this->buttonType,
-				'type'=>isset($button['type']) ? $button['type'] : $this->type,
-				'size'=>$this->size, // all buttons in a group cannot vary in size
-				'icon'=>isset($button['icon']) ? $button['icon'] : null,
-				'label'=>isset($button['label']) ? $button['label'] : null,
-				'url'=>isset($button['url']) ? $button['url'] : null,
-				'active'=>isset($button['active']) ? $button['active'] : false,
-				'disabled'=>isset($button['disabled']) ? $button['disabled'] : false,
-				'items'=>isset($button['items']) ? $button['items'] : array(),
-				'ajaxOptions'=>isset($button['ajaxOptions']) ? $button['ajaxOptions'] : array(),
-				'htmlOptions'=>isset($button['htmlOptions']) ? $button['htmlOptions'] : array(),
-                'dropdownOptions'=>isset($button['dropdownOptions']) ? $button['dropdownOptions'] : array(),
-				'encodeLabel'=>isset($button['encodeLabel']) ? $button['encodeLabel'] : $this->encodeLabel,
-			));
-		}
-		echo '</div>';
-	}
+    /**
+     * ### .run()
+     *
+     * Runs the widget.
+     */
+    public function run() {
+        echo CHtml::openTag('div', $this->htmlOptions);
+
+        foreach ($this->buttons as $button) {
+            if (isset($button['visible']) && $button['visible'] === false)
+                continue;
+
+            $this->controller->widget('bootstrap.widgets.TbButton', array(
+                'buttonType' => isset($button['buttonType']) ? $button['buttonType'] : $this->buttonType,
+                'type' => isset($button['type']) ? $button['type'] : $this->type,
+                'size' => $this->size, // all buttons in a group cannot vary in size
+                'icon' => isset($button['icon']) ? $button['icon'] : null,
+                'label' => isset($button['label']) ? $button['label'] : null,
+                'url' => isset($button['url']) ? $button['url'] : null,
+                'active' => isset($button['active']) ? $button['active'] : false,
+                'disabled' => isset($button['disabled']) ? $button['disabled'] : false,
+                'items' => isset($button['items']) ? $button['items'] : array(),
+                'ajaxOptions' => isset($button['ajaxOptions']) ? $button['ajaxOptions'] : array(),
+                'htmlOptions' => isset($button['htmlOptions']) ? $button['htmlOptions'] : array(),
+                'dropdownOptions' => isset($button['dropdownOptions']) ? $button['dropdownOptions'] : array(),
+                'encodeLabel' => isset($button['encodeLabel']) ? $button['encodeLabel'] : $this->encodeLabel,
+            ));
+        }
+        echo '</div>';
+    }
+
 }

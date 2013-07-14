@@ -12,7 +12,7 @@
 /*jslint nomen: true, unparam: true, regexp: true */
 /*global $, window, document */
 
-$(function () {
+$(function() {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
@@ -24,13 +24,13 @@ $(function () {
 
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
-        'option',
-        'redirect',
-        window.location.href.replace(
+            'option',
+            'redirect',
+            window.location.href.replace(
             /\/[^\/]*$/,
             '/cors/result.html?%s'
-        )
-    );
+            )
+            );
 
     if (window.location.hostname === 'blueimp.github.com') {
         // Demo settings:
@@ -59,11 +59,11 @@ $(function () {
             $.ajax({
                 url: '//jquery-file-upload.appspot.com/',
                 type: 'HEAD'
-            }).fail(function () {
+            }).fail(function() {
                 $('<span class="alert alert-error"/>')
-                    .text('Upload server currently unavailable - ' +
-                            new Date())
-                    .appendTo('#fileupload');
+                        .text('Upload server currently unavailable - ' +
+                        new Date())
+                        .appendTo('#fileupload');
             });
         }
     } else {
@@ -74,10 +74,10 @@ $(function () {
             url: $('#fileupload').fileupload('option', 'url'),
             dataType: 'json',
             context: $('#fileupload')[0]
-        }).done(function (result) {
+        }).done(function(result) {
             if (result && result.length) {
                 $(this).fileupload('option', 'done')
-                    .call(this, null, {result: result});
+                        .call(this, null, {result: result});
             }
         });
     }

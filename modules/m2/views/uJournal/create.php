@@ -59,7 +59,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 $this->widget('ext.appendo.JAppendo', array(
     'id' => 'repeateEnum',
     'model' => $model,
-    'viewName' => '_detailJournal',
+    'viewName' => '_detailJournalMemorial',
     'labelDel' => 'Remove Row',
     'appendoPath' => '/modules/m2/views/jAppendo/',
         //'cssFile' => 'css/jquery.appendo2.css'
@@ -67,7 +67,7 @@ $this->widget('ext.appendo.JAppendo', array(
 ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

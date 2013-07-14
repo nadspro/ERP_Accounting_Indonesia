@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Xml2PdfTag.
  * @filesource
@@ -6,11 +7,10 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @package Xml2Pdf
  * @version CVS: $Id: Xml2PdfTag.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  */
-
 // doc {{{
 
 /**
@@ -25,19 +25,19 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @package Xml2Pdf
  * @version CVS: $Id: Xml2PdfTag.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  */ // }}}
 Class Xml2PdfTag {
     // class properties {{{
-    
+
     /**
      * Pdf object.
      * @var Pdf
      */
     public $pdf;
-    
+
     /**
      * Tag content.
      * @var string
@@ -58,17 +58,17 @@ Class Xml2PdfTag {
      *
      * @return void
      */
-    public function __construct($tagProperties=array()) {
+    public function __construct($tagProperties = array()) {
         $this->pdf = Pdf::singleton();
-        if(isset($tagProperties['ID'])) {
+        if (isset($tagProperties['ID'])) {
             $this->id = $tagProperties['ID'];
-            if(!isset($this->pdf->linksIds[$this->id])) {
+            if (!isset($this->pdf->linksIds[$this->id])) {
                 $this->pdf->linksIds[$this->id] = $this->pdf->AddLink();
             }
             $this->pdf->SetLink($this->pdf->linksIds[$this->id], -1);
         }
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTag::addContent() {{{
 
@@ -81,8 +81,8 @@ Class Xml2PdfTag {
      */
     public function addContent($content) {
         $this->content .= $content;
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTag::close() {{{
 
@@ -93,8 +93,9 @@ Class Xml2PdfTag {
      */
     public function close() {
         return true;
-    } 
-    
+    }
+
     // }}}
 }
+
 ?>

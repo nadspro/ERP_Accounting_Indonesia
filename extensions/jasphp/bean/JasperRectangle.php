@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperRectangle
  *
@@ -7,9 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="rectangle") */
 class JasperRectangle extends AbstractJasper {
-    
+
     /** @BeanAnnotation(className="JasperReportElement") */
     public $reportElement = null;
+
 }

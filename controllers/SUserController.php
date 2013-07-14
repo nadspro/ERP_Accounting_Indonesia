@@ -62,7 +62,7 @@ class SUserController extends Controller {
         }
 
         foreach ($model->group as $grp) {
-            $modelGrp = new sGroup;
+            $modelGrp = new sUserGroup;
             $modelGrp->parent_id = $modelNew->id;
             $modelGrp->organization_root_id = $grp->organization_root_id;
             $modelGrp->save(false);
@@ -210,10 +210,10 @@ class SUserController extends Controller {
     }
 
     public function newUserGroup($id) {
-        $model = new sGroup();
+        $model = new sUserGroup();
 
-        if (isset($_POST['sGroup'])) {
-            $model->attributes = $_POST['sGroup'];
+        if (isset($_POST['sUserGroup'])) {
+            $model->attributes = $_POST['sUserGroup'];
             $model->parent_id = $id;
             $model->save();
             //$this->refresh();
@@ -253,9 +253,6 @@ class SUserController extends Controller {
             $model->attributes = $_POST['sUser'];
             if ($model->validate()) {
 
-                //$_mysalt=sUser::model()->generateSalt();
-                //$_password = md5($_mysalt . $model->password);
-                //sUser::model()->updateByPk((int)$id,array('password'=>$_password,'salt'=>$_mysalt,'hash_type'=>'md5'));
 
                 $_mysalt = sUser::blowfishSalt();
                 $_password = crypt($model->password, $_mysalt);
@@ -381,7 +378,7 @@ class SUserController extends Controller {
     }
 
     public function loadModelUserGroup($id) {
-        $model = sGroup::model()->findByPk((int) $id);
+        $model = sUserGroup::model()->findByPk((int) $id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

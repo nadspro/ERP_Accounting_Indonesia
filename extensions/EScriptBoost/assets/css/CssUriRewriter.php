@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class CssUriRewriter  
  * @package scriptboost
@@ -10,13 +11,13 @@
  * @author Stephen Clay <steve@mrclay.org>
  */
 class CssUriRewriter {
-    
+
     /**
      * rewrite() and rewriteRelative() append debugging information here
      * @var string
      */
     public static $debugText = '';
-    
+
     /**
      * In CSS content, rewrite file relative URIs as root relative
      * 
@@ -39,41 +40,38 @@ class CssUriRewriter {
      * 
      * @return string
      */
-    public static function rewrite($css, $currentDir, $docRoot = null, $symlinks = array()) 
-    {
+    public static function rewrite($css, $currentDir, $docRoot = null, $symlinks = array()) {
         self::$_docRoot = self::_realpath(
-            $docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
+                        $docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
         );
         self::$_currentDir = self::_realpath($currentDir);
         self::$_symlinks = array();
-        
+
         // normalize symlinks
         foreach ($symlinks as $link => $target) {
-            $link = ($link === '//')
-                ? self::$_docRoot
-                : str_replace('//', self::$_docRoot . '/', $link);
+            $link = ($link === '//') ? self::$_docRoot : str_replace('//', self::$_docRoot . '/', $link);
             $link = strtr($link, '/', DIRECTORY_SEPARATOR);
             self::$_symlinks[$link] = self::_realpath($target);
         }
-        
+
         self::$debugText .= "docRoot    : " . self::$_docRoot . "\n"
-                          . "currentDir : " . self::$_currentDir . "\n";
+                . "currentDir : " . self::$_currentDir . "\n";
         if (self::$_symlinks) {
             self::$debugText .= "symlinks : " . var_export(self::$_symlinks, 1) . "\n";
         }
         self::$debugText .= "\n";
-        
+
         $css = self::_trimUrls($css);
-        
+
         // rewrite
         $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-            ,array(self::$className, '_processUriCB'), $css);
+                , array(self::$className, '_processUriCB'), $css);
         $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-            ,array(self::$className, '_processUriCB'), $css);
+                , array(self::$className, '_processUriCB'), $css);
 
         return $css;
     }
-    
+
     /**
      * In CSS content, prepend a path to relative URIs
      * 
@@ -83,22 +81,21 @@ class CssUriRewriter {
      * 
      * @return string
      */
-    public static function prepend($css, $path)
-    {
+    public static function prepend($css, $path) {
         self::$_prependPath = $path;
-        
+
         $css = self::_trimUrls($css);
-        
+
         // append
         $css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-            ,array(self::$className, '_processUriCB'), $css);
+                , array(self::$className, '_processUriCB'), $css);
         $css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-            ,array(self::$className, '_processUriCB'), $css);
+                , array(self::$className, '_processUriCB'), $css);
 
         self::$_prependPath = null;
         return $css;
     }
-    
+
     /**
      * Get a root relative URI from a file relative URI
      *
@@ -137,39 +134,38 @@ class CssUriRewriter {
      * 
      * @return string
      */
-    public static function rewriteRelative($uri, $realCurrentDir, $realDocRoot, $symlinks = array())
-    {
+    public static function rewriteRelative($uri, $realCurrentDir, $realDocRoot, $symlinks = array()) {
         // prepend path with current dir separator (OS-independent)
-        $path = strtr($realCurrentDir, '/', DIRECTORY_SEPARATOR)  
-            . DIRECTORY_SEPARATOR . strtr($uri, '/', DIRECTORY_SEPARATOR);
-        
+        $path = strtr($realCurrentDir, '/', DIRECTORY_SEPARATOR)
+                . DIRECTORY_SEPARATOR . strtr($uri, '/', DIRECTORY_SEPARATOR);
+
         self::$debugText .= "file-relative URI  : {$uri}\n"
-                          . "path prepended     : {$path}\n";
-        
+                . "path prepended     : {$path}\n";
+
         // "unresolve" a symlink back to doc root
         foreach ($symlinks as $link => $target) {
             if (0 === strpos($path, $target)) {
                 // replace $target with $link
                 $path = $link . substr($path, strlen($target));
-                
+
                 self::$debugText .= "symlink unresolved : {$path}\n";
-                
+
                 break;
             }
         }
         // strip doc root
         $path = substr($path, strlen($realDocRoot));
-        
+
         self::$debugText .= "docroot stripped   : {$path}\n";
-        
+
         // fix to root-relative URI
 
         $uri = strtr($path, '/\\', '//');
 
         $uri = self::removeDots($uri);
-      
+
         self::$debugText .= "traversals removed : {$uri}\n\n";
-        
+
         return $uri;
     }
 
@@ -178,8 +174,7 @@ class CssUriRewriter {
      * @param string $uri
      * @return string
      */
-    public static function removeDots($uri)
-    {
+    public static function removeDots($uri) {
         $uri = str_replace('/./', '/', $uri);
         // inspired by patch from Oleg Cherniy
         do {
@@ -187,7 +182,7 @@ class CssUriRewriter {
         } while ($changed);
         return $uri;
     }
-    
+
     /**
      * Defines which class to call as part of callbacks, change this
      * if you extend Minify_CSS_UriRewriter
@@ -203,8 +198,7 @@ class CssUriRewriter {
      * 
      * @return mixed path with no trailing slash
      */
-    protected static function _realpath($path)
-    {
+    protected static function _realpath($path) {
         $realPath = realpath($path);
         if ($realPath !== false) {
             $path = $realPath;
@@ -233,8 +227,7 @@ class CssUriRewriter {
      */
     private static $_prependPath = null;
 
-    private static function _trimUrls($css)
-    {
+    private static function _trimUrls($css) {
         return preg_replace('/
             url\\(      # url(
             \\s*
@@ -244,8 +237,7 @@ class CssUriRewriter {
         /x', 'url($1)', $css);
     }
 
-    private static function _processUriCB($m)
-    {
+    private static function _processUriCB($m) {
         // $m matched either '/@import\\s+([\'"])(.*?)[\'"]/' or '/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
         $isImport = ($m[0][0] === '@');
         // determine URI and the quote character (if any)
@@ -254,17 +246,13 @@ class CssUriRewriter {
             $uri = $m[2];
         } else {
             // $m[1] is either quoted or not
-            $quoteChar = ($m[1][0] === "'" || $m[1][0] === '"')
-                ? $m[1][0]
-                : '';
-            $uri = ($quoteChar === '')
-                ? $m[1]
-                : substr($m[1], 1, strlen($m[1]) - 2);
+            $quoteChar = ($m[1][0] === "'" || $m[1][0] === '"') ? $m[1][0] : '';
+            $uri = ($quoteChar === '') ? $m[1] : substr($m[1], 1, strlen($m[1]) - 2);
         }
         // analyze URI
         if ('/' !== $uri[0]                  // root-relative
-            && false === strpos($uri, '//')  // protocol (non-data)
-            && 0 !== strpos($uri, 'data:')   // data protocol
+                && false === strpos($uri, '//')  // protocol (non-data)
+                && 0 !== strpos($uri, 'data:')   // data protocol
         ) {
             // URI is file-relative: rewrite depending on options
             if (self::$_prependPath === null) {
@@ -282,8 +270,7 @@ class CssUriRewriter {
                 }
             }
         }
-        return $isImport
-            ? "@import {$quoteChar}{$uri}{$quoteChar}"
-            : "url({$quoteChar}{$uri}{$quoteChar})";
+        return $isImport ? "@import {$quoteChar}{$uri}{$quoteChar}" : "url({$quoteChar}{$uri}{$quoteChar})";
     }
+
 }

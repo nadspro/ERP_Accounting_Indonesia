@@ -339,7 +339,13 @@ class gPerson extends BaseModel {
 
         foreach ($models as $model) {
             $_nama = (strlen($model->employee_name) > 28) ? substr($model->employee_name, 0, 28) . "..." : $model->employee_name;
-            $returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon' => 'list-alt', 'url' => array('view', 'id' => $model->id));
+            $returnarray[] = array(
+                'id' => $model->id,
+                'description' => $model->employeeShortId . " | " . $model->mDepartment(),
+                'label' => $_nama,
+                'photo' => $model->photoPath,
+                'url' => array('view',
+            ));
         }
 
         return $returnarray;
@@ -361,7 +367,13 @@ class gPerson extends BaseModel {
 
         foreach ($models as $model) {
             $_nama = (strlen($model->employee_name) > 28) ? substr($model->employee_name, 0, 28) . "..." : $model->employee_name;
-            $returnarray[] = array('id' => $model->id, 'label' => $_nama, 'icon' => 'list-alt', 'url' => array('view', 'id' => $model->id,));
+            $returnarray[] = array(
+                'id' => $model->id,
+                'description' => $model->employeeShortId . " | " . $model->mDepartment(),
+                'label' => $_nama,
+                'photo' => $model->photoPath,
+                'url' => array('view',
+            ));
         }
 
         return $returnarray;
@@ -1022,7 +1034,19 @@ class gPerson extends BaseModel {
 							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
 						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
 							AND `c`.`start_date` <= '" . date("Y") . "-06-30' order by `c`.`start_date` desc limit 1)  = `o`.`id`
-				) as `201306`
+				) as `201306`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-07-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-07-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) AND
+					(select `o`.`id` AS `id` from `g_person_career` `c`
+							left join `a_organization` `o` ON `o`.`id` = `c`.`company_id`
+						where `a`.`id` = `c`.`parent_id` AND `c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)
+							AND `c`.`start_date` <= '" . date("Y") . "-07-31' order by `c`.`start_date` desc limit 1)  = `o`.`id`
+				) as `201307`
 
 
 
@@ -1043,12 +1067,12 @@ class gPerson extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -1117,7 +1141,15 @@ class gPerson extends BaseModel {
 					(select `s`.`status_id` AS `status` from `g_person_status` `s`
 						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-06-30' 
 						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
-				) as `201306`
+				) as `201306`,
+				(select count(`a`.`id`) from `g_person` `a` where 
+					(select `c`.`start_date` AS `start_date` from `g_person_career` `c`
+						where `a`.`id` = `c`.`parent_id` and `c`.`status_id` = 1
+						order by `c`.`start_date` desc limit 1) <= '" . date("Y") . "-07-31' AND
+					(select `s`.`status_id` AS `status` from `g_person_status` `s`
+						where `s`.`parent_id` = `a`.`id` AND `s`.`start_date` <= '" . date("Y") . "-07-31' 
+						order by `s`.`start_date` desc limit 1) IN (1 , 2, 3, 4, 5, 6, 15) 
+				) as `201307`
 
 
 
@@ -1138,12 +1170,12 @@ class gPerson extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -1603,7 +1635,7 @@ class gPerson extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/gPerson/view/id/' . $this->id, 'Person. New Employee created: ' . $this->employee_name
+                    1, 'm1/gPerson/view/id/' . $this->id, 'Person. New Employee created: ' . strtoupper($this->employee_name)
                     //'Person. New Employee created: '.$this->employee_name .' at '. (isset($this->companyfirst)) ? $this->companyfirst->company->name : ''
             );
             self::model()->updateByPk((int) $this->id, array('employee_code_global' => $this->lastID));
@@ -1983,6 +2015,252 @@ class gPerson extends BaseModel {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+////////////    
+
+    public function compSexAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('sexall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
+			SUM(IF((select d.sex_id from g_person d where d.id = a.id)= 2,1,0)) as l2
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+
+            Yii::app()->cache->set('sexall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('sexall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compAgeAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('ageall' . Yii::app()->user->id)) {
+            $_age = "DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT((select d.birth_date from g_person d where d.id = a.id), '00-%m-%d'))";
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF(" . $_age . " <= 25,1,0)) as l1,
+			SUM(IF(" . $_age . " > 25 AND " . $_age . " <=30,1,0)) as l2,
+			SUM(IF(" . $_age . " > 30 AND " . $_age . " <=35,1,0)) as l3,
+			SUM(IF(" . $_age . " > 35 AND " . $_age . " <=40,1,0)) as l4,
+			SUM(IF(" . $_age . " > 40 AND " . $_age . " <=45,1,0)) as l5,
+			SUM(IF(" . $_age . " > 45 AND " . $_age . " <=50,1,0)) as l6,
+			SUM(IF(" . $_age . " > 50 AND " . $_age . " <=55,1,0)) as l7,
+			SUM(IF(" . $_age . " > 55,1,0)) as l8
+		
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+            $_item[] = (int) $row[0]['l7'];
+            $_item[] = (int) $row[0]['l8'];
+
+            Yii::app()->cache->set('ageall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('ageall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compLevelAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('levelall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 21,1,0)) as l1,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 17,1,0)) as l2,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 13,1,0)) as l3,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 9,1,0)) as l4,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 5,1,0)) as l5,
+			SUM(IF((select g.parent_id from g_person_career d INNER JOIN g_param_level g ON d.level_id = g.id where d.parent_id = a.id order by d.start_date DESC limit 1)= 1,1,0)) as l6
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('levelall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('levelall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compWorkingAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_career');
+
+        if (!Yii::app()->cache->get('workingall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) < 1,1,0)) as l1,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 1 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 2,1,0)) as l2,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 3 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 4,1,0)) as l3,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 5 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 6,1,0)) as l4,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 7 OR YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) = 8,1,0)) as l5,
+			SUM(IF(YEAR(CURDATE()) - YEAR((SELECT d.start_date FROM g_person_career d WHERE d.parent_id = a.id AND d.status_id = 1 order by d.start_date limit 1)) >8,1,0)) as l6
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('workingall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('workingall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compEducationAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM g_person_education');
+
+        if (!Yii::app()->cache->get('educationall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 1,1,0)) as l1,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 2,1,0)) as l2,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 3,1,0)) as l3,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 4 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 5 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 6 OR (select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1) = 7,1,0)) as l4,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 8,1,0)) as l5,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 9,1,0)) as l6,
+			SUM(IF((select d.level_id from g_person_education d where d.parent_id = a.id order by d.level_id DESC limit 1)= 10,1,0)) as l7
+		
+			from g_person a";
+
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+            $_item[] = (int) $row[0]['l7'];
+
+            Yii::app()->cache->set('educationall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('educationall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compReligionAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person');
+
+        if (!Yii::app()->cache->get('religionall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 1,1,0)) as l1,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 2,1,0)) as l2,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 3,1,0)) as l3,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 4,1,0)) as l4,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 5,1,0)) as l5,
+			SUM(IF((select d.religion_id from g_person d where d.id = a.id)= 6,1,0)) as l6
+		
+			from g_person a";
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+            $_item[] = (int) $row[0]['l5'];
+            $_item[] = (int) $row[0]['l6'];
+
+            Yii::app()->cache->set('religionall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('religionall' . Yii::app()->user->id);
+
+        return $_item;
+    }
+
+    public function compStatusAll() {
+
+        $_item = array();
+        $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+        if (!Yii::app()->cache->get('statusall' . Yii::app()->user->id)) {
+            $connection = Yii::app()->db;
+            $sql = "SELECT (select x.company_id from g_person_career x where x.parent_id = a.id AND x.status_id IN (" . implode(",", Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ") order by x.start_date DESC limit 1) as company,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 1 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 2 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 3,1,0)) as l1,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 4 OR (select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 5,1,0)) as l2,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 6,1,0)) as l3,
+			SUM(IF((select d.status_id from g_person_status d where d.parent_id = a.id order by d.start_date DESC limit 1) = 7,1,0)) as l4
+
+			from g_person a";
+
+            $dependency = new CDbCacheDependency('SELECT MAX(updated_date) FROM g_person_status');
+
+            $command = $connection->cache(3600, $dependency)->createCommand($sql);
+            $row = $command->queryAll();
+
+            $_item[] = (int) $row[0]['l1'];
+            $_item[] = (int) $row[0]['l2'];
+            $_item[] = (int) $row[0]['l3'];
+            $_item[] = (int) $row[0]['l4'];
+
+            Yii::app()->cache->set('statusall' . Yii::app()->user->id, $_item, 3600, $dependency);
+        }
+        else
+            $_item = Yii::app()->cache->get('statusall' . Yii::app()->user->id);
+
+        return $_item;
     }
 
 }

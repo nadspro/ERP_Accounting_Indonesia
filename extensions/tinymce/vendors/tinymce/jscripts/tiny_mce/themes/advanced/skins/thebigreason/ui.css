@@ -58,7 +58,7 @@
 .thebigreasonSkin .mceListBoxMenu {box-shadow: rgba(0,0,0,0.2) 0 5px 5px;overflow:auto;overflow-x:hidden;}
 
 .thebigreasonSkin .mceListBoxMenu:focus {
-	outline:none;
+    outline:none;
 }
 
 .thebigreasonSkin .mceOldBoxModel .mceListBox .mceText {height:22px}

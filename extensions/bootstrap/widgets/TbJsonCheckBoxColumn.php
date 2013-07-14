@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbJsonCheckBoxColumn class
  * Works in conjunction with TbJsonGridView. Renders HTML or returns JSON containing checkbox
@@ -13,105 +14,93 @@
 /**
  * @property TbJsonGridView $grid
  */
-class TbJsonCheckBoxColumn extends CCheckBoxColumn
-{
-	/**
-	 * Renders the header cell.
-	 */
-	public function renderHeaderCell()
-	{
-		if ($this->grid->json)
-		{
-			$this->headerHtmlOptions['id']=$this->id;
-			if ($this->grid->json)
-			{
-				return CMap::mergeArray(
-					$this->headerHtmlOptions,
-					array('content' => $this->renderHeaderCellContent())
-				);
-			}
-		}
-		parent::renderHeaderCell();
-	}
+class TbJsonCheckBoxColumn extends CCheckBoxColumn {
 
-	/**
-	 * Renders the header cell content.
-	 * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
-	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
-	 */
-	protected function renderHeaderCellContent()
-	{
-		if ($this->grid->json)
-		{
-			if (trim($this->headerTemplate)==='')
-				return $this->grid->blankDisplay;
+    /**
+     * Renders the header cell.
+     */
+    public function renderHeaderCell() {
+        if ($this->grid->json) {
+            $this->headerHtmlOptions['id'] = $this->id;
+            if ($this->grid->json) {
+                return CMap::mergeArray(
+                                $this->headerHtmlOptions, array('content' => $this->renderHeaderCellContent())
+                );
+            }
+        }
+        parent::renderHeaderCell();
+    }
 
-			if ($this->selectableRows===null && $this->grid->selectableRows>1)
-				$item = CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
-			else if ($this->selectableRows>1)
-				$item = CHtml::checkBox($this->id.'_all',false);
-			else
-			{
-				ob_start();
-				parent::renderHeaderCellContent();
-				$item = ob_get_clean();
-			}
+    /**
+     * Renders the header cell content.
+     * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
+     * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
+     */
+    protected function renderHeaderCellContent() {
+        if ($this->grid->json) {
+            if (trim($this->headerTemplate) === '')
+                return $this->grid->blankDisplay;
 
-			return strtr($this->headerTemplate,array(
-				'{item}'=>$item,
-			));
-		}
-		parent::renderHeaderCellContent();
-	}
+            if ($this->selectableRows === null && $this->grid->selectableRows > 1)
+                $item = CHtml::checkBox($this->id . '_all', false, array('class' => 'select-on-check-all'));
+            else if ($this->selectableRows > 1)
+                $item = CHtml::checkBox($this->id . '_all', false);
+            else {
+                ob_start();
+                parent::renderHeaderCellContent();
+                $item = ob_get_clean();
+            }
 
-	/**
-	 * Renders|returns the data cell.
-	 * @param int $row
-	 * @return array|void
-	 */
-	public function renderDataCell($row)
-	{
-		$data = $this->grid->dataProvider->data[$row];
-		$options = $this->htmlOptions;
-		if ($this->cssClassExpression !== null)
-		{
-			$class = $this->evaluateExpression($this->cssClassExpression, array('row' => $row, 'data' => $data));
-			if (!empty($class))
-			{
-				if (isset($options['class']))
-					$options['class'] .= ' ' . $class;
-				else
-					$options['class'] = $class;
-			}
-		}
+            return strtr($this->headerTemplate, array(
+                '{item}' => $item,
+            ));
+        }
+        parent::renderHeaderCellContent();
+    }
 
-		if ($this->grid->json)
-		{
-			return CMap::mergeArray(
-				$options,
-				array('content' => $this->renderDataCellContent($row, $data))
-			);
-		}
+    /**
+     * Renders|returns the data cell.
+     * @param int $row
+     * @return array|void
+     */
+    public function renderDataCell($row) {
+        $data = $this->grid->dataProvider->data[$row];
+        $options = $this->htmlOptions;
+        if ($this->cssClassExpression !== null) {
+            $class = $this->evaluateExpression($this->cssClassExpression, array('row' => $row, 'data' => $data));
+            if (!empty($class)) {
+                if (isset($options['class']))
+                    $options['class'] .= ' ' . $class;
+                else
+                    $options['class'] = $class;
+            }
+        }
 
-		parent::renderDataCell($row);
-	}
+        if ($this->grid->json) {
+            return CMap::mergeArray(
+                            $options, array('content' => $this->renderDataCellContent($row, $data))
+            );
+        }
 
-	/**
-	 * Renders|returns the data cell content
-	 * @param int $row
-	 * @param mixed $data
-	 * @return array|void
-	 */
-	protected function renderDataCellContent($row, $data)
-	{
-		ob_start();
-		parent::renderDataCellContent($row, $data);
-		$html = ob_get_contents();
-		ob_end_clean();
+        parent::renderDataCell($row);
+    }
 
-		if ($this->grid->json)
-			return $html;
+    /**
+     * Renders|returns the data cell content
+     * @param int $row
+     * @param mixed $data
+     * @return array|void
+     */
+    protected function renderDataCellContent($row, $data) {
+        ob_start();
+        parent::renderDataCellContent($row, $data);
+        $html = ob_get_contents();
+        ob_end_clean();
 
-		echo $html;
-	}
+        if ($this->grid->json)
+            return $html;
+
+        echo $html;
+    }
+
 }

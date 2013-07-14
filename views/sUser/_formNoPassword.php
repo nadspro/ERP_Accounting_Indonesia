@@ -2,7 +2,7 @@
 Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
 Yii::app()->getClientScript()->registerCoreScript('maskedinput');
 
-Yii::app()->clientScript->registerScript('datepicker', "
+Yii::app()->clientScript->registerScript('autocomp', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'default_group_name') . "\" ).autocomplete({
 		'minLength': '2',
@@ -43,7 +43,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->dropDownListRow($model, 'status', sParameter::items("cStatus")); ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 

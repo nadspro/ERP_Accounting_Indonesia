@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperDetail
  *
@@ -7,8 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="detail") */
 class JasperDetail extends AbstractJasper {
+
     /** @BeanAnnotation(className="JasperBand") */
     public $band = null;
+
 }

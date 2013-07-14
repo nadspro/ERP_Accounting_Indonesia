@@ -61,7 +61,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <?php echo $form->textFieldRow($model, 'expected_sallary', array('class' => 'tooltipster', 'title' => 'expected salary (in Rupiah)')); ?>
 
-            <?php echo $form->textFieldRow($model, 'expected_position', array('class' => 'span5')); ?>
+        <?php echo $form->textFieldRow($model, 'expected_position', array('class' => 'span5')); ?>
 
         <div class="form-actions">
             <?php

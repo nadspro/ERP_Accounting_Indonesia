@@ -28,10 +28,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 ?>
 
 
-    <?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($model); ?>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'workflow_id', array("class" => "control-label")); ?>
+    <?php echo $form->labelEx($model, 'workflow_id', array("class" => "control-label")); ?>
     <div class="controls">
         <?php
         echo $form->dropDownList($model, 'workflow_id', gParamSelection::levelDropdown(), array(

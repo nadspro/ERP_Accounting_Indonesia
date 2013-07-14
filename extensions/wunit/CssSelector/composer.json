@@ -20,7 +20,7 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\CssSelector": "" }
+        "psr-0": {"Symfony\\Component\\CssSelector": ""}
     },
     "target-dir": "Symfony/Component/CssSelector"
 }

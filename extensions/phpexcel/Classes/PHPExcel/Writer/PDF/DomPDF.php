@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -24,14 +25,12 @@
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version		1.7.8, 2012-10-12
  */
-
-
 /** Require DomPDF library */
 $pdfRendererClassFile = PHPExcel_Settings::getPdfRendererPath() . '/dompdf_config.inc.php';
 if (file_exists($pdfRendererClassFile)) {
-	require_once $pdfRendererClassFile;
+    require_once $pdfRendererClassFile;
 } else {
-	throw new Exception('Unable to load PDF Rendering library');
+    throw new Exception('Unable to load PDF Rendering library');
 }
 
 /**
@@ -42,87 +41,87 @@ if (file_exists($pdfRendererClassFile)) {
  * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_PDF_DomPDF extends PHPExcel_Writer_PDF_Core implements PHPExcel_Writer_IWriter {
-	/**
-	 * Create a new PHPExcel_Writer_PDF
-	 *
-	 * @param 	PHPExcel	$phpExcel	PHPExcel object
-	 */
-	public function __construct(PHPExcel $phpExcel) {
-		parent::__construct($phpExcel);
-	}
 
-	/**
-	 * Save PHPExcel to file
-	 *
-	 * @param 	string 		$pFileName
-	 * @throws 	Exception
-	 */
-	public function save($pFilename = null) {
-		// garbage collect
-		$this->_phpExcel->garbageCollect();
+    /**
+     * Create a new PHPExcel_Writer_PDF
+     *
+     * @param 	PHPExcel	$phpExcel	PHPExcel object
+     */
+    public function __construct(PHPExcel $phpExcel) {
+        parent::__construct($phpExcel);
+    }
 
-		$saveArrayReturnType = PHPExcel_Calculation::getArrayReturnType();
-		PHPExcel_Calculation::setArrayReturnType(PHPExcel_Calculation::RETURN_ARRAY_AS_VALUE);
+    /**
+     * Save PHPExcel to file
+     *
+     * @param 	string 		$pFileName
+     * @throws 	Exception
+     */
+    public function save($pFilename = null) {
+        // garbage collect
+        $this->_phpExcel->garbageCollect();
 
-		// Open file
-		$fileHandle = fopen($pFilename, 'w');
-		if ($fileHandle === false) {
-			throw new Exception("Could not open file $pFilename for writing.");
-		}
+        $saveArrayReturnType = PHPExcel_Calculation::getArrayReturnType();
+        PHPExcel_Calculation::setArrayReturnType(PHPExcel_Calculation::RETURN_ARRAY_AS_VALUE);
 
-		// Set PDF
-		$this->_isPdf = true;
-		// Build CSS
-		$this->buildCSS(true);
+        // Open file
+        $fileHandle = fopen($pFilename, 'w');
+        if ($fileHandle === false) {
+            throw new Exception("Could not open file $pFilename for writing.");
+        }
 
-		// Default PDF paper size
-		$paperSize = 'LETTER';	//	Letter	(8.5 in. by 11 in.)
+        // Set PDF
+        $this->_isPdf = true;
+        // Build CSS
+        $this->buildCSS(true);
 
-		// Check for paper size and page orientation
-		if (is_null($this->getSheetIndex())) {
-			$orientation = ($this->_phpExcel->getSheet(0)->getPageSetup()->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE) ? 'L' : 'P';
-			$printPaperSize = $this->_phpExcel->getSheet(0)->getPageSetup()->getPaperSize();
-			$printMargins = $this->_phpExcel->getSheet(0)->getPageMargins();
-		} else {
-			$orientation = ($this->_phpExcel->getSheet($this->getSheetIndex())->getPageSetup()->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE) ? 'L' : 'P';
-			$printPaperSize = $this->_phpExcel->getSheet($this->getSheetIndex())->getPageSetup()->getPaperSize();
-			$printMargins = $this->_phpExcel->getSheet($this->getSheetIndex())->getPageMargins();
-		}
+        // Default PDF paper size
+        $paperSize = 'LETTER'; //	Letter	(8.5 in. by 11 in.)
+        // Check for paper size and page orientation
+        if (is_null($this->getSheetIndex())) {
+            $orientation = ($this->_phpExcel->getSheet(0)->getPageSetup()->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE) ? 'L' : 'P';
+            $printPaperSize = $this->_phpExcel->getSheet(0)->getPageSetup()->getPaperSize();
+            $printMargins = $this->_phpExcel->getSheet(0)->getPageMargins();
+        } else {
+            $orientation = ($this->_phpExcel->getSheet($this->getSheetIndex())->getPageSetup()->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE) ? 'L' : 'P';
+            $printPaperSize = $this->_phpExcel->getSheet($this->getSheetIndex())->getPageSetup()->getPaperSize();
+            $printMargins = $this->_phpExcel->getSheet($this->getSheetIndex())->getPageMargins();
+        }
 
-		//	Override Page Orientation
-		if (!is_null($this->getOrientation())) {
-			$orientation = ($this->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_DEFAULT) ?
-				PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT : $this->getOrientation();
-		}
-		//	Override Paper Size
-		if (!is_null($this->getPaperSize())) {
-			$printPaperSize = $this->getPaperSize();
-		}
+        //	Override Page Orientation
+        if (!is_null($this->getOrientation())) {
+            $orientation = ($this->getOrientation() == PHPExcel_Worksheet_PageSetup::ORIENTATION_DEFAULT) ?
+                    PHPExcel_Worksheet_PageSetup::ORIENTATION_PORTRAIT : $this->getOrientation();
+        }
+        //	Override Paper Size
+        if (!is_null($this->getPaperSize())) {
+            $printPaperSize = $this->getPaperSize();
+        }
 
-		if (isset(self::$_paperSizes[$printPaperSize])) {
-			$paperSize = self::$_paperSizes[$printPaperSize];
-		}
+        if (isset(self::$_paperSizes[$printPaperSize])) {
+            $paperSize = self::$_paperSizes[$printPaperSize];
+        }
 
-		$orientation = ($orientation == 'L') ? 'landscape' : 'portrait';
+        $orientation = ($orientation == 'L') ? 'landscape' : 'portrait';
 
-		// Create PDF
-		$pdf = new DOMPDF();
-		$pdf->set_paper(strtolower($paperSize), $orientation);
+        // Create PDF
+        $pdf = new DOMPDF();
+        $pdf->set_paper(strtolower($paperSize), $orientation);
 
-		$pdf->load_html(
-			$this->generateHTMLHeader(false) .
-			$this->generateSheetData() .
-			$this->generateHTMLFooter()
-		);
-		$pdf->render();
+        $pdf->load_html(
+                $this->generateHTMLHeader(false) .
+                $this->generateSheetData() .
+                $this->generateHTMLFooter()
+        );
+        $pdf->render();
 
-		// Write to file
-		fwrite($fileHandle, $pdf->output());
+        // Write to file
+        fwrite($fileHandle, $pdf->output());
 
-		// Close file
-		fclose($fileHandle);
+        // Close file
+        fclose($fileHandle);
 
-		PHPExcel_Calculation::setArrayReturnType($saveArrayReturnType);
-	}
+        PHPExcel_Calculation::setArrayReturnType($saveArrayReturnType);
+    }
 
 }

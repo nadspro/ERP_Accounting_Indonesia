@@ -34,13 +34,13 @@ Yii::app()->clientScript->registerScript('datepicker', "
 
 <div class="row-fluid">
     <div class="span12">
-<?php
-$form = $this->beginWidget('TbActiveForm', array(
-    'id' => 'b-porder-detail-form',
-    'enableAjaxValidation' => false,
-    'type' => 'horizontal',
+        <?php
+        $form = $this->beginWidget('TbActiveForm', array(
+            'id' => 'b-porder-detail-form',
+            'enableAjaxValidation' => false,
+            'type' => 'horizontal',
         ));
-?>
+        ?>
 
         <?php echo $form->errorSummary($model); ?>
 
@@ -82,10 +82,10 @@ $form = $this->beginWidget('TbActiveForm', array(
                 echo CHtml::ajaxSubmitButton('Add Row', Yii::app()->createUrl($this->route, array("id" => $model->id)), array('update' => '#xForm'));
             ?>
             <?php echo CHtml::SubmitButton('Create'); ?>
-<?php echo CHtml::link('Close', array('/m2/vPorderInventory/deleteTemp'), array('class' => 'btn')); ?>
+            <?php echo CHtml::link('Close', array('/m2/vPorderInventory/deleteTemp'), array('class' => 'btn')); ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

@@ -42,35 +42,35 @@ Yii::app()->clientScript->registerScript('search' . $data->id, "
         </p>
 
 
-<?php if ($data->remark != null) { ?>
+        <?php if ($data->remark != null) { ?>
             <p>
-            <?php echo CHtml::encode($data->remark); ?>
+                <?php echo CHtml::encode($data->remark); ?>
             </p>
-            <?php }; ?>
+        <?php }; ?>
     </div>
 
     <div class="span8">
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
-    //$this->widget('ext.XDetailView', array(
-    //		'ItemColumns' => 3,
-    'data' => array(
-        'id' => 1,
-        'entity_id' => $data->entity->name,
-        'input_date' => $data->input_date,
-        'yearmonth_periode' => $data->yearmonth_periode,
-        'user_ref' => $data->user_ref,
-        'total' => Yii::app()->indoFormat->number($data->journalSum),
-    ),
-    'attributes' => array(
-        array('name' => 'entity_id', 'label' => 'Entity'),
-        array('name' => 'input_date', 'label' => 'Input Date'),
-        array('name' => 'yearmonth_periode', 'label' => 'Periode'),
-        array('name' => 'user_ref', 'label' => 'Rec\'er/Rec\'ed From', 'visible' => (isset($data->user_ref))),
-        array('name' => 'total', 'label' => 'Total'),
-    ),
-));
-?>
+        <?php
+        $this->widget('bootstrap.widgets.TbDetailView', array(
+            //$this->widget('ext.XDetailView', array(
+            //		'ItemColumns' => 3,
+            'data' => array(
+                'id' => 1,
+                'entity_id' => $data->entity->name,
+                'input_date' => $data->input_date,
+                'yearmonth_periode' => $data->yearmonth_periode,
+                'user_ref' => $data->user_ref,
+                'total' => Yii::app()->indoFormat->number($data->journalSum),
+            ),
+            'attributes' => array(
+                array('name' => 'entity_id', 'label' => 'Entity'),
+                array('name' => 'input_date', 'label' => 'Input Date'),
+                array('name' => 'yearmonth_periode', 'label' => 'Periode'),
+                array('name' => 'user_ref', 'label' => 'Rec\'er/Rec\'ed From', 'visible' => (isset($data->user_ref))),
+                array('name' => 'total', 'label' => 'Total'),
+            ),
+        ));
+        ?>
     </div>
 </div>
 

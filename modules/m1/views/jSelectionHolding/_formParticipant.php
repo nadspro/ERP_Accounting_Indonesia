@@ -49,10 +49,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <?php echo $form->textFieldRow($model, 'applicant_name', array('class' => 'span4')); ?>
-    <?php echo $form->hiddenField($model, 'applicant_id'); ?>
+<?php echo $form->hiddenField($model, 'applicant_id'); ?>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
+    <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
     <div class="controls">
         <?php
         echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(

@@ -91,7 +91,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textAreaRow($model, 'leave_reason', array('class' => 'span5', 'rows' => 4)); ?>
 
-    <?php echo $form->textFieldRow($model, 'replacement', array('class' => 'span4', 'maxlength' => 10, 'hint' => 'Your office mate as replacement during your leave')); ?>
+<?php echo $form->textFieldRow($model, 'replacement', array('class' => 'span4', 'maxlength' => 10, 'hint' => 'Your office mate as replacement during your leave')); ?>
 
 <div class="form-actions">
     <?php

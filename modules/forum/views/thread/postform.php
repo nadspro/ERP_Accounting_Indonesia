@@ -24,33 +24,33 @@ else
     ));
     ?>
 
-        <?php if (isset($forum)): ?>
+    <?php if (isset($forum)): ?>
         <div class="row">
             <?php echo $form->labelEx($model, 'subject'); ?>
-        <?php echo $form->textField($model, 'subject'); ?>
-        <?php echo $form->error($model, 'subject'); ?>
+            <?php echo $form->textField($model, 'subject'); ?>
+            <?php echo $form->error($model, 'subject'); ?>
         </div>
-        <?php endif; ?>
+    <?php endif; ?>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'content'); ?>
-<?php echo $form->textArea($model, 'content', array('rows' => 10, 'cols' => 70)); ?>
-<?php echo $form->error($model, 'content'); ?>
+        <?php echo $form->textArea($model, 'content', array('rows' => 10, 'cols' => 70)); ?>
+        <?php echo $form->error($model, 'content'); ?>
         <p class="hint">
             Hint: You can use <?php echo CHtml::link('markdown', 'http://daringfireball.net/projects/markdown/syntax'); ?> syntax!
         </p>
     </div>
 
-        <?php if (Yii::app()->user->name == "admin"): ?>
+    <?php if (Yii::app()->user->name == "admin"): ?>
         <div class="row rememberMe">
             <?php echo $form->checkBox($model, 'lockthread', array('uncheckValue' => 0)); ?>
-        <?php echo $form->labelEx($model, 'lockthread'); ?>
-        <?php // echo $form->error($model,'lockthread'); ?>
+            <?php echo $form->labelEx($model, 'lockthread'); ?>
+            <?php // echo $form->error($model,'lockthread'); ?>
         </div>
-        <?php endif; ?>
+    <?php endif; ?>
 
     <div class="row buttons">
-    <?php echo CHtml::submitButton('Submit'); ?>
+        <?php echo CHtml::submitButton('Submit'); ?>
     </div>
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 </div><!-- form -->

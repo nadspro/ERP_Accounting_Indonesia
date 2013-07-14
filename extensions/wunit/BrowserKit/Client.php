@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\BrowserKit;
 
@@ -31,457 +31,430 @@ use Symfony\Component\BrowserKit\Client;
  *
  * @api
  */
-abstract class Client
-{
-	protected $history;
-	protected $cookieJar;
-	protected $server;
-	protected $request;
-	protected $response;
-	protected $crawler;
-	protected $insulated;
-	protected $redirect;
-	protected $followRedirects;
+abstract class Client {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param array     $server    The server parameters (equivalent of $_SERVER)
-	 * @param History   $history   A History instance to store the browser history
-	 * @param CookieJar $cookieJar A CookieJar instance to store the cookies
-	 *
-	 * @api
-	 */
-	public function __construct(array $server = array(), History $history = null, CookieJar $cookieJar = null)
-	{
-		$this->setServerParameters($server);
-		$this->history = null === $history ? new History() : $history;
-		$this->cookieJar = null === $cookieJar ? new CookieJar() : $cookieJar;
-		$this->insulated = false;
-		$this->followRedirects = true;
-	}
+    protected $history;
+    protected $cookieJar;
+    protected $server;
+    protected $request;
+    protected $response;
+    protected $crawler;
+    protected $insulated;
+    protected $redirect;
+    protected $followRedirects;
 
-	/**
-	 * Sets whether to automatically follow redirects or not.
-	 *
-	 * @param Boolean $followRedirect Whether to follow redirects
-	 *
-	 * @api
-	 */
-	public function followRedirects($followRedirect = true)
-	{
-		$this->followRedirects = (Boolean) $followRedirect;
-	}
+    /**
+     * Constructor.
+     *
+     * @param array     $server    The server parameters (equivalent of $_SERVER)
+     * @param History   $history   A History instance to store the browser history
+     * @param CookieJar $cookieJar A CookieJar instance to store the cookies
+     *
+     * @api
+     */
+    public function __construct(array $server = array(), History $history = null, CookieJar $cookieJar = null) {
+        $this->setServerParameters($server);
+        $this->history = null === $history ? new History() : $history;
+        $this->cookieJar = null === $cookieJar ? new CookieJar() : $cookieJar;
+        $this->insulated = false;
+        $this->followRedirects = true;
+    }
 
-	/**
-	 * Sets the insulated flag.
-	 *
-	 * @param Boolean $insulated Whether to insulate the requests or not
-	 *
-	 * @throws \RuntimeException When Symfony Process Component is not installed
-	 *
-	 * @api
-	 */
-	public function insulate($insulated = true)
-	{
-		if (!class_exists('Symfony\\Component\\Process\\Process')) {
-			// @codeCoverageIgnoreStart
-			throw new \RuntimeException('Unable to isolate requests as the Symfony Process Component is not installed.');
-			// @codeCoverageIgnoreEnd
-		}
+    /**
+     * Sets whether to automatically follow redirects or not.
+     *
+     * @param Boolean $followRedirect Whether to follow redirects
+     *
+     * @api
+     */
+    public function followRedirects($followRedirect = true) {
+        $this->followRedirects = (Boolean) $followRedirect;
+    }
 
-		$this->insulated = (Boolean) $insulated;
-	}
+    /**
+     * Sets the insulated flag.
+     *
+     * @param Boolean $insulated Whether to insulate the requests or not
+     *
+     * @throws \RuntimeException When Symfony Process Component is not installed
+     *
+     * @api
+     */
+    public function insulate($insulated = true) {
+        if (!class_exists('Symfony\\Component\\Process\\Process')) {
+            // @codeCoverageIgnoreStart
+            throw new \RuntimeException('Unable to isolate requests as the Symfony Process Component is not installed.');
+            // @codeCoverageIgnoreEnd
+        }
 
-	/**
-	 * Sets server parameters.
-	 *
-	 * @param array $server An array of server parameters
-	 *
-	 * @api
-	 */
-	public function setServerParameters(array $server)
-	{
-		$this->server = array_merge(array(
-				'HTTP_HOST'       => 'localhost',
-				'HTTP_USER_AGENT' => 'Symfony2 BrowserKit',
-		), $server);
-	}
+        $this->insulated = (Boolean) $insulated;
+    }
 
-	/**
-	 * Sets single server parameter.
-	 *
-	 * @param string $key   A key of the parameter
-	 * @param string $value A value of the parameter
-	 */
-	public function setServerParameter($key, $value)
-	{
-		$this->server[$key] = $value;
-	}
+    /**
+     * Sets server parameters.
+     *
+     * @param array $server An array of server parameters
+     *
+     * @api
+     */
+    public function setServerParameters(array $server) {
+        $this->server = array_merge(array(
+            'HTTP_HOST' => 'localhost',
+            'HTTP_USER_AGENT' => 'Symfony2 BrowserKit',
+                ), $server);
+    }
 
-	/**
-	 * Gets single server parameter for specified key.
-	 *
-	 * @param string $key     A key of the parameter to get
-	 * @param string $default A default value when key is undefined
-	 *
-	 * @return string A value of the parameter
-	 */
-	public function getServerParameter($key, $default = '')
-	{
-		return (isset($this->server[$key])) ? $this->server[$key] : $default;
-	}
+    /**
+     * Sets single server parameter.
+     *
+     * @param string $key   A key of the parameter
+     * @param string $value A value of the parameter
+     */
+    public function setServerParameter($key, $value) {
+        $this->server[$key] = $value;
+    }
 
-	/**
-	 * Returns the History instance.
-	 *
-	 * @return History A History instance
-	 *
-	 * @api
-	 */
-	public function getHistory()
-	{
-		return $this->history;
-	}
+    /**
+     * Gets single server parameter for specified key.
+     *
+     * @param string $key     A key of the parameter to get
+     * @param string $default A default value when key is undefined
+     *
+     * @return string A value of the parameter
+     */
+    public function getServerParameter($key, $default = '') {
+        return (isset($this->server[$key])) ? $this->server[$key] : $default;
+    }
 
-	/**
-	 * Returns the CookieJar instance.
-	 *
-	 * @return CookieJar A CookieJar instance
-	 *
-	 * @api
-	 */
-	public function getCookieJar()
-	{
-		return $this->cookieJar;
-	}
+    /**
+     * Returns the History instance.
+     *
+     * @return History A History instance
+     *
+     * @api
+     */
+    public function getHistory() {
+        return $this->history;
+    }
 
-	/**
-	 * Returns the current Crawler instance.
-	 *
-	 * @return Crawler A Crawler instance
-	 *
-	 * @api
-	 */
-	public function getCrawler()
-	{
-		return $this->crawler;
-	}
+    /**
+     * Returns the CookieJar instance.
+     *
+     * @return CookieJar A CookieJar instance
+     *
+     * @api
+     */
+    public function getCookieJar() {
+        return $this->cookieJar;
+    }
 
-	/**
-	 * Returns the current Response instance.
-	 *
-	 * @return Response A Response instance
-	 *
-	 * @api
-	 */
-	public function getResponse()
-	{
-		return $this->response;
-	}
+    /**
+     * Returns the current Crawler instance.
+     *
+     * @return Crawler A Crawler instance
+     *
+     * @api
+     */
+    public function getCrawler() {
+        return $this->crawler;
+    }
 
-	/**
-	 * Returns the current Request instance.
-	 *
-	 * @return Request A Request instance
-	 *
-	 * @api
-	 */
-	public function getRequest()
-	{
-		return $this->request;
-	}
+    /**
+     * Returns the current Response instance.
+     *
+     * @return Response A Response instance
+     *
+     * @api
+     */
+    public function getResponse() {
+        return $this->response;
+    }
 
-	/**
-	 * Clicks on a given link.
-	 *
-	 * @param Link $link A Link instance
-	 *
-	 * @api
-	 */
-	public function click(Link $link)
-	{
-		if ($link instanceof Form) {
-			return $this->submit($link);
-		}
+    /**
+     * Returns the current Request instance.
+     *
+     * @return Request A Request instance
+     *
+     * @api
+     */
+    public function getRequest() {
+        return $this->request;
+    }
 
-		return $this->request($link->getMethod(), $link->getUri());
-	}
+    /**
+     * Clicks on a given link.
+     *
+     * @param Link $link A Link instance
+     *
+     * @api
+     */
+    public function click(Link $link) {
+        if ($link instanceof Form) {
+            return $this->submit($link);
+        }
 
-	/**
-	 * Submits a form.
-	 *
-	 * @param Form  $form   A Form instance
-	 * @param array $values An array of form field values
-	 *
-	 * @return Crawler
-	 *
-	 * @api
-	 */
-	public function submit(Form $form, array $values = array())
-	{
-		$form->setValues($values);
+        return $this->request($link->getMethod(), $link->getUri());
+    }
 
-		return $this->request($form->getMethod(), $form->getUri(), $form->getPhpValues(), $form->getPhpFiles());
-	}
+    /**
+     * Submits a form.
+     *
+     * @param Form  $form   A Form instance
+     * @param array $values An array of form field values
+     *
+     * @return Crawler
+     *
+     * @api
+     */
+    public function submit(Form $form, array $values = array()) {
+        $form->setValues($values);
 
-	/**
-	 * Calls a URI.
-	 *
-	 * @param string  $method        The request method
-	 * @param string  $uri           The URI to fetch
-	 * @param array   $parameters    The Request parameters
-	 * @param array   $files         The files
-	 * @param array   $server        The server parameters (HTTP headers are referenced with a HTTP_ prefix as PHP does)
-	 * @param string  $content       The raw body data
-	 * @param Boolean $changeHistory Whether to update the history or not (only used internally for back(), forward(), and reload())
-	 *
-	 * @return Crawler
-	 *
-	 * @api
-	 */
-	public function request($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true)
-	{
-		$uri = $this->getAbsoluteUri($uri);
+        return $this->request($form->getMethod(), $form->getUri(), $form->getPhpValues(), $form->getPhpFiles());
+    }
 
-		$server = array_merge($this->server, $server);
-		if (!$this->history->isEmpty()) {
-			$server['HTTP_REFERER'] = $this->history->current()->getUri();
-		}
-		$server['HTTP_HOST'] = parse_url($uri, PHP_URL_HOST);
-		$server['HTTPS'] = 'https' == parse_url($uri, PHP_URL_SCHEME);
+    /**
+     * Calls a URI.
+     *
+     * @param string  $method        The request method
+     * @param string  $uri           The URI to fetch
+     * @param array   $parameters    The Request parameters
+     * @param array   $files         The files
+     * @param array   $server        The server parameters (HTTP headers are referenced with a HTTP_ prefix as PHP does)
+     * @param string  $content       The raw body data
+     * @param Boolean $changeHistory Whether to update the history or not (only used internally for back(), forward(), and reload())
+     *
+     * @return Crawler
+     *
+     * @api
+     */
+    public function request($method, $uri, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true) {
+        $uri = $this->getAbsoluteUri($uri);
 
-		$request = new Request($uri, $method, $parameters, $files, $this->cookieJar->allValues($uri), $server, $content);
+        $server = array_merge($this->server, $server);
+        if (!$this->history->isEmpty()) {
+            $server['HTTP_REFERER'] = $this->history->current()->getUri();
+        }
+        $server['HTTP_HOST'] = parse_url($uri, PHP_URL_HOST);
+        $server['HTTPS'] = 'https' == parse_url($uri, PHP_URL_SCHEME);
 
-		$this->request = $this->filterRequest($request);
+        $request = new Request($uri, $method, $parameters, $files, $this->cookieJar->allValues($uri), $server, $content);
 
-		if (true === $changeHistory) {
-			$this->history->add($request);
-		}
+        $this->request = $this->filterRequest($request);
 
-		if ($this->insulated) {
-			$this->response = $this->doRequestInProcess($this->request);
-		} else {
-			$this->response = $this->doRequest($this->request);
-		}
+        if (true === $changeHistory) {
+            $this->history->add($request);
+        }
 
-		$response = $this->filterResponse($this->response);
+        if ($this->insulated) {
+            $this->response = $this->doRequestInProcess($this->request);
+        } else {
+            $this->response = $this->doRequest($this->request);
+        }
 
-		$this->cookieJar->updateFromResponse($response);
+        $response = $this->filterResponse($this->response);
 
-		$this->redirect = $response->getHeader('Location');
+        $this->cookieJar->updateFromResponse($response);
 
-		if ($this->followRedirects && $this->redirect) {
-			return $this->crawler = $this->followRedirect();
-		}
+        $this->redirect = $response->getHeader('Location');
 
-		return $this->crawler = $this->createCrawlerFromContent($request->getUri(), $response->getContent(), $response->getHeader('Content-Type'));
-	}
+        if ($this->followRedirects && $this->redirect) {
+            return $this->crawler = $this->followRedirect();
+        }
 
-	/**
-	 * Makes a request in another process.
-	 *
-	 * @param Request $request A Request instance
-	 *
-	 * @return Response A Response instance
-	 *
-	 * @throws \RuntimeException When processing returns exit code
-	 */
-	protected function doRequestInProcess($request)
-	{
-		// We set the TMPDIR (for Macs) and TEMP (for Windows), because on these platforms the temp directory changes based on the user.
-		$process = new PhpProcess($this->getScript($request), null, array('TMPDIR' => sys_get_temp_dir(), 'TEMP' => sys_get_temp_dir()));
-		$process->run();
+        return $this->crawler = $this->createCrawlerFromContent($request->getUri(), $response->getContent(), $response->getHeader('Content-Type'));
+    }
 
-		if (!$process->isSuccessful() || !preg_match('/^O\:\d+\:/', $process->getOutput())) {
-			throw new \RuntimeException('OUTPUT: '.$process->getOutput().' ERROR OUTPUT: '.$process->getErrorOutput());
-		}
+    /**
+     * Makes a request in another process.
+     *
+     * @param Request $request A Request instance
+     *
+     * @return Response A Response instance
+     *
+     * @throws \RuntimeException When processing returns exit code
+     */
+    protected function doRequestInProcess($request) {
+        // We set the TMPDIR (for Macs) and TEMP (for Windows), because on these platforms the temp directory changes based on the user.
+        $process = new PhpProcess($this->getScript($request), null, array('TMPDIR' => sys_get_temp_dir(), 'TEMP' => sys_get_temp_dir()));
+        $process->run();
 
-		return unserialize($process->getOutput());
-	}
+        if (!$process->isSuccessful() || !preg_match('/^O\:\d+\:/', $process->getOutput())) {
+            throw new \RuntimeException('OUTPUT: ' . $process->getOutput() . ' ERROR OUTPUT: ' . $process->getErrorOutput());
+        }
 
-	/**
-	 * Makes a request.
-	 *
-	 * @param Request $request A Request instance
-	 *
-	 * @return Response A Response instance
-	 */
-	abstract protected function doRequest($request);
+        return unserialize($process->getOutput());
+    }
 
-	/**
-	 * Returns the script to execute when the request must be insulated.
-	 *
-	 * @param Request $request A Request instance
-	 *
-	 * @throws \LogicException When this abstract class is not implemented
-	 */
-	protected function getScript($request)
-	{
-		// @codeCoverageIgnoreStart
-		throw new \LogicException('To insulate requests, you need to override the getScript() method.');
-		// @codeCoverageIgnoreEnd
-	}
+    /**
+     * Makes a request.
+     *
+     * @param Request $request A Request instance
+     *
+     * @return Response A Response instance
+     */
+    abstract protected function doRequest($request);
 
-	/**
-	 * Filters the request.
-	 *
-	 * @param Request $request The request to filter
-	 *
-	 * @return Request
-	 */
-	protected function filterRequest(Request $request)
-	{
-		return $request;
-	}
+    /**
+     * Returns the script to execute when the request must be insulated.
+     *
+     * @param Request $request A Request instance
+     *
+     * @throws \LogicException When this abstract class is not implemented
+     */
+    protected function getScript($request) {
+        // @codeCoverageIgnoreStart
+        throw new \LogicException('To insulate requests, you need to override the getScript() method.');
+        // @codeCoverageIgnoreEnd
+    }
 
-	/**
-	 * Filters the Response.
-	 *
-	 * @param Response $response The Response to filter
-	 *
-	 * @return Response
-	 */
-	protected function filterResponse($response)
-	{
-		return $response;
-	}
+    /**
+     * Filters the request.
+     *
+     * @param Request $request The request to filter
+     *
+     * @return Request
+     */
+    protected function filterRequest(Request $request) {
+        return $request;
+    }
 
-	/**
-	 * Creates a crawler.
-	 *
-	 * @param string $uri     A uri
-	 * @param string $content Content for the crawler to use
-	 * @param string $type    Content type
-	 *
-	 * @return Crawler
-	 */
-	protected function createCrawlerFromContent($uri, $content, $type)
-	{
-		$crawler = new Crawler(null, $uri);
-		$crawler->addContent($content, $type);
+    /**
+     * Filters the Response.
+     *
+     * @param Response $response The Response to filter
+     *
+     * @return Response
+     */
+    protected function filterResponse($response) {
+        return $response;
+    }
 
-		return $crawler;
-	}
+    /**
+     * Creates a crawler.
+     *
+     * @param string $uri     A uri
+     * @param string $content Content for the crawler to use
+     * @param string $type    Content type
+     *
+     * @return Crawler
+     */
+    protected function createCrawlerFromContent($uri, $content, $type) {
+        $crawler = new Crawler(null, $uri);
+        $crawler->addContent($content, $type);
 
-	/**
-	 * Goes back in the browser history.
-	 *
-	 * @return Crawler
-	 *
-	 * @api
-	 */
-	public function back()
-	{
-		return $this->requestFromRequest($this->history->back(), false);
-	}
+        return $crawler;
+    }
 
-	/**
-	 * Goes forward in the browser history.
-	 *
-	 * @return Crawler
-	 *
-	 * @api
-	 */
-	public function forward()
-	{
-		return $this->requestFromRequest($this->history->forward(), false);
-	}
+    /**
+     * Goes back in the browser history.
+     *
+     * @return Crawler
+     *
+     * @api
+     */
+    public function back() {
+        return $this->requestFromRequest($this->history->back(), false);
+    }
 
-	/**
-	 * Reloads the current browser.
-	 *
-	 * @return Crawler
-	 *
-	 * @api
-	 */
-	public function reload()
-	{
-		return $this->requestFromRequest($this->history->current(), false);
-	}
+    /**
+     * Goes forward in the browser history.
+     *
+     * @return Crawler
+     *
+     * @api
+     */
+    public function forward() {
+        return $this->requestFromRequest($this->history->forward(), false);
+    }
 
-	/**
-	 * Follow redirects?
-	 *
-	 * @return Crawler
-	 *
-	 * @throws \LogicException If request was not a redirect
-	 *
-	 * @api
-	 */
-	public function followRedirect()
-	{
-		if (empty($this->redirect)) {
-			throw new \LogicException('The request was not redirected.');
-		}
+    /**
+     * Reloads the current browser.
+     *
+     * @return Crawler
+     *
+     * @api
+     */
+    public function reload() {
+        return $this->requestFromRequest($this->history->current(), false);
+    }
 
-		return $this->request('get', $this->redirect);
-	}
+    /**
+     * Follow redirects?
+     *
+     * @return Crawler
+     *
+     * @throws \LogicException If request was not a redirect
+     *
+     * @api
+     */
+    public function followRedirect() {
+        if (empty($this->redirect)) {
+            throw new \LogicException('The request was not redirected.');
+        }
 
-	/**
-	 * Restarts the client.
-	 *
-	 * It flushes history and all cookies.
-	 *
-	 * @api
-	 */
-	public function restart()
-	{
-		$this->cookieJar->clear();
-		$this->history->clear();
-	}
+        return $this->request('get', $this->redirect);
+    }
 
-	/**
-	 * Takes a URI and converts it to absolute if it is not already absolute.
-	 *
-	 * @param string $uri A uri
-	 *
-	 * @return string An absolute uri
-	 */
-	protected function getAbsoluteUri($uri)
-	{
-		// already absolute?
-		if (0 === strpos($uri, 'http')) {
-			return $uri;
-		}
+    /**
+     * Restarts the client.
+     *
+     * It flushes history and all cookies.
+     *
+     * @api
+     */
+    public function restart() {
+        $this->cookieJar->clear();
+        $this->history->clear();
+    }
 
-		if (!$this->history->isEmpty()) {
-			$currentUri = $this->history->current()->getUri();
-		} else {
-			$currentUri = sprintf('http%s://%s/',
-					isset($this->server['HTTPS']) ? 's' : '',
-					isset($this->server['HTTP_HOST']) ? $this->server['HTTP_HOST'] : 'localhost'
-			);
-		}
+    /**
+     * Takes a URI and converts it to absolute if it is not already absolute.
+     *
+     * @param string $uri A uri
+     *
+     * @return string An absolute uri
+     */
+    protected function getAbsoluteUri($uri) {
+        // already absolute?
+        if (0 === strpos($uri, 'http')) {
+            return $uri;
+        }
 
-		// anchor?
-		if (!$uri || '#' == $uri[0]) {
-			return preg_replace('/#.*?$/', '', $currentUri).$uri;
-		}
+        if (!$this->history->isEmpty()) {
+            $currentUri = $this->history->current()->getUri();
+        } else {
+            $currentUri = sprintf('http%s://%s/', isset($this->server['HTTPS']) ? 's' : '', isset($this->server['HTTP_HOST']) ? $this->server['HTTP_HOST'] : 'localhost'
+            );
+        }
 
-		if ('/' !== $uri[0]) {
-			$path = parse_url($currentUri, PHP_URL_PATH);
+        // anchor?
+        if (!$uri || '#' == $uri[0]) {
+            return preg_replace('/#.*?$/', '', $currentUri) . $uri;
+        }
 
-			if ('/' !== substr($path, -1)) {
-				$path = substr($path, 0, strrpos($path, '/') + 1);
-			}
+        if ('/' !== $uri[0]) {
+            $path = parse_url($currentUri, PHP_URL_PATH);
 
-			$uri = $path.$uri;
-		}
+            if ('/' !== substr($path, -1)) {
+                $path = substr($path, 0, strrpos($path, '/') + 1);
+            }
 
-		return preg_replace('#^(.*?//[^/]+)\/.*$#', '$1', $currentUri).$uri;
-	}
+            $uri = $path . $uri;
+        }
 
-	/**
-	 * Makes a request from a Request object directly.
-	 *
-	 * @param Request $request       A Request instance
-	 * @param Boolean $changeHistory Whether to update the history or not (only used internally for back(), forward(), and reload())
-	 *
-	 * @return Crawler
-	 */
-	protected function requestFromRequest(Request $request, $changeHistory = true)
-	{
-		return $this->request($request->getMethod(), $request->getUri(), $request->getParameters(), array(), $request->getFiles(), $request->getServer(), $request->getContent(), $changeHistory);
-	}
+        return preg_replace('#^(.*?//[^/]+)\/.*$#', '$1', $currentUri) . $uri;
+    }
+
+    /**
+     * Makes a request from a Request object directly.
+     *
+     * @param Request $request       A Request instance
+     * @param Boolean $changeHistory Whether to update the history or not (only used internally for back(), forward(), and reload())
+     *
+     * @return Crawler
+     */
+    protected function requestFromRequest(Request $request, $changeHistory = true) {
+        return $this->request($request->getMethod(), $request->getUri(), $request->getParameters(), array(), $request->getFiles(), $request->getServer(), $request->getContent(), $changeHistory);
+    }
+
 }

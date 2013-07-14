@@ -36,7 +36,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
-<?php //echo $form->dropDownListRow($model,'payroll_cover_id',sParameter::items('cCover'));  ?>
+        <?php //echo $form->dropDownListRow($model,'payroll_cover_id',sParameter::items('cCover'));  ?>
     </div>
 </div>
 <!-- form -->

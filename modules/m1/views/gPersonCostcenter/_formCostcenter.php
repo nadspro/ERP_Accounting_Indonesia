@@ -30,10 +30,10 @@ Yii::app()->clientScript->registerScript('datepicker2', "
 
         <?php echo $form->textFieldRow($model, 'start_date', array()); ?>
 
-            <?php echo $form->textFieldRow($model, 'end_date'); ?>
+        <?php echo $form->textFieldRow($model, 'end_date'); ?>
 
         <div class="control-group">
-                <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
+            <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
             <div class="controls">
                 <?php
                 echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(
@@ -49,7 +49,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
             </div>
         </div>
 
-<?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -61,7 +61,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

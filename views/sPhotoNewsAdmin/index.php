@@ -1,21 +1,20 @@
 <?php
-Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
-
-Yii::app()->clientScript->registerScript('datepicker4', "
-		$(function() {
-		$( \"#" . CHtml::activeId($model, 'datetime') . "\" ).datepicker({
-		'dateFormat' : 'dd-mm-yy',
-
-});
-			
-});
-
-		");
+$this->breadcrumbs = array(
+);
 ?>
 
 <?php
-$this->breadcrumbs = array(
-);
+Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
+
+Yii::app()->clientScript->registerScript('datepicker2', "
+		$(function() {
+		$( \"#" . CHtml::activeId($model, 'datetime') . "\" ).datepicker({
+			'dateFormat' : 'dd-mm-yy',
+		});
+                            
+                });
+
+		");
 ?>
 
 <div class="page-header">
@@ -95,10 +94,10 @@ $this->widget('ext.elFinder.ElFinderWidget', array(
 
 
         <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Upload', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

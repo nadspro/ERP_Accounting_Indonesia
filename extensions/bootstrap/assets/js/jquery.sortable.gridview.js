@@ -1,4 +1,4 @@
-(function($){
+(function($) {
     var originalPos = null;
 
     var fixHelperDimensions = function(e, tr) {
@@ -7,12 +7,12 @@
         var $helper = tr.clone();
         $helper.children().each(function(index)
         {
-            $(this).width($originals.eq(index).width()+1).height($originals.eq(index).height())
-                .css({
-                    "border-bottom":"1px solid #ddd"
-                });
+            $(this).width($originals.eq(index).width() + 1).height($originals.eq(index).height())
+                    .css({
+                "border-bottom": "1px solid #ddd"
+            });
         });
-        return $helper.css("border-right","1px solid #ddd");
+        return $helper.css("border-right", "1px solid #ddd");
     };
 
     /**
@@ -22,15 +22,15 @@
      * @param column_id string the ID of the column
      * @return array the key values of the currently checked rows.
      */
-    $.fn.yiiGridView.sortable = function (id, action, callback)
+    $.fn.yiiGridView.sortable = function(id, action, callback)
     {
-        var grid = $('#'+id) ;
+        var grid = $('#' + id);
         $("tbody", grid).sortable({
             helper: fixHelperDimensions,
-            update: function(e,ui){
+            update: function(e, ui) {
                 // update keys
                 var pos = $(ui.item).prevAll().length;
-                if(originalPos !== null && originalPos != pos)
+                if (originalPos !== null && originalPos != pos)
                 {
                     var keys = grid.children(".keys").children("span");
                     var key = keys.eq(originalPos);
@@ -39,11 +39,11 @@
                         sort[i] = $(this).attr('data-order');
                     });
 
-                    if(originalPos < pos)
+                    if (originalPos < pos)
                     {
                         keys.eq(pos).after(key);
                     }
-                    if(originalPos > pos)
+                    if (originalPos > pos)
                     {
                         keys.eq(pos).before(key);
                     }
@@ -55,19 +55,19 @@
                     $(this).attr('data-order', sort[i]);
                     sortOrder[$(this).text()] = sort[i];
                 });
-                if(action.length)
+                if (action.length)
                 {
                     $.fn.yiiGridView.update(id,
-                    {
-                        type:'POST',
-                        url:action,
-                        data:{sortOrder: sortOrder},
-                        success:function(){
-                        grid.removeClass('grid-view-loading');
-                        }
-                    });
+                            {
+                                type: 'POST',
+                                url: action,
+                                data: {sortOrder: sortOrder},
+                                success: function() {
+                                    grid.removeClass('grid-view-loading');
+                                }
+                            });
                 }
-                if($.isFunction(callback))
+                if ($.isFunction(callback))
                 {
                     callback(sortOrder);
                 }

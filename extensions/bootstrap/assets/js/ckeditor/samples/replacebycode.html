@@ -4,26 +4,26 @@ Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 -->
 <html>
-<head>
-	<title>Replace Textarea by Code &mdash; CKEditor Sample</title>
-	<meta charset="utf-8">
-	<script src="../ckeditor.js"></script>
-	<link href="sample.css" rel="stylesheet">
-</head>
-<body>
-	<h1 class="samples">
-		<a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
-	</h1>
-	<form action="sample_posteddata.php" method="post">
-		<div class="description">
-			<p>
-				This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
-			</p>
-<pre class="samples">
+    <head>
+        <title>Replace Textarea by Code &mdash; CKEditor Sample</title>
+        <meta charset="utf-8">
+        <script src="../ckeditor.js"></script>
+        <link href="sample.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 class="samples">
+            <a href="index.html">CKEditor Samples</a> &raquo; Replace Textarea Elements Using JavaScript Code
+        </h1>
+        <form action="sample_posteddata.php" method="post">
+            <div class="description">
+                <p>
+                    This editor is using an <code>&lt;iframe&gt;</code> element-based editing area, provided by the <strong>Wysiwygarea</strong> plugin.
+                </p>
+                <pre class="samples">
 CKEDITOR.replace( '<em>textarea_id</em>' )
-</pre>
-		</div>
-		<textarea cols="80" id="editor1" name="editor1" rows="10">
+                </pre>
+            </div>
+            <textarea cols="80" id="editor1" name="editor1" rows="10">
 			&lt;h1&gt;
 				&lt;img alt="" src="http://a.cksource.com/c/1/inc/img/demo-little-red.jpg" style="margin-left: 10px; margin-right: 10px; float: left; width: 120px; height: 168px;" /&gt;Little Red Riding Hood&lt;/h1&gt;
 			&lt;p&gt;
@@ -63,31 +63,31 @@ CKEDITOR.replace( '<em>textarea_id</em>' )
 				A &lt;a href="http://en.wikipedia.org/wiki/Hunter" title="Hunter"&gt;hunter&lt;/a&gt;, however, comes to the rescue and cuts the wolf open. Little Red Riding Hood and her grandmother emerge unharmed. They fill the wolf&#39;s body with heavy stones, which drown him when he falls into a well. Other versions of the story have had the grandmother shut in the closet instead of eaten, and some have Little Red Riding Hood saved by the hunter as the wolf advances on her rather than after she is eaten.&lt;/p&gt;
 			&lt;p&gt;
 				The tale makes the clearest contrast between the safe world of the village and the dangers of the &lt;a href="http://en.wikipedia.org/wiki/Enchanted_forest" title="Enchanted forest"&gt;forest&lt;/a&gt;, conventional antitheses that are essentially medieval, though no written versions are as old as that.&lt;/p&gt;
-		</textarea>
-		<script>
+            </textarea>
+            <script>
 
-			// This call can be placed at any point after the
-			// <textarea>, or inside a <head><script> in a
-			// window.onload event handler.
+                // This call can be placed at any point after the
+                // <textarea>, or inside a <head><script> in a
+                // window.onload event handler.
 
-			// Replace the <textarea id="editor"> with an CKEditor
-			// instance, using default configurations.
-			CKEDITOR.replace( 'editor1' );
+                // Replace the <textarea id="editor"> with an CKEditor
+                // instance, using default configurations.
+                CKEDITOR.replace('editor1');
 
-		</script>
-		<p>
-			<input type="submit" value="Submit">
-		</p>
-	</form>
-	<div id="footer">
-		<hr>
-		<p>
-			CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
-		</p>
-		<p id="copy">
-			Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
-			Knabben. All rights reserved.
-		</p>
-	</div>
-</body>
+            </script>
+            <p>
+                <input type="submit" value="Submit">
+            </p>
+        </form>
+        <div id="footer">
+            <hr>
+            <p>
+                CKEditor - The text editor for the Internet - <a class="samples" href="http://ckeditor.com/">http://ckeditor.com</a>
+            </p>
+            <p id="copy">
+                Copyright &copy; 2003-2012, <a class="samples" href="http://cksource.com/">CKSource</a> - Frederico
+                Knabben. All rights reserved.
+            </p>
+        </div>
+    </body>
 </html>

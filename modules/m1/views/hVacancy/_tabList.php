@@ -27,12 +27,12 @@
                     ));
                     ?>
                 </div>
-            <?php
+                <?php
             }
             else
                 echo "LOCKED";
             ?>
-<?php echo CHtml::link($data->applicant->applicant_name, Yii::app()->createUrl('/m1/hApplicant/view', array('id' => $data->applicant_id)), array('style' => 'margin-left:10px')); ?>
+            <?php echo CHtml::link($data->applicant->applicant_name, Yii::app()->createUrl('/m1/hApplicant/view', array('id' => $data->applicant_id)), array('style' => 'margin-left:10px')); ?>
         </div>
 </h3>
 

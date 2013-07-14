@@ -1,5 +1,6 @@
 <?php
-/*## TbScrollSpy class file.
+
+/* ## TbScrollSpy class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2012-
@@ -12,52 +13,51 @@
  * Bootstrap scrollspy widget.
  * @see <http://twitter.github.com/bootstrap/javascript.html#scrollspy>
  */
-class TbScrollSpy extends CWidget
-{
-	/**
-	 * @var string the CSS selector for the scrollspy element. Defaults to 'body'.
-	 */
-	public $selector = 'body';
+class TbScrollSpy extends CWidget {
 
-	/**
-	 * @var string the CSS selector for the spying element.
-	 */
-	public $target;
+    /**
+     * @var string the CSS selector for the scrollspy element. Defaults to 'body'.
+     */
+    public $selector = 'body';
 
-	/**
-	 * @var integer the scroll offset (in pixels).
-	 */
-	public $offset;
+    /**
+     * @var string the CSS selector for the spying element.
+     */
+    public $target;
 
-	/**
-	 * @var array string[] the Javascript event handlers.
-	 */
-	public $events = array();
+    /**
+     * @var integer the scroll offset (in pixels).
+     */
+    public $offset;
 
-	/**
-	 *### .run()
-	 *
-	 * Runs the widget.
-	 */
-	public function run()
-	{
-		$script = "jQuery('{$this->selector}').attr('data-spy', 'scroll');";
+    /**
+     * @var array string[] the Javascript event handlers.
+     */
+    public $events = array();
 
-		if (isset($this->target))
-			$script .= "jQuery('{$this->selector}').attr('data-target', '{$this->target}');";
+    /**
+     * ### .run()
+     *
+     * Runs the widget.
+     */
+    public function run() {
+        $script = "jQuery('{$this->selector}').attr('data-spy', 'scroll');";
 
-		if (isset($this->offset))
-			$script .= "jQuery('{$this->selector}').attr('data-offset', '{$this->offset}');";
+        if (isset($this->target))
+            $script .= "jQuery('{$this->selector}').attr('data-target', '{$this->target}');";
 
-		/** @var CClientScript $cs */
-		$cs = Yii::app()->getClientScript();
-		$cs->registerScript(__CLASS__.'#'.$this->selector, $script, CClientScript::POS_BEGIN);
+        if (isset($this->offset))
+            $script .= "jQuery('{$this->selector}').attr('data-offset', '{$this->offset}');";
 
-		foreach ($this->events as $name => $handler)
-		{
-			$handler = CJavaScript::encode($handler);
-			$cs->registerScript(__CLASS__.'#'.$this->selector.'_'.$name, "jQuery('{$this->selector}').on('{$name}', {$handler});");
-		}
-	}
+        /** @var CClientScript $cs */
+        $cs = Yii::app()->getClientScript();
+        $cs->registerScript(__CLASS__ . '#' . $this->selector, $script, CClientScript::POS_BEGIN);
+
+        foreach ($this->events as $name => $handler) {
+            $handler = CJavaScript::encode($handler);
+            $cs->registerScript(__CLASS__ . '#' . $this->selector . '_' . $name, "jQuery('{$this->selector}').on('{$name}', {$handler});");
+        }
+    }
+
 }
 

@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace WUnit\HttpKernel;
 
@@ -29,51 +29,51 @@ use Symfony\Component\BrowserKit\CookieJar;
  */
 class Client extends BaseClient
 {
-	protected $kernel;
+protected $kernel;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param HttpKernelInterface $kernel    An HttpKernel instance
-	 * @param array               $server    The server parameters (equivalent of $_SERVER)
-	 * @param History             $history   A History instance to store the browser history
-	 * @param CookieJar           $cookieJar A CookieJar instance to store the cookies
-	 */
-	public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null)
-	{
-		$this->kernel = $kernel;
+/**
+ * Constructor.
+ *
+ * @param HttpKernelInterface $kernel    An HttpKernel instance
+ * @param array               $server    The server parameters (equivalent of $_SERVER)
+ * @param History             $history   A History instance to store the browser history
+ * @param CookieJar           $cookieJar A CookieJar instance to store the cookies
+ */
+public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null)
+{
+$this->kernel = $kernel;
 
-		parent::__construct($server, $history, $cookieJar);
+parent::__construct($server, $history, $cookieJar);
 
-		$this->followRedirects = true;
-	}
+$this->followRedirects = true;
+}
 
-	/**
-	 * Makes a request.
-	 *
-	 * @param Request  $request A Request instance
-	 *
-	 * @return Response A Response instance
-	 */
-	protected function doRequest($request)
-	{
-		return $this->kernel->handle($request);
-	}
+/**
+ * Makes a request.
+ *
+ * @param Request  $request A Request instance
+ *
+ * @return Response A Response instance
+ */
+protected function doRequest($request)
+{
+return $this->kernel->handle($request);
+}
 
-	/**
-	 * Returns the script to execute when the request must be insulated.
-	 *
-	 * @param Request $request A Request instance
-	 */
-	protected function getScript($request)
-	{
-		$app =  str_replace("'", "\\'", serialize(\Yii::app()));
-		$request = str_replace("'", "\\'", serialize($request));
-		$basePath = dirname(__FILE_) . "/..";
-		$includePaths = get_include_path();
+/**
+ * Returns the script to execute when the request must be insulated.
+ *
+ * @param Request $request A Request instance
+ */
+protected function getScript($request)
+{
+$app = str_replace("'", "\\'", serialize(\Yii::app()));
+$request = str_replace("'", "\\'", serialize($request));
+$basePath = dirname(__FILE_) . "/..";
+$includePaths = get_include_path();
 
 
-		return <<<EOF
+return <<<EOF
 		<?php
 
 		define('_PHP_INSULATE_', true);

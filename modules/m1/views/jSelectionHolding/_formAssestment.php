@@ -25,7 +25,7 @@ $this->widget('TbGridView', array(
 <?php
 Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
 
-Yii::app()->clientScript->registerScript('datepicker1', "
+Yii::app()->clientScript->registerScript('datepicker111', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'assestment_date') . "\" ).datepicker({
 		'dateFormat' : 'dd-mm-yy',
@@ -40,13 +40,13 @@ Yii::app()->clientScript->registerScript('datepicker1', "
 <div class="row">
     <div class="span7">
 
-<?php
-$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-    'id' => 'g-education-form',
-    'enableAjaxValidation' => false,
-        //'type'=>'horizontal',
+        <?php
+        $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+            'id' => 'g-education-form',
+            'enableAjaxValidation' => false,
+                //'type'=>'horizontal',
         ));
-?>
+        ?>
 
         <?php echo $form->errorSummary($model); ?>
 
@@ -69,7 +69,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

@@ -1,5 +1,6 @@
 <?php
-/*## TbCarousel class file.
+
+/* ## TbCarousel class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
@@ -12,175 +13,166 @@
  * Bootstrap carousel widget.
  * @see <http://twitter.github.com/bootstrap/javascript.html#carousel>
  */
-class TbCarousel extends CWidget
-{
-	/**
-	 * @var string the previous button label. Defaults to '&lsaquo;'.
-	 */
-	public $prevLabel = '&lsaquo;';
+class TbCarousel extends CWidget {
 
-	/**
-	 * @var string the next button label. Defaults to '&rsaquo;'.
-	 */
-	public $nextLabel = '&rsaquo;';
+    /**
+     * @var string the previous button label. Defaults to '&lsaquo;'.
+     */
+    public $prevLabel = '&lsaquo;';
 
-	/**
-	 * @var boolean indicates whether the carousel should slide items.
-	 */
-	public $slide = true;
+    /**
+     * @var string the next button label. Defaults to '&rsaquo;'.
+     */
+    public $nextLabel = '&rsaquo;';
 
-	/**
-	 * @var boolean indicates whether to display the previous and next links.
-	 */
-	public $displayPrevAndNext = true;
+    /**
+     * @var boolean indicates whether the carousel should slide items.
+     */
+    public $slide = true;
 
-	/**
-	 * @var array the carousel items configuration.
-	 */
-	public $items = array();
+    /**
+     * @var boolean indicates whether to display the previous and next links.
+     */
+    public $displayPrevAndNext = true;
 
-	/**
-	 * @var array the options for the Bootstrap Javascript plugin.
-	 */
-	public $options = array();
+    /**
+     * @var array the carousel items configuration.
+     */
+    public $items = array();
 
-	/**
-	 * @var string[] the Javascript event handlers.
-	 */
-	public $events = array();
+    /**
+     * @var array the options for the Bootstrap Javascript plugin.
+     */
+    public $options = array();
 
-	/**
-	 * @var array the HTML attributes for the widget container.
-	 */
-	public $htmlOptions = array();
+    /**
+     * @var string[] the Javascript event handlers.
+     */
+    public $events = array();
 
-	/**
-	 *### .init()
-	 *
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		if (!isset($this->htmlOptions['id']))
-			$this->htmlOptions['id'] = $this->getId();
+    /**
+     * @var array the HTML attributes for the widget container.
+     */
+    public $htmlOptions = array();
 
-		$classes = array('carousel');
+    /**
+     * ### .init()
+     *
+     * Initializes the widget.
+     */
+    public function init() {
+        if (!isset($this->htmlOptions['id']))
+            $this->htmlOptions['id'] = $this->getId();
 
-		if ($this->slide === true)
-			$classes[] = 'slide';
+        $classes = array('carousel');
 
-		if (!empty($classes))
-		{
-			$classes = implode(' ', $classes);
-			if (isset($this->htmlOptions['class']))
-				$this->htmlOptions['class'] .= ' '.$classes;
-			else
-				$this->htmlOptions['class'] = $classes;
-		}
-	}
+        if ($this->slide === true)
+            $classes[] = 'slide';
 
-	/**
-	 *### .run()
-	 *
-	 * Runs the widget.
-	 */
-	public function run()
-	{
-		$id = $this->htmlOptions['id'];
+        if (!empty($classes)) {
+            $classes = implode(' ', $classes);
+            if (isset($this->htmlOptions['class']))
+                $this->htmlOptions['class'] .= ' ' . $classes;
+            else
+                $this->htmlOptions['class'] = $classes;
+        }
+    }
 
-		echo CHtml::openTag('div', $this->htmlOptions);
-		echo '<div class="carousel-inner">';
-		$this->renderItems($this->items);
-		echo '</div>';
+    /**
+     * ### .run()
+     *
+     * Runs the widget.
+     */
+    public function run() {
+        $id = $this->htmlOptions['id'];
 
-		if ($this->displayPrevAndNext)
-		{
-			echo '<a class="carousel-control left" href="#'.$id.'" data-slide="prev">'.$this->prevLabel.'</a>';
-			echo '<a class="carousel-control right" href="#'.$id.'" data-slide="next">'.$this->nextLabel.'</a>';
-		}
+        echo CHtml::openTag('div', $this->htmlOptions);
+        echo '<div class="carousel-inner">';
+        $this->renderItems($this->items);
+        echo '</div>';
 
-		echo '</div>';
+        if ($this->displayPrevAndNext) {
+            echo '<a class="carousel-control left" href="#' . $id . '" data-slide="prev">' . $this->prevLabel . '</a>';
+            echo '<a class="carousel-control right" href="#' . $id . '" data-slide="next">' . $this->nextLabel . '</a>';
+        }
 
-		/** @var CClientScript $cs */
-		$cs = Yii::app()->getClientScript();
-		$options = !empty($this->options) ? CJavaScript::encode($this->options) : '';
-		$cs->registerScript(__CLASS__.'#'.$id, "jQuery('#{$id}').carousel({$options});");
+        echo '</div>';
 
-		foreach ($this->events as $name => $handler)
-		{
-			$handler = CJavaScript::encode($handler);
-			$cs->registerScript(__CLASS__.'#'.$id.'_'.$name, "jQuery('#{$id}').on('{$name}', {$handler});");
-		}
-	}
+        /** @var CClientScript $cs */
+        $cs = Yii::app()->getClientScript();
+        $options = !empty($this->options) ? CJavaScript::encode($this->options) : '';
+        $cs->registerScript(__CLASS__ . '#' . $id, "jQuery('#{$id}').carousel({$options});");
 
-	/**
-	 *### .renderItems()
-	 *
-	 * Renders the carousel items.
-	 *
-	 * @param array $items the item configuration.
-	 */
-	protected function renderItems($items)
-	{
-		foreach ($items as $i => $item)
-		{
-			if (!is_array($item))
-				continue;
+        foreach ($this->events as $name => $handler) {
+            $handler = CJavaScript::encode($handler);
+            $cs->registerScript(__CLASS__ . '#' . $id . '_' . $name, "jQuery('#{$id}').on('{$name}', {$handler});");
+        }
+    }
 
-			if (isset($item['visible']) && $item['visible'] === false)
-				continue;
+    /**
+     * ### .renderItems()
+     *
+     * Renders the carousel items.
+     *
+     * @param array $items the item configuration.
+     */
+    protected function renderItems($items) {
+        foreach ($items as $i => $item) {
+            if (!is_array($item))
+                continue;
 
-			if (!isset($item['itemOptions']))
-				$item['itemOptions'] = array();
+            if (isset($item['visible']) && $item['visible'] === false)
+                continue;
 
-			$classes = array('item');
+            if (!isset($item['itemOptions']))
+                $item['itemOptions'] = array();
 
-			if ($i === 0)
-				$classes[] = 'active';
+            $classes = array('item');
 
-			if (!empty($classes))
-			{
-				$classes = implode(' ', $classes);
-				if (isset($item['itemOptions']['class']))
-					$item['itemOptions']['class'] .= ' '.$classes;
-				else
-					$item['itemOptions']['class'] = $classes;
-			}
+            if ($i === 0)
+                $classes[] = 'active';
 
-			echo CHtml::openTag('div', $item['itemOptions']);
+            if (!empty($classes)) {
+                $classes = implode(' ', $classes);
+                if (isset($item['itemOptions']['class']))
+                    $item['itemOptions']['class'] .= ' ' . $classes;
+                else
+                    $item['itemOptions']['class'] = $classes;
+            }
 
-			if (isset($item['image']))
-			{
-				if (!isset($item['alt']))
-					$item['alt'] = '';
+            echo CHtml::openTag('div', $item['itemOptions']);
 
-				if (!isset($item['imageOptions']))
-					$item['imageOptions'] = array();
+            if (isset($item['image'])) {
+                if (!isset($item['alt']))
+                    $item['alt'] = '';
 
-				echo CHtml::image($item['image'], $item['alt'], $item['imageOptions']);
-			}
+                if (!isset($item['imageOptions']))
+                    $item['imageOptions'] = array();
 
-			if (!empty($item['caption']) && (isset($item['label']) || isset($item['caption'])))
-			{
-				if (!isset($item['captionOptions']))
-					$item['captionOptions'] = array();
+                echo CHtml::image($item['image'], $item['alt'], $item['imageOptions']);
+            }
 
-				if (isset($item['captionOptions']['class']))
-					$item['captionOptions']['class'] .= ' carousel-caption';
-				else
-					$item['captionOptions']['class'] = 'carousel-caption';
+            if (!empty($item['caption']) && (isset($item['label']) || isset($item['caption']))) {
+                if (!isset($item['captionOptions']))
+                    $item['captionOptions'] = array();
 
-				echo CHtml::openTag('div', $item['captionOptions']);
+                if (isset($item['captionOptions']['class']))
+                    $item['captionOptions']['class'] .= ' carousel-caption';
+                else
+                    $item['captionOptions']['class'] = 'carousel-caption';
 
-				if (isset($item['label']))
-					echo '<h4>'.$item['label'].'</h4>';
+                echo CHtml::openTag('div', $item['captionOptions']);
 
-				if (isset($item['caption']))
-					echo '<p>'.$item['caption'].'</p>';
+                if (isset($item['label']))
+                    echo '<h4>' . $item['label'] . '</h4>';
 
-				echo '</div>';
-			}
-			echo '</div>';
-		}
-	}
+                if (isset($item['caption']))
+                    echo '<p>' . $item['caption'] . '</p>';
+
+                echo '</div>';
+            }
+            echo '</div>';
+        }
+    }
+
 }

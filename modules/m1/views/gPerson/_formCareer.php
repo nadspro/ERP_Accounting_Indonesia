@@ -47,10 +47,10 @@ Yii::app()->clientScript->registerScript('datepicker1', "
 
         <?php echo $form->textFieldRow($model, 'start_date', array()); ?>
 
-            <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cPromotion', 0, array(7, 8))); ?>
+        <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cPromotion', 0, array(7, 8))); ?>
 
         <div class="control-group">
-                <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
+            <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
             <div class="controls">
                 <?php
                 echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(
@@ -75,7 +75,7 @@ Yii::app()->clientScript->registerScript('datepicker1', "
         <?php echo $form->textFieldRow($model, 'superior_name', array('class' => 'span3')); ?>
         <?php echo $form->hiddenField($model, 'superior_id', array('class' => 'span3')); ?>
 
-<?php echo $form->textAreaRow($model, 'reason', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->textAreaRow($model, 'reason', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -100,7 +100,7 @@ Yii::app()->clientScript->registerScript('datepicker1', "
              */ ?>	
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

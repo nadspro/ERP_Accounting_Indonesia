@@ -1,9 +1,9 @@
 /* Generic */
 body {
-font-family:Verdana, Arial, Helvetica, sans-serif; font-size:11px;
-background:#f1f1f1;
-padding:0;
-margin:8px 8px 0 8px;
+    font-family:Verdana, Arial, Helvetica, sans-serif; font-size:11px;
+    background:#f1f1f1;
+    padding:0;
+    margin:8px 8px 0 8px;
 }
 
 html {background:#f1f1f1;}
@@ -28,24 +28,24 @@ input.checkbox {border:1px none #000000; background:transparent; vertical-align:
 
 /* Buttons */
 #insert, #cancel, #apply, .mceActionPanel .button, input.mceButton, .updateButton {
-	border: 1px solid #bbb; 
-	margin:0; 
-	padding:0 0 1px;
-	font-weight:bold;
-	font-size: 11px;
-	width:94px; 
-	height:24px;
-	background:url(img/fade-butt.png) 0 0;
-	color:#000;
-	cursor:pointer;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+    border: 1px solid #bbb; 
+    margin:0; 
+    padding:0 0 1px;
+    font-weight:bold;
+    font-size: 11px;
+    width:94px; 
+    height:24px;
+    background:url(img/fade-butt.png) 0 0;
+    color:#000;
+    cursor:pointer;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 #insert:hover, #cancel:hover, input.mceButton:hover, .updateButton:hover,
 #insert:focus, #cancel:focus, input.mceButton:focus, .updateButton:focus {
-	border: 1px solid #555;
+    border: 1px solid #555;
 }
 
 /* Browse */

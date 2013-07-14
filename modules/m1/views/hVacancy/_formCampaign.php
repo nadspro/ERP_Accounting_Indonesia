@@ -34,7 +34,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'start_date', array('value' => date("d-m-Y"))); ?>
 <?php echo $form->textFieldRow($model, 'end_date'); ?>
 <?php echo $form->textAreaRow($model, 'additional_info', array('rows' => 3, 'class' => 'span5')); ?>
-    <?php //echo $form->textFieldRow($model,'status_id');  ?>
+<?php //echo $form->textFieldRow($model,'status_id');  ?>
 
 <div class="form-actions">
     <?php

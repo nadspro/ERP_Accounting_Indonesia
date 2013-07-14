@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EAjaxJuiDlg renders a button/link or icon to display ajax content in a CJuiDialog
  *
@@ -13,10 +14,8 @@
  * @package ext.quickdlgs
  * @since 1.0
  */
+class EAjaxJuiDlg extends EBaseJuiDlg {
 
-
-class EAjaxJuiDlg extends EBaseJuiDlg
-{
     /**
      * Usage 'url'=>Yii::app()->createUrl(...)
      * If not empty, this will be used instead the controllerRoute
@@ -56,28 +55,23 @@ class EAjaxJuiDlg extends EBaseJuiDlg
      */
     public $ajax = array();
 
-
     /**
      * Generate the url for the ajax request
      *
      * @return string
      * @throws CException
      */
-    protected function getActionUrl()
-    {
+    protected function getActionUrl() {
         $url = $this->url;
 
         //add the quickdlgs GET params
         $this->addDlgsParams($this->urlParams);
 
-        if (!empty($url))
-        {
-            $paramChar = strpos($url,'?') === false ? '?' : '&';
+        if (!empty($url)) {
+            $paramChar = strpos($url, '?') === false ? '?' : '&';
             $url .= $paramChar . http_build_query($this->urlParams);
-        }
-        else
-        if(!empty($this->controllerRoute))
-        {
+        } else
+        if (!empty($this->controllerRoute)) {
             $route = $this->getControllerRoute();
             $url = Yii::app()->createUrl($route, $this->actionParams);
             $url .= '?' . http_build_query($this->urlParams);
@@ -94,11 +88,9 @@ class EAjaxJuiDlg extends EBaseJuiDlg
      *
      * @return string
      */
-    public function getControllerRoute()
-    {
-        if(!empty($this->controllerRoute))
-        {
-            $route =  $this->controllerRoute;
+    public function getControllerRoute() {
+        if (!empty($this->controllerRoute)) {
+            $route = $this->controllerRoute;
             if (strpos($route, '/') === false)
                 $route = Yii::app()->controller->id . '/' . $route;
         }
@@ -111,20 +103,18 @@ class EAjaxJuiDlg extends EBaseJuiDlg
     /**
      * Register the clientScript
      */
-    protected function registerClientScript()
-    {
+    protected function registerClientScript() {
         parent::registerClientScript();
 
-        if($this->renderOpenButton)
-        {
+        if ($this->renderOpenButton) {
             $ajax = $this->ajax;
             $url = $this->getActionUrl();
-            if(!empty($url))
+            if (!empty($url))
                 $ajax['url'] = $url;
 
             $ajax['update'] = '#' . $this->getContentWrapperId();
             $ajaxScript = "function {$this->getAjaxFunction()}{" . CHtml::ajax($ajax) . '}';
-            Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$ajaxScript,CClientScript::POS_BEGIN);
+            Yii::app()->getClientScript()->registerScript(__CLASS__ . '#' . $this->id, $ajaxScript, CClientScript::POS_BEGIN);
         }
     }
 
@@ -132,16 +122,14 @@ class EAjaxJuiDlg extends EBaseJuiDlg
      * Get the name of the registered ajaxFunction
      * @return string
      */
-    protected function getAjaxFunction()
-    {
-        return str_replace('-','',$this->id). 'Ajax()';
+    protected function getAjaxFunction() {
+        return str_replace('-', '', $this->id) . 'Ajax()';
     }
 
     /**
      * No need to render content by default
      */
-    public function renderDialogContent()
-    {
+    public function renderDialogContent() {
         //do nothing
     }
 
@@ -149,9 +137,8 @@ class EAjaxJuiDlg extends EBaseJuiDlg
      * Add the code for the button click
      * @return string
      */
-    protected function jsBeforeOpenClick()
-    {
-      return $this->renderOpenButton ? parent::jsBeforeOpenClick().$this->getAjaxFunction().';' : parent::jsBeforeOpenClick();
+    protected function jsBeforeOpenClick() {
+        return $this->renderOpenButton ? parent::jsBeforeOpenClick() . $this->getAjaxFunction() . ';' : parent::jsBeforeOpenClick();
     }
 
 }

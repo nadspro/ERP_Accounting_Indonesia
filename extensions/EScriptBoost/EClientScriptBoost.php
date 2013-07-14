@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EClientScriptBoost class
  * 
@@ -25,21 +26,20 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-class EClientScriptBoost extends CClientScript
-{
-	public $cacheDuration = 0;
-	
-	public function registerScript($id, $script, $position=self::POS_READY)
-	{
-		// assumed config includes the required path aliases to use
-		// EScriptBoost
-		$compressed = YII_DEBUG ? $script : Yii::app()->cache->get($id);
-		
-		if($compressed === false)
-		{
-			$compressed = EScriptBoost::minifyJs($script);
-			Yii::app()->cache->set($id, $compressed, $this->cacheDuration);
-		}
-		parent::registerScript($id, $compressed, $position);
-	}
+class EClientScriptBoost extends CClientScript {
+
+    public $cacheDuration = 0;
+
+    public function registerScript($id, $script, $position = self::POS_READY) {
+        // assumed config includes the required path aliases to use
+        // EScriptBoost
+        $compressed = YII_DEBUG ? $script : Yii::app()->cache->get($id);
+
+        if ($compressed === false) {
+            $compressed = EScriptBoost::minifyJs($script);
+            Yii::app()->cache->set($id, $compressed, $this->cacheDuration);
+        }
+        parent::registerScript($id, $compressed, $position);
+    }
+
 }

@@ -21,7 +21,7 @@
 
         <?php echo $form->textFieldRow($model, 'graduate', array('class' => 'span1')); ?>
 
-            <?php echo $form->textFieldRow($model, 'ipk', array('class' => 'span1')); ?>
+        <?php echo $form->textFieldRow($model, 'ipk', array('class' => 'span1')); ?>
 
         <div class="form-actions">
             <?php
@@ -33,7 +33,7 @@
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

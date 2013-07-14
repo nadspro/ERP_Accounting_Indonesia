@@ -23,7 +23,7 @@
         "symfony/css-selector": "self.version"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\DomCrawler": "" }
+        "psr-0": {"Symfony\\Component\\DomCrawler": ""}
     },
     "target-dir": "Symfony/Component/DomCrawler"
 }

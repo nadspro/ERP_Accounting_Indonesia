@@ -22,7 +22,6 @@ class GroupGridView extends CGridView {
     public $mergeColumns = array();
     public $mergeType = self::MERGE_SIMPLE;
     public $mergeCellCss = 'text-align: center; vertical-align: middle';
-
     public $extraRowColumns = array();
     public $extraRowExpression;
 
@@ -30,78 +29,75 @@ class GroupGridView extends CGridView {
      * @var string a table wide pre-header
      */
     public $preHeader;
+
     /**
      * @var array the HTML options for the preHeader
      */
-    public $preHeaderHtmlOptions=array();
-
+    public $preHeaderHtmlOptions = array();
     private $_changes;
 
     /**
      * Renders the table header.
      * PDA: Added support for preHeader
      */
-    public function renderTableHeader()
-    {
-        if(!$this->hideHeader)
-        {
+    public function renderTableHeader() {
+        if (!$this->hideHeader) {
             echo "<thead>\n";
 
-            if($this->preHeader)
-            {
-                $this->preHeaderHtmlOptions['id']=$this->id;
-                $this->preHeaderHtmlOptions['colspan']=count($this->columns);
+            if ($this->preHeader) {
+                $this->preHeaderHtmlOptions['id'] = $this->id;
+                $this->preHeaderHtmlOptions['colspan'] = count($this->columns);
 
-                echo "<tr>". CHtml::tag('th', $this->preHeaderHtmlOptions, $this->preHeader) ."</tr>\n";
+                echo "<tr>" . CHtml::tag('th', $this->preHeaderHtmlOptions, $this->preHeader) . "</tr>\n";
             }
 
-            if($this->filterPosition === self::FILTER_POS_HEADER)
+            if ($this->filterPosition === self::FILTER_POS_HEADER)
                 $this->renderFilter();
 
             echo "<tr>\n";
-            foreach($this->columns as $column)
+            foreach ($this->columns as $column)
                 $column->renderHeaderCell();
             echo "</tr>\n";
 
-            if($this->filterPosition === self::FILTER_POS_BODY)
+            if ($this->filterPosition === self::FILTER_POS_BODY)
                 $this->renderFilter();
 
             echo "</thead>\n";
         }
-        else if($this->filter !== null && ($this->filterPosition === self::FILTER_POS_HEADER || $this->filterPosition === self::FILTER_POS_BODY))
-        {
+        else if ($this->filter !== null && ($this->filterPosition === self::FILTER_POS_HEADER || $this->filterPosition === self::FILTER_POS_BODY)) {
             echo "<thead>\n";
             $this->renderFilter();
             echo "</thead>\n";
         }
     }
 
-    public function renderTableBody()
-    {
-        if(!empty($this->mergeColumns) || !empty($this->extraRowColumns)) {
+    public function renderTableBody() {
+        if (!empty($this->mergeColumns) || !empty($this->extraRowColumns)) {
             $this->groupByColumns();
         }
         parent::renderTableBody();
     }
 
     /**
-    * find and store changing of group columns
-    *
-    * @param mixed $data
-    */
-    public function groupByColumns()
-    {
+     * find and store changing of group columns
+     *
+     * @param mixed $data
+     */
+    public function groupByColumns() {
         $data = $this->dataProvider->getData();
-        if(count($data) == 0) return;
+        if (count($data) == 0)
+            return;
 
-        if(!is_array($this->mergeColumns)) $this->mergeColumns = array($this->mergeColumns);
-        if(!is_array($this->extraRowColumns)) $this->extraRowColumns = array($this->extraRowColumns);
+        if (!is_array($this->mergeColumns))
+            $this->mergeColumns = array($this->mergeColumns);
+        if (!is_array($this->extraRowColumns))
+            $this->extraRowColumns = array($this->extraRowColumns);
 
         //store columns for group. Set object for existing columns in grid and string for attributes
         $groupColumns = array_unique(array_merge($this->mergeColumns, $this->extraRowColumns));
-        foreach($groupColumns as $key => $colName) {
-            foreach($this->columns as $column) {
-                if(property_exists($column, 'name') && $column->name == $colName) {
+        foreach ($groupColumns as $key => $colName) {
+            foreach ($this->columns as $column) {
+                if (property_exists($column, 'name') && $column->name == $colName) {
                     $groupColumns[$key] = $column;
                     break;
                 }
@@ -111,61 +107,60 @@ class GroupGridView extends CGridView {
 
         //values for first row
         $lastStored = $this->getRowValues($groupColumns, $data[0], 0);
-        foreach($lastStored as $colName => $value) {
+        foreach ($lastStored as $colName => $value) {
             $lastStored[$colName] = array(
-            'value' => $value,
-            'count' => 1,
-            'index' => 0,
+                'value' => $value,
+                'count' => 1,
+                'index' => 0,
             );
         }
 
         //iterate data
-        for($i = 1; $i < count($data); $i++) {
+        for ($i = 1; $i < count($data); $i++) {
             //save row values in array
             $current = $this->getRowValues($groupColumns, $data[$i], $i);
 
             //define is change occured. Need this extra foreach for correctly proceed extraRows
             $changedColumns = array();
-            foreach($current as $colName => $curValue) {
-                if($curValue != $lastStored[$colName]['value']) {
+            foreach ($current as $colName => $curValue) {
+                if ($curValue != $lastStored[$colName]['value']) {
                     $changedColumns[] = $colName;
                 }
             }
 
             /*
-             if this flag = true -> we will write change (to $this->_changes) for all grouping columns.
-             It's required when change of any column from extraRowColumns occurs
-            */
+              if this flag = true -> we will write change (to $this->_changes) for all grouping columns.
+              It's required when change of any column from extraRowColumns occurs
+             */
             $saveChangeForAllColumns = (count(array_intersect($changedColumns, $this->extraRowColumns)) > 0);
 
             /*
-             this changeOccured related to foreach below. It is required only for mergeType == self::MERGE_NESTED,
-             to write change for all nested columns when change of previous column occured
-            */
+              this changeOccured related to foreach below. It is required only for mergeType == self::MERGE_NESTED,
+              to write change for all nested columns when change of previous column occured
+             */
             $changeOccured = false;
-            foreach($current as $colName => $curValue) {
+            foreach ($current as $colName => $curValue) {
                 //value changed
                 $valueChanged = ($curValue != $lastStored[$colName]['value']);
                 //change already occured in this loop and mergeType set to MERGETYPE_NESTED
                 $saveChange = $valueChanged || ($changeOccured && $this->mergeType == self::MERGE_NESTED);
 
-                if($saveChangeForAllColumns || $saveChange) {
+                if ($saveChangeForAllColumns || $saveChange) {
                     $changeOccured = true;
 
                     //store in class var
                     $prevIndex = $lastStored[$colName]['index'];
                     $this->_changes[$prevIndex]['columns'][$colName] = $lastStored[$colName];
-                    if(!isset($this->_changes[$prevIndex]['count'])) {
+                    if (!isset($this->_changes[$prevIndex]['count'])) {
                         $this->_changes[$prevIndex]['count'] = $lastStored[$colName]['count'];
                     }
 
                     //update lastStored for particular column
                     $lastStored[$colName] = array(
-                    'value' => $curValue,
-                    'count' => 1,
-                    'index' => $i,
+                        'value' => $curValue,
+                        'count' => 1,
+                        'index' => $i,
                     );
-
                 } else {
                     $lastStored[$colName]['count']++;
                 }
@@ -173,50 +168,46 @@ class GroupGridView extends CGridView {
         }
 
         //storing for last row
-        foreach($lastStored as $colName => $v) {
+        foreach ($lastStored as $colName => $v) {
             $prevIndex = $v['index'];
             $this->_changes[$prevIndex]['columns'][$colName] = $v;
-            if(!isset($this->_changes[$prevIndex]['count'])) {
+            if (!isset($this->_changes[$prevIndex]['count'])) {
                 $this->_changes[$prevIndex]['count'] = $v['count'];
             }
         }
     }
 
-    public function renderTableRow($row)
-    {
+    public function renderTableRow($row) {
         $change = false;
-        if($this->_changes && array_key_exists($row, $this->_changes)) {
+        if ($this->_changes && array_key_exists($row, $this->_changes)) {
             $change = $this->_changes[$row];
             //if change in extracolumns --> put extra row
             $columnsInExtra = array_intersect(array_keys($change['columns']), $this->extraRowColumns);
-            if(count($columnsInExtra) > 0) {
+            if (count($columnsInExtra) > 0) {
                 $this->renderExtraRow($row, $change, $columnsInExtra);
             }
         }
 
         // original CGridView code
-        if($this->rowCssClassExpression!==null)
-        {
-            $data=$this->dataProvider->data[$row];
-            echo '<tr class="'.$this->evaluateExpression($this->rowCssClassExpression,array('row'=>$row,'data'=>$data)).'">';
-        }
-        else if(is_array($this->rowCssClass) && ($n=count($this->rowCssClass))>0)
-                echo '<tr class="'.$this->rowCssClass[$row%$n].'">';
-            else
-                echo '<tr>';
+        if ($this->rowCssClassExpression !== null) {
+            $data = $this->dataProvider->data[$row];
+            echo '<tr class="' . $this->evaluateExpression($this->rowCssClassExpression, array('row' => $row, 'data' => $data)) . '">';
+        } else if (is_array($this->rowCssClass) && ($n = count($this->rowCssClass)) > 0)
+            echo '<tr class="' . $this->rowCssClass[$row % $n] . '">';
+        else
+            echo '<tr>';
 
 
-        if(!$this->_changes) { //standart CGridview's render
-            foreach($this->columns as $column) {
+        if (!$this->_changes) { //standart CGridview's render
+            foreach ($this->columns as $column) {
                 $column->renderDataCell($row);
             }
         } else {  //for grouping
-
-            foreach($this->columns as $column) {
+            foreach ($this->columns as $column) {
 
                 $isGroupColumn = property_exists($column, 'name') && in_array($column->name, $this->mergeColumns);
 
-                if(!$isGroupColumn) {
+                if (!$isGroupColumn) {
                     $column->renderDataCell($row);
                     continue;
                 }
@@ -224,29 +215,28 @@ class GroupGridView extends CGridView {
                 $isChangedColumn = $change && array_key_exists($column->name, $change['columns']);
 
                 //for rowspan show only changes (with rowspan)
-                switch($this->mergeType) {
+                switch ($this->mergeType) {
                     case self::MERGE_SIMPLE:
                     case self::MERGE_NESTED:
-                        if($isChangedColumn) {
+                        if ($isChangedColumn) {
                             $options = $column->htmlOptions;
                             $column->htmlOptions['rowspan'] = $change['columns'][$column->name]['count'];
                             $column->htmlOptions['class'] = 'merge';
                             $style = isset($column->htmlOptions['style']) ? $column->htmlOptions['style'] : '';
-                            $column->htmlOptions['style'] = $style.';'.$this->mergeCellCss;
+                            $column->htmlOptions['style'] = $style . ';' . $this->mergeCellCss;
                             $column->renderDataCell($row);
                             $column->htmlOptions = $options;
                         }
                         break;
 
                     case self::MERGE_FIRSTROW:
-                        if($isChangedColumn) {
+                        if ($isChangedColumn) {
                             $column->renderDataCell($row);
                         } else {
                             echo '<td></td>';
                         }
                         break;
                 }
-
             }
         }
 
@@ -254,23 +244,22 @@ class GroupGridView extends CGridView {
     }
 
     /**
-    * returns array of rendered column values (TD)
-    *
-    * @param mixed $columns
-    * @param mixed $rowIndex
-    */
-    private function getRowValues($columns, $data, $rowIndex)
-    {
-        foreach($columns as $column) {
-            if($column instanceOf CGridColumn) {
+     * returns array of rendered column values (TD)
+     *
+     * @param mixed $columns
+     * @param mixed $rowIndex
+     */
+    private function getRowValues($columns, $data, $rowIndex) {
+        foreach ($columns as $column) {
+            if ($column instanceOf CGridColumn) {
                 $result[$column->name] = $this->getDataCellContent($column, $data, $rowIndex);
-            } elseif(is_string($column)) {
-                if(is_array($data) && array_key_exists($column, $data)) {
+            } elseif (is_string($column)) {
+                if (is_array($data) && array_key_exists($column, $data)) {
                     $result[$column] = $data[$column];
-                } elseif($data instanceOf CModel && $data->hasAttribute($column)) {
+                } elseif ($data instanceOf CModel && $data->hasAttribute($column)) {
                     $result[$column] = $data->getAttribute($column);
                 } else {
-                    throw new CException('Column or attribute "'.$column.'" not found!');
+                    throw new CException('Column or attribute "' . $column . '" not found!');
                 }
             }
         }
@@ -279,46 +268,44 @@ class GroupGridView extends CGridView {
     }
 
     /**
-    * renders extra row
-    *
-    * @param mixed $beforeRow
-    * @param mixed $change
-    */
-    private function renderExtraRow($beforeRow, $change, $columnsInExtra)
-    {
+     * renders extra row
+     *
+     * @param mixed $beforeRow
+     * @param mixed $change
+     */
+    private function renderExtraRow($beforeRow, $change, $columnsInExtra) {
         $data = $this->dataProvider->data[$beforeRow];
-        if($this->extraRowExpression) { //user defined expression, use it!
-            $content = $this->evaluateExpression($this->extraRowExpression, array('data'=>$data, 'row'=>$beforeRow, 'values' => $change['columns']));
+        if ($this->extraRowExpression) { //user defined expression, use it!
+            $content = $this->evaluateExpression($this->extraRowExpression, array('data' => $data, 'row' => $beforeRow, 'values' => $change['columns']));
         } else {  //generte value
             $values = array();
-            foreach($columnsInExtra as $c) {
+            foreach ($columnsInExtra as $c) {
                 $values[] = $change['columns'][$c]['value'];
             }
-            $content = '<strong>'.implode(' :: ', $values).'</strong>';
+            $content = '<strong>' . implode(' :: ', $values) . '</strong>';
         }
 
         $colspan = count($this->columns);
 
         echo '<tr>';
-        echo '<td class="extrarow" colspan="'.$colspan.'">'.$content.'</td>';
+        echo '<td class="extrarow" colspan="' . $colspan . '">' . $content . '</td>';
         echo '</tr>';
     }
 
     /**
-    * need to rewrite this function as it is protected in CDataColumn: it is strange as all methods inside are public
-    *
-    * @param mixed $column
-    * @param mixed $row
-    * @param mixed $data
-    */
-    private function getDataCellContent($column, $data, $row)
-    {
-        if($column->value!==null)
-            $value=$column->evaluateExpression($column->value, array('data'=>$data,'row'=>$row));
-        else if($column->name!==null)
-                $value=CHtml::value($data,$column->name);
+     * need to rewrite this function as it is protected in CDataColumn: it is strange as all methods inside are public
+     *
+     * @param mixed $column
+     * @param mixed $row
+     * @param mixed $data
+     */
+    private function getDataCellContent($column, $data, $row) {
+        if ($column->value !== null)
+            $value = $column->evaluateExpression($column->value, array('data' => $data, 'row' => $row));
+        else if ($column->name !== null)
+            $value = CHtml::value($data, $column->name);
 
-            return $value===null ? $column->grid->nullDisplay : $column->grid->getFormatter()->format($value, $column->type);
+        return $value === null ? $column->grid->nullDisplay : $column->grid->getFormatter()->format($value, $column->type);
     }
 
 }

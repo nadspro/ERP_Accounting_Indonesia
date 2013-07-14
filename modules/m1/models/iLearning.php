@@ -163,7 +163,7 @@ class iLearning extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/iLearning/view/id/' . $this->id, 'Learning. New Sylabus created: ' . $this->learning_title
+                    1, 'm1/iLearning/view/id/' . $this->id, 'Learning. New Sylabus created: ' . strtoupper($this->learning_title)
             );
         }
         return true;

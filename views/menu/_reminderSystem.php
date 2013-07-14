@@ -5,20 +5,15 @@
 </div>
 
 <ul>
-    <?php /*    $notifiche = sNotificationMessage::getUnreadNotifications();
+    <?php
+    $notifiche = sNotification::getReminder();
 
-      $counter=0;
-      foreach ($notifiche as $notifica) : ?>
-      <?php if($counter <=10) : ?>
-      <li>
-      <?php
-      echo CHtml::link($notifica->content,Yii::app()->createUrl('/sNotification/read', array('id' => $notifica->id)));
-      echo CHtml::tag('i',array('style'=>'color:grey;font-size:11px; margin-bottom:10px;'),'  ('.waktu::nicetime($notifica->expire) .')');
-      ?>
-      </li>
-      <?php
-      $counter++;
-      endif; ?>
-      <?php endforeach; */ ?>
+    foreach ($notifiche as $notifica) {
+        echo CHtml::openTag('li', array());
+        echo CHtml::link($notifica->mStatus() . ". " . strtoupper($notifica->employee_name) . " probation status is " . $notifica->countContract(), Yii::app()->createUrl('/gPerson/view', array('id' => $notifica->id)));
+        echo CHtml::closeTag('li');
+    }
+    ?>
 </ul>
+
 

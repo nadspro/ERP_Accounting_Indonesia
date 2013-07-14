@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -24,7 +25,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /** Error reporting */
 error_reporting(E_ALL);
 
@@ -34,27 +34,27 @@ date_default_timezone_set('Europe/London');
 require_once '../Classes/PHPExcel/IOFactory.php';
 
 
-echo date('H:i:s') , " Load from XML file" , PHP_EOL;
+echo date('H:i:s'), " Load from XML file", PHP_EOL;
 $inputFileName = "XMLTest.xml";
 
-/**  Identify the type of $inputFileName  **/
+/**  Identify the type of $inputFileName  * */
 $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
-echo 'Loading ' , $inputFileName , ' using ' , $inputFileType , " Reader" , PHP_EOL;
+echo 'Loading ', $inputFileName, ' using ', $inputFileType, " Reader", PHP_EOL;
 
-/**  Create a new Reader of the type that has been identified  **/
+/**  Create a new Reader of the type that has been identified  * */
 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-/**  Load $inputFileName to a PHPExcel Object  **/
+/**  Load $inputFileName to a PHPExcel Object  * */
 $objPHPExcel = $objReader->load($inputFileName);
 
 
-echo date('H:i:s') , " Write to Excel2007 format" , PHP_EOL;
+echo date('H:i:s'), " Write to Excel2007 format", PHP_EOL;
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', __FILE__) , PHP_EOL;
+echo date('H:i:s'), " File written to ", str_replace('.php', '.xlsx', __FILE__), PHP_EOL;
 
 
 // Echo memory peak usage
-echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , PHP_EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", PHP_EOL;
 
 // Echo done
-echo date('H:i:s') , " Done writing file" , PHP_EOL;
+echo date('H:i:s'), " Done writing file", PHP_EOL;

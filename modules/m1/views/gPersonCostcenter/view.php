@@ -33,35 +33,35 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gP
 <div class="page-header">
     <h1>
         <i class="icon-fa-user"></i>
-<?php echo $model->employee_name_r; ?>
+        <?php echo $model->employee_name_r; ?>
     </h1>
 </div>
 
 <div class="row">
     <div class="span2">
-<?php
-echo $model->photoPath;
-?>
+        <?php
+        echo $model->photoPath;
+        ?>
     </div>
 
     <div class="span7">
-<?php echo $this->renderPartial('/gPerson/_personalInfo', array('model' => $model)); ?>
+        <?php echo $this->renderPartial('/gPerson/_personalInfo', array('model' => $model)); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="span9">
-<?php
-$this->widget('bootstrap.widgets.TbTabs', array(
-    'type' => 'tabs', // 'tabs' or 'pills'
-    'id' => 'tabs',
-    'tabs' => array(
-        array('id' => 'tab6', 'label' => 'Cost Center', 'content' => $this->renderPartial("_tabCostcenter", array("model" => $model, "modelCostcenter" => $modelCostcenter), true), 'active' => true),
-        array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_tabDetail", array("model" => $model), true)),
-        array('id' => 'tab12', 'label' => 'Assignment', 'content' => $this->renderPartial("/gPerson/_mainCareer2", array("model" => $model), true)),
-    ),
-));
-?>
+        <?php
+        $this->widget('bootstrap.widgets.TbTabs', array(
+            'type' => 'tabs', // 'tabs' or 'pills'
+            'id' => 'tabs',
+            'tabs' => array(
+                array('id' => 'tab6', 'label' => 'Cost Center', 'content' => $this->renderPartial("_tabCostcenter", array("model" => $model, "modelCostcenter" => $modelCostcenter), true), 'active' => true),
+                array('id' => 'tab1', 'label' => 'Detail', 'content' => $this->renderPartial("/gPerson/_tabDetail", array("model" => $model), true)),
+                array('id' => 'tab12', 'label' => 'Assignment', 'content' => $this->renderPartial("/gPerson/_mainCareer2", array("model" => $model), true)),
+            ),
+        ));
+        ?>
     </div>
 </div>
 

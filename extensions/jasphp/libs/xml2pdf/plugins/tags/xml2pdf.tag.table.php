@@ -1,4 +1,5 @@
 <?php
+
 /**
  * table tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @package Xml2Pdf
  * @subpackage Tag
  */
-
 // dependances {{{
 
 /**
@@ -40,118 +40,118 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_table extends Xml2PdfTag {
     // class properties {{{
-        
+
     /**
      * table title.
      * @var object xml2pdf_tag_tt 
      */
     public $title = false;
-    
+
     /**
      * table header.
      * @var object xml2pdf_tag_th
      */
     public $header = false;
-    
+
     /**
      * table rows.
      * @var array 
      */
     public $rows = array();
-    
+
     /**
      * font size.
      * @var integer 
      */
     public $fontSize = 10;
-    
+
     /**
      * height line.
      * @var integer 
      */
     public $lineHeight = 5;
-    
+
     /**
      * left margin.
      * @var float 
      */
     public $left = 0;
-    
+
     /**
      * top margin.
      * @var float 
      */
     public $top = 0;
-    
+
     /**
      * font style.
      * @var string 
      */
     public $fontStyle = '';
-    
+
     /**
      * font family.
      * @var string 
      */
     public $font = 'times';
-    
+
     /**
      * font color.
      * @var string 
      */
     public $fontColor = '#000000';
-    
+
     /**
      * fill color.
      * @var string 
      */
     public $fillColor = '#ffffff';
-    
+
     /**
      * border color.
      * @var string 
      */
     public $borderColor = '#000000';
-    
+
     /**
      * table alignment.
      * @var string 
      */
     public $align = 'L';
-    
+
     /**
      * text alignment.
      * @var string 
      */
     public $textAlign = 'L';
-    
+
     /**
      * positionning mode.
      * @var string 
      */
     public $position = 'relative';
-    
+
     /**
      * fill the background.
      * @var boolean 
      */
     public $fill = false;
-    
+
     /**
      * show the border.
      * @var boolean 
      */
     public $border = true;
-    
+
     /**
      * width.
      * @var float 
      */
     public $width = null;
-    
+
     // }}}
     // xml2pdf_tag_table::__construct() {{{
-    
+
     /**
      * Constructor.
      *
@@ -162,32 +162,32 @@ class xml2pdf_tag_table extends Xml2PdfTag {
      */
     public function __construct($attrs) {
         parent::__construct($attrs);
-        
-        if(isset($attrs['FONT'])) {
+
+        if (isset($attrs['FONT'])) {
             $this->font = $attrs['FONT'];
         }
-        if(isset($attrs['FONTSIZE'])) {
+        if (isset($attrs['FONTSIZE'])) {
             $this->fontSize = $attrs['FONTSIZE'];
         }
-        if(isset($attrs['FONTSTYLE'])) {
+        if (isset($attrs['FONTSTYLE'])) {
             $this->fontStyle = $attrs['FONTSTYLE'];
         }
-        if(isset($attrs['FONTCOLOR'])) {
+        if (isset($attrs['FONTCOLOR'])) {
             $this->fontColor = $attrs['FONTCOLOR'];
         }
-        if(isset($attrs['FILL'])) {
+        if (isset($attrs['FILL'])) {
             $this->fill = $attrs['FILL'];
         }
-        if(isset($attrs['FILLCOLOR'])) {
+        if (isset($attrs['FILLCOLOR'])) {
             $this->fillColor = $attrs['FILLCOLOR'];
         }
-        if(isset($attrs['BORDER'])) {
+        if (isset($attrs['BORDER'])) {
             $this->border = $attrs['BORDER'];
         }
-        if(isset($attrs['BORDERCOLOR'])) {
+        if (isset($attrs['BORDERCOLOR'])) {
             $this->borderColor = $attrs['BORDERCOLOR'];
         }
-        if(isset($attrs['ALIGN'])) {
+        if (isset($attrs['ALIGN'])) {
             switch (strtolower($attrs['ALIGN'])) {
                 case 'l':
                 case 'left':
@@ -203,7 +203,7 @@ class xml2pdf_tag_table extends Xml2PdfTag {
                     break;
             }
         }
-        if(isset($attrs['TEXTALIGN'])) {
+        if (isset($attrs['TEXTALIGN'])) {
             switch (strtolower($attrs['TEXTALIGN'])) {
                 case 'l':
                 case 'left':
@@ -223,38 +223,38 @@ class xml2pdf_tag_table extends Xml2PdfTag {
                     break;
             }
         }
-        if(isset($attrs['WIDTH'])) {
+        if (isset($attrs['WIDTH'])) {
             $this->width = $attrs['WIDTH'];
         }
-        if(isset($attrs['LINEHEIGHT'])) {
+        if (isset($attrs['LINEHEIGHT'])) {
             $this->lineHeight = $attrs['LINEHEIGHT'];
         }
-        if(isset($attrs['LEFT'])) {
+        if (isset($attrs['LEFT'])) {
             $this->left = $attrs['LEFT'];
         }
-        if(isset($attrs['TOP'])) {
+        if (isset($attrs['TOP'])) {
             $this->top = $attrs['TOP'];
         }
-        if(isset($attrs['POSITION'])) {
+        if (isset($attrs['POSITION'])) {
             $this->position = $attrs['POSITION'];
         }
     }
-    
+
     // }}}
     // xml2pdf_tag_table::close() {{{
-    
+
     /**
      * call the table renderer.
      *
      * @return void 
      */
     public function close() {
-       $this->render();
+        $this->render();
     }
-    
+
     // }}}    
     // xml2pdf_tag_table::render() {{{
-    
+
     /**
      * Render the table.
      *
@@ -262,20 +262,19 @@ class xml2pdf_tag_table extends Xml2PdfTag {
      */
     public function render() {
         // Set the initials X,Y coordonates
-        if($this->position == 'absolute') {
+        if ($this->position == 'absolute') {
             $this->pdf->setXY($this->left, $this->top);
         } else {
-            $this->pdf->SetXY($this->pdf->GetX() + $this->left,
-                $this->pdf->GetY() + $this->top);
+            $this->pdf->SetXY($this->pdf->GetX() + $this->left, $this->pdf->GetY() + $this->top);
         }
         $this->left = $this->pdf->GetX();
         $this->top = $this->pdf->GetY();
         // calcul the table width
-        if(!isset($this->width)) {
+        if (!isset($this->width)) {
             $this->width = 190 - $this->left;
         }
         // render title
-        if(isset($this->title) && $this->title) {
+        if (isset($this->title) && $this->title) {
             $this->_renderTitle();
             $this->top = $this->pdf->GetY();
             //$this->pdf->Ln($this->title->lineHeight);
@@ -290,10 +289,10 @@ class xml2pdf_tag_table extends Xml2PdfTag {
             $this->top += $rowHeight;
         }
     }
-    
+
     // }}}    
     // xml2pdf_tag_table::_renderTitle() {{{
-    
+
     /**
      * Render the table title and return its height.
      *
@@ -301,22 +300,22 @@ class xml2pdf_tag_table extends Xml2PdfTag {
      */
     private function _renderTitle() {
         $rowProperties = array('font', 'fontSize', 'fontStyle',
-           'fontColor', 'fill', 'fillColor', 'border',
-           'borderColor', 'textAlign', 'lineHeight');
-           
+            'fontColor', 'fill', 'fillColor', 'border',
+            'borderColor', 'textAlign', 'lineHeight');
+
         // render the header
         foreach ($rowProperties as $property) {
-            if(!isset($this->title->$property)) {
+            if (!isset($this->title->$property)) {
                 $this->title->$property = $this->$property;
             }
         }
         $this->title->render();
         return $this->title->height;
     }
-    
+
     // }}}
     // xml2pdf_tag_table::_renderHeader() {{{
-    
+
     /**
      * Render the table header and return its height.
      *
@@ -324,22 +323,22 @@ class xml2pdf_tag_table extends Xml2PdfTag {
      */
     private function _renderHeader() {
         $rowProperties = array('font', 'fontSize', 'fontStyle',
-           'fontColor', 'fill', 'fillColor', 'border',
-           'borderColor', 'textAlign', 'lineHeight');
-           
+            'fontColor', 'fill', 'fillColor', 'border',
+            'borderColor', 'textAlign', 'lineHeight');
+
         // render the header
         foreach ($rowProperties as $property) {
-            if(!isset($this->header->$property)) {
+            if (!isset($this->header->$property)) {
                 $this->header->$property = $this->$property;
             }
         }
         $this->header->render();
         return $this->header->height;
     }
-    
+
     // }}}    
     // xml2pdf_tag_table::_renderRow() {{{
-    
+
     /**
      * Render a row.
      *
@@ -348,20 +347,21 @@ class xml2pdf_tag_table extends Xml2PdfTag {
      */
     private function _renderRow($row) {
         $rowProperties = array('font', 'fontSize', 'fontStyle',
-           'fontColor', 'fill', 'fillColor', 'border',
-           'borderColor', 'textAlign', 'width', 'left', 'top', 'lineHeight');
+            'fontColor', 'fill', 'fillColor', 'border',
+            'borderColor', 'textAlign', 'width', 'left', 'top', 'lineHeight');
         // initialize font 
         foreach ($rowProperties as $property) {
-            if(!isset($row->$property)) {
+            if (!isset($row->$property)) {
                 $row->$property = $this->$property;
             }
         }
         $row->columnsWidth = $this->header->columnsWidth;
         // render the row
-        $row->render();        
+        $row->render();
         return $row->height;
     }
-    
+
     // }}}
 }
+
 ?>

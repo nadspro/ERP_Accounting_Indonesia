@@ -636,7 +636,7 @@ class GPersonController extends Controller {
                 )
         );
 
-        Yii::app()->user->setFlash('info', '<strong>Green Progress Bar!</strong> Progress Bar di bawah foto, menunjukkan persentasi kelengkapan inputan data profile ');
+        Yii::app()->user->setFlash('info', '<strong>Selamat Berpuasa!</strong> Team APHRIS mengucapkan selamat menjalankan ibadah puasa... ');
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,

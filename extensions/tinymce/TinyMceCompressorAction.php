@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Some code come from:
  *
@@ -9,9 +10,8 @@
  *
  * License: http://tinymce.moxiecode.com/license
  */
+class TinyMceCompressorAction extends CAction {
 
-class TinyMceCompressorAction extends CAction
-{
     /**
      * Add any site-specific defaults here that you may wish to implement. For example:
      * array(
@@ -34,8 +34,7 @@ class TinyMceCompressorAction extends CAction
         'baseUrl' => "",
     );
 
-    public function init()
-    {
+    public function init() {
         $this->settings = array_merge(self::$defaultSettings, $this->settings);
 
         $dir = dirname(__FILE__) . '/vendors/tinymce/jscripts/tiny_mce';
@@ -47,8 +46,7 @@ class TinyMceCompressorAction extends CAction
             $this->settings["baseUrl"] = Yii::app()->assetManager->publish($dir);
     }
 
-    public function run()
-    {
+    public function run() {
         $this->init();
         $this->handleRequest();
     }
@@ -56,8 +54,7 @@ class TinyMceCompressorAction extends CAction
     /**
      * Handles the incoming HTTP request and sends back a compressed script depending on settings and client support.
      */
-    public function handleRequest()
-    {
+    public function handleRequest() {
         $files = array();
 
         $expiresOffset = $this->parseTime($this->settings["expires"]);
@@ -186,7 +183,6 @@ class TinyMceCompressorAction extends CAction
         echo $buffer;
     }
 
-
     /**
      * Returns TinyMCE script url
      * @static
@@ -194,8 +190,7 @@ class TinyMceCompressorAction extends CAction
      * @param $settings array name/value array with settings for the script.
      * @return string url for script
      */
-    public static function scripUrl($route, $settings)
-    {
+    public static function scripUrl($route, $settings) {
 
         $settings = array_merge(self::$defaultSettings, $settings);
 
@@ -215,11 +210,11 @@ class TinyMceCompressorAction extends CAction
 
         // Add any explicitly specified files if the default settings have been overriden by the tag ones
         /*
-           * Specifying tag files will override (rather than merge with) any site-specific ones set in the
-           * TinyMCE_Compressor object creation.  Note that since the parameter parser limits content to alphanumeric
-           * only base filenames can be specified.  The file extension is assumed to be ".js" and the directory is
-           * the TinyMCE root directory.  A typical use of this is to include a script which initiates the TinyMCE object.
-           */
+         * Specifying tag files will override (rather than merge with) any site-specific ones set in the
+         * TinyMCE_Compressor object creation.  Note that since the parameter parser limits content to alphanumeric
+         * only base filenames can be specified.  The file extension is assumed to be ".js" and the directory is
+         * the TinyMCE root directory.  A typical use of this is to include a script which initiates the TinyMCE object.
+         */
         if (isset($settings["files"]))
             $urlParams['files'] = (is_array($settings["files"]) ? implode(',', $settings["files"]) : $settings["files"]);
 
@@ -237,8 +232,7 @@ class TinyMceCompressorAction extends CAction
      * @param String $default Default value if the query string item shouldn't exist.
      * @return String Sanitized query string parameter value.
      */
-    public static function getParam($name, $default = "")
-    {
+    public static function getParam($name, $default = "") {
         if (!isset($_GET[$name]))
             return $default;
 
@@ -251,8 +245,7 @@ class TinyMceCompressorAction extends CAction
      * @param String $time Time format to convert into seconds.
      * @return Int Number of seconds for the specified format.
      */
-    private function parseTime($time)
-    {
+    private function parseTime($time) {
         $multipel = 1;
 
         // Hours
@@ -277,8 +270,7 @@ class TinyMceCompressorAction extends CAction
      * @param String $file File to load.
      * @return String File contents or empty string if it doesn't exist.
      */
-    private function getFileContents($file)
-    {
+    private function getFileContents($file) {
         $content = file_get_contents($file);
 
         // Remove UTF-8 BOM
@@ -287,4 +279,5 @@ class TinyMceCompressorAction extends CAction
 
         return $content;
     }
+
 }

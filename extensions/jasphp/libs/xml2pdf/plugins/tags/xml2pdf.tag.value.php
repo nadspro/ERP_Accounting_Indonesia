@@ -1,4 +1,5 @@
 <?php
+
 /**
  * value tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @package Xml2Pdf
  * @subpackage Tag
  */
-
 // dependances {{{
 
 /**
@@ -43,7 +43,7 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_value extends Xml2PdfTag {
     // xml2pdf_tag_value::__construct() {{{
-    
+
     /**
      * Constructor.
      *
@@ -57,21 +57,23 @@ class xml2pdf_tag_value extends Xml2PdfTag {
         $legend = count($parentTag->data);
         $data = 0;
         $color = null;
- 
-        if(isset($attributes['LEGEND'])) {
+
+        if (isset($attributes['LEGEND'])) {
             $legend = $attributes['LEGEND'];
         }
-        if(isset($attributes['DATA'])) {
+        if (isset($attributes['DATA'])) {
             $data = $attributes['DATA'];
         }
-        if(isset($attributes['COLOR'])) {
+        if (isset($attributes['COLOR'])) {
             $color = $attributes['COLOR'];
         }
-        
-        $parentTag->data[$legend] = $data;;
+
+        $parentTag->data[$legend] = $data;
+        ;
         $parentTag->colors[] = $color;
     }
-    
+
     // }}}
 }
+
 ?>

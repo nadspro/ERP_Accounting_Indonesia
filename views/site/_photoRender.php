@@ -29,7 +29,7 @@ foreach ($contents as $content) {
                     ?>
                 </ul>
             </div>
-        <?php
+            <?php
         }
 
         if ($counter == 4)
@@ -41,7 +41,7 @@ foreach ($contents as $content) {
 <?php if ($counter != 1) { ?>
     </ul>
     </div>
-<?php
+    <?php
 }
 
 

@@ -20,12 +20,12 @@
     <?php //echo $form->textFieldRow($model,'user_id');  ?>
     <?php echo $form->dropDownListRow($model, 'user_id', sUser::model()->allUsers()); ?>
 
-        <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cStatus')); ?>
+    <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('cStatus')); ?>
 
     <div class="form-actions">
-    <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Added' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+        <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Added' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->

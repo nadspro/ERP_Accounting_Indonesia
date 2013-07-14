@@ -1,4 +1,4 @@
-<?php //if (isset($model->company->department_id)):  ?>
+<?php //if (isset($model->company->department_id)):    ?>
 
 <h4>
     List of Subordinate 

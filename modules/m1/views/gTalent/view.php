@@ -36,21 +36,21 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gT
 <div class="page-header">
     <h1>
         <i class="icon-fa-beaker"></i>
-<?php echo $model->employee_name; ?>
+        <?php echo $model->employee_name; ?>
     </h1>
 </div>
 
 <div class="row">
     <div class="span2">
-<?php echo $model->PhotoPath; ?>
+        <?php echo $model->PhotoPath; ?>
 
         <div style="text-align:center; padding:10px 0">
-<?php echo CHtml::link('Print Profile', Yii::app()->createUrl('/m1/gTalent/printProfile', array('id' => $model->id)), array('class' => 'btn btn-mini btn-primary', 'target' => '_blank'))
-?>
+            <?php echo CHtml::link('Print Profile', Yii::app()->createUrl('/m1/gTalent/printProfile', array('id' => $model->id)), array('class' => 'btn btn-mini btn-primary', 'target' => '_blank'))
+            ?>
         </div>
     </div>
     <div class="span7">
-<?php //echo $this->renderPartial('/gPerson/_personalInfo',array('model'=>$model));  ?>	
+        <?php //echo $this->renderPartial('/gPerson/_personalInfo',array('model'=>$model));  ?>	
 
         <?php
         $this->widget('bootstrap.widgets.TbTabs', array(

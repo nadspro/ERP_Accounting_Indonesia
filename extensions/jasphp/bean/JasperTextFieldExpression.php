@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperTextFieldExpression
  *
@@ -7,7 +8,10 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="textFieldExpression") */
 class JasperTextFieldExpression extends AbstractJasper {
+
     public $content = null;
+
 }

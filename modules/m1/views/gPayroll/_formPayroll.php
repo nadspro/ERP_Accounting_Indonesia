@@ -48,8 +48,8 @@ Yii::app()->clientScript->registerScript('monthpicker', "
 
         <?php echo $form->textFieldRow($model, 'yearmonth_start'); ?>
         <?php echo $form->dropDownListRow($model, 'category_id', gParamPayroll::model()->payrollDropDown()); ?>
-<?php echo $form->textFieldRow($model, 'basic_salary'); ?>
-            <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->textFieldRow($model, 'basic_salary'); ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -61,7 +61,7 @@ Yii::app()->clientScript->registerScript('monthpicker', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

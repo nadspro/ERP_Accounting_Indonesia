@@ -21,7 +21,7 @@ $this->menu5 = array('Sylabus');
 <div class="page-header">
     <h1>
         <i class="icon-fa-book"></i>
-<?php echo $model->learning_title; ?>
+        <?php echo $model->learning_title; ?>
     </h1>
 </div>
 

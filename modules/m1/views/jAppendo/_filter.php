@@ -26,8 +26,8 @@
                 </td>
                 <td><?php echo CHtml::textField('value[]', ''); ?></td>
             </tr>
-<?php else: ?>
-    <?php for ($i = 0; $i < sizeof($model->fieldfilter); ++$i): ?>
+        <?php else: ?>
+            <?php for ($i = 0; $i < sizeof($model->fieldfilter); ++$i): ?>
                 <tr>
                     <td><?php echo CHtml::dropDownList('fieldfilter[]', $model->fieldfilter[$i], gBiPerson::getListField('Fill')); ?></td>
                     <td><?php
@@ -46,7 +46,7 @@
                     </td>
                     <td><?php echo CHtml::textField('value[]', $model->value[$i]); ?></td>
                 </tr>
-    <?php endfor; ?>
-<?php endif; ?>
+            <?php endfor; ?>
+        <?php endif; ?>
     </tbody>
 </table>

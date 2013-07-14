@@ -30,5 +30,5 @@ if ($models) {
 
     <?php $this->endWidget(); ?>
 
-<?php
+    <?php
 }

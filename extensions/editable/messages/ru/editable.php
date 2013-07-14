@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -18,7 +19,7 @@
  *
  * @version $Id: $
  */
-return array (
-  'Enter' => 'Введите',
-  'Select' => 'Выберите',
+return array(
+    'Enter' => 'Введите',
+    'Select' => 'Выберите',
 );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * date tag plugin file.
  * @filesource
@@ -6,12 +7,11 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.tag.date.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Tag
  */
-
 // dependances {{{
 
 /**
@@ -38,7 +38,7 @@ require_once('xml2pdf.tag.paragraph.php');
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.tag.date.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Tag
@@ -46,16 +46,16 @@ require_once('xml2pdf.tag.paragraph.php');
  */ // }}}
 class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
     // class properties {{{
-       
+
     /**
      * date format.
      * @var string 
      */
     public $format = 'd/m/Y';
-    
+
     // }}}
     // xml2pdf_tag_date::__construct() {{{
-    
+
     /**
      * Constructor.
      * 
@@ -65,14 +65,14 @@ class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
      */
     public function __construct(&$attributes, $parentTag) {
         parent::__construct($attributes, $parentTag);
-        if(isset($attributes['FORMAT'])) {
+        if (isset($attributes['FORMAT'])) {
             $this->format = $attributes['FORMAT'];
         }
     }
-    
+
     // }}} 
     // xml2pdf_tag_date::close() {{{
-    
+
     /**
      * Add the date in header or footer.
      *
@@ -82,7 +82,8 @@ class xml2pdf_tag_date extends xml2pdf_tag_paragraph {
         $this->content = date($this->format);
         $this->parent->elements[] = $this;
     }
-    
+
     // }}}
 }
+
 ?>

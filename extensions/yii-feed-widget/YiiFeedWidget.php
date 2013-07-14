@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * FileDoc:
  * Widget for YiiFeedWidget.
@@ -54,144 +55,132 @@ Yii::import('ext.yii-feed-widget.*');
  * @see      http://www.phpclasses.org/browse/file/5845.html
  *
  */
-class YiiFeedWidget extends CWidget
-{
+class YiiFeedWidget extends CWidget {
 
-	/**
-	 * @var string $url  - The url of the feed
-	 */
-	public $url;
+    /**
+     * @var string $url  - The url of the feed
+     */
+    public $url;
 
-	/**
-	 * @var integer $limit - Number of items to parse. 0 for all.
-	 */
-	public $limit;
+    /**
+     * @var integer $limit - Number of items to parse. 0 for all.
+     */
+    public $limit;
 
-	/**
-	 * @var string $_assetsUrl - The published url location where assets for
-	 * this widget can be linked to
-	 */
-	private $_assetsUrl;
+    /**
+     * @var string $_assetsUrl - The published url location where assets for
+     * this widget can be linked to
+     */
+    private $_assetsUrl;
 
-	/**
-	 * Tries to gets the user specified feed url. If the user has not specified
-	 * the feed when calling the widget, we check the yii config file in the
-	 * params array for a yii-feed-widget-url. If this is not specified as well
-	 * then we throw and exception
-	 *
-	 * @return string url of feed being read
-	 * @throws CException
-	 */
-	public function getFeedUrl()
-	{
-		if (is_null($this->url)) {
-			if (isset(Yii::app()->params['yii-feed-widget-url'])) {
-				return Yii::app()->params['yii-feed-widget-url'];
-			}
-			$error = 'No feed specified for reading. '.
-					'Please specify an absolute feed url.';
-			throw new CException($error);
-		}
-		return $this->url;
-	}
+    /**
+     * Tries to gets the user specified feed url. If the user has not specified
+     * the feed when calling the widget, we check the yii config file in the
+     * params array for a yii-feed-widget-url. If this is not specified as well
+     * then we throw and exception
+     *
+     * @return string url of feed being read
+     * @throws CException
+     */
+    public function getFeedUrl() {
+        if (is_null($this->url)) {
+            if (isset(Yii::app()->params['yii-feed-widget-url'])) {
+                return Yii::app()->params['yii-feed-widget-url'];
+            }
+            $error = 'No feed specified for reading. ' .
+                    'Please specify an absolute feed url.';
+            throw new CException($error);
+        }
+        return $this->url;
+    }
 
-	/**
-	 * Checks if widget user has set required item count at run time.
-	 * if not sets to 0 (all)
-	 *
-	 * @return integer - required number of items
-	 */
-	public function getRequiredItemCount()
-	{
-		if (is_null($this->limit)) {
-			$this->requiredItemCount = 0;
-		}
-		return $this->limit;
-	}
+    /**
+     * Checks if widget user has set required item count at run time.
+     * if not sets to 0 (all)
+     *
+     * @return integer - required number of items
+     */
+    public function getRequiredItemCount() {
+        if (is_null($this->limit)) {
+            $this->requiredItemCount = 0;
+        }
+        return $this->limit;
+    }
 
-	/**
-	 * Registers a given script file from the assets directory.
-	 *
-	 * @param string $script - the script filename to be registered
-	 *
-	 * @return null
-	 */
-	public function registerClientScript($script)
-	{
-		// publish CSS or JavaScript files
-		Yii::app()->clientScript->registerCoreScript('jquery');
-		$clientScript = Yii::app()->clientScript;
-		$clientScript->registerScriptFile(
-				$this->_getAssetsUrl().DIRECTORY_SEPARATOR.'js'
-				.DIRECTORY_SEPARATOR.$script,
-				CClientScript::POS_END
-		);
-	}
+    /**
+     * Registers a given script file from the assets directory.
+     *
+     * @param string $script - the script filename to be registered
+     *
+     * @return null
+     */
+    public function registerClientScript($script) {
+        // publish CSS or JavaScript files
+        Yii::app()->clientScript->registerCoreScript('jquery');
+        $clientScript = Yii::app()->clientScript;
+        $clientScript->registerScriptFile(
+                $this->_getAssetsUrl() . DIRECTORY_SEPARATOR . 'js'
+                . DIRECTORY_SEPARATOR . $script, CClientScript::POS_END
+        );
+    }
 
-	/**
-	 * Registers a given css file from the extension assets directory
-	 *
-	 * @param string $css - css file to register
-	 *
-	 * @return null
-	 */
-	public function registerClientCSS($css)
-	{
-		$clientCSS = Yii::app()->clientScript;
-		$clientCSS->registerCssFile(
-				$this->_getAssetsUrl().DIRECTORY_SEPARATOR.'css'
-				.DIRECTORY_SEPARATOR.$css,
-				CClientScript::POS_HEAD
-		);
-	}
+    /**
+     * Registers a given css file from the extension assets directory
+     *
+     * @param string $css - css file to register
+     *
+     * @return null
+     */
+    public function registerClientCSS($css) {
+        $clientCSS = Yii::app()->clientScript;
+        $clientCSS->registerCssFile(
+                $this->_getAssetsUrl() . DIRECTORY_SEPARATOR . 'css'
+                . DIRECTORY_SEPARATOR . $css, CClientScript::POS_HEAD
+        );
+    }
 
-	/**
-	 * Returns a url string of an ajax spinner for use when the widget starts
-	 * up and is waiting for the AJAX call to return.
-	 *
-	 * @return string - the url of the ajax spinner
-	 */
-	public function getSpinner()
-	{
-		return $this->_getAssetsUrl() . DIRECTORY_SEPARATOR .
-		'images' . DIRECTORY_SEPARATOR . 'spinner.gif';
-	}
+    /**
+     * Returns a url string of an ajax spinner for use when the widget starts
+     * up and is waiting for the AJAX call to return.
+     *
+     * @return string - the url of the ajax spinner
+     */
+    public function getSpinner() {
+        return $this->_getAssetsUrl() . DIRECTORY_SEPARATOR .
+                'images' . DIRECTORY_SEPARATOR . 'spinner.gif';
+    }
 
-	/**
-	 * Returns the published url for this widgets assets. Will publish the
-	 * assets if they are not already published
-	 *
-	 * @return string
-	 */
-	private function _getAssetsUrl()
-	{
-		if (is_null($this->_assetsUrl)) {
-			$this->_assetsUrl = Yii::app()->getAssetManager()->publish(
-					Yii::getPathOfAlias('ext.yii-feed-widget.assets')
-			);
-		}
-		return $this->_assetsUrl;
-	}
+    /**
+     * Returns the published url for this widgets assets. Will publish the
+     * assets if they are not already published
+     *
+     * @return string
+     */
+    private function _getAssetsUrl() {
+        if (is_null($this->_assetsUrl)) {
+            $this->_assetsUrl = Yii::app()->getAssetManager()->publish(
+                    Yii::getPathOfAlias('ext.yii-feed-widget.assets')
+            );
+        }
+        return $this->_assetsUrl;
+    }
 
-
-	/**
-	 * Widget instantiation. Creates the widget
-	 *
-	 * @return null
-	 */
-	public function run()
-	{
-		//get params
-		$feedUrl = $this->getFeedUrl();
-		$requiredItemCount = $this->getRequiredItemCount();
-		//render feed items in the widget container
-		$this->render(
-				'YiiFeedWidget',
-				array(
-						'url'=>$feedUrl,
-						'limit'=>$requiredItemCount
-				)
-		);
-	}
+    /**
+     * Widget instantiation. Creates the widget
+     *
+     * @return null
+     */
+    public function run() {
+        //get params
+        $feedUrl = $this->getFeedUrl();
+        $requiredItemCount = $this->getRequiredItemCount();
+        //render feed items in the widget container
+        $this->render(
+                'YiiFeedWidget', array(
+            'url' => $feedUrl,
+            'limit' => $requiredItemCount
+                )
+        );
+    }
 
 }

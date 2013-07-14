@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Fichier de configuration.
  *
@@ -10,8 +11,6 @@
  * @version CVS: $Id: Xml2Pdf.config.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  *
  */
-
-
 /**
  * d�fini le chemin de la classe
  * @var string
@@ -24,7 +23,7 @@ define('XML2PDF_CLASS_PATH', dirname(__FILE__));
  */
 define('XML2PDF_MAIN_PATH', XML2PDF_CLASS_PATH . '/main');
 
-if(!defined('XML2PDF_COMPONENTS_PATH')) {
+if (!defined('XML2PDF_COMPONENTS_PATH')) {
     /**
      * chemin des classes externes.
      * @var string
@@ -32,7 +31,7 @@ if(!defined('XML2PDF_COMPONENTS_PATH')) {
     define('XML2PDF_COMPONENTS_PATH', XML2PDF_CLASS_PATH . '/components');
 }
 
-if(!defined('FPDF_CLASS_PATH')) {
+if (!defined('FPDF_CLASS_PATH')) {
     /**
      * chemin ver la classe fpdf.
      * @var string
@@ -40,7 +39,7 @@ if(!defined('FPDF_CLASS_PATH')) {
     define('FPDF_CLASS_PATH', XML2PDF_COMPONENTS_PATH . '/fpdf153');
 }
 
-if(!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
+if (!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
     /**
      * r�pertoires des plugins de balises.
      * @var string
@@ -48,7 +47,7 @@ if(!defined('XML2PDF_PLUGINS_TAGS_PATH')) {
     define('XML2PDF_PLUGINS_TAGS_PATH', XML2PDF_CLASS_PATH . '/plugins/tags');
 }
 
-if(!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
+if (!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
     /**
      * r�pertoire des plugins de graph.
      * @var string
@@ -56,7 +55,7 @@ if(!defined('XML2PDF_PLUGINS_GRAPHS_PATH')) {
     define('XML2PDF_PLUGINS_GRAPHS_PATH', XML2PDF_CLASS_PATH . '/plugins/graphs');
 }
 
-if(!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
+if (!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
     /**
      * R�pertoire des plugins de code bare.
      * @var string
@@ -65,9 +64,9 @@ if(!defined('XML2PDF_PLUGINS_BARCODES_PATH')) {
 }
 
 $pluginsTypesPaths = array(
-    'tag'     => XML2PDF_PLUGINS_TAGS_PATH, 
-    'barcode' => XML2PDF_PLUGINS_BARCODES_PATH, 
-    'graph'   => XML2PDF_PLUGINS_GRAPHS_PATH);
+    'tag' => XML2PDF_PLUGINS_TAGS_PATH,
+    'barcode' => XML2PDF_PLUGINS_BARCODES_PATH,
+    'graph' => XML2PDF_PLUGINS_GRAPHS_PATH);
 
 // define the include path
 $includePath = array(
@@ -75,11 +74,11 @@ $includePath = array(
     XML2PDF_MAIN_PATH,
     XML2PDF_COMPONENTS_PATH,
     FPDF_CLASS_PATH);
-ini_set('include_path', ini_get('include_path') . ':' . 
-    implode(':', $includePath));
+ini_set('include_path', ini_get('include_path') . ':' .
+        implode(':', $includePath));
 
 // define the xml properties
-if(!defined('XML_ENCODING')) {
+if (!defined('XML_ENCODING')) {
     /**
      * encodage des fichier XML.
      * @var string
@@ -89,5 +88,4 @@ if(!defined('XML_ENCODING')) {
 
 // define the pdf properties
 require_once('pdf.inc.php');
-
 ?>

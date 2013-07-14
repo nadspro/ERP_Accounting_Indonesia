@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-(function ($) {
-    var Notification = function (element, options) {
+(function($) {
+    var Notification = function(element, options) {
         // Element collection
         this.$element = $(element);
-        if(!this.$element.length)
+        if (!this.$element.length)
         {
 
         }
@@ -31,12 +31,15 @@
         if (this.options.transition)
             if (this.options.transition == 'fade')
                 this.$note.addClass('in').addClass(this.options.transition);
-            else this.$note.addClass(this.options.transition);
-        else this.$note.addClass('fade').addClass('in');
+            else
+                this.$note.addClass(this.options.transition);
+        else
+            this.$note.addClass('fade').addClass('in');
 
         if (this.options.type)
             this.$note.addClass('alert-' + this.options.type);
-        else this.$note.addClass('alert-success');
+        else
+            this.$note.addClass('alert-success');
 
         if (!this.options.message && this.$element.data("message") !== '') // dom text
             this.$note.html(this.$element.data("message"));
@@ -56,13 +59,13 @@
         return this;
     };
 
-    onClose = function () {
+    onClose = function() {
         this.options.onClose();
         $(this.$note).remove();
         this.options.onClosed();
     };
 
-    Notification.prototype.show = function () {
+    Notification.prototype.show = function() {
         if (this.options.fadeOut.enabled)
             this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(onClose, this));
 
@@ -70,28 +73,29 @@
         this.$note.alert();
     };
 
-    Notification.prototype.hide = function () {
+    Notification.prototype.hide = function() {
         if (this.options.fadeOut.enabled)
             this.$note.delay(this.options.fadeOut.delay || 3000).fadeOut('slow', $.proxy(onClose, this));
-        else onClose.call(this);
+        else
+            onClose.call(this);
     };
 
-    $.fn.notify = function (options) {
+    $.fn.notify = function(options) {
         return new Notification(this, options);
     };
 
     $.fn.notify.defaults = {
-        type:'success',
-        closable:true,
-        transition:'fade',
-        fadeOut:{
-            enabled:true,
-            delay:3000
+        type: 'success',
+        closable: true,
+        transition: 'fade',
+        fadeOut: {
+            enabled: true,
+            delay: 3000
         },
-        message:null,
-        onClose:function () {
+        message: null,
+        onClose: function() {
         },
-        onClosed:function () {
+        onClosed: function() {
         }
     }
 })(window.jQuery);

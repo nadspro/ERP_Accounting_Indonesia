@@ -44,10 +44,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'amount', array('class' => 'span3')); ?>
 
-    <?php echo $form->textFieldRow($model, 'effective_date'); ?>
+<?php echo $form->textFieldRow($model, 'effective_date'); ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Create', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

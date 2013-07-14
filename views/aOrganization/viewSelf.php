@@ -17,7 +17,7 @@ $this->breadcrumbs = array(
 <div class="page-header">
     <h1>
         <i class="iconic-image"></i>
-<?php echo $model->name; ?>
+        <?php echo $model->name; ?>
     </h1>
 </div>
 

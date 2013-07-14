@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -25,7 +26,6 @@
  * @version    1.7.8, 2012-10-12
  */
 
-
 /**
  * PHPExcel_Reader_IReadFilter
  *
@@ -33,15 +33,15 @@
  * @package    PHPExcel_Reader
  * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-interface PHPExcel_Reader_IReadFilter
-{
-	/**
-	 * Should this cell be read?
-	 *
-	 * @param 	$column		String column index
-	 * @param 	$row			Row index
-	 * @param	$worksheetName	Optional worksheet name
-	 * @return	boolean
-	 */
-	public function readCell($column, $row, $worksheetName = '');
+interface PHPExcel_Reader_IReadFilter {
+
+    /**
+     * Should this cell be read?
+     *
+     * @param 	$column		String column index
+     * @param 	$row			Row index
+     * @param	$worksheetName	Optional worksheet name
+     * @return	boolean
+     */
+    public function readCell($column, $row, $worksheetName = '');
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -25,7 +26,6 @@
  * @version    1.7.8, 2012-10-12
  */
 
-
 /**
  * PHPExcel_CachedObjectStorage_Memory
  *
@@ -40,14 +40,15 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
      *
      * @param	string			$pCoord		Coordinate address of the cell to update
      * @param	PHPExcel_Cell	$cell		Cell to update
-	 * @return	void
+     * @return	void
      * @throws	Exception
      */
-	public function addCacheData($pCoord, PHPExcel_Cell $cell) {
-		$this->_cellCache[$pCoord] = $cell;
-		return $cell;
-	}	//	function addCacheData()
+    public function addCacheData($pCoord, PHPExcel_Cell $cell) {
+        $this->_cellCache[$pCoord] = $cell;
+        return $cell;
+    }
 
+//	function addCacheData()
 
     /**
      * Get cell at a specific coordinate
@@ -56,54 +57,55 @@ class PHPExcel_CachedObjectStorage_Memory extends PHPExcel_CachedObjectStorage_C
      * @throws 	Exception
      * @return 	PHPExcel_Cell 	Cell that was found, or null if not found
      */
-	public function getCacheData($pCoord) {
-		//	Check if the entry that has been requested actually exists
-		if (!isset($this->_cellCache[$pCoord])) {
-			//	Return null if requested entry doesn't exist in cache
-			return null;
-		}
+    public function getCacheData($pCoord) {
+        //	Check if the entry that has been requested actually exists
+        if (!isset($this->_cellCache[$pCoord])) {
+            //	Return null if requested entry doesn't exist in cache
+            return null;
+        }
 
-		//	Return requested entry
-		return $this->_cellCache[$pCoord];
-	}	//	function getCacheData()
+        //	Return requested entry
+        return $this->_cellCache[$pCoord];
+    }
 
+//	function getCacheData()
 
-	/**
-	 * Clone the cell collection
-	 *
-	 * @param	PHPExcel_Worksheet	$parent		The new worksheet
-	 * @return	void
-	 */
-	public function copyCellCollection(PHPExcel_Worksheet $parent) {
-		parent::copyCellCollection($parent);
+    /**
+     * Clone the cell collection
+     *
+     * @param	PHPExcel_Worksheet	$parent		The new worksheet
+     * @return	void
+     */
+    public function copyCellCollection(PHPExcel_Worksheet $parent) {
+        parent::copyCellCollection($parent);
 
-		$newCollection = array();
-		foreach($this->_cellCache as $k => &$cell) {
-			$newCollection[$k] = clone $cell;
-			$newCollection[$k]->attach($parent);
-		}
+        $newCollection = array();
+        foreach ($this->_cellCache as $k => &$cell) {
+            $newCollection[$k] = clone $cell;
+            $newCollection[$k]->attach($parent);
+        }
 
-		$this->_cellCache = $newCollection;
-	}
+        $this->_cellCache = $newCollection;
+    }
 
+    /**
+     * Clear the cell collection and disconnect from our parent
+     *
+     * @return	void
+     */
+    public function unsetWorksheetCells() {
+        //	Because cells are all stored as intact objects in memory, we need to detach each one from the parent
+        foreach ($this->_cellCache as $k => &$cell) {
+            $cell->detach();
+            $this->_cellCache[$k] = null;
+        }
+        unset($cell);
 
-	/**
-	 * Clear the cell collection and disconnect from our parent
-	 *
-	 * @return	void
-	 */
-	public function unsetWorksheetCells() {
-		//	Because cells are all stored as intact objects in memory, we need to detach each one from the parent
-		foreach($this->_cellCache as $k => &$cell) {
-			$cell->detach();
-			$this->_cellCache[$k] = null;
-		}
-		unset($cell);
+        $this->_cellCache = array();
 
-		$this->_cellCache = array();
+        //	detach ourself from the worksheet, so that it can then delete this object successfully
+        $this->_parent = null;
+    }
 
-		//	detach ourself from the worksheet, so that it can then delete this object successfully
-		$this->_parent = null;
-	}	//	function unsetWorksheetCells()
-
+//	function unsetWorksheetCells()
 }

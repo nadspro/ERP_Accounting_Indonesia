@@ -7,11 +7,11 @@
  */
 $.editable.addInputType('bcolorpicker', {
     /* create input element 'bootstrap style' */
-    element : function(settings, original){
+    element: function(settings, original) {
 
         var $input = $('<input/>').
-            attr({'type':'text'}).
-            css('width','100px');
+                attr({'type': 'text'}).
+                css('width', '100px');
 
         $(this).append($input);
 
@@ -24,18 +24,20 @@ $.editable.addInputType('bcolorpicker', {
         var form = this;
         var $input = $('input', form);
 
-        var options = $.extend({format:'hex'}, settings.colorformat || {});
+        var options = $.extend({format: 'hex'}, settings.colorformat || {});
 
-        $input.colorpicker().on('changeColor', function(ev){
+        $input.colorpicker().on('changeColor', function(ev) {
             $input.val(ev.color.toHex());
         });
         $('button', this).addClass('btn');
 
-        setTimeout(function(){$input.select();},200);
+        setTimeout(function() {
+            $input.select();
+        }, 200);
 
     },
-    reset: function(settings, original){
-        var cpicker = $('input',this).colorpicker()[0];
+    reset: function(settings, original) {
+        var cpicker = $('input', this).colorpicker()[0];
         var picker = $(cpicker).data('colorpicker').picker;
         $(picker).remove();
         original.reset(this);

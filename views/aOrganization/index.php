@@ -79,11 +79,11 @@ $this->menu5 = array('Organization');
     <div class="span6">
 
 
-<?php
-$this->renderPartial('_search', array(
-    'model' => $model,
-));
-?>
+        <?php
+        $this->renderPartial('_search', array(
+            'model' => $model,
+        ));
+        ?>
 
         <?php
         $this->widget('zii.widgets.CListView', array(

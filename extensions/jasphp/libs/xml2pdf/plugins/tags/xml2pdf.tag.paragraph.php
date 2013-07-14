@@ -1,4 +1,5 @@
 <?php
+
 /**
  * paragraph tag plugin file.
  *
@@ -12,7 +13,6 @@
  * @subpackage Tag
  * @version CVS:m $Id: xml2pdf.tag.paragraph.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // dependances {{{
 /**
  * parent class
@@ -40,37 +40,37 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTextTag');
  */ // }}}
 Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
     // class properties {{{
-    
+
     /**
      * paragraph width.
      * @var float
      */
     public $width = null;
-    
+
     /**
      * draw paragraph borders.
      * @var boolean
      */
     public $border = PDF_DEFAULT_PARAGRAPH_BORDER;
-    
+
     /**
      * paragraph borders color.
      * @var string
      */
     public $borderColor = PDF_DEFAULT_PARAGRAPH_BORDERCOLOR;
-    
+
     /**
      * fill the paragraph.
      * @var boolean
      */
     public $fill = PDF_DEFAULT_PARAGRAPH_FILL;
-    
+
     /**
      * paragraph fill color.
      * @var string
      */
     public $fillColor = PDF_DEFAULT_PARAGRAPH_FILLCOLOR;
-    
+
     /**
      * paragraph top margin.
      * @var float
@@ -103,7 +103,7 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
 
     // }}}
     // xml2pdf_tag_paragraph::__construct() {{{
-    
+
     /**
      * Constructor.
      *
@@ -115,37 +115,37 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
      */
     public function __construct($tagProperties, $parent) {
         parent::__construct($tagProperties);
-        if(is_a($parent, 'xml2pdf_tag_header') || is_a($parent, 'xml2pdf_tag_footer')) {
+        if (is_a($parent, 'xml2pdf_tag_header') || is_a($parent, 'xml2pdf_tag_footer')) {
             $this->parent = $parent;
         }
         // parse properties
-        if(isset($tagProperties['WIDTH'])) {
+        if (isset($tagProperties['WIDTH'])) {
             $this->width = $tagProperties['WIDTH'];
         }
-        if(isset($tagProperties['BORDER'])) {
+        if (isset($tagProperties['BORDER'])) {
             $this->border = $tagProperties['BORDER'];
         }
-        if(isset($tagProperties['BORDERCOLOR'])) {
+        if (isset($tagProperties['BORDERCOLOR'])) {
             $this->borderColor = $tagProperties['BORDERCOLOR'];
         }
-        if(isset($tagProperties['FILL'])) {
+        if (isset($tagProperties['FILL'])) {
             $this->fill = $tagProperties['FILL'];
         }
-        if(isset($tagProperties['FILLCOLOR'])) {
+        if (isset($tagProperties['FILLCOLOR'])) {
             $this->fillColor = $tagProperties['FILLCOLOR'];
         }
-        if(isset($tagProperties['TOP'])) {
+        if (isset($tagProperties['TOP'])) {
             $this->top = $tagProperties['TOP'];
         }
-        if(isset($tagProperties['LEFT'])) {
+        if (isset($tagProperties['LEFT'])) {
             $this->left = $tagProperties['LEFT'];
         }
-        if(isset($tagProperties['POSITION'])) {
-            $this->position = (strtolower($tagProperties['POSITION'])=='absolute')?
-                'absolute':'relative';
+        if (isset($tagProperties['POSITION'])) {
+            $this->position = (strtolower($tagProperties['POSITION']) == 'absolute') ?
+                    'absolute' : 'relative';
         }
-        if(isset($tagProperties['ALIGN'])) {
-            switch(strtoupper($tagProperties['ALIGN'])) {
+        if (isset($tagProperties['ALIGN'])) {
+            switch (strtoupper($tagProperties['ALIGN'])) {
                 case 'L':
                 case 'LEFT':
                     $this->align = 'L';
@@ -164,67 +164,64 @@ Class xml2pdf_tag_paragraph extends Xml2PdfTextTag {
 
     // }}}
     // xml2pdf_tag_paragraph::close() {{{
-    
+
     /**
      * Render the paragraph or add it to the parent tag.
      * 
      * @return void
      */
     public function close() {
-        if($this->parent) {
+        if ($this->parent) {
             $this->parent->elements[] = $this;
             return;
         }
         // calc the paragraph left and top using : align, position, left and top
-        if($this->position=='absolute') {
+        if ($this->position == 'absolute') {
             $x = $this->left;
             $y = $this->top;
         } else {
             $pageWidth = 210 - $this->pdf->lMargin - $this->pdf->rMargin;
-            if($this->left) {
+            if ($this->left) {
                 $x = $this->pdf->GetX() + $this->left;
-            } elseif($this->align) {
-                if($this->align=='L') {
+            } elseif ($this->align) {
+                if ($this->align == 'L') {
                     $x = $this->pdf->lMargin;
-                } elseif($this->align=='R') {
+                } elseif ($this->align == 'R') {
                     $x = $pageWidth - $this->width + $this->pdf->rMargin;
-                } elseif($this->align=='C') {
+                } elseif ($this->align == 'C') {
                     $x = ($pageWidth - $this->width) / 2 + $this->pdf->lMargin;
                 }
             } else {
                 $x = $this->pdf->GetX();
             }
-            if($this->top) {
+            if ($this->top) {
                 $y = $this->pdf->GetY() + $this->top;
             } else {
                 $y = $this->pdf->GetY();
             }
         }
-        if(!$x) {
+        if (!$x) {
             $x = $this->pdf->lMargin;
         }
-        if(!$y) {
+        if (!$y) {
             $y = $this->pdf->tMargin;
         }
         $this->pdf->SetXY($x, $y);
 
         // set the paragraph font, fill, border and draw params
         $borderColor = Xml2Pdf::convertColor($this->borderColor);
-        $this->pdf->SetDrawColor($borderColor['r'], $borderColor['g'],
-            $borderColor['b']);
+        $this->pdf->SetDrawColor($borderColor['r'], $borderColor['g'], $borderColor['b']);
         $fillColor = Xml2Pdf::convertColor($this->fillColor);
-        $this->pdf->SetFillColor($fillColor['r'], $fillColor['g'], 
-            $fillColor['b']);        
+        $this->pdf->SetFillColor($fillColor['r'], $fillColor['g'], $fillColor['b']);
         $fontColor = Xml2Pdf::convertColor($this->fontColor);
-        $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], 
-            $fontColor['b']);
+        $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
         $this->pdf->setFont($this->font, $this->fontStyle, $this->fontSize);
-                    
+
         // write the content
-        $this->pdf->multicell($this->width, $this->lineHeight, $this->content,
-                              $this->border, $this->textAlign, $this->fill);
+        $this->pdf->multicell($this->width, $this->lineHeight, $this->content, $this->border, $this->textAlign, $this->fill);
     }
 
     // }}}
 }
+
 ?>

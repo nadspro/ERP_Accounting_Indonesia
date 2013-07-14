@@ -25,46 +25,46 @@
  */
 class WTranslate extends CWidget {
 
-	/**
-	 *
-	 * @var string $title the title to be displayed on the widget
-	 */
-	public $title;
+/**
+ *
+ * @var string $title the title to be displayed on the widget
+ */
+public $title;
 
-	/**
-	 *
-	 * @var array the translations array. Its format must be:
-	 * <pre>
-	 * $t = array(array('ref'=>'id_of_source','text'=>'message','url'=>'ajaxedcontentURL'));
-	 * </pre>
-	 */
-	public $translations = array();
+/**
+ *
+ * @var array the translations array. Its format must be:
+ * <pre>
+ * $t = array(array('ref'=>'id_of_source','text'=>'message','url'=>'ajaxedcontentURL'));
+ * </pre>
+ */
+public $translations = array();
 
-	/**
-	 * Widget init method
-	 */
-	public function init()
-	{
-		if (null === $this->title)
-			$this->title = 'Translations for \"' . Yii::app()->getLanguage() . '\"';
-	}
+/**
+ * Widget init method
+ */
+public function init()
+{
+if (null === $this->title)
+$this->title = 'Translations for \"' . Yii::app()->getLanguage() . '\"';
+}
 
-	/**
-	 * Widget run method
-	 */
-	public function run()
-	{
-		$this->registerScripts();
-	}
+/**
+ * Widget run method
+ */
+public function run()
+{
+$this->registerScripts();
+}
 
-	/**
-	 * Registers the module
-	 */
-	public function registerScripts()
-	{
+/**
+ * Registers the module
+ */
+public function registerScripts()
+{
 
-		$translations = function_exists('json_encode') ? json_encode($this->translations) : CJSON::encode($this->translations);
-		$js = <<<EOD
+$translations = function_exists('json_encode') ? json_encode($this->translations) : CJSON::encode($this->translations);
+$js = <<<EOD
 		var wtranslate = (function($){
 		var open = false;
 		var l = null;

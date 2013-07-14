@@ -89,10 +89,10 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php //echo $form->hiddenField($model,'parent_id'); ?>
 
-    <?php echo $form->textFieldRow($model, 'input_date'); ?>
+<?php echo $form->textFieldRow($model, 'input_date'); ?>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'start_date', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'start_date', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(
@@ -111,7 +111,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 </div>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'end_date', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'end_date', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(

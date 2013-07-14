@@ -1,4 +1,5 @@
 <?php
+
 /**
  * page tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @subpackage Tag
  * @version CVS: $Id: xml2pdf.tag.page.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // dependances {{{
 
 /**
@@ -51,22 +51,23 @@ Class xml2pdf_tag_page extends Xml2PdfTag {
      */
     public function __construct($tagProperties) {
         parent::__construct($tagProperties);
-        if(isset($tagProperties['FONT'])){
+        if (isset($tagProperties['FONT'])) {
             $this->pdf->pageFont = $tagProperties['FONT'];
         }
-        if(isset($tagProperties['FONTSIZE'])){
+        if (isset($tagProperties['FONTSIZE'])) {
             $this->pdf->pageFontSize = $tagProperties['FONTSIZE'];
         }
-        if(isset($tagProperties['FONTCOLOR'])){
+        if (isset($tagProperties['FONTCOLOR'])) {
             $this->pdf->pageFontColor = $tagProperties['FONTCOLOR'];
         }
-        if(isset($tagProperties['FONTSTYLE'])){
+        if (isset($tagProperties['FONTSTYLE'])) {
             $this->pdf->pageFontStyle = $tagProperties['FONTSTYLE'];
         }
         $this->pdf->AddPage();
         $this->pdf->resetFont();
-    } 
-    
+    }
+
     // }}}
 }
+
 ?>

@@ -23,32 +23,32 @@
             ));
             ?>
 
-<?php echo $form->errorSummary($model); ?>
+            <?php echo $form->errorSummary($model); ?>
 
             <div class="row">
                 <div class="span3">
                     <?php echo $form->textFieldRow($model, 'A1', array('class' => 'span1')); ?>
                     <?php echo $form->textFieldRow($model, 'A2', array('class' => 'span1')); ?>
                     <?php echo $form->textFieldRow($model, 'A3', array('class' => 'span1')); ?>
-<?php echo $form->textFieldRow($model, 'A4', array('class' => 'span1')); ?>
+                    <?php echo $form->textFieldRow($model, 'A4', array('class' => 'span1')); ?>
                     <?php echo $form->textFieldRow($model, 'A5', array('class' => 'span1')); ?>
                 </div>
                 <div class="span3">
                     <?php echo $form->textFieldRow($model, 'B1', array('class' => 'span1')); ?>
                     <?php echo $form->textFieldRow($model, 'B2', array('class' => 'span1')); ?>
-<?php echo $form->textFieldRow($model, 'B3', array('class' => 'span1')); ?>
+                    <?php echo $form->textFieldRow($model, 'B3', array('class' => 'span1')); ?>
                     <?php echo $form->textFieldRow($model, 'B4', array('class' => 'span1')); ?>
                 </div>
                 <div class="span3">
-<?php echo $form->textFieldRow($model, 'C1', array('class' => 'span1')); ?>
-<?php echo $form->textFieldRow($model, 'C2', array('class' => 'span1')); ?>
+                    <?php echo $form->textFieldRow($model, 'C1', array('class' => 'span1')); ?>
+                    <?php echo $form->textFieldRow($model, 'C2', array('class' => 'span1')); ?>
                 </div>
             </div>
 
             <div class="row">
                 <div class="span9">
-<?php echo $form->textAreaRow($model, 'D1', array('class' => 'span6', 'rows' => 3)); ?>
-<?php echo $form->textAreaRow($model, 'D2', array('class' => 'span6', 'rows' => 3)); ?>
+                    <?php echo $form->textAreaRow($model, 'D1', array('class' => 'span6', 'rows' => 3)); ?>
+                    <?php echo $form->textAreaRow($model, 'D2', array('class' => 'span6', 'rows' => 3)); ?>
                 </div>
             </div>
 
@@ -65,5 +65,8 @@
 
             </div>
 
-<?php
-$this->endWidget();
+            <?php
+            $this->endWidget();
+
+
+            

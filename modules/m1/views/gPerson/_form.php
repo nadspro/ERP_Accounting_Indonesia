@@ -5,9 +5,9 @@
 </style>
 
 <?php
-Yii::app()->getClientScript()->registerCoreScript('jquery.ui')
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/bootstrapFormHelpers/js/bootstrap-formhelpers-phone.js")
-        ->registerScriptFile(Yii::app()->baseUrl . "/css/bootstrapFormHelpers/js/bootstrap-formhelpers-phone.format.js");
+Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
+//        ->registerScriptFile(Yii::app()->baseUrl . "/css/bootstrapFormHelpers/js/bootstrap-formhelpers-phone.js")
+//        ->registerScriptFile(Yii::app()->baseUrl . "/css/bootstrapFormHelpers/js/bootstrap-formhelpers-phone.format.js");
 
 
 Yii::app()->clientScript->registerScript('datepicker4', "
@@ -56,7 +56,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
                 <?php echo $form->textFieldRow($model, 'employee_name', array('class' => 'span3')); ?>
 
-<?php echo $form->textFieldRow($model, 'birth_place', array('class' => 'span2')); ?>
+                <?php echo $form->textFieldRow($model, 'birth_place', array('class' => 'span2')); ?>
 
                 <?php echo $form->textFieldRow($model, 'birth_date', array('class' => 'span2')); ?>
 
@@ -64,13 +64,13 @@ $form = $this->beginWidget('TbActiveForm', array(
             <div class="span4">
                 <?php echo $form->dropDownListRow($model, 'sex_id', sParameter::items("cKelamin")); ?>
 
-<?php echo $form->dropDownListRow($model, 'religion_id', sParameter::items("cAgama")); ?>
+                <?php echo $form->dropDownListRow($model, 'religion_id', sParameter::items("cAgama")); ?>
 
-        <?php echo $form->textFieldRow($model, 'blood_id', array('class' => 'span1')); ?>
+                <?php echo $form->textFieldRow($model, 'blood_id', array('class' => 'span1')); ?>
             </div>
         </div>
 
-<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+        <?php $this->endWidget(); ?><!-- collabsible fieldset -->
 
     </div>
 </div>
@@ -86,11 +86,11 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <?php //echo $form->textFieldRow($model,'address2',array()); ?>
 
-<?php //echo $form->textFieldRow($model,'address3',array());  ?>
+        <?php //echo $form->textFieldRow($model,'address3',array());  ?>
 
-<?php echo $form->textFieldRow($model, 'pos_code', array('class' => 'span2')); ?>
+        <?php echo $form->textFieldRow($model, 'pos_code', array('class' => 'span2')); ?>
 
-<?php $this->endWidget(); ?><!-- collabsible fieldset -->
+        <?php $this->endWidget(); ?><!-- collabsible fieldset -->
 
 
     </div>
@@ -110,9 +110,9 @@ $form = $this->beginWidget('TbActiveForm', array(
 
         <?php echo $form->textAreaRow($model, 'identity_address1', array('class' => 'span4', 'rows' => 5)); ?>
 
-<?php //echo $form->textFieldRow($model,'identity_address2',array());  ?>
+        <?php //echo $form->textFieldRow($model,'identity_address2',array());  ?>
 
-<?php //echo $form->textFieldRow($model,'identity_address3',array());  ?>
+        <?php //echo $form->textFieldRow($model,'identity_address3',array());  ?>
 
         <?php echo $form->textFieldRow($model, 'identity_pos_code', array('class' => 'span2')); ?>
 
@@ -123,26 +123,27 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <div class="row">
     <div class="span9">
-                <?php
-                $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
-                    'legend' => 'Contact',
-                    'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
-                ));
-                ?>   
+        <?php
+        $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+            'legend' => 'Contact',
+            'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
+        ));
+        ?>   
 
         <div class="row">
             <div class="span4">
                 <?php echo $form->textFieldRow($model, 'email', array()); ?>
 
-<?php //echo $form->textFieldRow($model,'email2',array());  ?>
+                <?php //echo $form->textFieldRow($model,'email2',array());  ?>
 
-        <?php echo $form->textFieldRow($model, 'home_phone', array()); ?>
+                <?php echo $form->textFieldRow($model, 'home_phone', array()); ?>
 
             </div>
             <div class="span4">
-<?php echo $form->textFieldRow($model, 'handphone', array("class" => "input-medium bfh-phone", "data-format" => "+62 ddd dddddddddd")); ?>
+                <?php //echo $form->textFieldRow($model, 'handphone', array("class" => "input-medium bfh-phone", "data-format" => "+62 ddd dddddddddd")); ?>
+                <?php echo $form->textFieldRow($model, 'handphone', array("class" => "input-medium")); ?>
 
-        <?php echo $form->textFieldRow($model, 'handphone2', array()); ?>
+                <?php echo $form->textFieldRow($model, 'handphone2', array()); ?>
             </div>
         </div>
 
@@ -172,34 +173,34 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <div class="row">
     <div class="span9">
-<?php
-if ($model->scenario == 'create') {
-    $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
-        'legend' => 'Career',
-        'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
-    ));
+        <?php
+        if ($model->scenario == 'create') {
+            $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+                'legend' => 'Career',
+                'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
+            ));
 
-    echo $this->renderPartial('_formCareerInit', array('form' => $form, 'model' => $modelCareer));
+            echo $this->renderPartial('_formCareerInit', array('form' => $form, 'model' => $modelCareer));
 
-    $this->endWidget();
-}
-?><!-- collabsible fieldset -->
+            $this->endWidget();
+        }
+        ?><!-- collabsible fieldset -->
     </div>
 </div>
 
 <div class="row">
     <div class="span9">
-<?php
-if ($model->scenario == 'create') {
-    $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
-        'legend' => 'Status',
-        'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
-    ));
-    echo $this->renderPartial('_formStatusInit', array('form' => $form, 'model' => $modelStatus));
+        <?php
+        if ($model->scenario == 'create') {
+            $this->beginWidget('ext.coolfieldset.JCollapsibleFieldset', array(
+                'legend' => 'Status',
+                'fieldsetHtmlOptions' => array('style' => 'padding:12px'),
+            ));
+            echo $this->renderPartial('_formStatusInit', array('form' => $form, 'model' => $modelStatus));
 
-    $this->endWidget();
-}
-?><!-- collabsible fieldset -->
+            $this->endWidget();
+        }
+        ?><!-- collabsible fieldset -->
     </div>
 </div>
 
@@ -207,13 +208,13 @@ if ($model->scenario == 'create') {
     <div class="span9">
 
         <div class="form-actions">
-<?php
-$this->widget('bootstrap.widgets.TbButton', array(
-    'buttonType' => 'submit',
-    'type' => 'primary',
-    'label' => $model->isNewRecord ? 'Create' : 'Save',
-));
-?>
+            <?php
+            $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType' => 'submit',
+                'type' => 'primary',
+                'label' => $model->isNewRecord ? 'Create' : 'Save',
+            ));
+            ?>
 
         </div>
     </div>

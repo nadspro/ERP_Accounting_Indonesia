@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbMarkdownEditorJs class
  *
@@ -7,60 +8,55 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @package YiiBooster bootstrap.widgets
  */
-class TbMarkdownEditorJS extends CInputWidget
-{
-	/**
-	 * Editor width
-	 */
-	public $width = '100%';
+class TbMarkdownEditorJS extends CInputWidget {
 
-	/**
-	 * Editor height
-	 */
-	public $height = '400px';
+    /**
+     * Editor width
+     */
+    public $width = '100%';
 
-	/**
-	 * Display editor
-	 */
-	public function run()
-	{
+    /**
+     * Editor height
+     */
+    public $height = '400px';
 
-		list($name, $id) = $this->resolveNameID();
+    /**
+     * Display editor
+     */
+    public function run() {
 
-		$this->registerClientScript($id);
+        list($name, $id) = $this->resolveNameID();
 
-		// Markdown Editor looks for an id of wmd-input...
-		$this->htmlOptions['id'] = $id;
+        $this->registerClientScript($id);
 
-		$this->htmlOptions['class'] = (isset($this->htmlOptions['class']))
-			? $this->htmlOptions['class'].' wmd-input'
-			: 'wmd-input';
+        // Markdown Editor looks for an id of wmd-input...
+        $this->htmlOptions['id'] = $id;
 
-		if (!array_key_exists('style', $this->htmlOptions))
-			$this->htmlOptions['style'] = "width:{$this->width};height:{$this->height};";
-		// Do we have a model?
-		if ($this->hasModel())
-			echo CHtml::activeTextArea($this->model, $this->attribute, $this->htmlOptions);
-		else
-			echo CHtml::textArea($name, $this->value, $this->htmlOptions);
-	}
+        $this->htmlOptions['class'] = (isset($this->htmlOptions['class'])) ? $this->htmlOptions['class'] . ' wmd-input' : 'wmd-input';
 
-	/**
-	 * Register required script files
-	 * @param integer $id
-	 */
-	public function registerClientScript($id)
-	{
-		Yii::app()->bootstrap->registerAssetCss('markdown.editor.css');
-		Yii::app()->bootstrap->registerAssetJs('markdown.converter.js', CClientScript::POS_HEAD);
-		Yii::app()->bootstrap->registerAssetJs('markdown.sanitizer.js', CClientScript::POS_HEAD);
-		Yii::app()->bootstrap->registerAssetJs('markdown.editor.js', CClientScript::POS_HEAD);
-		Yii::app()->clientScript->registerScript(
-			$id,
-			"var converter = Markdown.getSanitizingConverter();
-			var editor = new Markdown.Editor(converter, '".$id."');
-			editor.run();",
-			CClientScript::POS_END
-		);
-	}
+        if (!array_key_exists('style', $this->htmlOptions))
+            $this->htmlOptions['style'] = "width:{$this->width};height:{$this->height};";
+        // Do we have a model?
+        if ($this->hasModel())
+            echo CHtml::activeTextArea($this->model, $this->attribute, $this->htmlOptions);
+        else
+            echo CHtml::textArea($name, $this->value, $this->htmlOptions);
+    }
+
+    /**
+     * Register required script files
+     * @param integer $id
+     */
+    public function registerClientScript($id) {
+        Yii::app()->bootstrap->registerAssetCss('markdown.editor.css');
+        Yii::app()->bootstrap->registerAssetJs('markdown.converter.js', CClientScript::POS_HEAD);
+        Yii::app()->bootstrap->registerAssetJs('markdown.sanitizer.js', CClientScript::POS_HEAD);
+        Yii::app()->bootstrap->registerAssetJs('markdown.editor.js', CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScript(
+                $id, "var converter = Markdown.getSanitizingConverter();
+			var editor = new Markdown.Editor(converter, '" . $id . "');
+			editor.run();", CClientScript::POS_END
+        );
+    }
+
 }

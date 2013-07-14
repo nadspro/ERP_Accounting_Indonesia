@@ -49,9 +49,10 @@ $this->menu5 = array('Organization');
         <i class="iconic-image"></i>
         <div style="width:50px; float:left; margin-right:10px">
         </div>
-<?php echo $model->name;
-echo ($model->topStatus);
-?>
+        <?php
+        echo $model->name;
+        echo ($model->topStatus);
+        ?>
     </h1>
 </div>
 
@@ -61,31 +62,31 @@ echo ($model->topStatus);
 
         <h5>All Tree</h5>
 
-<?php
-$this->beginWidget('CTreeView', array(
-    'id' => 'module-tree',
-    //'data'=>$items,
-    'url' => array('/aOrganization/ajaxFillTree'),
-    'collapsed' => true,
-    'unique' => true,
-));
-$this->endWidget();
-?>
+        <?php
+        $this->beginWidget('CTreeView', array(
+            'id' => 'module-tree',
+            //'data'=>$items,
+            'url' => array('/aOrganization/ajaxFillTree'),
+            'collapsed' => true,
+            'unique' => true,
+        ));
+        $this->endWidget();
+        ?>
 
         <h5>Parent Family</h5>
 
-<?php
-$menu = array();
+        <?php
+        $menu = array();
 
-if (isset($_GET['id']))
-    $menu = aOrganization::getParentFamily($_GET['id']);
+        if (isset($_GET['id']))
+            $menu = aOrganization::getParentFamily($_GET['id']);
 
 
-$this->widget('bootstrap.widgets.TbMenu', array(
-    'type' => 'list',
-    'items' => $menu,
-));
-?>
+        $this->widget('bootstrap.widgets.TbMenu', array(
+            'type' => 'list',
+            'items' => $menu,
+        ));
+        ?>
 
         <h5>Current Tree</h5>
         <?php
@@ -166,7 +167,7 @@ $this->widget('bootstrap.widgets.TbMenu', array(
 
         <h3>New Child Organization</h3>
 
-<?php echo $this->renderPartial('_form', array('model' => $modelOrganization)); ?>
+        <?php echo $this->renderPartial('_form', array('model' => $modelOrganization)); ?>
 
     </div>
 </div>

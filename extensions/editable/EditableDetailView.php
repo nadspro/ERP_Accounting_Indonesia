@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EditableDetailView class file.
  * 
@@ -10,20 +11,17 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version 1.0.0
  */
- 
 Yii::import('ext.editable.EditableField');
 Yii::import('zii.widgets.CDetailView');
 
-class EditableDetailView extends CDetailView
-{
+class EditableDetailView extends CDetailView {
+
     //common url for all editables
     public $url = '';
-
     //set bootstrap css
-    public $htmlOptions = array('class'=> 'table table-bordered table-striped table-hover table-condensed');
+    public $htmlOptions = array('class' => 'table table-bordered table-striped table-hover table-condensed');
 
-    public function init()
-    {
+    public function init() {
         if (!$this->data instanceof CModel) {
             throw new CException('Property "data" should be of CModel class.');
         }
@@ -31,17 +29,17 @@ class EditableDetailView extends CDetailView
         parent::init();
     }
 
-    protected function renderItem($options, $templateData)
-    {
+    protected function renderItem($options, $templateData) {
         //if editable set to false --> not editable
         $isEditable = array_key_exists('editable', $options) && $options['editable'] !== false;
 
         //if name not defined or it is not safe --> not editable
         $isEditable = !empty($options['name']) && $this->data->isAttributeSafe($options['name']);
 
-        if ($isEditable) {    
+        if ($isEditable) {
             //ensure $options['editable'] is array
-            if(!array_key_exists('editable', $options) || !is_array($options['editable'])) $options['editable'] = array();
+            if (!array_key_exists('editable', $options) || !is_array($options['editable']))
+                $options['editable'] = array();
 
             //take common url
             if (!array_key_exists('url', $options['editable'])) {
@@ -49,19 +47,19 @@ class EditableDetailView extends CDetailView
             }
 
             $editableOptions = CMap::mergeArray($options['editable'], array(
-                'model'     => $this->data,
-                'attribute' => $options['name'],
-                'emptytext' => ($this->nullDisplay === null) ? Yii::t('zii', 'Not set') : strip_tags($this->nullDisplay),
+                        'model' => $this->data,
+                        'attribute' => $options['name'],
+                        'emptytext' => ($this->nullDisplay === null) ? Yii::t('zii', 'Not set') : strip_tags($this->nullDisplay),
             ));
-            
+
             //if value in detailview options provided, set text directly
-            if(array_key_exists('value', $options) && $options['value'] !== null) {
+            if (array_key_exists('value', $options) && $options['value'] !== null) {
                 $editableOptions['text'] = $templateData['{value}'];
                 $editableOptions['encode'] = false;
             }
 
             $templateData['{value}'] = $this->controller->widget('EditableField', $editableOptions, true);
-        } 
+        }
 
         parent::renderItem($options, $templateData);
     }

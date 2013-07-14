@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\CssSelector;
 
@@ -21,34 +21,33 @@ namespace Symfony\Component\CssSelector;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class XPathExprOr extends XPathExpr
-{
-	/**
-	 * Constructor.
-	 *
-	 * @param array  $items  The items in the expression.
-	 * @param string $prefix Optional prefix for the expression.
-	 */
-	public function __construct($items, $prefix = null)
-	{
-		$this->items = $items;
-		$this->prefix = $prefix;
-	}
+class XPathExprOr extends XPathExpr {
 
-	/**
-	 * Gets a string representation of this |'d expression.
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		$prefix = $this->getPrefix();
+    /**
+     * Constructor.
+     *
+     * @param array  $items  The items in the expression.
+     * @param string $prefix Optional prefix for the expression.
+     */
+    public function __construct($items, $prefix = null) {
+        $this->items = $items;
+        $this->prefix = $prefix;
+    }
 
-		$tmp = array();
-		foreach ($this->items as $i) {
-			$tmp[] = sprintf('%s%s', $prefix, $i);
-		}
+    /**
+     * Gets a string representation of this |'d expression.
+     *
+     * @return string
+     */
+    public function __toString() {
+        $prefix = $this->getPrefix();
 
-		return implode($tmp, ' | ');
-	}
+        $tmp = array();
+        foreach ($this->items as $i) {
+            $tmp[] = sprintf('%s%s', $prefix, $i);
+        }
+
+        return implode($tmp, ' | ');
+    }
+
 }

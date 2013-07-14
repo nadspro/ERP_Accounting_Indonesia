@@ -37,7 +37,7 @@ Yii::app()->clientScript->registerScript('datepicker3', "
 
         <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
-<?php echo $form->dropDownListRow($model, 'payroll_cover_id', sParameter::items('cCover')); ?>
+        <?php echo $form->dropDownListRow($model, 'payroll_cover_id', sParameter::items('cCover')); ?>
         <!-- form -->
 
         <div class="form-actions">
@@ -50,7 +50,7 @@ Yii::app()->clientScript->registerScript('datepicker3', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
     </div>
 </div>
 

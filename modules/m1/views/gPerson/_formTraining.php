@@ -52,7 +52,7 @@ Yii::app()->clientScript->registerScript('datepicker15', "
 
         <?php echo $form->textFieldRow($model, 'organizer', array('class' => 'span3')); ?>
 
-            <?php echo $form->textFieldRow($model, 'place', array()); ?>
+        <?php echo $form->textFieldRow($model, 'place', array()); ?>
 
         <div class="form-actions">
             <?php
@@ -65,7 +65,7 @@ Yii::app()->clientScript->registerScript('datepicker15', "
         </div>
 
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div><!-- form -->
 </div><!-- form -->

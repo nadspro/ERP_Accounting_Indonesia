@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -13,21 +14,21 @@
  *
  * @version $Id: $
  */
-return array (
-		'An error occurred while installing Rights.' => '',
-		'Application authorization manager must extend the RDbAuthManager class.' => '',
-		'Application web user must extend the RWebUser class.' => '',
-		'Error' => '',
-		'Please try again or consult the documentation.' => '',
-		'Congratulations!' => '¡Felicitaciones!',
-		'Install Rights' => 'Instalar Rights',
-		'No' => 'No',
-		'Notice: All your existing data will be lost.' => 'Advertencia: Todos tus datos existentes se perderan.',
-		'Please confirm if you wish to reinstall.' => 'Porfavor confirma si deseas reinstalar.',
-		'Rights has been installed succesfully.' => 'Rights ha sido correctamente instalado.',
-		'Rights is already installed!' => '¡Rights ya se encuentra instalado!',
-		'Yes' => 'Si',
-		'You can start by generating your authorization items' => 'Puedes comenzar generando tus propios objetos de autorización',
-		'You must be logged in to install Rights.' => 'Debes estar conectado para poder instalar Rights.',
-		'here' => 'aquí',
-		);
+return array(
+    'An error occurred while installing Rights.' => '',
+    'Application authorization manager must extend the RDbAuthManager class.' => '',
+    'Application web user must extend the RWebUser class.' => '',
+    'Error' => '',
+    'Please try again or consult the documentation.' => '',
+    'Congratulations!' => '¡Felicitaciones!',
+    'Install Rights' => 'Instalar Rights',
+    'No' => 'No',
+    'Notice: All your existing data will be lost.' => 'Advertencia: Todos tus datos existentes se perderan.',
+    'Please confirm if you wish to reinstall.' => 'Porfavor confirma si deseas reinstalar.',
+    'Rights has been installed succesfully.' => 'Rights ha sido correctamente instalado.',
+    'Rights is already installed!' => '¡Rights ya se encuentra instalado!',
+    'Yes' => 'Si',
+    'You can start by generating your authorization items' => 'Puedes comenzar generando tus propios objetos de autorización',
+    'You must be logged in to install Rights.' => 'Debes estar conectado para poder instalar Rights.',
+    'here' => 'aquí',
+);

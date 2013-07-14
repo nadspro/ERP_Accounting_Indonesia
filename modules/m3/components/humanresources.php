@@ -2,19 +2,18 @@
 
 Yii::import('zii.widgets.CPortlet');
 
-class humanresources extends CPortlet
-{
-	public function getRecentData()
-	{
-		$criteria = new cDbCriteria;
-		$criteria->limit = 10;
-		$criteria->order = 'updated_date DESC';
+class humanresources extends CPortlet {
 
-		return CPersonalia::model()->findAll($criteria);
-	}
+    public function getRecentData() {
+        $criteria = new cDbCriteria;
+        $criteria->limit = 10;
+        $criteria->order = 'updated_date DESC';
 
-	protected function renderContent()
-	{
-		$this->render('humanresources');
-	}
+        return CPersonalia::model()->findAll($criteria);
+    }
+
+    protected function renderContent() {
+        $this->render('humanresources');
+    }
+
 }

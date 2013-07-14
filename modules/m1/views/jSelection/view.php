@@ -16,7 +16,7 @@ $this->menu = array(
 <div class="page-header">
     <h1>
         <i class="icon-fa-tasks"></i>
-<?php echo $model->category->name; ?></h1>
+        <?php echo $model->category->name; ?></h1>
 </div>
 
 <?php
@@ -49,7 +49,7 @@ $this->widget('TbDetailView', array(
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Full or Closed or Passed Date!</strong> The Registration is full or has been closed by Selection Holding Administrator
     </div>
-<?php
+    <?php
 }
 else
     echo $this->renderPartial('_formParticipant', array('model' => $modelParticipant));

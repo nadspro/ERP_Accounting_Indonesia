@@ -1,75 +1,85 @@
-<?php $this->breadcrumbs = array(
-		'Rights'=>Rights::getBaseUrl(),
-		Rights::t('core', 'Generate items'),
-); ?>
+<?php
+$this->breadcrumbs = array(
+    'Rights' => Rights::getBaseUrl(),
+    Rights::t('core', 'Generate items'),
+);
+?>
 
 <div id="generator">
 
-	<div class="page-header">
-		<h1>
-			<?php echo Rights::t('core', 'Generate items'); ?>
-		</h1>
-	</div>
-	<p>
-		<?php echo Rights::t('core', 'Please select which items you wish to generate.'); ?>
-	</p>
+    <div class="page-header">
+        <h1>
+            <?php echo Rights::t('core', 'Generate items'); ?>
+        </h1>
+    </div>
+    <p>
+        <?php echo Rights::t('core', 'Please select which items you wish to generate.'); ?>
+    </p>
 
-	<div class="form">
+    <div class="form">
 
-		<?php $form=$this->beginWidget('CActiveForm'); ?>
+        <?php $form = $this->beginWidget('CActiveForm'); ?>
 
-		<div class="row">
+        <div class="row">
 
-			<table class="items generate-item-table" border="0" cellpadding="0"
-				cellspacing="0">
+            <table class="items generate-item-table" border="0" cellpadding="0"
+                   cellspacing="0">
 
-				<tbody>
+                <tbody>
 
-					<tr class="application-heading-row">
-						<th colspan="3"><?php echo Rights::t('core', 'Application'); ?></th>
-					</tr>
+                    <tr class="application-heading-row">
+                        <th colspan="3"><?php echo Rights::t('core', 'Application'); ?></th>
+                    </tr>
 
-					<?php $this->renderPartial('_generateItems', array(
-							'model'=>$model,
-							'form'=>$form,
-							'items'=>$items,
-							'existingItems'=>$existingItems,
-							'displayModuleHeadingRow'=>true,
-							'basePathLength'=>strlen(Yii::app()->basePath),
-					)); ?>
+                    <?php
+                    $this->renderPartial('_generateItems', array(
+                        'model' => $model,
+                        'form' => $form,
+                        'items' => $items,
+                        'existingItems' => $existingItems,
+                        'displayModuleHeadingRow' => true,
+                        'basePathLength' => strlen(Yii::app()->basePath),
+                    ));
+                    ?>
 
-				</tbody>
+                </tbody>
 
-			</table>
+            </table>
 
-		</div>
+        </div>
 
-		<div class="row">
+        <div class="row">
 
-			<?php echo CHtml::link(Rights::t('core', 'Select all'), '#', array(
-					'onclick'=>"jQuery('.generate-item-table').find(':checkbox').attr('checked', 'checked'); return false;",
-					'class'=>'selectAllLink')); ?>
-			/
-			<?php echo CHtml::link(Rights::t('core', 'Select none'), '#', array(
-					'onclick'=>"jQuery('.generate-item-table').find(':checkbox').removeAttr('checked'); return false;",
-					'class'=>'selectNoneLink')); ?>
+            <?php
+            echo CHtml::link(Rights::t('core', 'Select all'), '#', array(
+                'onclick' => "jQuery('.generate-item-table').find(':checkbox').attr('checked', 'checked'); return false;",
+                'class' => 'selectAllLink'));
+            ?>
+            /
+            <?php
+            echo CHtml::link(Rights::t('core', 'Select none'), '#', array(
+                'onclick' => "jQuery('.generate-item-table').find(':checkbox').removeAttr('checked'); return false;",
+                'class' => 'selectNoneLink'));
+            ?>
 
-		</div>
+        </div>
 
-		<div class="row">
+        <div class="row">
 
-				<?php //echo CHtml::submitButton(Rights::t('core', 'Generate')); ?>
-				<?php $this->widget('bootstrap.widgets.TbButton', array(
-						'buttonType'=>'submit',
-						'type'=>'primary',
-						'label'=>'Generate',
-				)); ?>
+            <?php //echo CHtml::submitButton(Rights::t('core', 'Generate'));  ?>
+            <?php
+            $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType' => 'submit',
+                'type' => 'primary',
+                'label' => 'Generate',
+            ));
+            ?>
 
 
-		</div>
+        </div>
 
-		<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
-	</div>
+    </div>
 
 </div>

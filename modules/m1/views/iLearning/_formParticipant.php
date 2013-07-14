@@ -48,7 +48,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <?php echo $form->textFieldRow($model, 'employee_name', array('class' => 'span3')); ?>
-    <?php echo $form->hiddenField($model, 'employee_id'); ?>
+<?php echo $form->hiddenField($model, 'employee_id'); ?>
 
 <div class="form-actions">
     <?php

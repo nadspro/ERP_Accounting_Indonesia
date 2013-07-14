@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FTextValidator class file.
  *
@@ -11,13 +12,13 @@
 /**
  * FTextValidator verifies if the attribute represents a valid text (contains no XML tags).
  */
-class FTextValidator extends CValidator
-{
+class FTextValidator extends CValidator {
+
     /**
      * @var boolean whether the attribute value can be null or empty. Defaults to true,
      * meaning that if the attribute is empty, it is considered valid.
      */
-    public $allowEmpty=true;
+    public $allowEmpty = true;
 
     /**
      * Validates the attribute of the object.
@@ -25,14 +26,15 @@ class FTextValidator extends CValidator
      * @param CModel the data object being validated
      * @param string the name of the attribute to be validated.
      */
-    protected function validateAttribute($object,$attribute) {
-        $value=$object->$attribute;
-        if($this->allowEmpty && $this->isEmpty($value))
+    protected function validateAttribute($object, $attribute) {
+        $value = $object->$attribute;
+        if ($this->allowEmpty && $this->isEmpty($value))
             return;
 
-        if($value !== filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES)) {
-            $message=$this->message!==null?$this->message : Yii::t(__CLASS__,'Valid text of {attribute} without any XML tags will expected.');
-            $this->addError($object,$attribute,$message);
+        if ($value !== filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES)) {
+            $message = $this->message !== null ? $this->message : Yii::t(__CLASS__, 'Valid text of {attribute} without any XML tags will expected.');
+            $this->addError($object, $attribute, $message);
         }
     }
+
 }

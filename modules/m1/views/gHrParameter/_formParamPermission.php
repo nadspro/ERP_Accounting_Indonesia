@@ -16,8 +16,8 @@
     <?php echo $form->errorSummary($model); ?>
 
     <?php echo $form->textFieldRow($model, 'sort'); ?>
-<?php echo $form->textFieldRow($model, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-<?php echo $form->textFieldRow($model, 'amount'); ?>
+    <?php echo $form->textFieldRow($model, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+    <?php echo $form->textFieldRow($model, 'amount'); ?>
 
 
     <div class="form-actions">
@@ -31,6 +31,6 @@
 
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->

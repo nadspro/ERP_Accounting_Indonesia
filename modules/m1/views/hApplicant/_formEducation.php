@@ -18,7 +18,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'graduate', array()); ?>
 
-    <?php echo $form->textFieldRow($model, 'ipk', array()); ?>
+<?php echo $form->textFieldRow($model, 'ipk', array()); ?>
 
 <div class="form-actions">
     <?php

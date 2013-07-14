@@ -1,4 +1,5 @@
 <?php
+
 Yii::import("ext.xupload.models.XUploadForm");
 
 /**
@@ -54,93 +55,90 @@ Yii::import("ext.xupload.models.XUploadForm");
  * @version 0.2
  * @author Dimitrios Mengidis, [Asgaroth](http://www.yiiframework.com/user/1883/)
  */
-class XUploadAction extends CAction
-{
-	/**
-	 * The query string variable name where the subfolder name will be taken from.
-	 *
-	 * Defaults to false meaning the subfolder to be used will be the result of date("mdY").
-	 *
-	 * @see XUploadAction::init().
-	 * @var string
-	 * @since 0.2
-	 */
-	public $subfolderVar = false;
+class XUploadAction extends CAction {
 
-	public $id;
-	public $_id;
+    /**
+     * The query string variable name where the subfolder name will be taken from.
+     *
+     * Defaults to false meaning the subfolder to be used will be the result of date("mdY").
+     *
+     * @see XUploadAction::init().
+     * @var string
+     * @since 0.2
+     */
+    public $subfolderVar = false;
+    public $id;
+    public $_id;
 
-	/**
-	 * Full path of the main uploading folder.
-	 * @see XUploadAction::init()
-	 * @var string
-	 * @since 0.1
-	 */
-	public $path;
+    /**
+     * Full path of the main uploading folder.
+     * @see XUploadAction::init()
+     * @var string
+     * @since 0.1
+     */
+    public $path;
 
-	/**
-	 * The resolved subfolder to upload the file to
-	 * @var string
-	 * @since 0.2
-	 */
-	private $_subfolder;
+    /**
+     * The resolved subfolder to upload the file to
+     * @var string
+     * @since 0.2
+     */
+    private $_subfolder;
 
-	/**
-	 * Initialize the propeties of this action, if they are not set.
-	 *
-	 * @since 0.1
-	 */
-	public function init()
-	{
-		if(!isset($this->path)){
-			$this->path = realpath(Yii::app()->getBasePath()."/../images");
-		}
+    /**
+     * Initialize the propeties of this action, if they are not set.
+     *
+     * @since 0.1
+     */
+    public function init() {
+        if (!isset($this->path)) {
+            $this->path = realpath(Yii::app()->getBasePath() . "/../images");
+        }
 
-		if(!is_dir($this->path)){
-			throw new CHttpException(500, "{$this->path} does not exists.");
-		}else if(!is_writable($this->path)){
-			throw new CHttpException(500, "{$this->path} is not writable.");
-		}
+        if (!is_dir($this->path)) {
+            throw new CHttpException(500, "{$this->path} does not exists.");
+        } else if (!is_writable($this->path)) {
+            throw new CHttpException(500, "{$this->path} is not writable.");
+        }
 
-		if($this->subfolderVar !== false){
-			$this->_subfolder = Yii::app()->request->getQuery($this->subfolderVar, date("Ydm"));
-		}else{
-			$this->_subfolder = date("Ydm");
-		}
-	}
+        if ($this->subfolderVar !== false) {
+            $this->_subfolder = Yii::app()->request->getQuery($this->subfolderVar, date("Ydm"));
+        } else {
+            $this->_subfolder = date("Ydm");
+        }
+    }
 
-	/**
-	 * The main action that handles the file upload request.
-	 * @since 0.1
-	 * @author Asgaroth
-	 */
-	public function run()
-	{
-		$this->init();
-		$model = new XUploadForm;
-		$model->file = CUploadedFile::getInstance($model, 'file');
-		$model->mime_type = $model->file->getType();
-		$model->size = $model->file->getSize();
-		$model->name = $model->file->getName();
+    /**
+     * The main action that handles the file upload request.
+     * @since 0.1
+     * @author Asgaroth
+     */
+    public function run() {
+        $this->init();
+        $model = new XUploadForm;
+        $model->file = CUploadedFile::getInstance($model, 'file');
+        $model->mime_type = $model->file->getType();
+        $model->size = $model->file->getSize();
+        $model->name = $model->file->getName();
 
-		if ($model->validate()) {
-			$path = $this->path."/".$this->_subfolder."/";
-			if(!is_dir($path)){
-				mkdir($path);
-			}
-			$model->file->saveAs($path.$model->name);
-			echo json_encode(array("name" => $model->name,"type" => $model->mime_type,"size"=> $model->getReadableFileSize()));
-		} else {
-			echo CVarDumper::dumpAsString($model->getErrors());
-			Yii::log("XUploadAction: ".CVarDumper::dumpAsString($model->getErrors()), CLogger::LEVEL_ERROR, "application.extensions.xupload.actions.XUploadAction");
-			throw new CHttpException(500, "Could not upload file");
-		}
+        if ($model->validate()) {
+            $path = $this->path . "/" . $this->_subfolder . "/";
+            if (!is_dir($path)) {
+                mkdir($path);
+            }
+            $model->file->saveAs($path . $model->name);
+            echo json_encode(array("name" => $model->name, "type" => $model->mime_type, "size" => $model->getReadableFileSize()));
+        } else {
+            echo CVarDumper::dumpAsString($model->getErrors());
+            Yii::log("XUploadAction: " . CVarDumper::dumpAsString($model->getErrors()), CLogger::LEVEL_ERROR, "application.extensions.xupload.actions.XUploadAction");
+            throw new CHttpException(500, "Could not upload file");
+        }
 
-		$this->_id = Yii::app()->request->getQuery($this->id);
+        $this->_id = Yii::app()->request->getQuery($this->id);
 
-		$model1 = AMitraAdopsi::model()->findByPk($this->_id);
-		$model1->photo="photo/".$model->file->getName();
-		$model1->save();
+        $model1 = AMitraAdopsi::model()->findByPk($this->_id);
+        $model1->photo = "photo/" . $model->file->getName();
+        $model1->save();
+    }
 
-	}
 }

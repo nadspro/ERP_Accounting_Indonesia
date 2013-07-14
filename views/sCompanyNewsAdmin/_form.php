@@ -25,7 +25,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->dropDownListRow($model, 'approved_id', sParameter::items('cStatusP')); ?>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'publish_date', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'publish_date', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(
@@ -68,7 +68,8 @@ $form = $this->beginWidget('TbActiveForm', array(
     </div>
 </div>
 
-<?php echo $form->html5EditorRow($model, 'content', array(
+<?php
+echo $form->html5EditorRow($model, 'content', array(
     'class' => 'span4', 'rows' => 5, 'height' => '300', 'options' => array('color' => true)));
 ?>
 

@@ -38,9 +38,9 @@ $this->menu8 = hApplicant::model()->getTopRecentApplicant();
 <div class="page-header">
     <h1>
         <i class="icon-fa-paper-clip"></i>
-<?php
-echo $model->vacancy_title;
-?>
+        <?php
+        echo $model->vacancy_title;
+        ?>
 
     </h1>
 </div>
@@ -52,12 +52,12 @@ $this->renderPartial('_tabCampaign', array('model' => $model));
 
 <?php echo CHtml::link('Show/Hide Detail', '#', array('class' => 'detail-link pull-right')); ?>
 <p>
-<?php echo CHtml::link('Show/Hide New Campaign', '#', array('class' => 'campaign-button btn btn-mini')); ?>
+    <?php echo CHtml::link('Show/Hide New Campaign', '#', array('class' => 'campaign-button btn btn-mini')); ?>
 
 <div class="campaign-block" style="display:none">
-<?php
-$this->renderPartial('_formCampaign', array('model' => $modelCampaign));
-?>	
+    <?php
+    $this->renderPartial('_formCampaign', array('model' => $modelCampaign));
+    ?>	
 </div>
 
 </p>
@@ -65,7 +65,7 @@ $this->renderPartial('_formCampaign', array('model' => $modelCampaign));
 
 <div class="detail-block" style="display:none">
     <p>
-<?php echo $model->vacancy_desc; ?>
+        <?php echo $model->vacancy_desc; ?>
 
         <?php
         //$this->widget('ext.expander.Expander',array(

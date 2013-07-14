@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JCollapsibleFieldset class file.
  *
@@ -14,131 +15,127 @@
  *
  * @see: http://www.http://w3shaman.com/article/jquery-plugin-collapsible-fieldset
  */
+class JCollapsibleFieldset extends CWidget {
 
-class JCollapsibleFieldset extends CWidget
-{
-	/**
-	 * @var mixed the CSS file used for the widget.
-	 * If false, the default CSS file will be used. Otherwise, the specified CSS file
-	 * will be included when using this widget.
-	 */
-	public $cssFile=false;
-	/**
-	 * @var boolean Should the fieldset collapsed by start?
-	 * Defaults to false.
-	 */
-	public $collapsed;
-	/**
-	 * @var boolean animate collapsing fieldset?
-	 * Defaults to true.
-	 */
-	public $animation;
+    /**
+     * @var mixed the CSS file used for the widget.
+     * If false, the default CSS file will be used. Otherwise, the specified CSS file
+     * will be included when using this widget.
+     */
+    public $cssFile = false;
 
-	/**
-	 * @var boolean Should only the fieldset rendered without CSS-/Javascript files?
-	 * Defaults to false.
-	 */
-	public $onlyFieldset=false;
-	/**
-	 * @var string the text for the legend
-	 * Defaults to false.
-	 */
-	public $legend='';
+    /**
+     * @var boolean Should the fieldset collapsed by start?
+     * Defaults to false.
+     */
+    public $collapsed;
 
+    /**
+     * @var boolean animate collapsing fieldset?
+     * Defaults to true.
+     */
+    public $animation;
 
-	/**
-	 * @var array additional HTML attributes that will be rendered in the fieldset tag.
-	 */
-	public $fieldsetHtmlOptions=array();
-	/**
-	 * @var array additional HTML attributes that will be rendered in the legend tag.
-	 */
-	public $legendHtmlOptions=array();
-	/**
-	 * @var array additional HTML attributes that will be rendered in the div tag.
-	 */
-	public $divHtmlOptions=array();
+    /**
+     * @var boolean Should only the fieldset rendered without CSS-/Javascript files?
+     * Defaults to false.
+     */
+    public $onlyFieldset = false;
 
-	/**
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     * @var string the text for the legend
+     * Defaults to false.
+     */
+    public $legend = '';
 
-		if(isset($this->fieldsetHtmlOptions['id']))
-			$id=$this->fieldsetHtmlOptions['id'];
-		else
-			$id=$this->fieldsetHtmlOptions['id']=$this->getId();
+    /**
+     * @var array additional HTML attributes that will be rendered in the fieldset tag.
+     */
+    public $fieldsetHtmlOptions = array();
 
-		if (!$this->onlyFieldset){
-			$baseUrl = CHtml::asset(dirname(__FILE__).'/assets');
-			$cssFile=($this->cssFile!==false)?$this->cssFile:$baseUrl.'/css/jquery.coolfieldset.css';
-			$jsFile=(YII_DEBUG)?'/js/jquery.coolfieldset.js':'/js/jquery.coolfieldset.min.js';
+    /**
+     * @var array additional HTML attributes that will be rendered in the legend tag.
+     */
+    public $legendHtmlOptions = array();
 
-			Yii::app()->getClientScript()
-			->registerCoreScript('jquery')
-			->registerScriptFile($baseUrl.$jsFile)
-			->registerScript(__CLASS__.'#'.$id, $this->createJsCode($id))
-			->registerCssFile($cssFile);
-		}
-		$this->renderBeginMarkup();
-	}
+    /**
+     * @var array additional HTML attributes that will be rendered in the div tag.
+     */
+    public $divHtmlOptions = array();
 
-	/**
-	 * Executes the widget.
-	 */
-	public function run()
-	{
-		$this->renderEndMarkup();
-	}
+    /**
+     * Initializes the widget.
+     */
+    public function init() {
+        parent::init();
 
-	/**
-	 * The javascript needed
-	 */
-	protected function createJsCode($id)
-	{
-		$optsArr=$this->getClientOptions();
-		if (count($optsArr)){
-			$opts = CJavaScript::encode($optsArr);
-			return "jQuery('#{$id}').coolfieldset($opts);";
-		}
-		return "jQuery('#{$id}').coolfieldset();";
-	}
+        if (isset($this->fieldsetHtmlOptions['id']))
+            $id = $this->fieldsetHtmlOptions['id'];
+        else
+            $id = $this->fieldsetHtmlOptions['id'] = $this->getId();
 
-	/**
-	 * @return array the javascript options
-	 */
-	protected function getClientOptions()
-	{
-		$options = array();
-		static $properties=array('collapsed', 'animation');
+        if (!$this->onlyFieldset) {
+            $baseUrl = CHtml::asset(dirname(__FILE__) . '/assets');
+            $cssFile = ($this->cssFile !== false) ? $this->cssFile : $baseUrl . '/css/jquery.coolfieldset.css';
+            $jsFile = (YII_DEBUG) ? '/js/jquery.coolfieldset.js' : '/js/jquery.coolfieldset.min.js';
 
-		foreach($properties as $property)
-		{
-			if($this->$property!==null)
-				$options[$property]=$this->$property;
-		}
-		return $options;
-	}
+            Yii::app()->getClientScript()
+                    ->registerCoreScript('jquery')
+                    ->registerScriptFile($baseUrl . $jsFile)
+                    ->registerScript(__CLASS__ . '#' . $id, $this->createJsCode($id))
+                    ->registerCssFile($cssFile);
+        }
+        $this->renderBeginMarkup();
+    }
 
-	protected function renderBeginMarkup(){
+    /**
+     * Executes the widget.
+     */
+    public function run() {
+        $this->renderEndMarkup();
+    }
 
-		if (!$this->onlyFieldset)
-			$this->fieldsetHtmlOptions['class']=(isset($this->fieldsetHtmlOptions['class']))
-			? 'coolfieldset '.$this->fieldsetHtmlOptions['class']
-			: 'coolfieldset';
+    /**
+     * The javascript needed
+     */
+    protected function createJsCode($id) {
+        $optsArr = $this->getClientOptions();
+        if (count($optsArr)) {
+            $opts = CJavaScript::encode($optsArr);
+            return "jQuery('#{$id}').coolfieldset($opts);";
+        }
+        return "jQuery('#{$id}').coolfieldset();";
+    }
 
-		echo CHtml::openTag('fieldset',$this->fieldsetHtmlOptions);
-		echo CHtml::tag('legend',$this->legendHtmlOptions,$this->legend);
-		if (!$this->onlyFieldset)
-			echo CHtml::openTag('div',$this->divHtmlOptions);
+    /**
+     * @return array the javascript options
+     */
+    protected function getClientOptions() {
+        $options = array();
+        static $properties = array('collapsed', 'animation');
 
-	}
+        foreach ($properties as $property) {
+            if ($this->$property !== null)
+                $options[$property] = $this->$property;
+        }
+        return $options;
+    }
 
-	protected function renderEndMarkup(){
-		if (!$this->onlyFieldset)
-			echo CHtml::closeTag('div');
-		echo CHtml::closeTag('fieldset');
-	}
+    protected function renderBeginMarkup() {
+
+        if (!$this->onlyFieldset)
+            $this->fieldsetHtmlOptions['class'] = (isset($this->fieldsetHtmlOptions['class'])) ? 'coolfieldset ' . $this->fieldsetHtmlOptions['class'] : 'coolfieldset';
+
+        echo CHtml::openTag('fieldset', $this->fieldsetHtmlOptions);
+        echo CHtml::tag('legend', $this->legendHtmlOptions, $this->legend);
+        if (!$this->onlyFieldset)
+            echo CHtml::openTag('div', $this->divHtmlOptions);
+    }
+
+    protected function renderEndMarkup() {
+        if (!$this->onlyFieldset)
+            echo CHtml::closeTag('div');
+        echo CHtml::closeTag('fieldset');
+    }
+
 }

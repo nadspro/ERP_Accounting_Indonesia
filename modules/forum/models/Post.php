@@ -16,8 +16,7 @@
  * @property Thread $thread Thread this post lives in
  * @property Forumuser $user User who posted this
  */
-class Post extends CActiveRecord
-{
+class Post extends CActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
@@ -60,9 +59,9 @@ class Post extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'author'=>array(self::BELONGS_TO, 'Forumuser', 'author_id'),
-            'thread'=>array(self::BELONGS_TO, 'Thread', 'thread_id'),
-            'editor'=>array(self::BELONGS_TO, 'Forumuser', 'editor_id'),
+            'author' => array(self::BELONGS_TO, 'Forumuser', 'author_id'),
+            'thread' => array(self::BELONGS_TO, 'Thread', 'thread_id'),
+            'editor' => array(self::BELONGS_TO, 'Forumuser', 'editor_id'),
         );
     }
 
@@ -72,11 +71,11 @@ class Post extends CActiveRecord
     public function attributeLabels() {
         return array_merge(parent::attributeLabels(), array(
             'id' => 'ID',
-            'author_id'=>'Author',
-            'thread_id'=>'Thread',
-            'editor_id'=>'Editor',
-            'content'=>'Content',
-            'created'=>'Created',
+            'author_id' => 'Author',
+            'thread_id' => 'Thread',
+            'editor_id' => 'Editor',
+            'content' => 'Content',
+            'created' => 'Created',
             'updated' => 'Updated',
         ));
     }
@@ -84,9 +83,8 @@ class Post extends CActiveRecord
     /**
      * Manage the created/updated fields
      */
-    public function beforeSave()
-    {
-        if($this->isNewRecord)
+    public function beforeSave() {
+        if ($this->isNewRecord)
             $this->created = time();
         $this->updated = time();
 

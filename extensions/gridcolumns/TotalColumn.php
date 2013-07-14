@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TotalColumn class file
  *
@@ -39,105 +40,104 @@ Yii::import('zii.widgets.grid.CDataColumn');
  * the cell is rendered.
  */
 class TotalColumn extends CDataColumn {
-	/**
-	 * @property boolean Whether to NULL data cells and display the grid's
-	 * nullDisplay property if the value is zero.
-	 * Note: Does not apply to the total
-	 */
-	public $nullOnZero=false;
-	/**
-	 * @property string A PHP expression that will be evaluated for every data cell
-	 * and whose result will be rendered as the content of the data cells; the
-	 * expression can contain the variables <code>$total</code> - the current
-	 * total, <code>$row</code> - the row number (zero-based), <code>$data</code> -
-	 * the data model for the row, and <code>$this</code> - the column object.
-	 */
-	public $output;
-	/**
-	 * @property mixed Either, float: the initial value of the total, or string: A
-	 * PHP expression that will be evaluated when the grid initialises and whose
-	 * result becomes the initial value of the total. The expression can contain
-	 * the variable <code>$this</code> - the column object.
-	 */
-	public $init;
-	/**
-	 * @var float The total.
-	 */
-	private $_total=0;
 
-	/**
-	 * Initialises the column.
-	 * Sets the initial value for the total.
-	 */
-	public function init() {
-		if($this->name===null && $this->value===null)
-			throw new CException(Yii::t('cols','Either "name" or "value" must be specified for TotalColumn.'));
-		if(is_numeric($this->init))
-			$this->l=$this->init;
-		elseif(is_string($this->init))
-		$this->_total=$this->evaluateExpression($this->init);
-	}
+    /**
+     * @property boolean Whether to NULL data cells and display the grid's
+     * nullDisplay property if the value is zero.
+     * Note: Does not apply to the total
+     */
+    public $nullOnZero = false;
 
-	/**
-	 * Renders the data cell content and adds the cell value to the total.
-	 * This method evaluates value or name to obtain the data cell value and adds
-	 * it to the current total. If set, output is evaluated to determine the
-	 * rendering result; if not the cell value is rendered.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
-	 */
-	protected function renderDataCellContent($row, $data) {
-		if($this->value!==null)
-			$value=$this->evaluateExpression($this->value,compact('data','row'));
-		else if($this->name!==null)
-			$value=CHtml::value($data,$this->name);
-		else
-			$value=0;
+    /**
+     * @property string A PHP expression that will be evaluated for every data cell
+     * and whose result will be rendered as the content of the data cells; the
+     * expression can contain the variables <code>$total</code> - the current
+     * total, <code>$row</code> - the row number (zero-based), <code>$data</code> -
+     * the data model for the row, and <code>$this</code> - the column object.
+     */
+    public $output;
 
-		$this->_total+=$value;
+    /**
+     * @property mixed Either, float: the initial value of the total, or string: A
+     * PHP expression that will be evaluated when the grid initialises and whose
+     * result becomes the initial value of the total. The expression can contain
+     * the variable <code>$this</code> - the column object.
+     */
+    public $init;
 
-		if($value==0&&$this->nullOnZero)
-			$value=null;
+    /**
+     * @var float The total.
+     */
+    private $_total = 0;
 
-		if($this->output!==null&&$value!==null)
-			$value=$this->evaluateExpression($this->output,compact('data','row','value'));
-		echo $value===null
-		?$this->grid->nullDisplay
-		:$this->grid->getFormatter()->format($value,$this->type);
-	}
+    /**
+     * Initialises the column.
+     * Sets the initial value for the total.
+     */
+    public function init() {
+        if ($this->name === null && $this->value === null)
+            throw new CException(Yii::t('cols', 'Either "name" or "value" must be specified for TotalColumn.'));
+        if (is_numeric($this->init))
+            $this->l = $this->init;
+        elseif (is_string($this->init))
+            $this->_total = $this->evaluateExpression($this->init);
+    }
 
-	/**
-	 * Renders the total in the footer cell.
-	 * If $footer===TRUE the footer cell is rendered with the column total.
-	 * If $footer is a string it is a PHP expression that will be evaluated and
-	 * whose result will be rendered as the content of the footer cell; the
-	 * expression can contain the variables <code>$total</code> - the column total,
-	 * and <code>$this</code> - the column object.
-	 * Note: The value of the footer cell is always the column total, whether or
-	 * not the cell is rendered.
-	 */
-	protected function renderFooterCellContent() {
-		if (empty($this->footer))
-			$footer = '';
-		else {
-			$expression = ($this->footer===true?$this->output:$this->footer);
-			$footer = ($expression
-					?$this->evaluateExpression($expression,array(
-							'value'=>$this->getFooterValue()
-					))
-					:$this->getFooterValue()
-			);
-		}
-		echo trim($footer)!==''
-		?$this->grid->getFormatter()->format($footer,$this->type)
-		:$this->grid->blankDisplay;
-	}
+    /**
+     * Renders the data cell content and adds the cell value to the total.
+     * This method evaluates value or name to obtain the data cell value and adds
+     * it to the current total. If set, output is evaluated to determine the
+     * rendering result; if not the cell value is rendered.
+     * @param integer the row number (zero-based)
+     * @param mixed the data associated with the row
+     */
+    protected function renderDataCellContent($row, $data) {
+        if ($this->value !== null)
+            $value = $this->evaluateExpression($this->value, compact('data', 'row'));
+        else if ($this->name !== null)
+            $value = CHtml::value($data, $this->name);
+        else
+            $value = 0;
 
-	/**
-	 * Returns the value of the footer cell - the total - for this column.
-	 * @return float The total of the column
-	 */
-	public function getFooterValue() {
-		return $this->_total;
-	}
+        $this->_total+=$value;
+
+        if ($value == 0 && $this->nullOnZero)
+            $value = null;
+
+        if ($this->output !== null && $value !== null)
+            $value = $this->evaluateExpression($this->output, compact('data', 'row', 'value'));
+        echo $value === null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
+    }
+
+    /**
+     * Renders the total in the footer cell.
+     * If $footer===TRUE the footer cell is rendered with the column total.
+     * If $footer is a string it is a PHP expression that will be evaluated and
+     * whose result will be rendered as the content of the footer cell; the
+     * expression can contain the variables <code>$total</code> - the column total,
+     * and <code>$this</code> - the column object.
+     * Note: The value of the footer cell is always the column total, whether or
+     * not the cell is rendered.
+     */
+    protected function renderFooterCellContent() {
+        if (empty($this->footer))
+            $footer = '';
+        else {
+            $expression = ($this->footer === true ? $this->output : $this->footer);
+            $footer = ($expression ? $this->evaluateExpression($expression, array(
+                                'value' => $this->getFooterValue()
+                            )) : $this->getFooterValue()
+                    );
+        }
+        echo trim($footer) !== '' ? $this->grid->getFormatter()->format($footer, $this->type) : $this->grid->blankDisplay;
+    }
+
+    /**
+     * Returns the value of the footer cell - the total - for this column.
+     * @return float The total of the column
+     */
+    public function getFooterValue() {
+        return $this->_total;
+    }
+
 }

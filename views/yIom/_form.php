@@ -7,14 +7,13 @@
 <?php
 Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
 
-Yii::app()->clientScript->registerScript('datepicker', "
+Yii::app()->clientScript->registerScript('datepicker2', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'iom_date') . "\" ).datepicker({
-		'dateFormat' : 'dd-mm-yy',
+			'dateFormat' : 'dd-mm-yy',
 		});
-		
-
-});
+                            
+                });
 
 		");
 ?>
@@ -44,7 +43,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'iom_date'); ?>
 
-<?php echo $form->html5EditorRow($model, 'content', array(
+<?php
+echo $form->html5EditorRow($model, 'content', array(
     'class' => 'span4', 'rows' => 5, 'height' => '300', 'options' => array('color' => true)));
 ?>
 
@@ -59,7 +59,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 

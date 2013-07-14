@@ -22,86 +22,76 @@
  */
 class MessageSource extends CActiveRecord {
 
-	public $language;
+    public $language;
 
-	static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	public function onDelete()
-	{
-		if ($this->mt)
-		{
-			/* ADO is faster but we do not know the database component id */
-			foreach ($this->mt as $msg)
-				$msg->delete();
-		}
-	}
+    public function onDelete() {
+        if ($this->mt) {
+            /* ADO is faster but we do not know the database component id */
+            foreach ($this->mt as $msg)
+                $msg->delete();
+        }
+    }
 
-	public function missing()
-	{
-		$this->getDbCriteria()
-		->addCondition('not exists (select `id` from `' . Message::model()->tableName() . '` `m` where `m`.`language`=:lang and `m`.id=`t`.`id`)')
-		->params[':lang'] = $this->language;
-		;
-		return $this;
-	}
+    public function missing() {
+        $this->getDbCriteria()
+                        ->addCondition('not exists (select `id` from `' . Message::model()->tableName() . '` `m` where `m`.`language`=:lang and `m`.id=`t`.`id`)')
+                ->params[':lang'] = $this->language;
+        ;
+        return $this;
+    }
 
-	public function tableName()
-	{
-		return Yii::app()->getMessages()->sourceMessageTable;
-	}
+    public function tableName() {
+        return Yii::app()->getMessages()->sourceMessageTable;
+    }
 
-	public function rules()
-	{
-		return array(
-				array('category,message', 'required'),
-				array('category', 'length', 'max' => 32),
-				array('message', 'safe'),
-				array('id, category, message,language', 'safe', 'on' => 'search'),
-		);
-	}
+    public function rules() {
+        return array(
+            array('category,message', 'required'),
+            array('category', 'length', 'max' => 32),
+            array('message', 'safe'),
+            array('id, category, message,language', 'safe', 'on' => 'search'),
+        );
+    }
 
-	public function relations()
-	{
-		return array(
-				'mt' => array(self::HAS_MANY, 'Message', 'id', 'joinType' => 'inner join'),
-		);
-	}
+    public function relations() {
+        return array(
+            'mt' => array(self::HAS_MANY, 'Message', 'id', 'joinType' => 'inner join'),
+        );
+    }
 
-	public function attributeLabels()
-	{
-		return array(
-				'id' => Yii::t('translate', 'ID'),
-				'category' => Yii::t('translate', 'Category'),
-				'message' => Yii::t('translate', 'Message'),
-		);
-	}
+    public function attributeLabels() {
+        return array(
+            'id' => Yii::t('translate', 'ID'),
+            'category' => Yii::t('translate', 'Category'),
+            'message' => Yii::t('translate', 'Message'),
+        );
+    }
 
-	public function search()
-	{
-		$criteria = new CDbCriteria;
+    public function search() {
+        $criteria = new CDbCriteria;
 
-		$criteria->with = array('mt');
+        $criteria->with = array('mt');
 
-		$criteria->compare('t.id', $this->id);
-		$criteria->compare('t.category', $this->category);
-		$criteria->compare('t.message', $this->message);
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('t.category', $this->category);
+        $criteria->compare('t.message', $this->message);
 
-		return new CActiveDataProvider(get_class($this), array(
-				'criteria' => $criteria,
-		));
-	}
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
 
-	public function loadMessage($lang = null)
-	{
-		if (null == $lang)
-			$lang = Yii::app()->getLanguage();
+    public function loadMessage($lang = null) {
+        if (null == $lang)
+            $lang = Yii::app()->getLanguage();
 
-		$message = Message::model()->findByPk(array('id' => $this->id, 'language' => $lang));
+        $message = Message::model()->findByPk(array('id' => $this->id, 'language' => $lang));
 
-		return null === $message ? new Message() : $message;
-	}
+        return null === $message ? new Message() : $message;
+    }
 
 }

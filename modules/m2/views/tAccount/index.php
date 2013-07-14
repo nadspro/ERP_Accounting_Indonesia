@@ -24,48 +24,48 @@ $this->menu1 = tAccount::getTopUpdated();
 <div class="row">
     <div class="span3">
 
-<?php
-$Hierarchy = tAccount::model()->findAll(array('condition' => 'parent_id = 0'));
+        <?php
+        $Hierarchy = tAccount::model()->findAll(array('condition' => 'parent_id = 0'));
 
-foreach ($Hierarchy as $Hierarchy) {
-    $models = tAccount::model()->findByPk($Hierarchy->id);
-    $items[] = $models->getTree();
-}
+        foreach ($Hierarchy as $Hierarchy) {
+            $models = tAccount::model()->findByPk($Hierarchy->id);
+            $items[] = $models->getTree();
+        }
 
-$this->beginWidget('CTreeView', array(
-    'id' => 'module-tree',
-    //'data'=>$items,
-    'url' => array('/m2/tAccount/ajaxFillTree'),
-        //'collapsed'=>true,
-        //'unique'=>true,
-));
-$this->endWidget();
-?>
+        $this->beginWidget('CTreeView', array(
+            'id' => 'module-tree',
+            //'data'=>$items,
+            'url' => array('/m2/tAccount/ajaxFillTree'),
+                //'collapsed'=>true,
+                //'unique'=>true,
+        ));
+        $this->endWidget();
+        ?>
 
     </div>
     <div class="span6">
 
 
-<?php
-$this->renderPartial('_search', array(
-    'model' => $model,
-));
-?>
+        <?php
+        $this->renderPartial('_search', array(
+            'model' => $model,
+        ));
+        ?>
 
         <strong>Account List</strong>
 
         <div id="posts">
-<?php foreach ($dataProvider as $data): ?>
+            <?php foreach ($dataProvider as $data): ?>
                 <div class="post">
 
-    <?php
-    Yii::app()->clientScript->registerScript('search' . $data->id, "
+                    <?php
+                    Yii::app()->clientScript->registerScript('search' . $data->id, "
 				$('.hide-info'+$data->id).click(function(){
 				$('.list'+$data->id).toggle();
 				return false;
 });
 				");
-    ?>
+                    ?>
 
                     <?php
                     if ($data->parent_id == 0) {
@@ -147,18 +147,18 @@ $this->renderPartial('_search', array(
 
 
                 </div>
-<?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
 
-<?php
-$this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(
-    'contentSelector' => '#posts',
-    'itemSelector' => 'div.post',
-    'loadingText' => 'Loading...',
-    'donetext' => 'This is the end... ',
-    'pages' => $pages,
-));
-?>
+        <?php
+        $this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(
+            'contentSelector' => '#posts',
+            'itemSelector' => 'div.post',
+            'loadingText' => 'Loading...',
+            'donetext' => 'This is the end... ',
+            'pages' => $pages,
+        ));
+        ?>
 
     </div>
 </div>

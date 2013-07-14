@@ -69,7 +69,7 @@ $this->renderPartial('_menuEss', array('model' => $model));
 
 <div class="row">
     <div class="span5">
-<?php $this->renderPartial("//site/_quote"); ?>
+        <?php $this->renderPartial("//site/_quote"); ?>
     </div>
     <div class="span4">
         <?php
@@ -83,7 +83,7 @@ $this->renderPartial('_menuEss', array('model' => $model));
         <script type="text/javascript" src="http://www.brainyquote.com/link/quotebr.js"></script>
         <small><i><a href="http://www.brainyquote.com/quotes_of_the_day.html" target="_blank">Powered by Brainy Quotes</a></i></small>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

@@ -67,6 +67,7 @@ class yIom extends BaseModel {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'created' => array(self::BELONGS_TO, 'sUser', 'created_by'),
         );
     }
 
@@ -150,7 +151,7 @@ class yIom extends BaseModel {
         $returnarray = array();
 
         foreach ($models as $model) {
-            $returnarray[] = array('id' => $model->id, 'label' => peterFunc::shorten_string($model->subject, 7), 'icon' => 'list-alt', 'url' => array('/sCompanyNews/view', 'id' => $model->id));
+            $returnarray[] = array('id' => $model->id, 'label' => peterFunc::shorten_string($model->subject, 7), 'icon' => 'list-alt', 'url' => array('/yIom/view', 'id' => $model->id));
         }
 
         return $returnarray;
@@ -168,7 +169,7 @@ class yIom extends BaseModel {
         $returnarray = array();
 
         foreach ($models as $model) {
-            $returnarray[] = array('id' => $model->id, 'label' => peterFunc::shorten_string($model->subject, 7), 'icon' => 'list-alt', 'url' => array('/sCompanyNews/view', 'id' => $model->id));
+            $returnarray[] = array('id' => $model->id, 'label' => peterFunc::shorten_string($model->subject, 7), 'icon' => 'list-alt', 'url' => array('/yIom/view', 'id' => $model->id));
         }
 
         return $returnarray;

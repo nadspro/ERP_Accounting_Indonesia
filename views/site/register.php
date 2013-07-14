@@ -34,17 +34,17 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 <?php if (extension_loaded('gd')): ?>
 
-        <?php echo $form->labelEx($model, 'verifyCode'); ?>
+    <?php echo $form->labelEx($model, 'verifyCode'); ?>
     <div>
-    <?php $this->widget('CCaptcha', array('clickableImage' => true)); ?>
-    <?php echo CHtml::tag('div', array(), $form->textField($model, 'verifyCode')); ?>
+        <?php $this->widget('CCaptcha', array('clickableImage' => true)); ?>
+        <?php echo CHtml::tag('div', array(), $form->textField($model, 'verifyCode')); ?>
     </div>
 
 <?php endif; ?>
 
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

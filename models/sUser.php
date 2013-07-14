@@ -42,13 +42,13 @@ class sUser extends CActiveRecord {
             'organization' => array(self::BELONGS_TO, 'aOrganization', 'default_group'),
             'status' => array(self::HAS_ONE, 'sParameter', array('code' => 'status_id'), 'condition' => 'type = "cStatus"'),
             'module' => array(self::HAS_MANY, 'sUserModule', 's_user_id'),
-            'group' => array(self::HAS_MANY, 'sGroup', 'parent_id'),
+            'group' => array(self::HAS_MANY, 'sUserGroup', 'parent_id'),
             'right' => array(self::HAS_MANY, 'sAuthassignment', 'userid'),
-            'groupCount' => array(self::STAT, 'sGroup', 'parent_id'),
+            'groupCount' => array(self::STAT, 'sUserGroup', 'parent_id'),
             'moduleCount' => array(self::STAT, 'sUserModule', 's_user_id'),
             'rightCount' => array(self::STAT, 'sAuthassignment', 'userid'),
             'moduleList' => array(self::MANY_MANY, 'sModule', 's_user_module(s_user_id,s_module_id)'),
-            'groupList' => array(self::MANY_MANY, 'aOrganization', 's_group(parent_id,organization_root_id)'),
+            'groupList' => array(self::MANY_MANY, 'aOrganization', 's_user_group(parent_id,organization_root_id)'),
         );
     }
 
@@ -227,13 +227,19 @@ class sUser extends CActiveRecord {
     }
 
     public function getGroup() {
-        $model = self::findByPk(Yii::app()->user->id);
+        $model = self::model()->findByPk(Yii::app()->user->id);
         $_group = $model->default_group;
         return (int) $_group;
     }
 
+    public static function getRightCountM() {
+        $model = self::model()->findByPk(Yii::app()->user->id);
+        $_count = $model->rightCount;
+        return (int) $_count;
+    }
+
     public function getGroupParent() {
-        $model = self::findByPk(Yii::app()->user->id);
+        $model = self::model()->findByPk(Yii::app()->user->id);
         $_group = $model->organization->parent_id;
         return (int) $_group;
     }
@@ -278,7 +284,7 @@ class sUser extends CActiveRecord {
     }
 
     public function getGroupArray() {
-        $models = sGroup::model()->findAll('parent_id = ' . Yii::app()->user->id);
+        $models = sUserGroup::model()->findAll('parent_id = ' . Yii::app()->user->id);
 
         //Default Group as the first array
         $_items[] = $this->getGroup();

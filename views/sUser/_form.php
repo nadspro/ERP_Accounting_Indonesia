@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerScript('datepicker', "
+Yii::app()->clientScript->registerScript('autocomplet', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'default_group_name') . "\" ).autocomplete({
 		'minLength': '2',

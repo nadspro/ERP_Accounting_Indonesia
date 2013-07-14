@@ -1,4 +1,5 @@
 <?php
+
 /**
  * stylesheet tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @subpackage Tag
  * @version CVS: $Id: xml2pdf.tag.stylesheet.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // doc {{{
 /**
  * <stylesheet> tag.
@@ -51,19 +51,19 @@
  */ // }}}
 Class xml2pdf_tag_stylesheet {
     // class properties {{{
-    
+
     /**
      * style sheet file path.
      * @var string
      */
     private $_styleSheet = null;
-    
+
     /**
      * styles tags array.
      * @var array
      */
     private $_styleTags;
-    
+
     // }}}
     // xml2pdf_tag_stylesheet::__construct() {{{
 
@@ -75,13 +75,13 @@ Class xml2pdf_tag_stylesheet {
      */
     public function __construct($tagProperties) {
         $pdf = Pdf::singleton();
-        if(isset($tagProperties['FILE'])) {
+        if (isset($tagProperties['FILE'])) {
             $this->_styleSheet = $tagProperties['FILE'];
             $this->_parseStyleSheet();
             $pdf->addStyles($this->_styleTags);
         }
-    } 
-    
+    }
+
     // }}}
     // xml2pdf_tag_stylesheet::_parseStyleSheet() {{{
 
@@ -92,9 +92,9 @@ Class xml2pdf_tag_stylesheet {
      */
     private function _parseStyleSheet() {
         $fp = fopen($this->_styleSheet, "r");
-        if(!$fp) {
-            throw new Exception('can not open the stylesheet file ' . 
-                                 $this->_styleSheet);
+        if (!$fp) {
+            throw new Exception('can not open the stylesheet file ' .
+            $this->_styleSheet);
             die();
         }
         $line = '';
@@ -102,7 +102,7 @@ Class xml2pdf_tag_stylesheet {
         $file = '';
         $onComment = false;
         fseek($fp, 0);
-        while(!feof($fp)) {
+        while (!feof($fp)) {
             $tag = array();
             $attr = array();
             $quit = false;
@@ -110,18 +110,18 @@ Class xml2pdf_tag_stylesheet {
             $line = fgets($fp);
 
             //zap les commentaires sur plusieurs lignes
-            if(!$onComment) {
-                if(preg_match("/[\/][*]/", $line)) {
+            if (!$onComment) {
+                if (preg_match("/[\/][*]/", $line)) {
                     $pos = strpos($line, '/*');
-                    $lineT = substr($line,0, $pos);
+                    $lineT = substr($line, 0, $pos);
                     $onComment = true;
                 }
             }
-            if($onComment) {
-                while(!$quit) {
-                    if(preg_match('/[*][\/]/', $line)) {
+            if ($onComment) {
+                while (!$quit) {
+                    if (preg_match('/[*][\/]/', $line)) {
                         $pos = strpos($line, "*/");
-                        $lineT .= substr($line, $pos+2, strlen($line)-$pos+2);
+                        $lineT .= substr($line, $pos + 2, strlen($line) - $pos + 2);
                         $onComment = false;
                         $quit = true;
                     } else {
@@ -130,42 +130,44 @@ Class xml2pdf_tag_stylesheet {
                         $line = fgets($fp);
                     }
                 }
-                if(!empty($lineT)) {
+                if (!empty($lineT)) {
                     $line = $lineT;
                 }
             }
             // zap les commentaires sur une ligne
-            if(preg_match('/[\/][\/]/', $line)) {
-                $pos = strpos($line,'//');
+            if (preg_match('/[\/][\/]/', $line)) {
+                $pos = strpos($line, '//');
                 $line = substr($line, 0, $pos);
             }
-        
+
             // parse la ligne une foi les commentaires zapp�s
-            if(!$onComment && !empty($line)) {
+            if (!$onComment && !empty($line)) {
                 preg_match('/^([.])([a-z A-Z 0-9]+)/', $line, $tag);
-                if(isset($tag[2])) {
+                if (isset($tag[2])) {
                     $currentTag = strtoupper($tag[2]);
                 }
                 preg_match('/^([a-z A-Z -]+)([:])([# a-z A-Z 0-9]+)/', $line, $attr);
-                if(isset($attr[0])) {
+                if (isset($attr[0])) {
                     $this->_styleTags[$currentTag][$attr[1]] = $attr[3];
                 }
             }
         }
         fclose($fp);
-    } 
-    
+    }
+
     // }}}
     // xml2pdf_tag_stylesheet::close() {{{
-    
+
     /**
      * close the tag.
      *
      * @return void
      */
     public function close() {
-    } 
-    
+        
+    }
+
     // }}}
 }
+
 ?>

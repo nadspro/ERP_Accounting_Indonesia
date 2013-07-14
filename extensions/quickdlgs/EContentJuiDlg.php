@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EFrameJuiDlg renders a button/link or icon to display content in a CJuiDialog
  *
@@ -11,13 +12,11 @@
  * @package ext.quickdlgs
  * @since 1.0
  */
+class EContentJuiDlg extends EBaseJuiDlg {
 
-class EContentJuiDlg extends EBaseJuiDlg
-{
     public $content;
 
-    public function renderDialogContent()
-    {
+    public function renderDialogContent() {
         echo $this->content;
     }
 

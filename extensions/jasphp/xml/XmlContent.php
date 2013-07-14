@@ -3,10 +3,10 @@
 class XmlContent {
 
     public static function headerReportContent($jasper) {
-        if(!$jasper->orientation) {
+        if (!$jasper->orientation) {
             $jasper->orientation = 'Portrait';
         }
-        
+
         $content = "<?xml version='1.0' encoding='utf-8'?>";
         $content .= "<pdf creator='DR' subject='' title='" . $jasper->name . "'>";
         $content .= "<stylesheet file='" . getcwd() . "/protected/extensions/JasPHP/style.txt' />";

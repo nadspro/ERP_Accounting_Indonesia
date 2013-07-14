@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class CssMinify  
  * @package scriptboost
@@ -14,7 +15,7 @@
  * @author http://code.google.com/u/1stvamp/ (Issue 64 patch)
  */
 class CssMinify {
-    
+
     /**
      * Minify a CSS string
      * 
@@ -52,8 +53,7 @@ class CssMinify {
      * 
      * @return string
      */
-    public static function minify($css, $options = array()) 
-    {
+    public static function minify($css, $options = array()) {
         $options = array_merge(array(
             'removeCharsets' => true,
             'preserveComments' => true,
@@ -61,37 +61,38 @@ class CssMinify {
             'docRoot' => $_SERVER['DOCUMENT_ROOT'],
             'prependRelativePath' => null,
             'symlinks' => array(),
-        ), $options);
-        
+                ), $options);
+
         if ($options['removeCharsets']) {
             $css = preg_replace('/@charset[^;]+;\\s*/', '', $css);
         }
-        if (! $options['preserveComments']) {
+        if (!$options['preserveComments']) {
             $css = CssCompressor::process($css, $options);
         } else {
             $css = CommentPreserver::process(
-                $css
-                ,array('CssCompressor', 'process')
-                ,array($options)
+                            $css
+                            , array('CssCompressor', 'process')
+                            , array($options)
             );
         }
-        if (! $options['currentDir'] && ! $options['prependRelativePath']) {
+        if (!$options['currentDir'] && !$options['prependRelativePath']) {
             return $css;
         }
         if ($options['currentDir']) {
             return CssUriRewriter::rewrite(
-                $css
-                ,$options['currentDir']
-                ,$options['docRoot']
-                ,$options['symlinks']
-            );  
+                            $css
+                            , $options['currentDir']
+                            , $options['docRoot']
+                            , $options['symlinks']
+            );
         } else {
             return CssUriRewriter::prepend(
-                $css
-                ,$options['prependRelativePath']
+                            $css
+                            , $options['prependRelativePath']
             );
         }
     }
+
 }
 
 /**
@@ -106,21 +107,21 @@ class CssMinify {
  * @author Stephen Clay <steve@mrclay.org>
  */
 class CommentPreserver {
-    
+
     /**
      * String to be prepended to each preserved comment
      *
      * @var string
      */
     public static $prepend = "\n";
-    
+
     /**
      * String to be appended to each preserved comment
      *
      * @var string
      */
     public static $append = "\n";
-    
+
     /**
      * Process a string outside of C-style comments that begin with "/*!"
      *
@@ -134,15 +135,14 @@ class CommentPreserver {
      * function (default = array())
      * @return string
      */
-    public static function process($content, $processor, $args = array())
-    {
+    public static function process($content, $processor, $args = array()) {
         $ret = '';
         while (true) {
             list($beforeComment, $comment, $afterComment) = self::_nextComment($content);
             if ('' !== $beforeComment) {
                 $callArgs = $args;
                 array_unshift($callArgs, $beforeComment);
-                $ret .= call_user_func_array($processor, $callArgs);    
+                $ret .= call_user_func_array($processor, $callArgs);
             }
             if (false === $comment) {
                 break;
@@ -152,7 +152,7 @@ class CommentPreserver {
         }
         return $ret;
     }
-    
+
     /**
      * Extract comments that YUI Compressor preserves.
      * 
@@ -163,22 +163,19 @@ class CommentPreserver {
      * strings. If no comment is found, the entire string is returned as the 
      * 1st element and the other two are false.
      */
-    private static function _nextComment($in)
-    {
+    private static function _nextComment($in) {
         if (
-            false === ($start = strpos($in, '/*!'))
-            || false === ($end = strpos($in, '*/', $start + 3))
+                false === ($start = strpos($in, '/*!')) || false === ($end = strpos($in, '*/', $start + 3))
         ) {
             return array($in, false, false);
         }
         $ret = array(
             substr($in, 0, $start)
-            ,self::$prepend . '/*!' . substr($in, $start + 3, $end - $start - 1) . self::$append
+            , self::$prepend . '/*!' . substr($in, $start + 3, $end - $start - 1) . self::$append
         );
         $endChars = (strlen($in) - $end - 2);
-        $ret[] = (0 === $endChars)
-            ? ''
-            : substr($in, -$endChars);
+        $ret[] = (0 === $endChars) ? '' : substr($in, -$endChars);
         return $ret;
     }
+
 }

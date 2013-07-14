@@ -23,13 +23,12 @@
 <!-- Hidden fields for javascript -->
 <?php echo CHtml::hiddenField('yii-feeds-widget-url', $url); ?>
 <?php echo CHtml::hiddenField('yii-feeds-widget-limit', $limit); ?>
-<?php 
+<?php
 echo CHtml::hiddenField(
-		'yii-feeds-widget-action-url',
-		Yii::app()->createUrl('YiiFeedWidget/getFeed')
+        'yii-feeds-widget-action-url', Yii::app()->createUrl('YiiFeedWidget/getFeed')
 );
 ?>
 <!-- Container to hold feed items -->
 <div id="yii-feed-container">
-	<?php echo CHtml::image($this->getSpinner()); ?>
+    <?php echo CHtml::image($this->getSpinner()); ?>
 </div>

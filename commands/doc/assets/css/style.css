@@ -13,20 +13,20 @@ body, div, span, p, input
 }
 
 #apiHeader {
-	padding: 3px;
-	color: white;
-	background: #6078BF;
-	margin-bottom: 5px;
-	font-weight: bold;
+    padding: 3px;
+    color: white;
+    background: #6078BF;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 #apiHeader a {
-	color: white;
+    color: white;
 }
 
 #apiFooter {
-	margin-top: 5px;
-	padding: 3px;
-	border-top: 1px solid #BFCFFF;
-	text-align: center;
+    margin-top: 5px;
+    padding: 3px;
+    border-top: 1px solid #BFCFFF;
+    text-align: center;
 }

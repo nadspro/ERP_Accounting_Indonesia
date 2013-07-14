@@ -51,8 +51,8 @@ class SiteController extends Controller {
         if ($b->browser != 'Internet Explorer')
             $this->redirect(array('/menu'));
 
-        $this->layout = '//layouts/notSupport';
-        $this->render('not_support');
+        $this->layout = '//layouts/baseNotSupport';
+        $this->render('notSupportedBrowser');
     }
 
     public function actionLogin() {
@@ -220,22 +220,14 @@ class SiteController extends Controller {
 
             if ($model->validate()) {
 
-                $salt = uniqid('', true);
-                $model->salt = $salt;
                 $model->created_date = time();
                 $model->created_by = 1;
+                $_mysalt = sUser::blowfishSalt();
+                //$model->password = crypt($model->password, $_mysalt);
 
                 $model->save(false);
 
-                //fixed bugs program
-                //$_mysalt=sUser::model()->generateSalt();
-                //$_password = md5($_mysalt . $_POST['sUser']['password']);
-                //sUser::model()->updateByPk((int)$model->id,array('password'=>$_password,'salt'=>$_mysalt));
-
-                $_mysalt = sUser::blowfishSalt();
-                $_password = crypt($model->password, $_mysalt);
-                sUser::model()->updateByPk((int) $id, array('password' => $_password, 'salt' => $_mysalt, 'hash_type' => 'crypt'));
-
+                //sUser::model()->updateByPk((int) $model->id, array('password' => $_password, 'salt' => $_mysalt, 'hash_type' => 'crypt'));
 
                 $connection = Yii::app()->db;
 

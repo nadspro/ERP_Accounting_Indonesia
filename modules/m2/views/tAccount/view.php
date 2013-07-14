@@ -38,20 +38,20 @@ $this->menu3 = tAccount::getTopRelated($model->account_name);
 
 <div class="page-header">
     <h1>
-<?php echo $model->account_no . ". " . $model->account_name; ?>
+        <?php echo $model->account_no . ". " . $model->account_name; ?>
     </h1>
 </div>
 
-        <?php
-        $this->widget('bootstrap.widgets.TbTabs', array(
-            'type' => 'tabs', // 'tabs' or 'pills'
-            'tabs' => array(
-                array('label' => 'Balance', 'content' => $this->renderPartial("_tabBalance", array("model" => $model, "modelAccount" => $modelAccount), true), 'visible' => ($model->haschild == false)),
-                array('label' => 'Detail', 'content' => $this->renderPartial("_tabDetail", array("model" => $model, "modelAccount" => $modelAccount), true), 'active' => true),
-                array('label' => 'Entity', 'content' => $this->renderPartial("_tabEntity", array("model" => $model, 'modelEntity' => $modelEntity), true)),
-                array('label' => 'Sub Account', 'content' => $this->renderPartial("_tabSub", array("model" => $model), true)),
-                array('label' => 'Linked Module', 'content' => $this->renderPartial("_tabModule", array("model" => $model), true)),
-            ),
-        ));
-        ?>
+<?php
+$this->widget('bootstrap.widgets.TbTabs', array(
+    'type' => 'tabs', // 'tabs' or 'pills'
+    'tabs' => array(
+        array('label' => 'Balance', 'content' => $this->renderPartial("_tabBalance", array("model" => $model, "modelAccount" => $modelAccount), true), 'visible' => ($model->haschild == false)),
+        array('label' => 'Detail', 'content' => $this->renderPartial("_tabDetail", array("model" => $model, "modelAccount" => $modelAccount), true), 'active' => true),
+        array('label' => 'Entity', 'content' => $this->renderPartial("_tabEntity", array("model" => $model, 'modelEntity' => $modelEntity), true)),
+        array('label' => 'Sub Account', 'content' => $this->renderPartial("_tabSub", array("model" => $model), true)),
+        array('label' => 'Linked Module', 'content' => $this->renderPartial("_tabModule", array("model" => $model), true)),
+    ),
+));
+?>
 

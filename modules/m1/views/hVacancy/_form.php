@@ -56,25 +56,25 @@ $('.optional-button').click(function(){
         ));
         ?>
 
-<?php echo $form->textFieldRow($model, 'city', array('class' => 'span3')); ?>
-<?php //echo $form->dropDownListRow($model,'sex_id',sParameter::itemsWithAll("cKelamin"));   ?>
+        <?php echo $form->textFieldRow($model, 'city', array('class' => 'span3')); ?>
+        <?php //echo $form->dropDownListRow($model,'sex_id',sParameter::itemsWithAll("cKelamin"));   ?>
 
     </div>
 </div>
 
 <div class="row">
     <div class="span3">
-<?php //echo $form->dropDownListRow($model,'min_education_level',sParameter::items('EDU'));   ?>
+        <?php //echo $form->dropDownListRow($model,'min_education_level',sParameter::items('EDU'));   ?>
         <?php echo $form->dropDownListRow($model, 'min_education_level', array(3 => 'SMA', 6 => 'D3', 8 => 'S1', 9 => 'S2', 10 => 'S3')); ?>
     </div>
     <div class="span3">
-<?php echo $form->textFieldRow($model, 'min_gpa', array('class' => 'span1')); ?>
+        <?php echo $form->textFieldRow($model, 'min_gpa', array('class' => 'span1')); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="span6">
-<?php echo $form->textFieldRow($model, 'min_working_exp', array('class' => 'span1', 'append' => 'Year')); ?>
+        <?php echo $form->textFieldRow($model, 'min_working_exp', array('class' => 'span1', 'append' => 'Year')); ?>
     </div>
 </div>
 
@@ -83,8 +83,8 @@ $('.optional-button').click(function(){
     <div class="row">
         <div class="span6">
             <?php //echo $form->textFieldRow($model,'specification_tag',array('class'=>'span4 tooltipster','title'=>'Please use coma to separate between tag'));  ?>
-<?php echo $form->textAreaRow($model, 'work_address', array('class' => 'span6', 'rows' => 4)); ?>
-<?php //echo $form->textAreaRow($model,'promotion_content',array('rows'=>15, 'class'=>'span6'));  ?>
+            <?php echo $form->textAreaRow($model, 'work_address', array('class' => 'span6', 'rows' => 4)); ?>
+            <?php //echo $form->textAreaRow($model,'promotion_content',array('rows'=>15, 'class'=>'span6'));  ?>
         </div>
     </div>
 
@@ -93,13 +93,13 @@ $('.optional-button').click(function(){
             <?php echo $form->textFieldRow($model, 'min_salary', array('class' => 'span2')); ?>
         </div>
         <div class="span2">
-<?php echo $form->textFieldRow($model, 'max_salary', array('class' => 'span2')); ?>
+            <?php echo $form->textFieldRow($model, 'max_salary', array('class' => 'span2')); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="span6">
-<?php echo $form->checkBoxRow($model, 'salary_hide'); ?>
+            <?php echo $form->checkBoxRow($model, 'salary_hide'); ?>
         </div>
     </div>
 </div>
@@ -119,7 +119,7 @@ $('.optional-button').click(function(){
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div><!-- form -->

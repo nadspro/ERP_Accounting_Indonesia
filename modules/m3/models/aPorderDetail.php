@@ -20,121 +20,116 @@
  * @property integer $updated_date
  * @property string $updated_by
  */
-class aPorderDetail extends BaseModel
-{
-	public $sub_total;
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return aPorderDetail the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+class aPorderDetail extends BaseModel {
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'a_porder_detail';
-	}
+    public $sub_total;
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-				array('parent_id, budget_id', 'required'),
-				array('parent_id, supplier_id, budget_id, department_id, qty, created_date, updated_date, detail_payment_id', 'numerical', 'integerOnly'=>true),
-				array('description', 'length', 'max'=>500),
-				array('user', 'length', 'max'=>255),
-				array('uom, amount, created_by, updated_by', 'length', 'max'=>15),
-				array('need_date', 'safe'),
-				// The following rule is used by search().
-				// Please remove those attributes that should not be searched.
-				array('id, parent_id, supplier_id, budget_id, detail_payment_id, payment_date, description, user, qty, uom, amount, need_date, created_date, created_by, updated_date, updated_by', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return aPorderDetail the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-				'po' => array(self::BELONGS_TO, 'aPorder', 'parent_id'),
-				'budget' => array(self::BELONGS_TO, 'aBudget', 'budget_id'),
-				'supplier' => array(self::BELONGS_TO, 'BSupplier', 'supplier_id'),
-				'department' => array(self::BELONGS_TO, 'aOrganization', 'department_id'),
-				'payment' => array(self::BELONGS_TO, 'sParameter', array('detail_payment_id'=>'code'),'condition'=>'type = "cPayment"'),
-		);
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName() {
+        return 'a_porder_detail';
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'id' => 'ID',
-				'parent_id' => 'Parent',
-				'supplier_id' => 'Supplier',
-				'budget_id' => 'Budget',
-				'department_id' => 'Department',
-				'payment_date' => 'Payment Date',
-				'description' => 'Description',
-				'user' => 'User',
-				'qty' => 'Qty',
-				'uom' => 'Uom',
-				'amount' => 'Amount',
-				'need_date' => 'Need Date',
-				'detail_payment_id' => 'Detail Payment Status',
-				'created_date' => 'Created Date',
-				'created_by' => 'Created By',
-				'updated_date' => 'Updated Date',
-				'updated_by' => 'Updated By',
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules() {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('parent_id, budget_id', 'required'),
+            array('parent_id, supplier_id, budget_id, department_id, qty, created_date, updated_date, detail_payment_id', 'numerical', 'integerOnly' => true),
+            array('description', 'length', 'max' => 500),
+            array('user', 'length', 'max' => 255),
+            array('uom, amount, created_by, updated_by', 'length', 'max' => 15),
+            array('need_date', 'safe'),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, parent_id, supplier_id, budget_id, detail_payment_id, payment_date, description, user, qty, uom, amount, need_date, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search($id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * @return array relational rules.
+     */
+    public function relations() {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'po' => array(self::BELONGS_TO, 'aPorder', 'parent_id'),
+            'budget' => array(self::BELONGS_TO, 'aBudget', 'budget_id'),
+            'supplier' => array(self::BELONGS_TO, 'BSupplier', 'supplier_id'),
+            'department' => array(self::BELONGS_TO, 'aOrganization', 'department_id'),
+            'payment' => array(self::BELONGS_TO, 'sParameter', array('detail_payment_id' => 'code'), 'condition' => 'type = "cPayment"'),
+        );
+    }
 
-		$criteria=new CDbCriteria;
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels() {
+        return array(
+            'id' => 'ID',
+            'parent_id' => 'Parent',
+            'supplier_id' => 'Supplier',
+            'budget_id' => 'Budget',
+            'department_id' => 'Department',
+            'payment_date' => 'Payment Date',
+            'description' => 'Description',
+            'user' => 'User',
+            'qty' => 'Qty',
+            'uom' => 'Uom',
+            'amount' => 'Amount',
+            'need_date' => 'Need Date',
+            'detail_payment_id' => 'Detail Payment Status',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'updated_date' => 'Updated Date',
+            'updated_by' => 'Updated By',
+        );
+    }
 
-		$criteria->compare('parent_id',$id);
-		$criteria->order='id';
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search($id) {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		return new CActiveDataProvider($this, array(
-				'criteria'=>$criteria,
-				'pagination'=>array(
-						'pageSize'=>30
-				)
-		));
-	}
+        $criteria = new CDbCriteria;
 
-	public function amountf() {
-		$_format=Yii::app()->numberFormatter->format("#,##0.00",$this->amount);
+        $criteria->compare('parent_id', $id);
+        $criteria->order = 'id';
 
-		return $_format;
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 30
+            )
+        ));
+    }
 
-	public function totalf() {
-		$_format=Yii::app()->numberFormatter->format("#,##0.00",$this->qty*$this->amount);
+    public function amountf() {
+        $_format = Yii::app()->numberFormatter->format("#,##0.00", $this->amount);
 
-		return $_format;
-	}
+        return $_format;
+    }
+
+    public function totalf() {
+        $_format = Yii::app()->numberFormatter->format("#,##0.00", $this->qty * $this->amount);
+
+        return $_format;
+    }
 
 }

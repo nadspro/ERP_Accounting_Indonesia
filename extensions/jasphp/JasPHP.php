@@ -1,4 +1,5 @@
 <?php
+
 class JasPHP extends CApplicationComponent {
 
     public function create($reportDir, $reportName, $parameters, $config = null) {

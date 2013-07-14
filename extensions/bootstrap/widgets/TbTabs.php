@@ -1,5 +1,6 @@
 <?php
-/*##  TbTabs class file.
+
+/* ##  TbTabs class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
@@ -14,193 +15,187 @@ Yii::import('bootstrap.widgets.TbMenu');
  *
  * @see <http://twitter.github.com/bootstrap/javascript.html#tabs>
  */
-class TbTabs extends CWidget
-{
-	// Tab placements.
-	const PLACEMENT_ABOVE = 'above';
-	const PLACEMENT_BELOW = 'below';
-	const PLACEMENT_LEFT  = 'left';
-	const PLACEMENT_RIGHT = 'right';
+class TbTabs extends CWidget {
+    // Tab placements.
 
-	/**
-	 * @var string the type of tabs to display.
-	 *
-	 * Defaults to 'tabs'. Valid values are 'tabs' and 'pills'.
-	 * Please not that Javascript pills are not fully supported in Bootstrap yet!
-	 * @see TbMenu::$type
-	 */
-	public $type = TbMenu::TYPE_TABS;
+    const PLACEMENT_ABOVE = 'above';
+    const PLACEMENT_BELOW = 'below';
+    const PLACEMENT_LEFT = 'left';
+    const PLACEMENT_RIGHT = 'right';
 
-	/**
-	 * @var string the placement of the tabs.
-	 *
-	 * Valid values are 'above', 'below', 'left' and 'right'.
-	 */
-	public $placement;
+    /**
+     * @var string the type of tabs to display.
+     *
+     * Defaults to 'tabs'. Valid values are 'tabs' and 'pills'.
+     * Please not that Javascript pills are not fully supported in Bootstrap yet!
+     * @see TbMenu::$type
+     */
+    public $type = TbMenu::TYPE_TABS;
 
-	/**
-	 * @var array the tab configuration.
-	 */
-	public $tabs = array();
+    /**
+     * @var string the placement of the tabs.
+     *
+     * Valid values are 'above', 'below', 'left' and 'right'.
+     */
+    public $placement;
 
-	/**
-	 * @var boolean indicates whether to stack navigation items.
-	 */
-	public $stacked = false;
+    /**
+     * @var array the tab configuration.
+     */
+    public $tabs = array();
 
-	/**
-	 * @var boolean whether to encode item labels.
-	 */
-	public $encodeLabel = true;
+    /**
+     * @var boolean indicates whether to stack navigation items.
+     */
+    public $stacked = false;
 
-	/**
-	 * @var string[] the Javascript event handlers.
-	 */
-	public $events = array();
+    /**
+     * @var boolean whether to encode item labels.
+     */
+    public $encodeLabel = true;
 
-	/**
-	 * @var array the HTML attributes for the widget container.
-	 */
-	public $htmlOptions = array();
+    /**
+     * @var string[] the Javascript event handlers.
+     */
+    public $events = array();
 
-	/**
-	 *### .init()
-	 *
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		if (!isset($this->htmlOptions['id']))
-			$this->htmlOptions['id'] = $this->getId();
+    /**
+     * @var array the HTML attributes for the widget container.
+     */
+    public $htmlOptions = array();
 
-		$classes = array();
+    /**
+     * ### .init()
+     *
+     * Initializes the widget.
+     */
+    public function init() {
+        if (!isset($this->htmlOptions['id']))
+            $this->htmlOptions['id'] = $this->getId();
 
-		$validPlacements = array(self::PLACEMENT_ABOVE, self::PLACEMENT_BELOW, self::PLACEMENT_LEFT, self::PLACEMENT_RIGHT);
+        $classes = array();
 
-		if (isset($this->placement) && in_array($this->placement, $validPlacements))
-			$classes[] = 'tabs-'.$this->placement;
+        $validPlacements = array(self::PLACEMENT_ABOVE, self::PLACEMENT_BELOW, self::PLACEMENT_LEFT, self::PLACEMENT_RIGHT);
 
-		if (!empty($classes))
-		{
-			$classes = implode(' ', $classes);
-			if (isset($this->htmlOptions['class']))
-				$this->htmlOptions['class'] .= ' '.$classes;
-			else
-				$this->htmlOptions['class'] = $classes;
-		}
-	}
+        if (isset($this->placement) && in_array($this->placement, $validPlacements))
+            $classes[] = 'tabs-' . $this->placement;
 
-	/**
-	 *### .run()
-	 *
-	 * Run this widget.
-	 */
-	public function run()
-	{
-		$id = $this->id;
-		$content = array();
-		$items = $this->normalizeTabs($this->tabs, $content);
+        if (!empty($classes)) {
+            $classes = implode(' ', $classes);
+            if (isset($this->htmlOptions['class']))
+                $this->htmlOptions['class'] .= ' ' . $classes;
+            else
+                $this->htmlOptions['class'] = $classes;
+        }
+    }
 
-		ob_start();
-		$this->controller->widget('bootstrap.widgets.TbMenu', array(
-			'stacked'=>$this->stacked,
-			'type'=>$this->type,
-			'encodeLabel'=>$this->encodeLabel,
-			'items'=>$items,
-		));
-		$tabs = ob_get_clean();
+    /**
+     * ### .run()
+     *
+     * Run this widget.
+     */
+    public function run() {
+        $id = $this->id;
+        $content = array();
+        $items = $this->normalizeTabs($this->tabs, $content);
 
-		ob_start();
-		echo '<div class="tab-content">';
-		echo implode('', $content);
-		echo '</div>';
-		$content = ob_get_clean();
+        ob_start();
+        $this->controller->widget('bootstrap.widgets.TbMenu', array(
+            'stacked' => $this->stacked,
+            'type' => $this->type,
+            'encodeLabel' => $this->encodeLabel,
+            'items' => $items,
+        ));
+        $tabs = ob_get_clean();
 
-		echo CHtml::openTag('div', $this->htmlOptions);
-		echo $this->placement === self::PLACEMENT_BELOW ? $content.$tabs : $tabs.$content;
-		echo '</div>';
+        ob_start();
+        echo '<div class="tab-content">';
+        echo implode('', $content);
+        echo '</div>';
+        $content = ob_get_clean();
 
-		/** @var CClientScript $cs */
-		$cs = Yii::app()->getClientScript();
-		$cs->registerScript(__CLASS__.'#'.$id, "jQuery('#{$id}').tab('show');");
+        echo CHtml::openTag('div', $this->htmlOptions);
+        echo $this->placement === self::PLACEMENT_BELOW ? $content . $tabs : $tabs . $content;
+        echo '</div>';
 
-		foreach ($this->events as $name => $handler)
-		{
-			$handler = CJavaScript::encode($handler);
-			$cs->registerScript(__CLASS__.'#'.$id.'_'.$name, "jQuery('#{$id}').on('{$name}', {$handler});");
-		}
-	}
+        /** @var CClientScript $cs */
+        $cs = Yii::app()->getClientScript();
+        $cs->registerScript(__CLASS__ . '#' . $id, "jQuery('#{$id}').tab('show');");
 
-	/**
-	 *### .normalizeTabs()
-	 *
-	 * Normalizes the tab configuration.
-	 *
-	 * @param array $tabs the tab configuration
-	 * @param array $panes a reference to the panes array
-	 * @param integer $i the current index
-	 * @return array the items
-	 */
-	protected function normalizeTabs($tabs, &$panes, &$i = 0)
-	{
-		$id = $this->getId();
-		$items = array();
+        foreach ($this->events as $name => $handler) {
+            $handler = CJavaScript::encode($handler);
+            $cs->registerScript(__CLASS__ . '#' . $id . '_' . $name, "jQuery('#{$id}').on('{$name}', {$handler});");
+        }
+    }
 
-		foreach ($tabs as $tab)
-		{
-			$item = $tab;
+    /**
+     * ### .normalizeTabs()
+     *
+     * Normalizes the tab configuration.
+     *
+     * @param array $tabs the tab configuration
+     * @param array $panes a reference to the panes array
+     * @param integer $i the current index
+     * @return array the items
+     */
+    protected function normalizeTabs($tabs, &$panes, &$i = 0) {
+        $id = $this->getId();
+        $items = array();
 
-			if (isset($item['visible']) && $item['visible'] === false)
-				continue;
+        foreach ($tabs as $tab) {
+            $item = $tab;
 
-			if (!isset($item['itemOptions']))
-				$item['itemOptions'] = array();
+            if (isset($item['visible']) && $item['visible'] === false)
+                continue;
 
-			if (!isset($item['url']))
-				$item['linkOptions']['data-toggle'] = 'tab';
+            if (!isset($item['itemOptions']))
+                $item['itemOptions'] = array();
 
-			if (isset($tab['items']))
-				$item['items'] = $this->normalizeTabs($item['items'], $panes, $i);
-			else
-			{
-				if (!isset($item['id']))
-					$item['id'] = $id.'_tab_'.($i + 1);
+            if (!isset($item['url']))
+                $item['linkOptions']['data-toggle'] = 'tab';
 
-				if (!isset($item['url']))
-					$item['url'] = '#'.$item['id'];
+            if (isset($tab['items']))
+                $item['items'] = $this->normalizeTabs($item['items'], $panes, $i);
+            else {
+                if (!isset($item['id']))
+                    $item['id'] = $id . '_tab_' . ($i + 1);
 
-				if (!isset($item['content']))
-					$item['content'] = '';
+                if (!isset($item['url']))
+                    $item['url'] = '#' . $item['id'];
 
-				$content = $item['content'];
-				unset($item['content']);
+                if (!isset($item['content']))
+                    $item['content'] = '';
 
-				if (!isset($item['paneOptions']))
-					$item['paneOptions'] = array();
+                $content = $item['content'];
+                unset($item['content']);
 
-				$paneOptions = $item['paneOptions'];
-				unset($item['paneOptions']);
+                if (!isset($item['paneOptions']))
+                    $item['paneOptions'] = array();
 
-				$paneOptions['id'] = $item['id'];
+                $paneOptions = $item['paneOptions'];
+                unset($item['paneOptions']);
 
-				$classes = array('tab-pane fade');
+                $paneOptions['id'] = $item['id'];
 
-				if (isset($item['active']) && $item['active'])
-					$classes[] = 'active in';
+                $classes = array('tab-pane fade');
 
-				$classes = implode(' ', $classes);
-				if (isset($paneOptions['class']))
-					$paneOptions['class'] .= ' '.$classes;
-				else
-					$paneOptions['class'] = $classes;
+                if (isset($item['active']) && $item['active'])
+                    $classes[] = 'active in';
 
-				$panes[] = CHtml::tag('div', $paneOptions, $content);
+                $classes = implode(' ', $classes);
+                if (isset($paneOptions['class']))
+                    $paneOptions['class'] .= ' ' . $classes;
+                else
+                    $paneOptions['class'] = $classes;
 
-				$i++; // increment the tab-index
-			}
+                $panes[] = CHtml::tag('div', $paneOptions, $content);
 
-			$items[] = $item;
-		}
-		return $items;
-	}
+                $i++; // increment the tab-index
+            }
+
+            $items[] = $item;
+        }
+        return $items;
+    }
+
 }

@@ -28,7 +28,7 @@
 
         <?php echo $form->dropDownListRow($model, 'sertificate', array('-1' => 'Yes', '0' => 'No')); ?>
 
-            <?php echo $form->textFieldRow($model, 'country', array()); ?>
+        <?php echo $form->textFieldRow($model, 'country', array()); ?>
 
         <div class="form-actions">
             <?php
@@ -41,7 +41,7 @@
         </div>
 
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div><!-- form -->
 </div><!-- form -->

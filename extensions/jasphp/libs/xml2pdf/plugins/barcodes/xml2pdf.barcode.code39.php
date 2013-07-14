@@ -1,4 +1,5 @@
 <?php
+
 /**
  * code39 barcode tag plugin file.
  * @filesource
@@ -6,12 +7,11 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.barcode.code39.php,v 1.2 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Barcode
  */
-
 // dependances {{{
 /**
  * 
@@ -30,7 +30,7 @@ require_once(XML2PDF_PLUGINS_TAGS_PATH . '/xml2pdf.tag.barcode.php');
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.barcode.code39.php,v 1.2 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Barcode
@@ -41,7 +41,9 @@ class xml2pdf_barcode_code39 {
     /**
      * Constructor
      */
-    public function __construct() {}
+    public function __construct() {
+        
+    }
 
     // }}}
     // xml2pdf_barcode_code39::render() {{{
@@ -53,11 +55,9 @@ class xml2pdf_barcode_code39 {
      * @return void
      */
     public static function render($barcode) {
-        $width = $barcode->width?$barcode->width:0.4;
-        $height = $barcode->height?$barcode->height:20;
-        xml2pdf_barcode_code39::Code39($barcode->x, $barcode->y, 
-            $barcode->barcode, false, false, $width, $height, true, 
-            $barcode->pdf);
+        $width = $barcode->width ? $barcode->width : 0.4;
+        $height = $barcode->height ? $barcode->height : 20;
+        xml2pdf_barcode_code39::Code39($barcode->x, $barcode->y, $barcode->barcode, false, false, $width, $height, true, $barcode->pdf);
     }
 
     // }}}
@@ -76,24 +76,23 @@ class xml2pdf_barcode_code39 {
      * @param object $pdf
      * @return void
      */
-    public static function Code39($x, $y, $code, $ext = true, $cks = false, 
-    $w = 0.4, $h = 20, $wide = true, $pdf) {
+    public static function Code39($x, $y, $code, $ext = true, $cks = false, $w = 0.4, $h = 20, $wide = true, $pdf) {
         //suppression des accents
-        $code = strtr($code, 'àâäéèêëìîïòôöùûü', 'aaaeeeeiiiooouuu');
+        $code = strtr($code, 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½', 'aaaeeeeiiiooouuu');
 
         //affichage du code
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Text($x, $y+$h+4, $code);
+        $pdf->Text($x, $y + $h + 4, $code);
 
-        if($ext) {
-            //encodage étendu
+        if ($ext) {
+            //encodage ï¿½tendu
             $code = xml2pdf_barcode_code39::encode_code39_ext($code);
         } else {
             //passage en majuscules
             $code = strtoupper($code);
-            //contrôle validité
-            if(!preg_match('|^[0-9A-Z. $/+%-]*$|', $code)) {
-                $pdf->Error('Invalid barcode value: '.$code);
+            //contrï¿½le validitï¿½
+            if (!preg_match('|^[0-9A-Z. $/+%-]*$|', $code)) {
+                $pdf->Error('Invalid barcode value: ' . $code);
             }
         }
 
@@ -102,92 +101,92 @@ class xml2pdf_barcode_code39 {
             $code .= xml2pdf_barcode_code39::checksum_code39($code);
         }
 
-        //ajout des caractères début / fin
-        $code = '*'.$code.'*';
+        //ajout des caractï¿½res dï¿½but / fin
+        $code = '*' . $code . '*';
 
-        //tableaux de correspondance caractères / barres
-        $narrow_encoding = array (
-            '0' => '101001101101', 
-            '1' => '110100101011', 
+        //tableaux de correspondance caractï¿½res / barres
+        $narrow_encoding = array(
+            '0' => '101001101101',
+            '1' => '110100101011',
             '2' => '101100101011',
-            '3' => '110110010101', 
-            '4' => '101001101011', 
+            '3' => '110110010101',
+            '4' => '101001101011',
             '5' => '110100110101',
-            '6' => '101100110101', 
-            '7' => '101001011011', 
+            '6' => '101100110101',
+            '7' => '101001011011',
             '8' => '110100101101',
-            '9' => '101100101101', 
-            'A' => '110101001011', 
+            '9' => '101100101101',
+            'A' => '110101001011',
             'B' => '101101001011',
-            'C' => '110110100101', 
-            'D' => '101011001011', 
+            'C' => '110110100101',
+            'D' => '101011001011',
             'E' => '110101100101',
-            'F' => '101101100101', 
-            'G' => '101010011011', 
+            'F' => '101101100101',
+            'G' => '101010011011',
             'H' => '110101001101',
-            'I' => '101101001101', 
-            'J' => '101011001101', 
+            'I' => '101101001101',
+            'J' => '101011001101',
             'K' => '110101010011',
-            'L' => '101101010011', 
-            'M' => '110110101001', 
+            'L' => '101101010011',
+            'M' => '110110101001',
             'N' => '101011010011',
-            'O' => '110101101001', 
-            'P' => '101101101001', 
+            'O' => '110101101001',
+            'P' => '101101101001',
             'Q' => '101010110011',
-            'R' => '110101011001', 
-            'S' => '101101011001', 
+            'R' => '110101011001',
+            'S' => '101101011001',
             'T' => '101011011001',
-            'U' => '110010101011', 
-            'V' => '100110101011', 
+            'U' => '110010101011',
+            'V' => '100110101011',
             'W' => '110011010101',
-            'X' => '100101101011', 
-            'Y' => '110010110101', 
+            'X' => '100101101011',
+            'Y' => '110010110101',
             'Z' => '100110110101',
-            '-' => '100101011011', 
-            '.' => '110010101101', 
+            '-' => '100101011011',
+            '.' => '110010101101',
             ' ' => '100110101101',
-            '*' => '100101101101', 
-            '$' => '100100100101', 
+            '*' => '100101101101',
+            '$' => '100100100101',
             '/' => '100100101001',
-            '+' => '100101001001', 
-            '%' => '101001001001' );
+            '+' => '100101001001',
+            '%' => '101001001001');
 
-        $wide_encoding = array (
-            '0' => '101000111011101', '1' => '111010001010111', 
-            '2' => '101110001010111', '3' => '111011100010101', 
+        $wide_encoding = array(
+            '0' => '101000111011101', '1' => '111010001010111',
+            '2' => '101110001010111', '3' => '111011100010101',
             '4' => '101000111010111', '5' => '111010001110101',
-            '6' => '101110001110101', '7' => '101000101110111', 
-            '8' => '111010001011101', '9' => '101110001011101', 
+            '6' => '101110001110101', '7' => '101000101110111',
+            '8' => '111010001011101', '9' => '101110001011101',
             'A' => '111010100010111', 'B' => '101110100010111',
-            'C' => '111011101000101', 'D' => '101011100010111', 
-            'E' => '111010111000101', 'F' => '101110111000101', 
+            'C' => '111011101000101', 'D' => '101011100010111',
+            'E' => '111010111000101', 'F' => '101110111000101',
             'G' => '101010001110111', 'H' => '111010100011101',
-            'I' => '101110100011101', 'J' => '101011100011101', 
-            'K' => '111010101000111', 'L' => '101110101000111', 
+            'I' => '101110100011101', 'J' => '101011100011101',
+            'K' => '111010101000111', 'L' => '101110101000111',
             'M' => '111011101010001', 'N' => '101011101000111',
-            'O' => '111010111010001', 'P' => '101110111010001', 
-            'Q' => '101010111000111', 'R' => '111010101110001', 
+            'O' => '111010111010001', 'P' => '101110111010001',
+            'Q' => '101010111000111', 'R' => '111010101110001',
             'S' => '101110101110001', 'T' => '101011101110001',
-            'U' => '111000101010111', 'V' => '100011101010111', 
-            'W' => '111000111010101', 'X' => '100010111010111', 
+            'U' => '111000101010111', 'V' => '100011101010111',
+            'W' => '111000111010101', 'X' => '100010111010111',
             'Y' => '111000101110101', 'Z' => '100011101110101',
-            '-' => '100010101110111', '.' => '111000101011101', 
-            ' ' => '100011101011101', '*' => '100010111011101', 
+            '-' => '100010101110111', '.' => '111000101011101',
+            ' ' => '100011101011101', '*' => '100010111011101',
             '$' => '100010001000101', '/' => '100010001010001',
             '+' => '100010100010001', '%' => '101000100010001');
 
-        //le code barre est déterminé en version large ou étroite (meilleure lisibilité)
+        //le code barre est dï¿½terminï¿½ en version large ou ï¿½troite (meilleure lisibilitï¿½)
         //large observe un rapport 3:1 pour le rapport barre large / barre etroite
         //etroit                   2:1
         $encoding = $wide ? $wide_encoding : $narrow_encoding;
 
-        //espace inter-caractère
+        //espace inter-caractï¿½re
         $gap = ($w > 0.29) ? '00' : '0';
 
         //encodage
         $encode = '';
-        for ($i = 0; $i< strlen($code); $i++) {
-            $encode .= $encoding[$code{$i}].$gap;
+        for ($i = 0; $i < strlen($code); $i++) {
+            $encode .= $encoding[$code{$i}] . $gap;
         }
 
         //dessin
@@ -203,10 +202,10 @@ class xml2pdf_barcode_code39 {
      * @return char
      */
     public static function checksum_code39($code) {
-        //somme des positions des caractères en démarrant de zéro
+        //somme des positions des caractï¿½res en dï¿½marrant de zï¿½ro
         //somme modulo 43
-        //le caractère de contrôle est celui à la position du modulo
-        //exemple : 115 % 43 = 29 -> 'T' est à la place 29 dans le tableau
+        //le caractï¿½re de contrï¿½le est celui ï¿½ la position du modulo
+        //exemple : 115 % 43 = 29 -> 'T' est ï¿½ la place 29 dans le tableau
 
         $chars = array(
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -214,7 +213,7 @@ class xml2pdf_barcode_code39 {
             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
             'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%');
         $sum = 0;
-        for ($i=0 ; $i<strlen($code); $i++) {
+        for ($i = 0; $i < strlen($code); $i++) {
             $a = array_keys($chars, $code{$i});
             $sum += $a[0];
         }
@@ -231,12 +230,12 @@ class xml2pdf_barcode_code39 {
      * @return string
      */
     public static function encode_code39_ext($code) {
-        //encodage en code 39 étendu
+        //encodage en code 39 ï¿½tendu
 
         $encode = array(
             chr(0) => '%U', chr(1) => '$A', chr(2) => '$B', chr(3) => '$C',
             chr(4) => '$D', chr(5) => '$E', chr(6) => '$F', chr(7) => '$G',
-            chr(8) => '$H', chr(9) => '$I', chr(10) => '$J', chr(11) => '£K',
+            chr(8) => '$H', chr(9) => '$I', chr(10) => '$J', chr(11) => 'ï¿½K',
             chr(12) => '$L', chr(13) => '$M', chr(14) => '$N', chr(15) => '$O',
             chr(16) => '$P', chr(17) => '$Q', chr(18) => '$R', chr(19) => '$S',
             chr(20) => '$T', chr(21) => '$U', chr(22) => '$V', chr(23) => '$W',
@@ -268,9 +267,9 @@ class xml2pdf_barcode_code39 {
             chr(124) => '%Q', chr(125) => '%R', chr(126) => '%S', chr(127) => '%T');
 
         $code_ext = '';
-        for ($i = 0 ; $i<strlen($code); $i++) {
+        for ($i = 0; $i < strlen($code); $i++) {
             if (ord($code{$i}) > 127) {
-                $pdf->Error('Invalid character: '.$code{$i});
+                $pdf->Error('Invalid character: ' . $code{$i});
             }
             $code_ext .= $encode[$code{$i}];
         }
@@ -292,13 +291,14 @@ class xml2pdf_barcode_code39 {
      */
     public static function draw_code39($code, $x, $y, $w, $h, $pdf) {
         //Dessine les barres
-        for($i=0; $i<strlen($code); $i++) {
-            if($code{$i} == '1') {
-                $pdf->Rect($x+$i*$w, $y, $w, $h, 'F');
+        for ($i = 0; $i < strlen($code); $i++) {
+            if ($code{$i} == '1') {
+                $pdf->Rect($x + $i * $w, $y, $w, $h, 'F');
             }
         }
     }
 
     // }}}
-} 
+}
+
 ?>

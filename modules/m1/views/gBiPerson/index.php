@@ -65,6 +65,6 @@ $this->widget('bootstrap.widgets.TbTabs', array(
         ?>
     </section>
 
-<?php
+    <?php
 } 
 

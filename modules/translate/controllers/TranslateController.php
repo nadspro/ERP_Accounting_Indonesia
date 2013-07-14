@@ -22,140 +22,126 @@
  */
 class TranslateController extends RController {
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-				'rights',
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            'rights',
+        );
+    }
 
-	public function actions()
-	{
-		return array(
-				'set'=>array(
-						'class'=>'translate.actions.set',
-				),
-		);
-	}
-	/**
-	 * Creates a message if form has been submitted or renders the creation/update form
-	 */
-	public function actionCreate()
-	{
+    public function actions() {
+        return array(
+            'set' => array(
+                'class' => 'translate.actions.set',
+            ),
+        );
+    }
 
-		if (isset($_POST['Message']))
-		{
-			$resp = array(
-					'color' => '#FF6600',
-					'background_color' => '#FFFFCC',
-					'position' => 'top',
-					'removebutton' => 0
-			);
-			$model = new Message();
-			$model->setAttributes($_POST['Message']);
-			if ($model->save())
-			{
-				$resp['message'] = Yii::t('translate', 'Message successfully saved');
-				$resp['id'] = $model->id;
-			} else
-			{
-				$errors = $this->errors($model);
-				$resp['message'] = Yii::t('translate', '<p>Unable to save the message. Something went wrong!<p/>' . implode('<br/>', $errors));
-			}
-			echo $this->je($resp);
+    /**
+     * Creates a message if form has been submitted or renders the creation/update form
+     */
+    public function actionCreate() {
 
-			Yii::app()->end();
-		}
+        if (isset($_POST['Message'])) {
+            $resp = array(
+                'color' => '#FF6600',
+                'background_color' => '#FFFFCC',
+                'position' => 'top',
+                'removebutton' => 0
+            );
+            $model = new Message();
+            $model->setAttributes($_POST['Message']);
+            if ($model->save()) {
+                $resp['message'] = Yii::t('translate', 'Message successfully saved');
+                $resp['id'] = $model->id;
+            } else {
+                $errors = $this->errors($model);
+                $resp['message'] = Yii::t('translate', '<p>Unable to save the message. Something went wrong!<p/>' . implode('<br/>', $errors));
+            }
+            echo $this->je($resp);
 
-		$id = (int) Yii::app()->request->getParam('id');
-		$lang = Yii::app()->request->getParam('lang');
-		if ($id && $lang)
-		{
-			$model = MessageSource::model()->findByPk($id);
-			if ($model)
-			{
-				$message = $model->loadMessage();
-				$message->id = $model->id;
-				$message->language = $lang;
+            Yii::app()->end();
+        }
 
-				$this->renderPartial('form', array('model' => $message));
-			}else
-				throw new CHttpException(400);
-		}
-		else
-			throw new CHttpException(404, 'The requested page does not exist.');
-	}
+        $id = (int) Yii::app()->request->getParam('id');
+        $lang = Yii::app()->request->getParam('lang');
+        if ($id && $lang) {
+            $model = MessageSource::model()->findByPk($id);
+            if ($model) {
+                $message = $model->loadMessage();
+                $message->id = $model->id;
+                $message->language = $lang;
 
-	/**
-	 * Updates a message
-	 * @param integer $id
-	 */
-	public function actionUpdate($id)
-	{
-		if (null == $id || !is_numeric($id))
-			throw new CHttpException(404, 'The requested page does not exist.');
+                $this->renderPartial('form', array('model' => $message));
+            }
+            else
+                throw new CHttpException(400);
+        }
+        else
+            throw new CHttpException(404, 'The requested page does not exist.');
+    }
 
-		$model = Message::model()->findByPk(array('id' => $id, 'language' => Yii::app()->getLanguage()));
+    /**
+     * Updates a message
+     * @param integer $id
+     */
+    public function actionUpdate($id) {
+        if (null == $id || !is_numeric($id))
+            throw new CHttpException(404, 'The requested page does not exist.');
 
-		if (isset($_POST['Message']))
-		{
-			$resp = array(
-					'color' => '#FF6600',
-					'background_color' => '#FFFFCC',
-					'position' => 'top',
-					'removebutton' => 0
-			);
-			$model->attributes = $_POST['Message'];
-			if ($model->save())
-			{
-				$resp['message'] = Yii::t('translate', 'Message successfully updated');
-				$resp['id'] = $model->id;
-			} else
-			{
-				$errors = $this->errors($model);
-				$resp['message'] = Yii::t('translate', '<p>Unable to update the message. Something went wrong!<p/>' . implode('<br/>', $errors));
-			}
-			echo $this->je($resp);
-		}else
-			throw new CHttpException(400);
-	}
+        $model = Message::model()->findByPk(array('id' => $id, 'language' => Yii::app()->getLanguage()));
 
-	/**
-	 * Helper function to convert array to JSON object string
-	 * @param array $arr
-	 * @return string JSON object
-	 */
-	protected function je($arr)
-	{
-		return function_exists('json_encode') ? json_encode($arr) : CJSON::encode($arr);
-	}
+        if (isset($_POST['Message'])) {
+            $resp = array(
+                'color' => '#FF6600',
+                'background_color' => '#FFFFCC',
+                'position' => 'top',
+                'removebutton' => 0
+            );
+            $model->attributes = $_POST['Message'];
+            if ($model->save()) {
+                $resp['message'] = Yii::t('translate', 'Message successfully updated');
+                $resp['id'] = $model->id;
+            } else {
+                $errors = $this->errors($model);
+                $resp['message'] = Yii::t('translate', '<p>Unable to update the message. Something went wrong!<p/>' . implode('<br/>', $errors));
+            }
+            echo $this->je($resp);
+        }
+        else
+            throw new CHttpException(400);
+    }
 
-	/**
-	 * Helper function to return all the errors of the models as an array
-	 * @param mixed $models
-	 * @return array of errores
-	 */
-	protected function errors($models)
-	{
-		if (!is_array($models))
-			$models = array($models);
+    /**
+     * Helper function to convert array to JSON object string
+     * @param array $arr
+     * @return string JSON object
+     */
+    protected function je($arr) {
+        return function_exists('json_encode') ? json_encode($arr) : CJSON::encode($arr);
+    }
 
-		$return = array();
-		foreach ($models as $model)
-		{
-			if ($model->hasErrors())
-			{
-				foreach ($model->getErrors() as $attribute => $errors)
-				{
-					foreach ($errors as $error)
-						array_push($return, $error);
-				}
-			}
-		}
-		return $return;
-	}
+    /**
+     * Helper function to return all the errors of the models as an array
+     * @param mixed $models
+     * @return array of errores
+     */
+    protected function errors($models) {
+        if (!is_array($models))
+            $models = array($models);
+
+        $return = array();
+        foreach ($models as $model) {
+            if ($model->hasErrors()) {
+                foreach ($model->getErrors() as $attribute => $errors) {
+                    foreach ($errors as $error)
+                        array_push($return, $error);
+                }
+            }
+        }
+        return $return;
+    }
 
 }

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     var output, Converter;
     if (typeof exports === "object" && typeof require === "function") { // we're in a CommonJS (e.g. Node.js) module
         output = exports;
@@ -7,8 +7,8 @@
         output = window.Markdown;
         Converter = output.Converter;
     }
-        
-    output.getSanitizingConverter = function () {
+
+    output.getSanitizingConverter = function() {
         var converter = new Converter();
         converter.hooks.chain("postConversion", sanitizeHtml);
         converter.hooks.chain("postConversion", balanceTags);
@@ -98,7 +98,7 @@
         // delete all orphaned tags from the string
 
         var ctag = 0;
-        html = html.replace(re, function (match) {
+        html = html.replace(re, function(match) {
             var res = tagremove[ctag] ? "" : match;
             ctag++;
             return res;

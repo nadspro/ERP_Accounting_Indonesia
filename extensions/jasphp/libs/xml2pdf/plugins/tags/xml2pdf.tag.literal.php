@@ -1,4 +1,5 @@
 <?php
+
 /**
  * literal tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @subpackage Tag
  * @version CVS: $Id: xml2pdf.tag.literal.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // dependances {{{
 
 /**
@@ -50,11 +50,11 @@ Class xml2pdf_tag_literal extends Xml2PdfTextTag {
     public function __construct($tagProperties) {
         parent::__construct($tagProperties);
         $this->useStyle = false;
-    } 
-    
+    }
+
     // }}}
     // xml2pdf_tag_literal::close() {{{
-    
+
     /**
      * Render the tag content.
      *
@@ -67,7 +67,8 @@ Class xml2pdf_tag_literal extends Xml2PdfTextTag {
 
         $this->pdf->MultiCell(190, $this->lineHeight, $this->content, false, $this->textAlign, false);
     }
-    
+
     // }}}
 }
+
 ?>

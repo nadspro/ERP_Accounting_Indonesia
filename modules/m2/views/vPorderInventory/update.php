@@ -14,7 +14,7 @@ $this->menu2 = vPorder::getTopCreated(1);
 
 <div class="page-header">
     <h1>
-<?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/shopcart.png') ?>
+        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/shopcart.png') ?>
         Update PO <small>Update current PO</small>
     </h1>
 </div>

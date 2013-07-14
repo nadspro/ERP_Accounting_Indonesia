@@ -15,7 +15,7 @@ $criteria1->condition = '(select c.company_id from g_person_career c WHERE t.id=
 $criteria->mergeWith($criteria1);
 //}
 
-$criteria->order = '(select start_date from g_person_status s where s.parent_id = t.id ORDER BY start_date DESC LIMIT 1)';
+$criteria->order = '(select end_date from g_person_status s where s.parent_id = t.id ORDER BY start_date DESC LIMIT 1)';
 
 $criteria1 = new CDbCriteria;
 $criteria1->condition = '(select status_id from g_person_status s where s.parent_id = t.id ORDER BY start_date DESC LIMIT 1) IN(4,5)';

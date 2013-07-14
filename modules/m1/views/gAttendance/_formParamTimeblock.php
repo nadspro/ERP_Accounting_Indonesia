@@ -17,10 +17,10 @@
 
     <?php echo $form->errorSummary($model); ?>
 
-        <?php echo $form->textFieldRow($model, 'code', array('size' => 25, 'maxlength' => 25)); ?>
+    <?php echo $form->textFieldRow($model, 'code', array('size' => 25, 'maxlength' => 25)); ?>
 
     <div class="control-group">
-            <?php echo $form->labelEx($model, 'in', array('class' => 'control-label')); ?>
+        <?php echo $form->labelEx($model, 'in', array('class' => 'control-label')); ?>
         <div class="controls">
             <?php
             $this->widget(
@@ -38,7 +38,7 @@
     </div>
 
     <div class="control-group">
-            <?php echo $form->labelEx($model, 'out', array('class' => 'control-label')); ?>
+        <?php echo $form->labelEx($model, 'out', array('class' => 'control-label')); ?>
         <div class="controls">
             <?php
             $this->widget(
@@ -89,16 +89,16 @@
             ?>
         </div>
     </div>
-<?php echo $form->textAreaRow($model, 'remark', array('class' => 'span3', 'rows' => 3)); ?>
+    <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span3', 'rows' => 3)); ?>
 
     <div class="form-actions">
-<?php
-$this->widget('bootstrap.widgets.TbButton', array(
-    'buttonType' => 'submit',
-    'type' => 'primary',
-    'label' => $model->isNewRecord ? 'Create' : 'Save',
-));
-?>
+        <?php
+        $this->widget('bootstrap.widgets.TbButton', array(
+            'buttonType' => 'submit',
+            'type' => 'primary',
+            'label' => $model->isNewRecord ? 'Create' : 'Save',
+        ));
+        ?>
 
     </div>
 

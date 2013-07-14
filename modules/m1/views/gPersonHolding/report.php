@@ -23,6 +23,6 @@ $this->menu2 = gPerson::getTopCreated();
 
 <ul>
     <li>
-<?php echo CHtml::link('Report Multi Position Employee', Yii::app()->createUrl('/m1/gPersonHolding/report1')); ?>
+        <?php echo CHtml::link('Report Multi Position Employee', Yii::app()->createUrl('/m1/gPersonHolding/report1')); ?>
     </li>
 </ul>

@@ -62,7 +62,7 @@ Yii::app()->clientScript->registerScript('myCap', "
 
 <div class="page-header">
     <h1>
-<?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/calendar_month.png') ?>
+        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/calendar_month.png') ?>
         Closing Month and Year Period
     </h1>
 </div>
@@ -83,7 +83,7 @@ Yii::app()->clientScript->registerScript('myCap', "
     <div class="span10 well">
         <h2>
             Current Period:
-<?php echo Yii::app()->settings->get("System", "cCurrentPeriod"); ?>
+            <?php echo Yii::app()->settings->get("System", "cCurrentPeriod"); ?>
 
         </h2>
     </div>
@@ -104,79 +104,79 @@ Yii::app()->clientScript->registerScript('myCap', "
 </div>
 
 <p>
-<?php
-$this->widget('zii.widgets.jui.CJuiButton', array(
-    'buttonType' => 'link',
-    'id' => 'myCap',
-    'name' => 'btnGo7',
-    'url' => Yii::app()->createUrl("/m2/tClosing/closingPeriodExecution"),
-    'caption' => 'Closing Month Period',
-    'options' => array(
-    //'icons'=>'js:{secondary:"ui-icon-extlink"}',
-    //'onclick'=>'js:{Loading.show();}',
-    ),
-    'htmlOptions' => array(
-        'class' => 'ui-button-primary',
-    ),
-));
-?>
+    <?php
+    $this->widget('zii.widgets.jui.CJuiButton', array(
+        'buttonType' => 'link',
+        'id' => 'myCap',
+        'name' => 'btnGo7',
+        'url' => Yii::app()->createUrl("/m2/tClosing/closingPeriodExecution"),
+        'caption' => 'Closing Month Period',
+        'options' => array(
+        //'icons'=>'js:{secondary:"ui-icon-extlink"}',
+        //'onclick'=>'js:{Loading.show();}',
+        ),
+        'htmlOptions' => array(
+            'class' => 'ui-button-primary',
+        ),
+    ));
+    ?>
 </p>
 
 
 <h2>Unposted Journal</h2>
-    <?php
-    //$this->widget('bootstrap.widgets.TbGridView', array(
-    $this->widget('ext.groupgridview.GroupGridView', array(
-        'mergeColumns' => array('input_date'),
-        'id' => 'u-journal-grid',
-        'dataProvider' => uJournal::model()->search(),
-        'itemsCssClass' => 'table table-striped table-bordered',
-        'template' => '{items}{pager}{summary}',
-        'columns' => array(
-            array(
-                'class' => 'bootstrap.widgets.TbButtonColumn',
-                'template' => '{delete}',
-                'deleteButtonUrl' => 'Yii::app()->createUrl("/m2/tPosting/delete",array("id"=>$data->id))',
-            //'template'=>'{delete}{process}',
-            /* 			'buttons'=>array
-              (
-              'process' => array
-              (
-              //'label'=>'<i class="icon-zoom-in"></i>',
-              //'imageUrl'=>Yii::app()->request->baseUrl.'/css/process.png',
-              'url'=>'Yii::app()->createUrl("sUser/updatep", array("id"=>$data->id))',
-              ),
-              ),
-             */            ),
-            'input_date',
-            'system_ref',
-            array(
-                'header' => 'Module',
-                'value' => 'sParameter::item("cModule",$data->module_id)',
-            ),
-            //'remark',
-            //array (
-            //	'header'=>'Total item',
-            //	'value'=>'$data->journalCount',
-            //	'htmlOptions'=>array(
-            //		'style'=>'text-align: right; padding-right: 5px;'
-            //	),
-            //),
-            array(
-                'header' => 'Status',
-                'value' => '$data->status->name',
-            ),
-            array(
-                'header' => 'Total',
-                'type' => 'number',
-                'value' => '$data->journalSum',
-                'htmlOptions' => array(
-                    'style' => 'text-align: right; padding-right: 5px;'
-                ),
+<?php
+//$this->widget('bootstrap.widgets.TbGridView', array(
+$this->widget('ext.groupgridview.GroupGridView', array(
+    'mergeColumns' => array('input_date'),
+    'id' => 'u-journal-grid',
+    'dataProvider' => uJournal::model()->search(),
+    'itemsCssClass' => 'table table-striped table-bordered',
+    'template' => '{items}{pager}{summary}',
+    'columns' => array(
+        array(
+            'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{delete}',
+            'deleteButtonUrl' => 'Yii::app()->createUrl("/m2/tPosting/delete",array("id"=>$data->id))',
+        //'template'=>'{delete}{process}',
+        /* 			'buttons'=>array
+          (
+          'process' => array
+          (
+          //'label'=>'<i class="icon-zoom-in"></i>',
+          //'imageUrl'=>Yii::app()->request->baseUrl.'/css/process.png',
+          'url'=>'Yii::app()->createUrl("sUser/updatep", array("id"=>$data->id))',
+          ),
+          ),
+         */        ),
+        'input_date',
+        'system_ref',
+        array(
+            'header' => 'Module',
+            'value' => 'sParameter::item("cModule",$data->module_id)',
+        ),
+        //'remark',
+        //array (
+        //	'header'=>'Total item',
+        //	'value'=>'$data->journalCount',
+        //	'htmlOptions'=>array(
+        //		'style'=>'text-align: right; padding-right: 5px;'
+        //	),
+        //),
+        array(
+            'header' => 'Status',
+            'value' => '$data->status->name',
+        ),
+        array(
+            'header' => 'Total',
+            'type' => 'number',
+            'value' => '$data->journalSum',
+            'htmlOptions' => array(
+                'style' => 'text-align: right; padding-right: 5px;'
             ),
         ),
-    ));
+    ),
+));
 
 //$_nextPeriod = sParameter::cBeginDateAfter(Yii::app()->settings->get("System", "cCurrentPeriod"));
 //Yii::app()->settings->set("System", "cCurrentPeriod", $_nextPeriod, $toDatabase=true);
-    ?>
+?>

@@ -24,8 +24,8 @@
             ));
             ?>
         </div>
-<?php //echo CHtml::tag('div', array('style'=>'color: #999; font-size: 11px'), waktu::nicetime($data->created_date));
-?>
+        <?php //echo CHtml::tag('div', array('style'=>'color: #999; font-size: 11px'), waktu::nicetime($data->created_date));
+        ?>
     </div>
 </div>
 
@@ -69,13 +69,13 @@
 
 <div class="row">	
     <div class="span8">
-<?php
-if ($data->email_status_id == 1) {
-    echo CHtml::link('Email Invitation', Yii::app()->createUrl('/m1/hVacancy/email', array('id' => $data->id)), array('target' => '_blank', 'class' => 'btn btn-mini', 'style' => 'margin:10px'));
-}
-else
-    echo "Emailed";
-?>
+        <?php
+        if ($data->email_status_id == 1) {
+            echo CHtml::link('Email Invitation', Yii::app()->createUrl('/m1/hVacancy/email', array('id' => $data->id)), array('target' => '_blank', 'class' => 'btn btn-mini', 'style' => 'margin:10px'));
+        }
+        else
+            echo "Emailed";
+        ?>
 
         <?php echo CHtml::link('Interview Comment', Yii::app()->createUrl('/m1/hVacancy/interviewDetail', array('id' => $data->id)), array('target' => '_blank', 'class' => 'btn btn-mini', 'style' => 'margin:10px')); ?>
 

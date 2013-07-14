@@ -62,10 +62,10 @@ $this->breadcrumbs = array(
     <div class="span4">
         <?php $this->renderPartial("/site/_category", array('category_id' => 1)) ?>
         <?php $this->renderPartial("/site/_category", array('category_id' => 2)) ?>
-<?php $this->renderPartial("/site/_category", array('category_id' => 3)) ?>
+        <?php $this->renderPartial("/site/_category", array('category_id' => 3)) ?>
     </div>
 </div>
 
 
-        <?php $this->renderPartial("_tabSocNet", array()) ?>
+<?php $this->renderPartial("_tabSocNet", array()) ?>
 

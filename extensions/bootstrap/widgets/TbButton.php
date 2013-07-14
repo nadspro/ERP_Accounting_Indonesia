@@ -1,5 +1,6 @@
 <?php
-/*##  TbButton class file.
+
+/* ##  TbButton class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
@@ -12,302 +13,292 @@
  * Bootstrap button widget.
  * @see http://twitter.github.com/bootstrap/base-css.html#buttons
  */
-class TbButton extends CWidget
-{
-	// Button callback types.
-	const BUTTON_LINK       = 'link';
-	const BUTTON_BUTTON     = 'button';
-	const BUTTON_SUBMIT     = 'submit';
-	const BUTTON_SUBMITLINK = 'submitLink';
-	const BUTTON_RESET      = 'reset';
-	const BUTTON_AJAXLINK   = 'ajaxLink';
-	const BUTTON_AJAXBUTTON = 'ajaxButton';
-	const BUTTON_AJAXSUBMIT = 'ajaxSubmit';
-	const BUTTON_INPUTBUTTON = 'inputButton';
-	const BUTTON_INPUTSUBMIT = 'inputSubmit';
+class TbButton extends CWidget {
+    // Button callback types.
 
-	// Button types.
-	const TYPE_PRIMARY = 'primary';
-	const TYPE_INFO    = 'info';
-	const TYPE_SUCCESS = 'success';
-	const TYPE_WARNING = 'warning';
-	const TYPE_DANGER  = 'danger';
-	const TYPE_INVERSE = 'inverse';
-	const TYPE_LINK    = 'link';
+    const BUTTON_LINK = 'link';
+    const BUTTON_BUTTON = 'button';
+    const BUTTON_SUBMIT = 'submit';
+    const BUTTON_SUBMITLINK = 'submitLink';
+    const BUTTON_RESET = 'reset';
+    const BUTTON_AJAXLINK = 'ajaxLink';
+    const BUTTON_AJAXBUTTON = 'ajaxButton';
+    const BUTTON_AJAXSUBMIT = 'ajaxSubmit';
+    const BUTTON_INPUTBUTTON = 'inputButton';
+    const BUTTON_INPUTSUBMIT = 'inputSubmit';
 
-	// Button sizes.
-	const SIZE_MINI  = 'mini';
-	const SIZE_SMALL = 'small';
-	const SIZE_LARGE = 'large';
+    // Button types.
+    const TYPE_PRIMARY = 'primary';
+    const TYPE_INFO = 'info';
+    const TYPE_SUCCESS = 'success';
+    const TYPE_WARNING = 'warning';
+    const TYPE_DANGER = 'danger';
+    const TYPE_INVERSE = 'inverse';
+    const TYPE_LINK = 'link';
 
-	/**
-	 * @var string the button callback types.
-	 * Valid values are 'link', 'button', 'submit', 'submitLink', 'reset', 'ajaxLink', 'ajaxButton' and 'ajaxSubmit'.
-	 */
-	public $buttonType = self::BUTTON_LINK;
+    // Button sizes.
+    const SIZE_MINI = 'mini';
+    const SIZE_SMALL = 'small';
+    const SIZE_LARGE = 'large';
 
-	/**
-	 * @var string the button type.
-	 * Valid values are 'primary', 'info', 'success', 'warning', 'danger' and 'inverse'.
-	 */
-	public $type;
+    /**
+     * @var string the button callback types.
+     * Valid values are 'link', 'button', 'submit', 'submitLink', 'reset', 'ajaxLink', 'ajaxButton' and 'ajaxSubmit'.
+     */
+    public $buttonType = self::BUTTON_LINK;
 
-	/**
-	 * @var string the button size.
-	 * Valid values are 'large', 'small' and 'mini'.
-	 */
-	public $size;
+    /**
+     * @var string the button type.
+     * Valid values are 'primary', 'info', 'success', 'warning', 'danger' and 'inverse'.
+     */
+    public $type;
 
-	/**
-	 * @var string the button icon, e.g. 'ok' or 'remove white'.
-	 */
-	public $icon;
+    /**
+     * @var string the button size.
+     * Valid values are 'large', 'small' and 'mini'.
+     */
+    public $size;
 
-	/**
-	 * @var string the button label.
-	 */
-	public $label;
+    /**
+     * @var string the button icon, e.g. 'ok' or 'remove white'.
+     */
+    public $icon;
 
-	/**
-	 * @var string the button URL.
-	 */
-	public $url;
+    /**
+     * @var string the button label.
+     */
+    public $label;
 
-	/**
-	 * @var boolean indicates whether the button should span the full width of the a parent.
-	 */
-	public $block = false;
+    /**
+     * @var string the button URL.
+     */
+    public $url;
 
-	/**
-	 * @var boolean indicates whether the button is active.
-	 */
-	public $active = false;
+    /**
+     * @var boolean indicates whether the button should span the full width of the a parent.
+     */
+    public $block = false;
 
-	/**
-	 * @var boolean indicates whether the button is disabled.
-	 */
-	public $disabled = false;
+    /**
+     * @var boolean indicates whether the button is active.
+     */
+    public $active = false;
 
-	/**
-	 * @var boolean indicates whether to encode the label.
-	 */
-	public $encodeLabel = true;
+    /**
+     * @var boolean indicates whether the button is disabled.
+     */
+    public $disabled = false;
 
-	/**
-	 * @var boolean indicates whether to enable toggle.
-	 */
-	public $toggle;
+    /**
+     * @var boolean indicates whether to encode the label.
+     */
+    public $encodeLabel = true;
 
-	/**
-	 * @var string the loading text.
-	 */
-	public $loadingText;
+    /**
+     * @var boolean indicates whether to enable toggle.
+     */
+    public $toggle;
 
-	/**
-	 * @var string the complete text.
-	 */
-	public $completeText;
+    /**
+     * @var string the loading text.
+     */
+    public $loadingText;
 
-	/**
-	* @var array the dropdown button items.
-	*/
-	public $items;
+    /**
+     * @var string the complete text.
+     */
+    public $completeText;
 
-	/**
-	 * @var array the HTML attributes for the widget container.
-	 */
-	public $htmlOptions = array();
+    /**
+     * @var array the dropdown button items.
+     */
+    public $items;
 
-	/**
-	 * @var array the button ajax options (used by 'ajaxLink' and 'ajaxButton').
-	 */
-	public $ajaxOptions = array();
+    /**
+     * @var array the HTML attributes for the widget container.
+     */
+    public $htmlOptions = array();
 
-	/**
-	 * @var array the HTML attributes for the dropdown menu.
-	 * @since 0.9.11
-	 */
-	public $dropdownOptions = array();
+    /**
+     * @var array the button ajax options (used by 'ajaxLink' and 'ajaxButton').
+     */
+    public $ajaxOptions = array();
 
-	/**
-	 * @var whether the button is visible or not
-	 * @since 0.9.11
-	 */
-	public $visible = true;
+    /**
+     * @var array the HTML attributes for the dropdown menu.
+     * @since 0.9.11
+     */
+    public $dropdownOptions = array();
 
-	/**
-	 *### .init()
-	 *
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		if (false === $this->visible)
-			return;
+    /**
+     * @var whether the button is visible or not
+     * @since 0.9.11
+     */
+    public $visible = true;
 
-		$classes = array('btn');
+    /**
+     * ### .init()
+     *
+     * Initializes the widget.
+     */
+    public function init() {
+        if (false === $this->visible)
+            return;
 
-		$validTypes = array(self::TYPE_LINK, self::TYPE_PRIMARY, self::TYPE_INFO, self::TYPE_SUCCESS,
-				self::TYPE_WARNING, self::TYPE_DANGER, self::TYPE_INVERSE);
+        $classes = array('btn');
 
-		if (isset($this->type) && in_array($this->type, $validTypes))
-			$classes[] = 'btn-'.$this->type;
+        $validTypes = array(self::TYPE_LINK, self::TYPE_PRIMARY, self::TYPE_INFO, self::TYPE_SUCCESS,
+            self::TYPE_WARNING, self::TYPE_DANGER, self::TYPE_INVERSE);
 
-		$validSizes = array(self::SIZE_LARGE, self::SIZE_SMALL, self::SIZE_MINI);
+        if (isset($this->type) && in_array($this->type, $validTypes))
+            $classes[] = 'btn-' . $this->type;
 
-		if (isset($this->size) && in_array($this->size, $validSizes))
-			$classes[] = 'btn-'.$this->size;
+        $validSizes = array(self::SIZE_LARGE, self::SIZE_SMALL, self::SIZE_MINI);
 
-		if ($this->block)
-			$classes[] = 'btn-block';
+        if (isset($this->size) && in_array($this->size, $validSizes))
+            $classes[] = 'btn-' . $this->size;
 
-		if ($this->active)
-			$classes[] = 'active';
+        if ($this->block)
+            $classes[] = 'btn-block';
 
-		if ($this->disabled)
-		{
-			$disableTypes = array(self::BUTTON_BUTTON, self::BUTTON_SUBMIT, self::BUTTON_RESET,
-				self::BUTTON_AJAXBUTTON, self::BUTTON_AJAXSUBMIT, self::BUTTON_INPUTBUTTON, self::BUTTON_INPUTSUBMIT);
+        if ($this->active)
+            $classes[] = 'active';
 
-			if (in_array($this->buttonType, $disableTypes))
-				$this->htmlOptions['disabled'] = 'disabled';
+        if ($this->disabled) {
+            $disableTypes = array(self::BUTTON_BUTTON, self::BUTTON_SUBMIT, self::BUTTON_RESET,
+                self::BUTTON_AJAXBUTTON, self::BUTTON_AJAXSUBMIT, self::BUTTON_INPUTBUTTON, self::BUTTON_INPUTSUBMIT);
 
-			$classes[] = 'disabled';
-		}
+            if (in_array($this->buttonType, $disableTypes))
+                $this->htmlOptions['disabled'] = 'disabled';
 
-		if (!isset($this->url) && isset($this->htmlOptions['href']))
-		{
-			$this->url = $this->htmlOptions['href'];
-			unset($this->htmlOptions['href']);
-		}
+            $classes[] = 'disabled';
+        }
 
-		if ($this->encodeLabel)
-			$this->label = CHtml::encode($this->label);
+        if (!isset($this->url) && isset($this->htmlOptions['href'])) {
+            $this->url = $this->htmlOptions['href'];
+            unset($this->htmlOptions['href']);
+        }
 
-		if ($this->hasDropdown())
-		{
-			if (!isset($this->url))
-				$this->url = '#';
+        if ($this->encodeLabel)
+            $this->label = CHtml::encode($this->label);
 
-			$classes[] = 'dropdown-toggle';
-			$this->label .= ' <span class="caret"></span>';
-			$this->htmlOptions['data-toggle'] = 'dropdown';
-		}
+        if ($this->hasDropdown()) {
+            if (!isset($this->url))
+                $this->url = '#';
 
-		if (!empty($classes))
-		{
-			$classes = implode(' ', $classes);
-			if (isset($this->htmlOptions['class']))
-				$this->htmlOptions['class'] .= ' '.$classes;
-			else
-				$this->htmlOptions['class'] = $classes;
-		}
+            $classes[] = 'dropdown-toggle';
+            $this->label .= ' <span class="caret"></span>';
+            $this->htmlOptions['data-toggle'] = 'dropdown';
+        }
 
-		if (isset($this->icon))
-		{
-			if (strpos($this->icon, 'icon') === false)
-				$this->icon = 'icon-'.implode(' icon-', explode(' ', $this->icon));
+        if (!empty($classes)) {
+            $classes = implode(' ', $classes);
+            if (isset($this->htmlOptions['class']))
+                $this->htmlOptions['class'] .= ' ' . $classes;
+            else
+                $this->htmlOptions['class'] = $classes;
+        }
 
-			$this->label = '<i class="'.$this->icon.'"></i> '.$this->label;
-		}
+        if (isset($this->icon)) {
+            if (strpos($this->icon, 'icon') === false)
+                $this->icon = 'icon-' . implode(' icon-', explode(' ', $this->icon));
 
-		if (!isset($this->htmlOptions['id']))
-			$this->htmlOptions['id'] = $this->getId();
+            $this->label = '<i class="' . $this->icon . '"></i> ' . $this->label;
+        }
 
-		if (isset($this->toggle))
-			$this->htmlOptions['data-toggle'] = 'button';
+        if (!isset($this->htmlOptions['id']))
+            $this->htmlOptions['id'] = $this->getId();
 
-		if (isset($this->loadingText))
-			$this->htmlOptions['data-loading-text'] = $this->loadingText;
+        if (isset($this->toggle))
+            $this->htmlOptions['data-toggle'] = 'button';
 
-		if (isset($this->completeText))
-			$this->htmlOptions['data-complete-text'] = $this->completeText;
-	}
+        if (isset($this->loadingText))
+            $this->htmlOptions['data-loading-text'] = $this->loadingText;
 
-	/**
-	 *### .run()
-	 *
-	 * Runs the widget.
-	 */
-	public function run()
-	{
-		if (false === $this->visible)
-			return;
+        if (isset($this->completeText))
+            $this->htmlOptions['data-complete-text'] = $this->completeText;
+    }
 
-		echo $this->createButton();
+    /**
+     * ### .run()
+     *
+     * Runs the widget.
+     */
+    public function run() {
+        if (false === $this->visible)
+            return;
 
-		if ($this->hasDropdown())
-		{
-			$this->controller->widget('bootstrap.widgets.TbDropdown', array(
-				'encodeLabel'=>$this->encodeLabel,
-				'items'=>$this->items,
-				'htmlOptions'=>$this->dropdownOptions,
-			));
-		}
-	}
+        echo $this->createButton();
 
-	/**
-	 *### .createButton()
-	 *
-	 * Creates the button element.
-	 *
-	 * @return string the created button.
-	 */
-	protected function createButton()
-	{
-		switch ($this->buttonType)
-		{
-			case self::BUTTON_BUTTON:
-				return CHtml::htmlButton($this->label, $this->htmlOptions);
+        if ($this->hasDropdown()) {
+            $this->controller->widget('bootstrap.widgets.TbDropdown', array(
+                'encodeLabel' => $this->encodeLabel,
+                'items' => $this->items,
+                'htmlOptions' => $this->dropdownOptions,
+            ));
+        }
+    }
 
-			case self::BUTTON_SUBMIT:
-				$this->htmlOptions['type'] = 'submit';
-				return CHtml::htmlButton($this->label, $this->htmlOptions);
+    /**
+     * ### .createButton()
+     *
+     * Creates the button element.
+     *
+     * @return string the created button.
+     */
+    protected function createButton() {
+        switch ($this->buttonType) {
+            case self::BUTTON_BUTTON:
+                return CHtml::htmlButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_RESET:
-				$this->htmlOptions['type'] = 'reset';
-				return CHtml::htmlButton($this->label, $this->htmlOptions);
+            case self::BUTTON_SUBMIT:
+                $this->htmlOptions['type'] = 'submit';
+                return CHtml::htmlButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_SUBMITLINK:
-				return CHtml::linkButton($this->label, $this->htmlOptions);
+            case self::BUTTON_RESET:
+                $this->htmlOptions['type'] = 'reset';
+                return CHtml::htmlButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_AJAXLINK:
-				return CHtml::ajaxLink($this->label, $this->url, $this->ajaxOptions, $this->htmlOptions);
+            case self::BUTTON_SUBMITLINK:
+                return CHtml::linkButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_AJAXBUTTON:
-				$this->ajaxOptions['url'] = $this->url;
-				$this->htmlOptions['ajax'] = $this->ajaxOptions;
-				return CHtml::htmlButton($this->label, $this->htmlOptions);
+            case self::BUTTON_AJAXLINK:
+                return CHtml::ajaxLink($this->label, $this->url, $this->ajaxOptions, $this->htmlOptions);
 
-			case self::BUTTON_AJAXSUBMIT:
-				$this->ajaxOptions['type'] = isset($this->ajaxOptions['type']) ? $this->ajaxOptions['type'] : 'POST';
-				$this->ajaxOptions['url'] = $this->url;
-				$this->htmlOptions['type'] = 'submit';
-				$this->htmlOptions['ajax'] = $this->ajaxOptions;
-				return CHtml::htmlButton($this->label, $this->htmlOptions);
+            case self::BUTTON_AJAXBUTTON:
+                $this->ajaxOptions['url'] = $this->url;
+                $this->htmlOptions['ajax'] = $this->ajaxOptions;
+                return CHtml::htmlButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_INPUTBUTTON:
-				return CHtml::button($this->label, $this->htmlOptions);
+            case self::BUTTON_AJAXSUBMIT:
+                $this->ajaxOptions['type'] = isset($this->ajaxOptions['type']) ? $this->ajaxOptions['type'] : 'POST';
+                $this->ajaxOptions['url'] = $this->url;
+                $this->htmlOptions['type'] = 'submit';
+                $this->htmlOptions['ajax'] = $this->ajaxOptions;
+                return CHtml::htmlButton($this->label, $this->htmlOptions);
 
-			case self::BUTTON_INPUTSUBMIT:
-				$this->htmlOptions['type'] = 'submit';
-				return CHtml::button($this->label, $this->htmlOptions);
+            case self::BUTTON_INPUTBUTTON:
+                return CHtml::button($this->label, $this->htmlOptions);
 
-			default:
-			case self::BUTTON_LINK:
-				return CHtml::link($this->label, $this->url, $this->htmlOptions);
-		}
-	}
+            case self::BUTTON_INPUTSUBMIT:
+                $this->htmlOptions['type'] = 'submit';
+                return CHtml::button($this->label, $this->htmlOptions);
 
-	/**
-	 *### .hasDropdown()
-	 *
-	 * Returns whether the button has a dropdown.
-	 *
-	 * @return bool the result.
-	 */
-	protected function hasDropdown()
-	{
-		return isset($this->items) && !empty($this->items);
-	}
+            default:
+            case self::BUTTON_LINK:
+                return CHtml::link($this->label, $this->url, $this->htmlOptions);
+        }
+    }
+
+    /**
+     * ### .hasDropdown()
+     *
+     * Returns whether the button has a dropdown.
+     *
+     * @return bool the result.
+     */
+    protected function hasDropdown() {
+        return isset($this->items) && !empty($this->items);
+    }
+
 }

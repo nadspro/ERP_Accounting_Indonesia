@@ -1,4 +1,5 @@
 <?php
+
 Yii::import('zii.widgets.jui.CJuiInputWidget');
 /**
  * XUpload extension for Yii.
@@ -15,125 +16,125 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  */
 class XUploadWidget extends CJuiInputWidget {
 
-	/**
-	 * the url to the upload handler
-	 * @var string
-	 */
-	public $url;
+/**
+ * the url to the upload handler
+ * @var string
+ */
+public $url;
 
-	/**
-	 * set to true to use multiple file upload
-	 * @var boolean
-	 */
-	public $multiple = false;
+/**
+ * set to true to use multiple file upload
+ * @var boolean
+ */
+public $multiple = false;
 
-	/**
-	 * Publishes the required assets
-	 */
-	public function init() {
-		parent::init();
-		$this->publishAssets();
-	}
+/**
+ * Publishes the required assets
+ */
+public function init() {
+parent::init();
+$this->publishAssets();
+}
 
-	/**
-	 * Generates the required HTML and Javascript
-	 */
-	public function run() {
+/**
+ * Generates the required HTML and Javascript
+ */
+public function run() {
 
-		list($name,$id)=$this->resolveNameID();
+list($name, $id) = $this->resolveNameID();
 
-		$model = $this->model;
-
-
-		if( !isset($this->options['uploadTable']) ){
-			$uploadTable = "files";
-			$this->options['uploadTable'] = "#files";
-		}else{
-			$uploadTable = $this->options['uploadTable'];
-			$this->options['uploadTable'] = "#{$uploadTable}";
-		}
+$model = $this->model;
 
 
-		if( !isset($this->options['downloadTable']) ){
-			$downloadTable = "files";
-			$this->options['downloadTable'] = "#files";
-		}else{
-			$downloadTable = $this->options['downloadTable'];
-			$this->options['downloadTable'] = "#{$downloadTable}";
-		}
-
-		if( !isset($this->options['buildUploadRow']) ){
-			$this->options['buildUploadRow'] = $this->_getBuildUploadRow();
-		}
-
-		if( !isset($this->options['buildDownloadRow']) ){
-			$this->options['buildDownloadRow'] = $this->_getBuildDownloadRow();
-		}
-
-		if( !isset($this->htmlOptions['enctype']) ){
-			$this->htmlOptions['enctype'] = 'multipart/form-data';
-		}
-
-		if( !isset($this->htmlOptions['class']) ){
-			$this->htmlOptions['class'] = 'xupload-form file_upload';
-		}
-
-		if( !isset($this->htmlOptions['id']) ){
-			$this->htmlOptions['id'] = get_class($model)."_form";
-		}
-
-		$options=CJavaScript::encode($this->options);
-		CVarDumper::dumpAsString($options, 10, true);
-		Yii::app()->clientScript->registerScript(__CLASS__.'#'.$this->htmlOptions['id'], "jQuery('#{$this->htmlOptions['id']}').fileUploadUI({$options});", CClientScript::POS_READY);
+if(!isset($this->options['uploadTable']) ){
+$uploadTable = "files";
+$this->options['uploadTable'] = "#files";
+}else{
+$uploadTable = $this->options['uploadTable'];
+$this->options['uploadTable'] = "#{$uploadTable}";
+}
 
 
-		echo CHtml::beginForm($this->url, 'post', $this->htmlOptions);
+if(!isset($this->options['downloadTable']) ){
+$downloadTable = "files";
+$this->options['downloadTable'] = "#files";
+}else{
+$downloadTable = $this->options['downloadTable'];
+$this->options['downloadTable'] = "#{$downloadTable}";
+}
+
+if(!isset($this->options['buildUploadRow']) ){
+$this->options['buildUploadRow'] = $this->_getBuildUploadRow();
+}
+
+if(!isset($this->options['buildDownloadRow']) ){
+$this->options['buildDownloadRow'] = $this->_getBuildDownloadRow();
+}
+
+if(!isset($this->htmlOptions['enctype']) ){
+$this->htmlOptions['enctype'] = 'multipart/form-data';
+}
+
+if(!isset($this->htmlOptions['class']) ){
+$this->htmlOptions['class'] = 'xupload-form file_upload';
+}
+
+if(!isset($this->htmlOptions['id']) ){
+$this->htmlOptions['id'] = get_class($model)."_form";
+}
+
+$options = CJavaScript::encode($this->options);
+CVarDumper::dumpAsString($options, 10, true);
+Yii::app()->clientScript->registerScript(__CLASS__.'#'.$this->htmlOptions['id'], "jQuery('#{$this->htmlOptions['id']}').fileUploadUI({$options});", CClientScript::POS_READY);
 
 
-		$htmlOptions = array();
-		if($this->multiple){
-			$htmlOptions["multiple"] = true;
-		}
+echo CHtml::beginForm($this->url, 'post', $this->htmlOptions);
 
-		if($this->hasModel()){
-			echo CHtml::activeFileField($this->model, $this->attribute, $htmlOptions);
-		}
-		else{
-			echo CHtml::fileField($name,$this->value, $htmlOptions);
-		}
-		echo CHtml::tag("button", array(), "Upload", true);
-		echo CHtml::tag("div", array(), "Upload file", true);
 
-		echo CHtml::endForm();
+$htmlOptions = array();
+if($this->multiple){
+$htmlOptions["multiple"] = true;
+}
 
-		if($uploadTable == $downloadTable){
-			echo CHtml::tag("table", array("id" => $uploadTable), "", true);
-		}else{
-			echo CHtml::tag("table", array("id" => $uploadTable), "", true);
-			echo CHtml::tag("table", array("id" => $downloadTable), "", true);
-		}
+if($this->hasModel()){
+echo CHtml::activeFileField($this->model, $this->attribute, $htmlOptions);
+}
+else{
+echo CHtml::fileField($name, $this->value, $htmlOptions);
+}
+echo CHtml::tag("button", array(), "Upload", true);
+echo CHtml::tag("div", array(), "Upload file", true);
 
-	}
+echo CHtml::endForm();
 
-	/**
-	 * Publises and registers the required CSS and Javascript
-	 * @throws CHttpException if the assets folder was not found
-	 */
-	public function publishAssets() {
-		$assets = dirname(__FILE__) . '/assets';
-		$baseUrl = Yii::app()->assetManager->publish($assets);
-		if (is_dir($assets)) {
-			Yii::app()->clientScript->registerScriptFile($baseUrl . '/fileupload-ui/jquery.fileupload.js', CClientScript::POS_END);
-			Yii::app()->clientScript->registerScriptFile($baseUrl . '/fileupload-ui/jquery.fileupload-ui.js', CClientScript::POS_END);
-			Yii::app()->clientScript->registerCssFile($baseUrl . '/fileupload-ui/jquery.fileupload-ui.css');
-			Yii::app()->clientScript->registerCssFile($baseUrl . '/xuploads.css');
-		} else {
-			throw new CHttpException(500, 'XUpload - Error: Couldn\'t find assets to publish.');
-		}
-	}
+if($uploadTable == $downloadTable){
+echo CHtml::tag("table", array("id" => $uploadTable), "", true);
+}else{
+echo CHtml::tag("table", array("id" => $uploadTable), "", true);
+echo CHtml::tag("table", array("id" => $downloadTable), "", true);
+}
 
-	private function _getBuildDownloadRow(){
-		$js = <<<EOD
+}
+
+/**
+ * Publises and registers the required CSS and Javascript
+ * @throws CHttpException if the assets folder was not found
+ */
+public function publishAssets() {
+$assets = dirname(__FILE__) . '/assets';
+$baseUrl = Yii::app()->assetManager->publish($assets);
+if (is_dir($assets)) {
+Yii::app()->clientScript->registerScriptFile($baseUrl . '/fileupload-ui/jquery.fileupload.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile($baseUrl . '/fileupload-ui/jquery.fileupload-ui.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerCssFile($baseUrl . '/fileupload-ui/jquery.fileupload-ui.css');
+Yii::app()->clientScript->registerCssFile($baseUrl . '/xuploads.css');
+} else {
+throw new CHttpException(500, 'XUpload - Error: Couldn\'t find assets to publish.');
+}
+}
+
+private function _getBuildDownloadRow(){
+$js = <<<EOD
 		js:function (files, index) {
 		return $('<tr><td>' + files.name + '<\/td>' +
 		'<td class="file_upload_progress"><div><\/div><\/td>' +

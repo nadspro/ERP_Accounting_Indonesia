@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperSubreport
  *
@@ -13,16 +14,16 @@ class JasperSubreport extends AbstractJasper {
 
     /** @BeanAnnotation(className="JasperReportElement") */
     public $reportElement = null;
-    
+
     /** @BeanAnnotation(className="JasperSubreportParameter") */
     public $subreportParameter = null;
-    
+
     /** @BeanAnnotation(className="JasperReturnValue") */
     public $returnValue = null;
-    
+
     /** @BeanAnnotation(className="JasperConnectExpression") */
     public $connectExpression = null;
-    
+
     /** @BeanAnnotation(className="JasperSubreportExpression") */
     public $subreportExpression = null;
 

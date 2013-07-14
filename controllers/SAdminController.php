@@ -226,4 +226,15 @@ class SAdminController extends Controller {
         $this->redirect(array('/menu'));
     }
 
+    public function actionFormWithFile() {
+        $form = new fPhoto();
+        if (Yii::app()->request->getParam('title')) {
+            $form->attributes = Yii::app()->request->getParam('title');
+            $form->fileField = UploadedFile::getInstanceByName("fPhoto[title]");
+            if ($form->validate()) {
+                $form->fileField->saveAs(dirname(__FILE__) . '/../files/tmp.txt');
+            }
+        }
+    }
+
 }

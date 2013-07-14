@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit
  *
@@ -42,44 +43,41 @@
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
-
 require_once 'PHP/Timer.php';
 require_once 'PHPUnit/Autoload.php';
 
-class WUnit_ResultPrinter extends PHPUnit_TextUI_ResultPrinter
-{
-	protected $outputBuffer = "";
+class WUnit_ResultPrinter extends PHPUnit_TextUI_ResultPrinter {
 
-	public function __construct($out = NULL, $verbose = FALSE, $colors = FALSE, $debug = FALSE)
-	{
-		parent::__construct($out, $verbose, $colors, $debug);
-	}
+    protected $outputBuffer = "";
 
-	public function write($buffer)
-	{
-		if ($this->out) {
-			fwrite($this->out, $buffer);
+    public function __construct($out = NULL, $verbose = FALSE, $colors = FALSE, $debug = FALSE) {
+        parent::__construct($out, $verbose, $colors, $debug);
+    }
 
-			if ($this->autoFlush) {
-				$this->incrementalFlush();
-			}
-		} else {
-			if (PHP_SAPI != 'cli') {
-				$buffer = htmlspecialchars($buffer);
-			}
+    public function write($buffer) {
+        if ($this->out) {
+            fwrite($this->out, $buffer);
 
-			$this->outputBuffer .= $buffer;
+            if ($this->autoFlush) {
+                $this->incrementalFlush();
+            }
+        } else {
+            if (PHP_SAPI != 'cli') {
+                $buffer = htmlspecialchars($buffer);
+            }
 
-			if ($this->autoFlush) {
-				$this->incrementalFlush();
-			}
-		}
-	}
+            $this->outputBuffer .= $buffer;
 
-	public function printResult(PHPUnit_Framework_TestResult $result)
-	{
+            if ($this->autoFlush) {
+                $this->incrementalFlush();
+            }
+        }
+    }
 
-		parent::printResult($result);
-		print $this->outputBuffer;
-	}
+    public function printResult(PHPUnit_Framework_TestResult $result) {
+
+        parent::printResult($result);
+        print $this->outputBuffer;
+    }
+
 }

@@ -13,80 +13,77 @@
  */
 class YiinfiniteScroller extends CBasePager {
 
-	public $contentSelector = '#content';
+    public $contentSelector = '#content';
+    private $_options = array(
+        'loadingImg' => '/aphris/images/loading.gif',
+        'loadingText' => null,
+        'donetext' => null,
+        'itemSelector' => null,
+        'errorCallback' => null,
+    );
+    private $_default_options = array(
+        'navSelector' => 'div.infinite_navigation',
+        'nextSelector' => 'div.infinite_navigation a:first',
+        'bufferPx' => '300',
+    );
 
-	private $_options = array(
-			'loadingImg'    => '/aphris/images/loading.gif',
-			'loadingText'   => null,
-			'donetext'      => null,
-			'itemSelector'  => null,
-			'errorCallback' => null,
-	);
+    public function init() {
+        $this->getPages()->validateCurrentPage = false;
+        parent::init();
+    }
 
-	private $_default_options = array(
-			'navSelector'   => 'div.infinite_navigation',
-			'nextSelector'  => 'div.infinite_navigation a:first',
-			'bufferPx'      => '300',
-	);
+    public function run() {
+        $this->registerClientScript();
+        $this->createInfiniteScrollScript();
+        $this->renderNavigation();
 
-	public function init() {
-		$this->getPages()->validateCurrentPage = false;
-		parent::init();
-	}
+        if ($this->getPages()->getPageCount() > 0 && $this->theresNoMorePages()) {
+            throw new CHttpException(404);
+        }
+    }
 
-	public function run() {
-		$this->registerClientScript();
-		$this->createInfiniteScrollScript();
-		$this->renderNavigation();
+    public function __get($name) {
+        if (array_key_exists($name, $this->_options)) {
+            return $this->_options[$name];
+        }
 
-		if($this->getPages()->getPageCount() > 0 && $this->theresNoMorePages()) {
-			throw new CHttpException(404);
-		}
-	}
+        return parent::__get($name);
+    }
 
-	public function __get($name) {
-		if(array_key_exists($name, $this->_options)) {
-			return $this->_options[$name];
-		}
+    public function __set($name, $value) {
+        if (array_key_exists($name, $this->_options)) {
+            return $this->_options[$name] = $value;
+        }
 
-		return parent::__get($name);
-	}
+        return parent::__set($name, $value);
+    }
 
-	public function __set($name, $value) {
-		if(array_key_exists($name, $this->_options)) {
-			return $this->_options[$name] = $value;
-		}
+    public function registerClientScript() {
+        $url = CHtml::asset(Yii::getPathOfAlias('ext.yiinfinite-scroll.assets') . '/jquery.infinitescroll.min.js');
+        Yii::app()->clientScript->registerScriptFile($url);
+    }
 
-		return parent::__set($name, $value);
-	}
+    private function createInfiniteScrollScript() {
+        Yii::app()->clientScript->registerScript(
+                uniqid(), "$('{$this->contentSelector}').infinitescroll(" . $this->buildInifiniteScrollOptions() . ");"
+        );
+    }
 
-	public function registerClientScript() {
-		$url = CHtml::asset(Yii::getPathOfAlias('ext.yiinfinite-scroll.assets').'/jquery.infinitescroll.min.js');
-		Yii::app()->clientScript->registerScriptFile($url);
-	}
+    private function buildInifiniteScrollOptions() {
+        $options = array_merge($this->_options, $this->_default_options);
+        $options = array_filter($options);
+        $options = CJavaScript::encode($options);
+        return $options;
+    }
 
-	private function createInfiniteScrollScript() {
-		Yii::app()->clientScript->registerScript(
-				uniqid(),
-				"$('{$this->contentSelector}').infinitescroll(".$this->buildInifiniteScrollOptions().");"
-				);
-	}
+    private function renderNavigation() {
+        $next_link = CHtml::link('next', $this->createPageUrl($this->getCurrentPage(false) + 1));
+        echo '<div class="infinite_navigation">' . $next_link . '</div>';
+    }
 
-	private function buildInifiniteScrollOptions() {
-		$options = array_merge($this->_options, $this->_default_options);
-		$options = array_filter( $options );
-		$options = CJavaScript::encode($options);
-		return $options;
-	}
-
-	private function renderNavigation() {
-		$next_link = CHtml::link('next',$this->createPageUrl($this->getCurrentPage(false)+1));
-		echo '<div class="infinite_navigation">'.$next_link.'</div>';
-	}
-
-	private function theresNoMorePages() {
-		return $this->getPages()->getCurrentPage() >= $this->getPages()->getPageCount();
-	}
+    private function theresNoMorePages() {
+        return $this->getPages()->getCurrentPage() >= $this->getPages()->getPageCount();
+    }
 
 }
 

@@ -13,3 +13,31 @@
         </ul>
     </div>
 <?php } ?>
+
+<p>
+    <?php
+    $model = new hApplicantComment;
+
+    $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+        'id' => 'comment-form',
+        'type' => 'horizontal',
+        'enableAjaxValidation' => false,
+    ));
+
+    echo CHtml::openTag('div', array('class' => 'row'));
+    echo CHtml::tag('div', array('class' => 'span5'), $form->textArea($model, 'comment', array('class' => 'span5')));
+
+    echo CHtml::tag('div', array('class' => 'span2'), CHtml::AjaxSubmitButton('Comment', array('/m1/hApplicant/comment', 'id' => $data->id), array(
+                'success' => '
+						function() {
+							$.fn.yiiGridView.update("c' . $data->id . '", {
+								data: $(this).serialize()
+							})
+							return false;	
+						}'
+                    )
+    ));
+    echo CHtml::closeTag('div');
+    $this->endWidget();
+    ?>
+</p>

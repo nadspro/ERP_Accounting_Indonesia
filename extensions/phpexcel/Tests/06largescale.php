@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -24,13 +25,12 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /** Error reporting */
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 
-define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 date_default_timezone_set('Europe/London');
 
@@ -39,36 +39,36 @@ require_once '../Classes/PHPExcel.php';
 
 
 /*
-After doing some test, I've got these results benchmarked
-for writing to Excel2007:
+  After doing some test, I've got these results benchmarked
+  for writing to Excel2007:
 
-	Number of rows	Seconds to generate
-	200				3
-	500				4
-	1000			6
-	2000			12
-	4000			36
-	8000			64
-	15000			465
-*/
+  Number of rows	Seconds to generate
+  200				3
+  500				4
+  1000			6
+  2000			12
+  4000			36
+  8000			64
+  15000			465
+ */
 
 // Create new PHPExcel object
-echo date('H:i:s') , " Create new PHPExcel object" , EOL;
+echo date('H:i:s'), " Create new PHPExcel object", EOL;
 $objPHPExcel = new PHPExcel();
 
 // Set document properties
-echo date('H:i:s') , " Set properties" , EOL;
+echo date('H:i:s'), " Set properties", EOL;
 $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
-							 ->setLastModifiedBy("Maarten Balliauw")
-							 ->setTitle("Office 2007 XLSX Test Document")
-							 ->setSubject("Office 2007 XLSX Test Document")
-							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
-							 ->setKeywords("office 2007 openxml php")
-							 ->setCategory("Test result file");
+        ->setLastModifiedBy("Maarten Balliauw")
+        ->setTitle("Office 2007 XLSX Test Document")
+        ->setSubject("Office 2007 XLSX Test Document")
+        ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+        ->setKeywords("office 2007 openxml php")
+        ->setCategory("Test result file");
 
 
 // Create a first sheet
-echo date('H:i:s') , " Add data" , EOL;
+echo date('H:i:s'), " Add data", EOL;
 $objPHPExcel->setActiveSheetIndex(0);
 $objPHPExcel->getActiveSheet()->setCellValue('A1', "Firstname");
 $objPHPExcel->getActiveSheet()->setCellValue('B1', "Lastname");
@@ -78,34 +78,34 @@ $objPHPExcel->getActiveSheet()->setCellValue('E1', "Is Client ?");
 
 
 // Hide "Phone" and "fax" column
-echo date('H:i:s') , " Hide 'Phone' and 'fax' columns" , EOL;
+echo date('H:i:s'), " Hide 'Phone' and 'fax' columns", EOL;
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setVisible(false);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setVisible(false);
 
 
 // Set outline levels
-echo date('H:i:s') , " Set outline levels" , EOL;
+echo date('H:i:s'), " Set outline levels", EOL;
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setOutlineLevel(1)
-                                                       ->setVisible(false)
-                                                       ->setCollapsed(true);
+        ->setVisible(false)
+        ->setCollapsed(true);
 
 // Freeze panes
-echo date('H:i:s') , " Freeze panes" , EOL;
+echo date('H:i:s'), " Freeze panes", EOL;
 $objPHPExcel->getActiveSheet()->freezePane('A2');
 
 
 // Rows to repeat at top
-echo date('H:i:s') , " Rows to repeat at top" , EOL;
+echo date('H:i:s'), " Rows to repeat at top", EOL;
 $objPHPExcel->getActiveSheet()->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
 
 
 // Add data
 for ($i = 2; $i <= 5000; $i++) {
-	$objPHPExcel->getActiveSheet()->setCellValue('A' . $i, "FName $i")
-	                              ->setCellValue('B' . $i, "LName $i")
-	                              ->setCellValue('C' . $i, "PhoneNo $i")
-	                              ->setCellValue('D' . $i, "FaxNo $i")
-	                              ->setCellValue('E' . $i, true);
+    $objPHPExcel->getActiveSheet()->setCellValue('A' . $i, "FName $i")
+            ->setCellValue('B' . $i, "LName $i")
+            ->setCellValue('C' . $i, "PhoneNo $i")
+            ->setCellValue('D' . $i, "FaxNo $i")
+            ->setCellValue('E' . $i, true);
 }
 
 
@@ -114,15 +114,15 @@ $objPHPExcel->setActiveSheetIndex(0);
 
 
 // Save Excel 2007 file
-echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+echo date('H:i:s'), " Write to Excel2007 format", EOL;
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+echo date('H:i:s'), " File written to ", str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)), EOL;
 
 
 // Echo memory peak usage
-echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;
 
 // Echo done
-echo date('H:i:s') , " Done writing file" , EOL;
-echo 'File has been created in ' , getcwd() , EOL;
+echo date('H:i:s'), " Done writing file", EOL;
+echo 'File has been created in ', getcwd(), EOL;

@@ -7,7 +7,7 @@ class AnnotationUtils {
 //        if(!file_exists(str_replace('\\','/',$class) . '.php')) {
 //            throw new JasperReaderException("Class doesn`t exists (" . $class . ")");
 //        }
-        
+
         $reflectionClass = new \ReflectionClass($class);
         $comments = $reflectionClass->getDocComment();
 
@@ -83,7 +83,7 @@ class AnnotationUtils {
     public static function hasPropertyAnnotation($class, $annotation, $property) {
         $reflectionClass = new \ReflectionProperty($class, $property);
         $comments = $reflectionClass->getDocComment();
-        
+
         if (empty($comments))
             return false;
 

@@ -20,12 +20,12 @@ $this->menu5 = array('Journal');
 <div class="page-header">
     <h1>
         Cash and Bank:
-<?php echo $model->system_reff(); ?>
+        <?php echo $model->system_reff(); ?>
     </h1>
 </div>
 
 <p>
-<?php echo $model->remark; ?>
+    <?php echo $model->remark; ?>
 </p>
 
 <?php

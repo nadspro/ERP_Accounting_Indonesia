@@ -18,14 +18,14 @@
 
     <?php echo $form->dropDownListRow($model, 's_module_id', sModule::itemsAll(), array('class' => 'span4', 'multiple' => 'multiple')); ?>
 
-<?php //echo $form->dropDownListRow($model,'s_matrix_id', sMatrix::items('sMatrix'),array('class'=>'span3'));  ?>
-        <?php echo $form->dropDownListRow($model, 's_matrix_id', array("5" => "admin"), array('class' => 'span3')); ?>
+    <?php //echo $form->dropDownListRow($model,'s_matrix_id', sMatrix::items('sMatrix'),array('class'=>'span3'));  ?>
+    <?php echo $form->dropDownListRow($model, 's_matrix_id', array("5" => "admin"), array('class' => 'span3')); ?>
 
     <div class="form-actions">
-<?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+        <?php echo CHtml::htmlButton($model->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
     </div>
 
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div>

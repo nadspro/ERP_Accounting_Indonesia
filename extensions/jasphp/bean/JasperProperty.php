@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperProperty
  *
@@ -7,8 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="property") */
 class JasperProperty extends AbstractJasper {
+
     public $name = null;
     public $value = null;
+
 }

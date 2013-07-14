@@ -5,7 +5,8 @@ $this->renderPartial('_menuEss', array('model' => $model));
 <div class="page-header">
     <h1>
         <h1><i class="icon-fa-book"></i>
-            <?php echo $model->getparent->learning_title . " (" . $model->partCount . ") | "
+            <?php
+            echo $model->getparent->learning_title . " (" . $model->partCount . ") | "
             . $model->schedule_date
             ?></h1>
     </h1>

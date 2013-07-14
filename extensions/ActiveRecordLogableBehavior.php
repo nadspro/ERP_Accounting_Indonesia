@@ -1,87 +1,84 @@
 <?php
-class ActiveRecordLogableBehavior extends CActiveRecordBehavior
-{
-	private $_oldattributes = array();
 
-	public function afterSave($event)
-	{
-		if (!$this->Owner->isNewRecord) {
+class ActiveRecordLogableBehavior extends CActiveRecordBehavior {
 
-			// new attributes
-			$newattributes = $this->Owner->getAttributes();
-			$oldattributes = $this->getOldAttributes();
+    private $_oldattributes = array();
 
-			// compare old and new
-			foreach ($newattributes as $name => $value) {
-				if (!empty($oldattributes)) {
-					$old = $oldattributes[$name];
-				} else {
-					$old = '';
-				}
+    public function afterSave($event) {
+        if (!$this->Owner->isNewRecord) {
 
-				if ($value != $old) {
-					//$changes = $name . ' ('.$old.') => ('.$value.'), ';
+            // new attributes
+            $newattributes = $this->Owner->getAttributes();
+            $oldattributes = $this->getOldAttributes();
 
-					$log=new zArLog;
-					$log->description=  'User ' . Yii::app()->user->Name
-					. ' changed ' . $name . ' for '
-					. get_class($this->Owner)
-					. '[' . $this->Owner->getPrimaryKey() .'].';
-					$log->action=       'CHANGE';
-					$log->model=        get_class($this->Owner);
-					$log->idModel=      $this->Owner->getPrimaryKey();
-					$log->field=        $name;
-					$log->creationdate= new CDbExpression('NOW()');
-					$log->userid=       Yii::app()->user->id;
-					$log->save();
-				}
-			}
-		} else {
+            // compare old and new
+            foreach ($newattributes as $name => $value) {
+                if (!empty($oldattributes)) {
+                    $old = $oldattributes[$name];
+                } else {
+                    $old = '';
+                }
 
-			$log=new zArLog;
-			$log->description=  'User ' . Yii::app()->user->Name
-			. ' created ' . get_class($this->Owner)
-			. '[' . $this->Owner->getPrimaryKey() .'].';
-			$log->action=       'CREATE';
-			$log->model=        get_class($this->Owner);
-			$log->idModel=      $this->Owner->getPrimaryKey();
-			$log->field=        '';
-			$log->creationdate= new CDbExpression('NOW()');
-			$log->userid=       Yii::app()->user->id;
-			$log->save();
-		}
-	}
+                if ($value != $old) {
+                    //$changes = $name . ' ('.$old.') => ('.$value.'), ';
 
+                    $log = new zArLog;
+                    $log->description = 'User ' . Yii::app()->user->Name
+                            . ' changed ' . $name . ' for '
+                            . get_class($this->Owner)
+                            . '[' . $this->Owner->getPrimaryKey() . '].';
+                    $log->action = 'CHANGE';
+                    $log->model = get_class($this->Owner);
+                    $log->idModel = $this->Owner->getPrimaryKey();
+                    $log->field = $name;
+                    $log->creationdate = new CDbExpression('NOW()');
+                    $log->userid = Yii::app()->user->id;
+                    $log->save();
+                }
+            }
+        } else {
 
-	public function afterDelete($event)
-	{
-		$log=new zArLog;
-		$log->description=  'User ' . Yii::app()->user->Name . ' deleted '
-		. get_class($this->Owner)
-		. '[' . $this->Owner->getPrimaryKey() .'].';
-		$log->action=       'DELETE';
-		$log->model=        get_class($this->Owner);
-		$log->idModel=      $this->Owner->getPrimaryKey();
-		$log->field=        '';
-		$log->creationdate= new CDbExpression('NOW()');
-		$log->userid=       Yii::app()->user->id;
-		$log->save();
-	}
+            $log = new zArLog;
+            $log->description = 'User ' . Yii::app()->user->Name
+                    . ' created ' . get_class($this->Owner)
+                    . '[' . $this->Owner->getPrimaryKey() . '].';
+            $log->action = 'CREATE';
+            $log->model = get_class($this->Owner);
+            $log->idModel = $this->Owner->getPrimaryKey();
+            $log->field = '';
+            $log->creationdate = new CDbExpression('NOW()');
+            $log->userid = Yii::app()->user->id;
+            $log->save();
+        }
+    }
 
-	public function afterFind($event)
-	{
-		// Save old values
-		$this->setOldAttributes($this->Owner->getAttributes());
-	}
+    public function afterDelete($event) {
+        $log = new zArLog;
+        $log->description = 'User ' . Yii::app()->user->Name . ' deleted '
+                . get_class($this->Owner)
+                . '[' . $this->Owner->getPrimaryKey() . '].';
+        $log->action = 'DELETE';
+        $log->model = get_class($this->Owner);
+        $log->idModel = $this->Owner->getPrimaryKey();
+        $log->field = '';
+        $log->creationdate = new CDbExpression('NOW()');
+        $log->userid = Yii::app()->user->id;
+        $log->save();
+    }
 
-	public function getOldAttributes()
-	{
-		return $this->_oldattributes;
-	}
+    public function afterFind($event) {
+        // Save old values
+        $this->setOldAttributes($this->Owner->getAttributes());
+    }
 
-	public function setOldAttributes($value)
-	{
-		$this->_oldattributes=$value;
-	}
+    public function getOldAttributes() {
+        return $this->_oldattributes;
+    }
+
+    public function setOldAttributes($value) {
+        $this->_oldattributes = $value;
+    }
+
 }
+
 ?>

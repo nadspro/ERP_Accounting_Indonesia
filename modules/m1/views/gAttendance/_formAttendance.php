@@ -27,10 +27,10 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'cdate'); ?>
 <?php echo $form->dropDownListRow($model, 'realpattern_id', gParamTimeblock::timeBlockDropDown()); ?>
 <?php echo $form->dropDownListRow($model, 'daystatus1_id', gParamPermission::permissionDropDownPlus()); ?>
-    <?php echo $form->dropDownListRow($model, 'daystatus2_id', gParamPermission::permissionDropDownPlus()); ?>
-    <?php //echo $form->textFieldRow($model,'daystatus3_id'); ?>
+<?php echo $form->dropDownListRow($model, 'daystatus2_id', gParamPermission::permissionDropDownPlus()); ?>
+<?php //echo $form->textFieldRow($model,'daystatus3_id'); ?>
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'in', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'in', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(
@@ -52,7 +52,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 </div>
 
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'out', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'out', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(

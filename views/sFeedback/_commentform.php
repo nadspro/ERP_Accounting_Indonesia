@@ -14,7 +14,7 @@
 
         <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Reply', array('class' => 'btn', 'type' => 'submit')); ?>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
     </div>
 </div>
 

@@ -32,7 +32,7 @@
 
         <?php echo $form->textFieldRow($model, 'job_title', array('class' => 'span4')); ?>
 
-            <?php echo $form->textAreaRow($model, 'job_description', array('class' => 'span5', 'rows' => 8)); ?>
+        <?php echo $form->textAreaRow($model, 'job_description', array('class' => 'span5', 'rows' => 8)); ?>
 
         <div class="form-actions">
             <?php
@@ -45,7 +45,7 @@
         </div>
 
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

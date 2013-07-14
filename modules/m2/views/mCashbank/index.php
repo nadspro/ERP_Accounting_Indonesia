@@ -24,11 +24,11 @@ Yii::app()->clientScript->registerScript('search', "
 ?>
 
 <div class="pull-right" style="margin-top:20px;padding:10px 0">
-<?php
-$this->renderPartial('_search', array(
-    'model' => $model,
-));
-?>
+    <?php
+    $this->renderPartial('_search', array(
+        'model' => $model,
+    ));
+    ?>
 </div>
 
 <div class="page-header">

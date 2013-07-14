@@ -37,10 +37,10 @@ $this->menu5 = array('Root Account');
 
 <div class="page-header">
     <h1>
-<?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/tree_diagramm_new.png') ?>
+        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/tree_diagramm_new.png') ?>
         Update:
-<?php echo $model->account_no . ". " . $model->account_name; ?>
+        <?php echo $model->account_no . ". " . $model->account_name; ?>
     </h1>
 </div>
 
-        <?php echo $this->renderPartial('_formroot', array('model' => $model)); ?>
+<?php echo $this->renderPartial('_formroot', array('model' => $model)); ?>

@@ -35,7 +35,7 @@ $this->menu2 = uJournal::getTopCreated(1);
 
 <div class="page-header">
     <h1>
-<?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/cash.png') ?>
+        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/cash.png') ?>
         Update:
         <?php echo $model->system_ref; ?>
     </h1>
@@ -70,7 +70,7 @@ $this->widget('ext.appendo.JAppendo', array(
 ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Update', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Update', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

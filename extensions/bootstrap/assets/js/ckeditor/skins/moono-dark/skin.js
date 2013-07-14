@@ -4,25 +4,25 @@
  */
 
 /*
-skin.js
-=========
-
-In this file we interact with the CKEditor JavaScript API to register the skin
-and enable additional skin related features.
-
-The level of complexity of this file depends on the features available in the
-skin. There is only one mandatory line of code to be included here, which is
-setting CKEDITOR.skin.name. All the rest is optional, but recommended to be
-implemented as they make higher quality skins.
-
-For this skin, the following tasks are achieved in this file:
-
-	1. Register the skin.
-	2. Register browser specific skin files.
-	3. Define the "Chameleon" feature.
-	4. Register the skin icons, to have them used on the development version of
-	  the skin.
-*/
+ skin.js
+ =========
+ 
+ In this file we interact with the CKEditor JavaScript API to register the skin
+ and enable additional skin related features.
+ 
+ The level of complexity of this file depends on the features available in the
+ skin. There is only one mandatory line of code to be included here, which is
+ setting CKEDITOR.skin.name. All the rest is optional, but recommended to be
+ implemented as they make higher quality skins.
+ 
+ For this skin, the following tasks are achieved in this file:
+ 
+ 1. Register the skin.
+ 2. Register browser specific skin files.
+ 3. Define the "Chameleon" feature.
+ 4. Register the skin icons, to have them used on the development version of
+ the skin.
+ */
 
 // 1. Register the skin
 // ----------------------
@@ -77,27 +77,27 @@ CKEDITOR.skin.ua_dialog = 'ie,ie7,ie8';
 // Actually, it is not required to provide icons at all.
 
 (function() {
-	// The available icons. This list must match the file names (without
-	// extension) available inside the "icons" folder.
-	var icons = ( 'about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
-		'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
-		'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
-		'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
-		'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
-		'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
-		'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
-		'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
-		'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
-		'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
-		'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
-		'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
-		'textcolor,textfield,textfield-rtl,underline,undo-rtl,undo,unlink' ).split( ',' );
+    // The available icons. This list must match the file names (without
+    // extension) available inside the "icons" folder.
+    var icons = ('about,anchor-rtl,anchor,bgcolor,bidiltr,bidirtl,blockquote,' +
+            'bold,bulletedlist-rtl,bulletedlist,button,checkbox,copy-rtl,copy,' +
+            'creatediv,cut-rtl,cut,docprops-rtl,docprops,find-rtl,find,flash,form,' +
+            'hiddenfield,horizontalrule,icons,iframe,image,imagebutton,indent-rtl,' +
+            'indent,italic,justifyblock,justifycenter,justifyleft,justifyright,' +
+            'link,maximize,newpage-rtl,newpage,numberedlist-rtl,numberedlist,' +
+            'outdent-rtl,outdent,pagebreak-rtl,pagebreak,paste-rtl,paste,' +
+            'pastefromword-rtl,pastefromword,pastetext-rtl,pastetext,preview-rtl,' +
+            'preview,print,radio,redo-rtl,redo,removeformat,replace,save,scayt,' +
+            'select-rtl,select,selectall,showblocks-rtl,showblocks,smiley,' +
+            'source-rtl,source,specialchar,spellchecker,strike,subscript,' +
+            'superscript,table,templates-rtl,templates,textarea-rtl,textarea,' +
+            'textcolor,textfield,textfield-rtl,underline,undo-rtl,undo,unlink').split(',');
 
-	var iconsFolder = CKEDITOR.getUrl( CKEDITOR.skin.path() + 'icons/' );
+    var iconsFolder = CKEDITOR.getUrl(CKEDITOR.skin.path() + 'icons/');
 
-	for ( var i = 0; i < icons.length; i++ ) {
-		CKEDITOR.skin.icons[ icons[ i ] ] = { path: iconsFolder + icons[ i ] + '.png', offset: 0 } ;
-	}
+    for (var i = 0; i < icons.length; i++) {
+        CKEDITOR.skin.icons[ icons[ i ] ] = {path: iconsFolder + icons[ i ] + '.png', offset: 0};
+    }
 })();
 
 // %REMOVE_END%

@@ -25,7 +25,7 @@ $this->menu9 = array('model' => $model, 'action' => Yii::app()->createUrl('m1/gA
 <div class="page-header">
     <h1>
         <i class="icon-fa-key"></i>
-<?php echo $model->employee_name; ?>
+        <?php echo $model->employee_name; ?>
     </h1>
 </div>
 

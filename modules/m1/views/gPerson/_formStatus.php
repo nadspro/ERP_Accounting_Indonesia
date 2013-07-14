@@ -34,7 +34,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
 
         <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items('AK')); ?>
 
-            <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('class' => 'span4', 'rows' => 3)); ?>
 
         <div class="form-actions">
             <?php
@@ -46,7 +46,7 @@ Yii::app()->clientScript->registerScript('datepicker2', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

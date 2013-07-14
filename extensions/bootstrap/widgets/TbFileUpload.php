@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbFileUpload.php
  *
@@ -12,187 +13,178 @@
  * Time: 12:46 AM
  */
 Yii::import('zii.widgets.jui.CJuiInputWidget');
-class TbFileUpload extends CJuiInputWidget
-{
-	/**
-	 * the url to the upload handler
-	 * @var string
-	 */
-	public $url;
 
-	/**
-	 * set to true to use multiple file upload
-	 * @var boolean
-	 */
-	public $multiple = false;
+class TbFileUpload extends CJuiInputWidget {
 
-	/**
-	 * The upload template id to display files available for upload
-	 * defaults to null, meaning using the built-in template
-	 */
-	public $uploadTemplate;
+    /**
+     * the url to the upload handler
+     * @var string
+     */
+    public $url;
 
-	/**
-	 * The template id to display files available for download
-	 * defaults to null, meaning using the built-in template
-	 */
-	public $downloadTemplate;
+    /**
+     * set to true to use multiple file upload
+     * @var boolean
+     */
+    public $multiple = false;
 
-	/**
-	 * Wheter or not to preview image files before upload
-	 */
-	public $previewImages = true;
+    /**
+     * The upload template id to display files available for upload
+     * defaults to null, meaning using the built-in template
+     */
+    public $uploadTemplate;
 
-	/**
-	 * Whether or not to add the image processing pluing
-	 */
-	public $imageProcessing = true;
+    /**
+     * The template id to display files available for download
+     * defaults to null, meaning using the built-in template
+     */
+    public $downloadTemplate;
 
-	/**
-	 * @var string name of the form view to be rendered
-	 */
-	public $formView = 'bootstrap.views.fileupload.form';
+    /**
+     * Wheter or not to preview image files before upload
+     */
+    public $previewImages = true;
 
-	/**
-	 * @var string name of the upload view to be rendered
-	 */
-	public $uploadView = 'bootstrap.views.fileupload.upload';
+    /**
+     * Whether or not to add the image processing pluing
+     */
+    public $imageProcessing = true;
 
-	/**
-	 * @var string name of the download view to be rendered
-	 */
-	public $downloadView = 'bootstrap.views.fileupload.download';
+    /**
+     * @var string name of the form view to be rendered
+     */
+    public $formView = 'bootstrap.views.fileupload.form';
 
-	/**
-	 * @var string name of the view to display images at bootstrap-slideshow
-	 */
-	public $previewImagesView = 'bootstrap.views.gallery.preview';
+    /**
+     * @var string name of the upload view to be rendered
+     */
+    public $uploadView = 'bootstrap.views.fileupload.upload';
 
-	/**
-	 * Widget initialization
-	 */
-	public function init()
-	{
-		if ($this->uploadTemplate === null)
-			$this->uploadTemplate = "#template-upload";
+    /**
+     * @var string name of the download view to be rendered
+     */
+    public $downloadView = 'bootstrap.views.fileupload.download';
 
-		if ($this->downloadTemplate === null)
-			$this->downloadTemplate = "#template-download";
+    /**
+     * @var string name of the view to display images at bootstrap-slideshow
+     */
+    public $previewImagesView = 'bootstrap.views.gallery.preview';
 
-		if (!isset($this->htmlOptions['enctype']))
-			$this->htmlOptions['enctype'] = 'multipart/form-data';
+    /**
+     * Widget initialization
+     */
+    public function init() {
+        if ($this->uploadTemplate === null)
+            $this->uploadTemplate = "#template-upload";
 
-		parent::init();
-	}
+        if ($this->downloadTemplate === null)
+            $this->downloadTemplate = "#template-download";
 
-	/**
-	 * Generates the required HTML and Javascript
-	 */
-	public function run()
-	{
+        if (!isset($this->htmlOptions['enctype']))
+            $this->htmlOptions['enctype'] = 'multipart/form-data';
 
-		list($name, $id) = $this->resolveNameID();
+        parent::init();
+    }
 
-		$this->htmlOptions['id'] = ($this->hasModel()? get_class($this->model): 'fileupload') . '-form';
+    /**
+     * Generates the required HTML and Javascript
+     */
+    public function run() {
 
-		$this->options['url'] = $this->url;
+        list($name, $id) = $this->resolveNameID();
 
-		// if acceptFileTypes is not set as option, try getting it from models rules
-		if (!isset($this->options['acceptFileTypes']))
-		{
-			$fileTypes = $this->getFileValidatorProperty($this->model, $this->attribute, 'types');
-			if (isset($fileTypes))
-			{
-				$fileTypes = (preg_match(':jpg:', $fileTypes) && !preg_match(':jpe:', $fileTypes) ? preg_replace(':jpg:','jpe?g',$fileTypes) : $fileTypes);
-				$this->options['acceptFileTypes'] = 'js:/(\.)('.preg_replace(':,:', '|', $fileTypes).')$/i';
-			}
-		}
+        $this->htmlOptions['id'] = ($this->hasModel() ? get_class($this->model) : 'fileupload') . '-form';
 
-		// if maxFileSize is not set as option, try getting it from models rules
-		if (!isset($this->options['maxFileSize']))
-		{
-			$fileSize = $this->getFileValidatorProperty($this->model, $this->attribute, 'maxSize');
-			if (isset($fileSize))
-				$this->options['maxFileSize'] = $fileSize;
-		}
+        $this->options['url'] = $this->url;
 
-		$htmlOptions = array();
+        // if acceptFileTypes is not set as option, try getting it from models rules
+        if (!isset($this->options['acceptFileTypes'])) {
+            $fileTypes = $this->getFileValidatorProperty($this->model, $this->attribute, 'types');
+            if (isset($fileTypes)) {
+                $fileTypes = (preg_match(':jpg:', $fileTypes) && !preg_match(':jpe:', $fileTypes) ? preg_replace(':jpg:', 'jpe?g', $fileTypes) : $fileTypes);
+                $this->options['acceptFileTypes'] = 'js:/(\.)(' . preg_replace(':,:', '|', $fileTypes) . ')$/i';
+            }
+        }
 
-		if ($this->multiple)
-			$htmlOptions["multiple"] = true;
+        // if maxFileSize is not set as option, try getting it from models rules
+        if (!isset($this->options['maxFileSize'])) {
+            $fileSize = $this->getFileValidatorProperty($this->model, $this->attribute, 'maxSize');
+            if (isset($fileSize))
+                $this->options['maxFileSize'] = $fileSize;
+        }
 
-		$this->render($this->uploadView);
-		$this->render($this->downloadView);
-			$this->render($this->formView, array('name'=>$name, 'htmlOptions'=>$this->htmlOptions));
+        $htmlOptions = array();
 
-		if ($this->previewImages || $this->imageProcessing)
-			$this->render($this->previewImagesView);
+        if ($this->multiple)
+            $htmlOptions["multiple"] = true;
 
-		$this->registerClientScript($this->htmlOptions['id']);
-	}
+        $this->render($this->uploadView);
+        $this->render($this->downloadView);
+        $this->render($this->formView, array('name' => $name, 'htmlOptions' => $this->htmlOptions));
 
-	/**
-	 * Registers and publishes required scripts
-	 * @param string $id
-	 */
-	public function registerClientScript($id)
-	{
+        if ($this->previewImages || $this->imageProcessing)
+            $this->render($this->previewImagesView);
 
-		Yii::app()->bootstrap->registerAssetCss('fileupload/jquery.fileupload-ui.css');
+        $this->registerClientScript($this->htmlOptions['id']);
+    }
 
-		// Upgrade widget factory
-		// @todo remove when jquery.ui 1.9+ is fully integrated into stable Yii versions
-		Yii::app()->bootstrap->registerAssetJs('fileupload/vendor/jquery.ui.widget.js');
-		//The Templates plugin is included to render the upload/download listings
-		Yii::app()->bootstrap->registerAssetJs("fileupload/tmpl.min.js", CClientScript::POS_END);
+    /**
+     * Registers and publishes required scripts
+     * @param string $id
+     */
+    public function registerClientScript($id) {
 
-		if ($this->previewImages || $this->imageProcessing)
-		{
-			Yii::app()->bootstrap->registerAssetJs("fileupload/load-image.min.js", CClientScript::POS_END);
-			Yii::app()->bootstrap->registerAssetJs("fileupload/canvas-to-blob.min.js", CClientScript::POS_END);
-			// gallery :)
-			Yii::app()->bootstrap->registerAssetCss("bootstrap-image-gallery.min.css");
-			Yii::app()->bootstrap->registerAssetJs("bootstrap-image-gallery.min.js", CClientScript::POS_END);
-		}
-		//The Iframe Transport is required for browsers without support for XHR file uploads
-		Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.iframe-transport.js');
-		Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload.js');
-		// The File Upload image processing plugin
-		if ($this->imageProcessing)
-		{
-			Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-ip.js');
-		}
-		// The File Upload file processing plugin
-		if ($this->previewImages)
-		{
-			Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-fp.js');
-		}
-		// locale
-		Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-locale.js');
-		//The File Upload user interface plugin
-		Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-ui.js');
+        Yii::app()->bootstrap->registerAssetCss('fileupload/jquery.fileupload-ui.css');
 
-		$options = CJavaScript::encode($this->options);
-		Yii::app()->clientScript->registerScript(__CLASS__ . '#' . $id, "jQuery('#{$id}').fileupload({$options});");
-	}
+        // Upgrade widget factory
+        // @todo remove when jquery.ui 1.9+ is fully integrated into stable Yii versions
+        Yii::app()->bootstrap->registerAssetJs('fileupload/vendor/jquery.ui.widget.js');
+        //The Templates plugin is included to render the upload/download listings
+        Yii::app()->bootstrap->registerAssetJs("fileupload/tmpl.min.js", CClientScript::POS_END);
 
-	/**
-	 * Check for a property of CFileValidator
-	 * @param CModel $model
-	 * @param string $attribute
-	 * @param null $property
-	 * @return string property's value or null
-	 */
-	private function getFileValidatorProperty($model=null, $attribute=null, $property=null)
-	{
-		if (!isset($model,$attribute,$property))
-			return null;
+        if ($this->previewImages || $this->imageProcessing) {
+            Yii::app()->bootstrap->registerAssetJs("fileupload/load-image.min.js", CClientScript::POS_END);
+            Yii::app()->bootstrap->registerAssetJs("fileupload/canvas-to-blob.min.js", CClientScript::POS_END);
+            // gallery :)
+            Yii::app()->bootstrap->registerAssetCss("bootstrap-image-gallery.min.css");
+            Yii::app()->bootstrap->registerAssetJs("bootstrap-image-gallery.min.js", CClientScript::POS_END);
+        }
+        //The Iframe Transport is required for browsers without support for XHR file uploads
+        Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.iframe-transport.js');
+        Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload.js');
+        // The File Upload image processing plugin
+        if ($this->imageProcessing) {
+            Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-ip.js');
+        }
+        // The File Upload file processing plugin
+        if ($this->previewImages) {
+            Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-fp.js');
+        }
+        // locale
+        Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-locale.js');
+        //The File Upload user interface plugin
+        Yii::app()->bootstrap->registerAssetJs('fileupload/jquery.fileupload-ui.js');
 
-		foreach($model->getValidators($attribute) as $validator)
-		{
-			if ($validator instanceof CFileValidator)
-				$ret = $validator->$property;
-		}
-		return isset($ret) ? $ret : null;
-	}
+        $options = CJavaScript::encode($this->options);
+        Yii::app()->clientScript->registerScript(__CLASS__ . '#' . $id, "jQuery('#{$id}').fileupload({$options});");
+    }
+
+    /**
+     * Check for a property of CFileValidator
+     * @param CModel $model
+     * @param string $attribute
+     * @param null $property
+     * @return string property's value or null
+     */
+    private function getFileValidatorProperty($model = null, $attribute = null, $property = null) {
+        if (!isset($model, $attribute, $property))
+            return null;
+
+        foreach ($model->getValidators($attribute) as $validator) {
+            if ($validator instanceof CFileValidator)
+                $ret = $validator->$property;
+        }
+        return isset($ret) ? $ret : null;
+    }
+
 }

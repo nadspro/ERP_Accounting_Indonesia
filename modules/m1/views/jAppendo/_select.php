@@ -23,8 +23,8 @@
                     ?>
                 </td>
             </tr>
-<?php else: ?>
-    <?php for ($i = 0; $i < sizeof($model->field); ++$i): ?>
+        <?php else: ?>
+            <?php for ($i = 0; $i < sizeof($model->field); ++$i): ?>
                 <tr>
                     <td><?php echo CHtml::dropDownList('field[]', $model->field[$i], gBiPerson::getListField()); ?>
                     </td>
@@ -42,7 +42,7 @@
                     </td>
                     </td>
                 </tr>
-    <?php endfor; ?>
-<?php endif; ?>
+            <?php endfor; ?>
+        <?php endif; ?>
     </tbody>
 </table>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * text tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @subpackage Tag
  * @version CVS: $Id: xml2pdf.tag.text.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // dependances {{{
 
 /**
@@ -48,11 +48,12 @@ Class xml2pdf_tag_text extends Xml2PdfTextTag {
     public function __construct($tagProperties) {
         parent::__construct($tagProperties);
         $this->useStyle = true;
-        if(isset($tagProperties['USESTYLE'])) {
+        if (isset($tagProperties['USESTYLE'])) {
             $this->useStyle = $tagProperties['USESTYLE'];
         }
-    } 
-    
+    }
+
     // }}}
 }
+
 ?>

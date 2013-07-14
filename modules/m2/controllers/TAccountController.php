@@ -307,7 +307,13 @@ class TAccountController extends Controller {
         $pages->applyLimit($criteria);
 
 
+        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM t_account');
+
         $dataProvider = tAccount::model()->findAll($criteria);
+        //$dataProvider = new CActiveDataProvider(tAccount::model()->cache(3600, $dependency, 2), array(
+        //    'criteria' => $criteria,
+        //        )
+        //);
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -423,7 +429,7 @@ class TAccountController extends Controller {
                 $criteria = new CDbCriteria;
                 $criteria->with = array('journal');
                 $criteria->compare('account_no_id', $_POST['fJournalList']['account_no_id']);
-                $criteria->order = 'journal.input_date1';
+                $criteria->order = 'journal.input_date';
 
                 if ($_POST['fJournalList']['post_id'] != 0)
                     $criteria->compare('journal.state_id', $_POST['fJournalList']['post_id']);

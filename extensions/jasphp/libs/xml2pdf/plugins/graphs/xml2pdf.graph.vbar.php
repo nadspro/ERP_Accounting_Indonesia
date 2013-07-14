@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Xml2Pdf vertical bar graph plugin file
  * @filesource
@@ -6,12 +7,11 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.graph.vbar.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Graph
  */
-
 // doc {{{
 
 /**
@@ -30,7 +30,7 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.graph.vbar.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Graph
@@ -38,12 +38,14 @@
  */ // }}}
 class xml2pdf_graph_vbar {
     // xml2pdf_graph_vbar::__construct() {{{    
-    
+
     /**
      * Constructeur
      *
      */
-    public function __construct() {}
+    public function __construct() {
+        
+    }
 
     // }}}
     // xml2pdf_graph_vbar::render() {{{
@@ -57,7 +59,7 @@ class xml2pdf_graph_vbar {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
- 
+
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -65,7 +67,7 @@ class xml2pdf_graph_vbar {
         $hDiag = floor($graph->height - $marge * 2);
         $XDiag = $XPage + $marge * 2;
         $lDiag = floor($graph->width - $marge * 3);
-        if($graph->color == null) {
+        if ($graph->color == null) {
             $graph->color = Xml2Pdf::getColor();
         }
         if (!$graph->maxValRepere) {
@@ -79,43 +81,43 @@ class xml2pdf_graph_vbar {
         $hBaton = floor($lDiag / ($graph->nbVal + 1));
         $lDiag = $hBaton * ($graph->nbVal + 1);
         $eBaton = floor($hBaton * 80 / 100);
- 
+
         $graph->pdf->SetLineWidth(0.2);
         $graph->pdf->Rect($XDiag, $YDiag, $lDiag, $hDiag);
- 
+
         //Echelles
         $tab = Xml2Pdf::ConvertColor('#dcdcdc');
-        $graph->pdf->SetDrawColor($tab['r'],$tab['g'],$tab['b']);
+        $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
         for ($i = 0; $i <= $graph->nbIndRepere; $i++) {
-            $ypos = $YDiag+$hDiag - $lRepere * $i;
-            if($i>0 && $i<$graph->nbIndRepere) {
-                $graph->pdf->Line($XDiag,$ypos , $XDiag + $lDiag,$ypos);
+            $ypos = $YDiag + $hDiag - $lRepere * $i;
+            if ($i > 0 && $i < $graph->nbIndRepere) {
+                $graph->pdf->Line($XDiag, $ypos, $XDiag + $lDiag, $ypos);
             }
             $val = $i * $valIndRepere;
-            $xpos = $XDiag - $graph->pdf->GetStringWidth($val) -5;
+            $xpos = $XDiag - $graph->pdf->GetStringWidth($val) - 5;
             $graph->pdf->Text($xpos, $ypos, $val);
         }
         //Barre
         $tab = Xml2Pdf::ConvertColor('#000000');
-        $graph->pdf->SetDrawColor($tab['r'],$tab['g'],$tab['b']);
+        $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $tab = Xml2Pdf::ConvertColor($graph->color);
         $graph->pdf->SetFillColor($tab['r'], $tab['g'], $tab['b']);
-        $i=0;
-        foreach($graph->data as $val) {
+        $i = 0;
+        foreach ($graph->data as $val) {
             $lval = $eBaton;
-            $hval = (int)($val * $unite);
-            $xval = $XDiag + ($i +1) * $hBaton-$eBaton/2;
-            $yval = $YDiag+$hDiag-$hval;
+            $hval = (int) ($val * $unite);
+            $xval = $XDiag + ($i + 1) * $hBaton - $eBaton / 2;
+            $yval = $YDiag + $hDiag - $hval;
             $graph->pdf->Rect($xval, $yval, $lval, $hval, 'DF');
-            //Légende
-            $graph->pdf->SetXY($xval, $YDiag+$hDiag);
-            $graph->pdf->Cell($graph->pdf->GetStringWidth($graph->legends[$i])+$marge, 5, $graph->legends[$i],0,0,'R');
+            //Lï¿½gende
+            $graph->pdf->SetXY($xval, $YDiag + $hDiag);
+            $graph->pdf->Cell($graph->pdf->GetStringWidth($graph->legends[$i]) + $marge, 5, $graph->legends[$i], 0, 0, 'R');
             $i++;
         }
     }
-    
+
     // }}}    
 }
- 
+
 ?>

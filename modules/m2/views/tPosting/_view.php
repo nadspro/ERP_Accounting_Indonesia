@@ -73,6 +73,6 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
 
     </div>
 
-<?php echo $this->renderPartial('_viewDetail', array('id' => $data->id, 'data' => $data)); ?>
+    <?php echo $this->renderPartial('_viewDetail', array('id' => $data->id, 'data' => $data)); ?>
 </div>
 

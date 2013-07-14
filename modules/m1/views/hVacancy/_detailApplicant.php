@@ -70,45 +70,45 @@
 
         <h3>Experience</h3>
 
-    <?php
-    $this->widget('TbGridView', array(
-        'id' => 'g-person-experience-grid',
-        'dataProvider' => hApplicantExperience::model()->search($modelApplicant->id),
-        //'filter'=>$modelApplicant,
-        'template' => '{items}',
-        'htmlOptions' => array(
-            'style' => 'padding-top:0',
-        ),
-        'columns' => array(
-            'company_name',
-            'industries',
-            'start_date',
-            'end_date',
-            'year_length',
-            'month_length',
-            'job_title',
-            //array(
-            //	'class'=>'TbButtonColumn',
-            //	'template'=>'{delete}',
-            //	'deleteButtonUrl'=>'Yii::app()->createUrl("applicant/deleteExperience",array("id"=>$data->id))',
-            //),
-            array(
-                //'visible'=>false,
-                'class' => 'EJuiDlgsColumn',
-                //'template'=>'{update}{delete}',
-                'template' => '{delete}',
-                'deleteButtonUrl' => 'Yii::app()->createUrl("applicant/deleteExperience",array("id"=>$data->id))',
-                'updateDialog' => array(
-                    'controllerRoute' => 'applicant/updateExperience',
-                    'actionParams' => array('id' => '$data->id'),
-                    'dialogTitle' => 'Update Experience',
-                    'dialogWidth' => 512, //override the value from the dialog config
-                    'dialogHeight' => 530
+        <?php
+        $this->widget('TbGridView', array(
+            'id' => 'g-person-experience-grid',
+            'dataProvider' => hApplicantExperience::model()->search($modelApplicant->id),
+            //'filter'=>$modelApplicant,
+            'template' => '{items}',
+            'htmlOptions' => array(
+                'style' => 'padding-top:0',
+            ),
+            'columns' => array(
+                'company_name',
+                'industries',
+                'start_date',
+                'end_date',
+                'year_length',
+                'month_length',
+                'job_title',
+                //array(
+                //	'class'=>'TbButtonColumn',
+                //	'template'=>'{delete}',
+                //	'deleteButtonUrl'=>'Yii::app()->createUrl("applicant/deleteExperience",array("id"=>$data->id))',
+                //),
+                array(
+                    //'visible'=>false,
+                    'class' => 'EJuiDlgsColumn',
+                    //'template'=>'{update}{delete}',
+                    'template' => '{delete}',
+                    'deleteButtonUrl' => 'Yii::app()->createUrl("applicant/deleteExperience",array("id"=>$data->id))',
+                    'updateDialog' => array(
+                        'controllerRoute' => 'applicant/updateExperience',
+                        'actionParams' => array('id' => '$data->id'),
+                        'dialogTitle' => 'Update Experience',
+                        'dialogWidth' => 512, //override the value from the dialog config
+                        'dialogHeight' => 530
+                    ),
                 ),
             ),
-        ),
-    ));
-    ?>
+        ));
+        ?>
 
         <h3>Education</h3>
 
@@ -270,5 +270,5 @@
         ?>
 
     </div>				
-<?php
+    <?php
 } 

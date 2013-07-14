@@ -29,4 +29,12 @@ class Default2Controller extends Controller {
         $this->render('compCompanyType');
     }
 
+    public function actionCompByProfile() {
+        $this->render('compByProfile');
+    }
+
+    public function actionCompByCareer() {
+        $this->render('compByCareer');
+    }
+
 }

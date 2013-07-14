@@ -16,19 +16,19 @@ $this->menu2 = sFeedback::getTopCreated();
 <div class="page-header">
     <h1>
         <i class="iconic-comment"></i>
-<?php echo $model->sender_ref ?>
+        <?php echo $model->sender_ref ?>
     </h1>
 </div>
 
 <?php if (Yii::app()->user->name == "admin") { ?>
     <div class="pull-right">
-    <?php
-    $form = $this->beginWidget('TbActiveForm', array(
-        'action' => Yii::app()->createUrl('sFeedback/view', array("id" => $model->id)),
-        'method' => 'post',
-        'type' => 'inline',
-    ));
-    ?>
+        <?php
+        $form = $this->beginWidget('TbActiveForm', array(
+            'action' => Yii::app()->createUrl('sFeedback/view', array("id" => $model->id)),
+            'method' => 'post',
+            'type' => 'inline',
+        ));
+        ?>
 
         <?php echo $form->dropDownList($model, 'status_id', sParameter::items('cRead')); ?>
 

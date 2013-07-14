@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbImageGallery class file.
  *
@@ -6,9 +7,8 @@
  * @author Ruslan Fadeev <fadeevr@gmail.com>
  * @link https://github.com/blueimp/Bootstrap-Image-Gallery/
  */
+class TbImageGallery extends CWidget {
 
-class TbImageGallery extends CWidget
-{
     /**
      * @var string name of the view to display images (modal dialog used for the image gallery)
      */
@@ -30,15 +30,13 @@ class TbImageGallery extends CWidget
      * @see https://github.com/blueimp/Bootstrap-Image-Gallery/blob/master/README.md#api
      */
     public $htmlOptions = array();
-
     public static $defaultHtmlOptions = array(
         'data-toggle' => 'modal-gallery',
         'data-target' => '#modal-gallery',
         'data-filter' => '*',
     );
 
-    public function init()
-    {
+    public function init() {
         Yii::app()->bootstrap->registerAssetCss('bootstrap-image-gallery' . (!YII_DEBUG ? '.min' : '') . '.css');
         Yii::app()->bootstrap->registerAssetJs('fileupload/load-image.min.js');
         Yii::app()->bootstrap->registerAssetJs('bootstrap-image-gallery' . (!YII_DEBUG ? '.min' : '') . '.js');
@@ -54,9 +52,9 @@ class TbImageGallery extends CWidget
         echo CHtml::openTag('div', CMap::mergeArray(self::$defaultHtmlOptions, $this->htmlOptions));
     }
 
-    public function run()
-    {
+    public function run() {
         $this->render($this->previewImagesView);
         echo CHtml::closeTag('div');
     }
+
 }

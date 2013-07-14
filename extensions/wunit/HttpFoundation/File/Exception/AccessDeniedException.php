@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\HttpFoundation\File\Exception;
 
@@ -16,15 +16,15 @@ namespace Symfony\Component\HttpFoundation\File\Exception;
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  */
-class AccessDeniedException extends FileException
-{
-	/**
-	 * Constructor.
-	 *
-	 * @param string $path  The path to the accessed file
-	 */
-	public function __construct($path)
-	{
-		parent::__construct(sprintf('The file %s could not be accessed', $path));
-	}
+class AccessDeniedException extends FileException {
+
+    /**
+     * Constructor.
+     *
+     * @param string $path  The path to the accessed file
+     */
+    public function __construct($path) {
+        parent::__construct(sprintf('The file %s could not be accessed', $path));
+    }
+
 }

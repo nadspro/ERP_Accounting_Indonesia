@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This form is used to insert or edit posts, either in a new thread, or in
  * an existing one, depending on the model's current thread_id
@@ -10,8 +11,8 @@
  * @property string $subject Read-only if thread_id<>null
  * @property string $content
  */
-class PostForm extends CFormModel
-{
+class PostForm extends CFormModel {
+
     public $thread_id;
     public $subject;
     public $content;
@@ -24,8 +25,8 @@ class PostForm extends CFormModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('subject', 'required', 'on'=>'create'),
-            array('subject', 'length', 'max'=>120),
+            array('subject', 'required', 'on' => 'create'),
+            array('subject', 'length', 'max' => 120),
             array('content', 'required'),
             array('lockthread', 'safe'),
         );
@@ -37,8 +38,9 @@ class PostForm extends CFormModel
     public function attributeLabels() {
         return array_merge(parent::attributeLabels(), array(
             'subject' => 'Subject',
-            'content'=>'Content',
-            'lockthread'=>'Lock thread?',
+            'content' => 'Content',
+            'lockthread' => 'Lock thread?',
         ));
     }
+
 }

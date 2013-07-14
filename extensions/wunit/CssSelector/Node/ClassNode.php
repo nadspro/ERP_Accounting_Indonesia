@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\CssSelector\Node;
 
@@ -21,39 +21,37 @@ use Symfony\Component\CssSelector\XPathExpr;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ClassNode implements NodeInterface
-{
-	protected $selector;
-	protected $className;
+class ClassNode implements NodeInterface {
 
-	/**
-	 * The constructor.
-	 *
-	 * @param NodeInterface $selector The XPath Selector
-	 * @param string $className The class name
-	 */
-	public function __construct($selector, $className)
-	{
-		$this->selector = $selector;
-		$this->className = $className;
-	}
+    protected $selector;
+    protected $className;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function __toString()
-	{
-		return sprintf('%s[%s.%s]', __CLASS__, $this->selector, $this->className);
-	}
+    /**
+     * The constructor.
+     *
+     * @param NodeInterface $selector The XPath Selector
+     * @param string $className The class name
+     */
+    public function __construct($selector, $className) {
+        $this->selector = $selector;
+        $this->className = $className;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function toXpath()
-	{
-		$selXpath = $this->selector->toXpath();
-		$selXpath->addCondition(sprintf("contains(concat(' ', normalize-space(@class), ' '), %s)", XPathExpr::xpathLiteral(' '.$this->className.' ')));
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString() {
+        return sprintf('%s[%s.%s]', __CLASS__, $this->selector, $this->className);
+    }
 
-		return $selXpath;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function toXpath() {
+        $selXpath = $this->selector->toXpath();
+        $selXpath->addCondition(sprintf("contains(concat(' ', normalize-space(@class), ' '), %s)", XPathExpr::xpathLiteral(' ' . $this->className . ' ')));
+
+        return $selXpath;
+    }
+
 }

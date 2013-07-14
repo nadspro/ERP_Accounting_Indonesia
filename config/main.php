@@ -17,6 +17,7 @@ return array(
         'application.extensions.*',
         'application.reports.*',
         'ext.fpdf.*',
+        'ext.wunit.*',
         'ext.quickdlgs.*',
         //'ext.fpdf.fpdf_addons.*',
         'ext.bootstrap.widgets.*',

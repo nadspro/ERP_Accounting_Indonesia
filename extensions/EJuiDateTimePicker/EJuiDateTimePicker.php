@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EJuiDateTimePicker displays a DateTimePicker or TimePicker.
  *
@@ -21,14 +22,13 @@
  *
  * @author Fadeev Ruslan <fadeevr@gmail.com>
  */
-
 Yii::import('zii.widgets.jui.CJuiDatePicker');
-class EJuiDateTimePicker extends CJuiDatePicker
-{
+
+class EJuiDateTimePicker extends CJuiDatePicker {
+
     public $mode = 'datetime';
 
-    public function init()
-    {
+    public function init() {
         if (!in_array($this->mode, array('date', 'time', 'datetime'))) {
             throw new CException('CJuiDatePicker unknown mode "' . $this->mode . '". Use time, datetime or date!');
         }
@@ -38,12 +38,10 @@ class EJuiDateTimePicker extends CJuiDatePicker
         parent::init();
     }
 
-    public function run()
-    {
+    public function run() {
         if ($this->mode == 'date') {
             parent::run();
-        }
-        else {
+        } else {
             list($name, $id) = $this->resolveNameID();
 
             if (isset($this->htmlOptions['id'])) {
@@ -76,22 +74,22 @@ class EJuiDateTimePicker extends CJuiDatePicker
                 }
 
                 $id = $this->htmlOptions['id'] = $id . '_container';
-                $this->htmlOptions['name']     = $name . '_container';
+                $this->htmlOptions['name'] = $name . '_container';
 
                 echo CHtml::tag('div', $this->htmlOptions, '');
             }
 
             //set now time..
-            $this->options['hour']   = date('H');
+            $this->options['hour'] = date('H');
             $this->options['minute'] = date('i');
             $this->options['second'] = date('s');
-            $options                 = CJavaScript::encode($this->options);
-            $js                      = "jQuery('#{$id}').{$this->mode}picker($options);";
+            $options = CJavaScript::encode($this->options);
+            $js = "jQuery('#{$id}').{$this->mode}picker($options);";
 
             $assetsDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets';
-            $assets    = Yii::app()->assetManager->publish($assetsDir);
-            $cs        = Yii::app()->clientScript;
-            $min       = YII_DEBUG ? '' : '.min';
+            $assets = Yii::app()->assetManager->publish($assetsDir);
+            $cs = Yii::app()->clientScript;
+            $min = YII_DEBUG ? '' : '.min';
             $cs->registerCssFile($assets . '/jquery-ui-timepicker-addon.css');
             $cs->registerScriptFile($assets . '/jquery-ui-timepicker-addon' . $min . '.js', CClientScript::POS_END);
 
@@ -112,4 +110,5 @@ class EJuiDateTimePicker extends CJuiDatePicker
             $cs->registerScript(__CLASS__ . '#' . $id, $js);
         }
     }
+
 }

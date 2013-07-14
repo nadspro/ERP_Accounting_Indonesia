@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperField
  *
@@ -7,8 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="field") */
 class JasperField extends AbstractJasper {
+
     public $name = null;
     public $class = null;
+
 }

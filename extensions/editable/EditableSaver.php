@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EditableSaver class file.
  * 
@@ -10,9 +11,8 @@
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version 1.0.0
  */
- 
-class EditableSaver extends CComponent
-{
+class EditableSaver extends CComponent {
+
     /**
      * scenarion used in model for update
      *
@@ -26,18 +26,21 @@ class EditableSaver extends CComponent
      * @var mixed
      */
     public $modelClass;
+
     /**
      * primaryKey value
      *
      * @var mixed
      */
     public $primaryKey;
+
     /**
      * name of attribute to be updated
      *
      * @var mixed
      */
     public $attribute;
+
     /**
      * model instance
      *
@@ -47,24 +50,23 @@ class EditableSaver extends CComponent
 
     /**
      * http status code ruterned for errors
-    */
+     */
     public $errorHttpCode = 400;
 
     /**
-    * name of changed attributes. Used when saving model
-    * 
-    * @var mixed
-    */
+     * name of changed attributes. Used when saving model
+     * 
+     * @var mixed
+     */
     protected $changedAttributes = array();
-    
+
     /**
      * Constructor
      *
      * @param mixed $modelName
      * @return EditableBackend
      */
-    public function __construct($modelClass)
-    {
+    public function __construct($modelClass) {
         if (empty($modelClass)) {
             throw new CException(Yii::t('editable', 'You should provide modelClass in constructor of EditableSaver.'));
         }
@@ -75,8 +77,7 @@ class EditableSaver extends CComponent
      * main function called to update column in database
      *
      */
-    public function update()
-    {
+    public function update() {
         //set params from request
         $this->primaryKey = yii::app()->request->getParam('pk');
         $this->attribute = yii::app()->request->getParam('name');
@@ -84,30 +85,30 @@ class EditableSaver extends CComponent
 
         //checking params
         if (empty($this->attribute)) {
-            throw new CException(Yii::t('editable','Property "attribute" should be defined.'));
+            throw new CException(Yii::t('editable', 'Property "attribute" should be defined.'));
         }
         if (empty($this->primaryKey)) {
-            throw new CException(Yii::t('editable','Property "primaryKey" should be defined.'));
+            throw new CException(Yii::t('editable', 'Property "primaryKey" should be defined.'));
         }
 
         //loading model
         $this->model = CActiveRecord::model($this->modelClass)->findByPk($this->primaryKey);
         if (!$this->model) {
             throw new CException(Yii::t('editable', 'Model {class} not found by primary key "{pk}"', array(
-               '{class}'=>get_class($this->model), '{pk}'=>$this->primaryKey)));
+                '{class}' => get_class($this->model), '{pk}' => $this->primaryKey)));
         }
         $this->model->setScenario($this->scenario);
-        
+
         //is attribute exists
         if (!$this->model->hasAttribute($this->attribute)) {
             throw new CException(Yii::t('editable', 'Model {class} does not have attribute "{attr}"', array(
-              '{class}'=>get_class($this->model), '{attr}'=>$this->attribute)));            
+                '{class}' => get_class($this->model), '{attr}' => $this->attribute)));
         }
 
         //is attribute safe
         if (!$this->model->isAttributeSafe($this->attribute)) {
             throw new CException(Yii::t('editable', 'Model {class} rules do not allow to update attribute "{attr}"', array(
-              '{class}'=>get_class($this->model), '{attr}'=>$this->attribute))); 
+                '{class}' => get_class($this->model), '{attr}' => $this->attribute)));
         }
 
         //setting new value
@@ -125,7 +126,7 @@ class EditableSaver extends CComponent
             if ($this->model->save(false, $this->changedAttributes)) {
                 $this->afterUpdate();
             } else {
-                $this->error(Yii::t('editable', 'Error while saving record!')); 
+                $this->error(Yii::t('editable', 'Error while saving record!'));
             }
         } else {
             $firstError = reset($this->model->getErrors());
@@ -137,8 +138,7 @@ class EditableSaver extends CComponent
      * This event is raised before the update is performed.
      * @param CModelEvent $event the event parameter
      */
-    public function onBeforeUpdate($event)
-    {
+    public function onBeforeUpdate($event) {
         $this->raiseEvent('onBeforeUpdate', $event);
     }
 
@@ -146,8 +146,7 @@ class EditableSaver extends CComponent
      * This event is raised after the update is performed.
      * @param CEvent $event the event parameter
      */
-    public function onAfterUpdate($event)
-    {
+    public function onAfterUpdate($event) {
         $this->raiseEvent('onAfterUpdate', $event);
     }
 
@@ -156,8 +155,7 @@ class EditableSaver extends CComponent
      * @param $msg
      * @throws CHttpException
      */
-    protected function error($msg)
-    {
+    protected function error($msg) {
         throw new CHttpException($this->errorHttpCode, $msg);
     }
 
@@ -165,8 +163,7 @@ class EditableSaver extends CComponent
      * beforeUpdate
      *
      */
-    protected function beforeUpdate()
-    {
+    protected function beforeUpdate() {
         $this->onBeforeUpdate(new CEvent($this));
         return !$this->model->hasErrors();
     }
@@ -175,22 +172,21 @@ class EditableSaver extends CComponent
      * afterUpdate
      *
      */
-    protected function afterUpdate()
-    {
+    protected function afterUpdate() {
         $this->onAfterUpdate(new CEvent($this));
     }
-    
+
     /**
-    * setting new value of attribute.
-    * Attrubute name also stored in array to save only changed attributes
-    * 
-    * @param mixed $name
-    * @param mixed $value
-    */
-    public function setAttribute($name, $value)
-    {
-         $this->model->$name = $value;
-         $this->changedAttributes[] = $name;
-         $this->changedAttributes = array_unique($this->changedAttributes);
+     * setting new value of attribute.
+     * Attrubute name also stored in array to save only changed attributes
+     * 
+     * @param mixed $name
+     * @param mixed $value
+     */
+    public function setAttribute($name, $value) {
+        $this->model->$name = $value;
+        $this->changedAttributes[] = $name;
+        $this->changedAttributes = array_unique($this->changedAttributes);
     }
+
 }

@@ -83,7 +83,7 @@ if (!Yii::app()->user->isGuest) {
 
     <div class="row">
         <div class="span4">
-    <?php echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logo.jpg", Yii::app()->name, array("height" => "100%", 'id' => 'photo', 'style' => 'padding:0')); ?>
+            <?php echo CHtml::image(Yii::app()->request->baseUrl . "/shareimages/company/logo.jpg", Yii::app()->name, array("height" => "100%", 'id' => 'photo', 'style' => 'padding:0')); ?>
         </div>
 
         <div class="span8">

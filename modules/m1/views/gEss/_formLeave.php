@@ -55,9 +55,9 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textAreaRow($model, 'leave_reason', array('maxlength' => 300, 'class' => 'span4', 'rows' => 3)); ?>
 
-    <?php //echo $form->textFieldRow($model,'replacement',array('class'=>'span5','maxlength'=>10,'hint'=>'Your office mate as replacement during your leave')); ?>
+<?php //echo $form->textFieldRow($model,'replacement',array('class'=>'span5','maxlength'=>10,'hint'=>'Your office mate as replacement during your leave')); ?>
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'replacement', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'replacement', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget('zii.widgets.jui.CJuiAutoComplete', array(

@@ -13,50 +13,50 @@ that holds everything.
 CKEditor offers two main editing modes. The main UI blocks that compose these
 modes are:
 
-	For "Theme UI" mode, the one most generally used:
+        For "Theme UI" mode, the one most generally used:
 
-	+-- .cke_chrome ----------------------+
-	|+-- .cke_inner ---------------------+|
-	|| +-- .cke_top -------------------+ ||
-	|| |                               | ||
-	|| +-------------------------------+ ||
-	|| +-- .cke_contents --------------+ ||
-	|| |                               | ||
-	|| +-------------------------------+ ||
-	|| +-- .cke_bottom ----------------+ ||
-	|| |                               | ||
-	|| +-------------------------------+ ||
-	|+-----------------------------------+|
-	+-------------------------------------+
+        +-- .cke_chrome ----------------------+
+        |+-- .cke_inner ---------------------+|
+        || +-- .cke_top -------------------+ ||
+        || |                               | ||
+        || +-------------------------------+ ||
+        || +-- .cke_contents --------------+ ||
+        || |                               | ||
+        || +-------------------------------+ ||
+        || +-- .cke_bottom ----------------+ ||
+        || |                               | ||
+        || +-------------------------------+ ||
+        |+-----------------------------------+|
+        +-------------------------------------+
 
-	For "Inline Editing" mode:
+        For "Inline Editing" mode:
 
-	+-- .cke_chrome .cke_float------------+
-	|+-- .cke_inner ---------------------+|
-	|| +-- .cke_top -------------------+ ||
-	|| |                               | ||
-	|| +-------------------------------+ ||
-	|+-----------------------------------+|
-	+-------------------------------------+
+        +-- .cke_chrome .cke_float------------+
+        |+-- .cke_inner ---------------------+|
+        || +-- .cke_top -------------------+ ||
+        || |                               | ||
+        || +-------------------------------+ ||
+        |+-----------------------------------+|
+        +-------------------------------------+
 
 Special outer level classes used in this file:
 
-	.cke_hc: Available when the editor is rendered on "High Contrast".
+        .cke_hc: Available when the editor is rendered on "High Contrast".
 
 */
 
 /* The outer boundary of the interface. */
 .cke_chrome
 {
-	/* This is <span>, so transform it into a block.*/
-	display: block;
-	border: 1px solid #b2b2b2;
+    /* This is <span>, so transform it into a block.*/
+    display: block;
+    border: 1px solid #b2b2b2;
     /*border-bottom-color: #ccc;*/
     padding: 0;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 
     -moz-box-shadow: 0 0 3px rgba(0,0,0,.15);
     -webkit-box-shadow: 0 0 3px rgba(0,0,0,.15);
@@ -66,31 +66,31 @@ Special outer level classes used in this file:
 /* The inner boundary of the interface. */
 .cke_inner
 {
-	/* This is <span>, so transform it into a block.*/
-	display: block;
+    /* This is <span>, so transform it into a block.*/
+    display: block;
 
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-webkit-touch-callout: none;
-	border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -webkit-touch-callout: none;
+    border-radius: 3px;
 
     background: #fff;
-	padding: 0;
+    padding: 0;
 }
 
 /* Added to the outer boundary of the UI when in inline editing,
    when the UI is floating. */
 .cke_float
 {
-	/* Make white the space between the outer and the inner borders. */
+    /* Make white the space between the outer and the inner borders. */
     border: none;
 }
 
 .cke_float .cke_inner
 {
-	/* As we don't have blocks following top (toolbar) we suppress the padding
-	   as the toolbar defines its own margin. */
-	padding-bottom: 0;
+    /* As we don't have blocks following top (toolbar) we suppress the padding
+       as the toolbar defines its own margin. */
+    padding-bottom: 0;
 }
 
 /* Make the main spaces enlarge to hold potentially floated content. */
@@ -98,11 +98,11 @@ Special outer level classes used in this file:
 .cke_contents,
 .cke_bottom
 {
-	/* These are <span>s, so transform them into blocks.*/
-	display: block;
+    /* These are <span>s, so transform them into blocks.*/
+    display: block;
 
-	/* Ideally this should be "auto", but it shows scrollbars in IE7. */
-	overflow: hidden;
+    /* Ideally this should be "auto", but it shows scrollbars in IE7. */
+    overflow: hidden;
 }
 
 .cke_top
@@ -120,12 +120,12 @@ Special outer level classes used in this file:
     box-shadow: 0 1px 0 #fff inset;
 
     background: #b7b8b7;
-   	background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#b7b8b7));
-   	background-image: -moz-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -webkit-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -o-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -ms-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#b7b8b7));
+    background-image: -moz-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -webkit-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -o-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -ms-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: linear-gradient(top, #e8e8e8, #b7b8b7);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffe8e8e8', endColorstr='#ffb7b8b7');
 }
 
@@ -168,11 +168,11 @@ Special outer level classes used in this file:
    part of the editor. It makes is possible to resize the editor UI. */
 .cke_resizer
 {
-	/* To avoid using images for the resizer, we create a small triangle,
-	   using some CSS magic. */
-	width: 0;
-	height: 0;
-	overflow: hidden;
+    /* To avoid using images for the resizer, we create a small triangle,
+       using some CSS magic. */
+    width: 0;
+    height: 0;
+    overflow: hidden;
     width: 0;
     height: 0;
     overflow: hidden;
@@ -180,10 +180,10 @@ Special outer level classes used in this file:
     border-color: transparent #A5A5A5 transparent transparent;
     border-style: dashed solid dashed dashed;
 
-	font-size: 0;
-	float: right;
-	vertical-align: bottom;
-	cursor: se-resize;
+    font-size: 0;
+    float: right;
+    vertical-align: bottom;
+    cursor: se-resize;
 
     position: absolute;
     bottom: 3px;
@@ -205,7 +205,7 @@ Special outer level classes used in this file:
 .cke_resizer_rtl
 {
     background-position: 0 -10px;
-	cursor: sw-resize;
+    cursor: sw-resize;
 
     left: 3px;
     right: auto;
@@ -216,9 +216,9 @@ Special outer level classes used in this file:
    that element. */
 .cke_wysiwyg_div
 {
-	display: block;
-	height: 100%;
-	overflow: auto;
-	padding: 0 8px;
-	outline-style: none;
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding: 0 8px;
+    outline-style: none;
 }

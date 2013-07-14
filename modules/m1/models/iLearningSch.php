@@ -232,7 +232,7 @@ class iLearningSch extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/iLearning/viewDetail/id/' . $this->id, 'Learning Schedule. New Schedule created: ' . $this->schedule_date . ' for ' . $this->getparent->learning_title
+                    1, 'm1/iLearning/viewDetail/id/' . $this->id, 'Learning Schedule. New Schedule created: ' . $this->schedule_date . ' for ' . strtoupper($this->getparent->learning_title)
             );
         }
         return true;
@@ -258,7 +258,9 @@ class iLearningSch extends BaseModel {
 				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 					= '" . date("Y") . "05') as `201305`,
 				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`
 
 				FROM `a_organization` `o`
 				where `id` = 1  
@@ -267,41 +269,47 @@ class iLearningSch extends BaseModel {
 				
 				select `o`.`id`, 'Participant' as `state`,
 				(select count(`a`.`id`) + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "01') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "01'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
 					= '" . date("Y") . "01') as `201301`,
 				(select count(`a`.`id`)  + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "02') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "02'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
 					= '" . date("Y") . "02') as `201302`,
 				(select count(`a`.`id`)  + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "03') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "03'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
 					= '" . date("Y") . "03') as `201303`,
 				(select count(`a`.`id`)  + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "04') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "04'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
 					= '" . date("Y") . "04') as `201304`,
 				(select count(`a`.`id`)  + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "05') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "05'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
 					= '" . date("Y") . "05') as `201305`,
 				(select count(`a`.`id`)  + 
-				(select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06') from `i_learning_sch_part` `a` 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "06'),0) from `i_learning_sch_part` `a` 
 				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
 				where date_format(`s`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`)  + 
+				COALESCE((select sum(`s`.`total_participant`) from `i_learning_sch` `s` where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07'),0) from `i_learning_sch_part` `a` 
+				inner join `i_learning_sch` `s` ON `s`.`id` = `a`.`parent_id`
+				where date_format(`s`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`
 
 				FROM `a_organization` `o`
 				where `id` = 1  
@@ -321,12 +329,12 @@ class iLearningSch extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);
@@ -359,7 +367,9 @@ class iLearningSch extends BaseModel {
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
 					<= '" . date("Y") . "05') as `201305`,
 				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
-					<= '" . date("Y") . "06') as `201306`
+					<= '" . date("Y") . "06') as `201306`,
+				(select sum(`a`.`actual_mandays`) from `i_learning_sch` `a` where date_format(schedule_date,'%Y%m') 
+					<= '" . date("Y") . "07') as `201307`
 
 				FROM `a_organization` `o`
 				where `id` = 1  
@@ -378,12 +388,12 @@ class iLearningSch extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);

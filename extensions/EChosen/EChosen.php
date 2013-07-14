@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EChosen class file.
  *
@@ -13,49 +14,46 @@
  *
  * @author Andrew M. <andrew.web@ifdattic.com>
  */
-class EChosen extends CWidget
-{
-	/**
-	 * @var string apply chosen plugin to these elements.
-	 */
-	public $target = '.chzn-select';
+class EChosen extends CWidget {
 
-	/**
-	 * @var boolean should jQuery plugin should be used.
-	 */
-	public $useJQuery = true;
+    /**
+     * @var string apply chosen plugin to these elements.
+     */
+    public $target = '.chzn-select';
 
-	/**
-	 * @var boolean include un-minified plugin then debuging.
-	 */
-	public $debug = false;
+    /**
+     * @var boolean should jQuery plugin should be used.
+     */
+    public $useJQuery = true;
 
-	/**
-	 * Apply chosen plugin to select boxes.
-	 */
-	public function run()
-	{
-		// Publish extension assets
-		$assets = Yii::app()->getAssetManager()->publish( Yii::getPathOfAlias(
-				'ext.EChosen' ) . '/assets' );
-		$cs = Yii::app()->getClientScript();
-		$cs->registerCssFile( $assets . '/chosen.css' );
+    /**
+     * @var boolean include un-minified plugin then debuging.
+     */
+    public $debug = false;
 
-		// Get extension for JavaScript file
-		$ext = '.min.js';
-		if( $this->debug )
-			$ext = '.js';
+    /**
+     * Apply chosen plugin to select boxes.
+     */
+    public function run() {
+        // Publish extension assets
+        $assets = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias(
+                        'ext.EChosen') . '/assets');
+        $cs = Yii::app()->getClientScript();
+        $cs->registerCssFile($assets . '/chosen.css');
 
-		if( $this->useJQuery )
-		{
-			$cs->registerScriptFile( $assets . '/chosen.jquery' . $ext );
-			$cs->registerScript( 'chosen',
-					"$( '{$this->target}' ).chosen();" );
-		}
-		else
-		{
-			$cs->registerScriptFile( $assets . '/chosen.proto' . $ext );
-		}
-	}
+        // Get extension for JavaScript file
+        $ext = '.min.js';
+        if ($this->debug)
+            $ext = '.js';
+
+        if ($this->useJQuery) {
+            $cs->registerScriptFile($assets . '/chosen.jquery' . $ext);
+            $cs->registerScript('chosen', "$( '{$this->target}' ).chosen();");
+        } else {
+            $cs->registerScriptFile($assets . '/chosen.proto' . $ext);
+        }
+    }
+
 }
+
 ?>

@@ -1,5 +1,5 @@
 
-<b><?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id'=>$data->id)); ?>
+<b><?php echo CHtml::link(CHtml::encode($data->name), array('view', 'id' => $data->id)); ?>
 </b>
 <br />
 <?php echo CHtml::encode($data->branch_code); ?>

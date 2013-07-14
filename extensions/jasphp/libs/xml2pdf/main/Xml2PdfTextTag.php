@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Xml2PdfTextTag.
  * @filesource
@@ -10,7 +11,6 @@
  * @package Xml2Pdf
  * @version CVS: $Id: Xml2PdfTextTag.php,v 1.4 2007/01/05 23:07:31 geelweb Exp $
  */
-
 // dependances {{{
 /**
  * include parent class
@@ -47,55 +47,55 @@ require_once('Xml2PdfTag.php');
  */ // }}}
 Class Xml2PdfTextTag extends Xml2PdfTag {
     // class properties {{{
-    
+
     /**
      * true if use styles tag to write then content.
      * @var boolean
      */
     protected $useStyle = false;
-    
+
     /**
      * font.
      * @var string
      */
     public $font = PDF_DEFAULT_FONT;
-    
+
     /**
      * font style.
      * @var string
      */
     public $fontStyle = PDF_DEFAULT_FONTSTYLE;
-    
+
     /**
      * font size.
      * @var integer
      */
     public $fontSize = PDF_DEFAULT_FONTSIZE;
-    
+
     /**
      * font color.
      * @var string
      */
     public $fontColor = PDF_DEFAULT_FONTCOLOR;
-    
+
     /**
      * text alignment.
      * @var string
      */
     public $textAlign = PDF_DEFAULT_TEXTALIGN;
-    
+
     /**
      * line height.
      * @var integer
      */
     public $lineHeight = PDF_DEFAULT_LINEHEIGHT;
-    
+
     /**
      * used styles stack.
      * @var array
      */
     protected $styleStack;
-   
+
     /**
      * current x pos.
      * @var float
@@ -107,7 +107,7 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
      * @var integer
      */
     private $_indent = 0;
-    
+
     // }}}
     // Xml2PdfTextTag::__construct() {{{
 
@@ -123,26 +123,26 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
     public function __construct($tagProperties) {
         parent::__construct($tagProperties);
         // parse the tag properties for text
-        if(isset($tagProperties['FONT'])) {
+        if (isset($tagProperties['FONT'])) {
             $this->font = $tagProperties['FONT'];
         }
-        if(isset($tagProperties['FONTSTYLE'])) {
+        if (isset($tagProperties['FONTSTYLE'])) {
             $this->fontStyle = $tagProperties['FONTSTYLE'];
         }
-        if(isset($tagProperties['FONTCOLOR'])) {
+        if (isset($tagProperties['FONTCOLOR'])) {
             $this->fontColor = $tagProperties['FONTCOLOR'];
         }
-        if(isset($tagProperties['FONTSIZE'])) {
+        if (isset($tagProperties['FONTSIZE'])) {
             $this->fontSize = $tagProperties['FONTSIZE'];
         }
-        if(isset($tagProperties['TEXTALIGN'])) {
+        if (isset($tagProperties['TEXTALIGN'])) {
             $this->textAlign = $tagProperties['TEXTALIGN'];
         }
-        if(isset($tagProperties['LINEHEIGHT'])) {
+        if (isset($tagProperties['LINEHEIGHT'])) {
             $this->lineHeight = $tagProperties['LINEHEIGHT'];
         }
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::close() {{{
 
@@ -152,20 +152,17 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
      * @return void
      */
     public function close() {
-        if($this->useStyle) {
+        if ($this->useStyle) {
             $this->render();
         } else {
             $this->_cleanContent();
-            $this->pdf->setFont($this->font, $this->fontStyle, 
-                                $this->fontSize);
+            $this->pdf->setFont($this->font, $this->fontStyle, $this->fontSize);
             $fontColor = Xml2Pdf::convertColor($this->fontColor);
-            $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], 
-                                     $fontColor['b']);
-            $this->pdf->MultiCell(190, $this->lineHeight, $this->content, 
-                                  false, $this->textAlign, false);
+            $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
+            $this->pdf->MultiCell(190, $this->lineHeight, $this->content, false, $this->textAlign, false);
         }
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::render() {{{
 
@@ -179,24 +176,24 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
     public function render() {
         // first style is text style!
         $this->styleStack[0] = array(
-            'font'       => $this->font,
-            'font-size'  => $this->fontSize,
+            'font' => $this->font,
+            'font-size' => $this->fontSize,
             'font-style' => $this->fontStyle,
-            'color'      => $this->fontColor,
-            'indent'     => 0); 
+            'color' => $this->fontColor,
+            'indent' => 0);
         $this->_setStyle();
 
         $this->_x = 10;
-        
-        while(!empty($this->content)) {
+
+        while (!empty($this->content)) {
             $line = $this->_makeLine();
-            if(!empty($line)) {
+            if (!empty($line)) {
                 $this->_printLine($line);
             }
         }
         $this->pdf->Ln();
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::_parseContent() {{{
 
@@ -216,28 +213,28 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
      * @return mixed
      */
     private function _parseContent() {
-        if(empty($this->content)) {
+        if (empty($this->content)) {
             return false;
         }
         $regs = array();
         $result = array();
-        if(preg_match('/^(<\/([^>]+)>).*/', $this->content, $regs)) {
+        if (preg_match('/^(<\/([^>]+)>).*/', $this->content, $regs)) {
             // Balise fermante
             $result[1] = 'c';
             $result[2] = trim($regs[2]);
-        } else if(preg_match('/^(<([^>]+)>).*/', $this->content, $regs)) {
+        } else if (preg_match('/^(<([^>]+)>).*/', $this->content, $regs)) {
             // Balise ouvrante
             $regs[2] = preg_replace('/^a/', 'a ', $regs[2]); // Rustine : l'espace dispara�t
             $result[1] = 'o';
             $result[2] = trim($regs[2]);
- 
+
             // Pr�sence d'attributs
-            if(preg_match('/(.+) (.+)=\'(.+)\' */', $regs[2])) {
-                $params = split(" +",$regs[2]);
+            if (preg_match('/(.+) (.+)=\'(.+)\' */', $regs[2])) {
+                $params = split(" +", $regs[2]);
                 $result[2] = trim($params[0]);
-                while(list($i, $couple) = each($params)) {
-                    if($i>0) {
-                        $couple = explode('=',$couple);
+                while (list($i, $couple) = each($params)) {
+                    if ($i > 0) {
+                        $couple = explode('=', $couple);
                         $couple[0] = trim($couple[0]);
                         $couple[1] = trim($couple[1]);
                         $end = strlen($couple[1]) - 2;
@@ -245,23 +242,23 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
                     }
                 }
             }
-        } else if(preg_match('/^( ).*/', $this->content, $regs)) {
+        } else if (preg_match('/^( ).*/', $this->content, $regs)) {
             // Espace
             $result[1] = 's';
             $result[2] = $regs[1];
-        } else if(preg_match('/^([^< ]+).*/', $this->content, $regs)) {
+        } else if (preg_match('/^([^< ]+).*/', $this->content, $regs)) {
             // Texte
             $result[1] = 't';
             $result[2] = trim($regs[1]);
         }
         // Elagage
-        $begin = isset($regs[1])?strlen($regs[1]):0;
+        $begin = isset($regs[1]) ? strlen($regs[1]) : 0;
         $end = strlen($this->content);
         $this->content = substr($this->content, $begin, $end);
-        $result[0] = $this->content; 
+        $result[0] = $this->content;
         return $result;
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::_makeLine() {{{
 
@@ -271,36 +268,36 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
      * @return string
      */
     private function _makeLine() {
-        $line='';
-        $continue=true;
-        $result=true;
+        $line = '';
+        $continue = true;
+        $result = true;
         while ($continue && $result) {
             $result = $this->_parseContent();
-            if(in_array($result[1], array('s', 't'))) {
+            if (in_array($result[1], array('s', 't'))) {
                 $line .= $result[2];
                 $this->_setStyle();
             } elseif (in_array($result[1], array('c', 'o'))) {
-                if($result[1] == 'o') {
+                if ($result[1] == 'o') {
                     // on ajoute le tag de style
                     $this->_setStyle();
                     $this->styleStack[] = $this->pdf->styles[$result[2]];
-                } elseif($result[1] == 'c') {
+                } elseif ($result[1] == 'c') {
                     // on enl�ve le style
                     $foo = array_pop($this->styleStack);
-                    $this->_indent=0;
-                    if(isset($foo['indent'])) {
-                        $this->_indent=$foo['indent'];
+                    $this->_indent = 0;
+                    if (isset($foo['indent'])) {
+                        $this->_indent = $foo['indent'];
                     }
                 }
                 $continue = false;
-                if(empty($line)) {
+                if (empty($line)) {
                     $continue = true;
                 }
             }
         }
         return $line;
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::_printLine(string) {{{
 
@@ -314,56 +311,54 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         $width = $this->pdf->getStringWidth($line);
         $this->pdf->setX($this->_x);
         $this->_x += $width;
-        
-        if($this->_x > 190) {
+
+        if ($this->_x > 190) {
             $tmp = $line;
             $this->_x -= $width;
             $maxWidth = 190 - $this->_x;
             $this->_x = 10;
-            while(!empty($tmp)) {
+            while (!empty($tmp)) {
                 $spacePos = -1;
                 $lineLength = strlen($tmp);
                 $foo = '';
                 $indent = 0;
-                for($i=0 ; $i<$lineLength ; $i++) {
-                    $char = $tmp{$i}; 
-                    if($char == " ") {
+                for ($i = 0; $i < $lineLength; $i++) {
+                    $char = $tmp{$i};
+                    if ($char == " ") {
                         $spacePos = $i;
                         $foo .= " ";
                         //continue;
                     }
                     $foo .= $char;
-                    if($this->pdf->getStringWidth($foo) > $maxWidth) {
+                    if ($this->pdf->getStringWidth($foo) > $maxWidth) {
                         // ca d�passe, faut couper
-                        if($spacePos == -1) {
+                        if ($spacePos == -1) {
                             $spacePos = $i;
                         }
                         $foo = substr($tmp, 0, $spacePos);
-                        $tmp = substr($tmp, $spacePos, $lineLength-$spacePos);
+                        $tmp = substr($tmp, $spacePos, $lineLength - $spacePos);
                         $spacePos = -1;
                         $indent = 1;
-                        break;  
+                        break;
                     }
-                    if($i == $lineLength-1) {
+                    if ($i == $lineLength - 1) {
                         $foo = $tmp;
                         $tmp = '';
                         $indent = $this->_indent;
                     }
                 }
-                $this->pdf->Cell($this->pdf->getStringWidth($foo), 
-                    $this->lineHeight, $foo, 0, $indent, 'L', 0);
+                $this->pdf->Cell($this->pdf->getStringWidth($foo), $this->lineHeight, $foo, 0, $indent, 'L', 0);
                 $this->_x = $this->pdf->GetX();
                 $maxWidth = 190;
             }
         } else {
-            $this->pdf->Cell($width, $this->lineHeight, $line, 0, 
-                $this->_indent, 'L', 0);
-            if($this->_indent == 2) {
+            $this->pdf->Cell($width, $this->lineHeight, $line, 0, $this->_indent, 'L', 0);
+            if ($this->_indent == 2) {
                 $this->_x = 10;
             }
         }
-    } 
-    
+    }
+
     // }}}
     // Xml2PdfTextTag::_setStyle() {{{
 
@@ -378,21 +373,19 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         $font = null;
         $fontSize = null;
         //$indentSetted = false;
-        $count = count($this->styleStack); 
-        for($i=$count-1 ; $i>=0 ; $i--) {
-            if(empty($fontColor) && isset($this->styleStack[$i]['color'])) {
+        $count = count($this->styleStack);
+        for ($i = $count - 1; $i >= 0; $i--) {
+            if (empty($fontColor) && isset($this->styleStack[$i]['color'])) {
                 $fontColor = $this->styleStack[$i]['color'];
             }
-            if(empty($font) && isset($this->styleStack[$i]['font'])) {
+            if (empty($font) && isset($this->styleStack[$i]['font'])) {
                 $font = $this->styleStack[$i]['font'];
             }
-            if(empty($fontSize) && isset($this->styleStack[$i]['font-size'])) {
+            if (empty($fontSize) && isset($this->styleStack[$i]['font-size'])) {
                 $fontSize = $this->styleStack[$i]['font-size'];
             }
-            if(isset($this->styleStack[$i]['font-style']) 
-                && !empty($this->styleStack[$i]['font-style'])) {
-                if(false !== strpos($fontStyle, 
-                    trim($this->styleStack[$i]['font-style']))) {
+            if (isset($this->styleStack[$i]['font-style']) && !empty($this->styleStack[$i]['font-style'])) {
+                if (false !== strpos($fontStyle, trim($this->styleStack[$i]['font-style']))) {
                     continue;
                 }
                 $fontStyle .= trim($this->styleStack[$i]['font-style']);
@@ -400,13 +393,12 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
         }
         $this->pdf->setFont($font, $fontStyle, $fontSize);
         $fontColor = Xml2Pdf::convertColor($fontColor);
-        $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], 
-            $fontColor['b']);
-    } 
-    
+        $this->pdf->setTextColor($fontColor['r'], $fontColor['g'], $fontColor['b']);
+    }
+
     // }}}
     // Xml2PdfTextTag::_cleanContent() {{{
-    
+
     /**
      * Remove the styles information to the content.
      *
@@ -414,7 +406,7 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
      */
     private function _cleanContent() {
         $content = '';
-        while(!empty($this->content)) {
+        while (!empty($this->content)) {
             $content .= $this->_makeLine();
         }
         $this->content = $content;
@@ -422,4 +414,5 @@ Class Xml2PdfTextTag extends Xml2PdfTag {
 
     // }}}
 }
+
 ?>

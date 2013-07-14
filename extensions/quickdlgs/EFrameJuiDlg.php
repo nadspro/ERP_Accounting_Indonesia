@@ -1,4 +1,5 @@
 <?php
+
 /**
  * EFrameJuiDlg renders a button/link or icon to display an iframe in a CJuiDialog
  *
@@ -12,8 +13,8 @@
  * @package ext.quickdlgs
  * @since 1.0
  */
-class EFrameJuiDlg extends EBaseJuiDlg
-{
+class EFrameJuiDlg extends EBaseJuiDlg {
+
     /**
      * Use this url for a request to a remote server
      * @var string
@@ -56,21 +57,16 @@ class EFrameJuiDlg extends EBaseJuiDlg
      * @return string
      * @throws CException
      */
-    protected function getActionUrl()
-    {
+    protected function getActionUrl() {
         $url = $this->url;
 
-        if (!empty($url)) //remote url
-        {
-            if(!empty($this->urlParams))
-            {
-              $paramChar = strpos($url,'?') === false ? '?' : '&';
-              $url .= $paramChar . http_build_query($this->urlParams);
+        if (!empty($url)) { //remote url
+            if (!empty($this->urlParams)) {
+                $paramChar = strpos($url, '?') === false ? '?' : '&';
+                $url .= $paramChar . http_build_query($this->urlParams);
             }
-        }
-        else
-        if(!empty($this->controllerRoute)) //internal url
-        {
+        } else
+        if (!empty($this->controllerRoute)) { //internal url
             //add the quickdlgs GET params
             $this->addDlgsParams($this->urlParams);
 
@@ -90,11 +86,9 @@ class EFrameJuiDlg extends EBaseJuiDlg
      *
      * @return string
      */
-    public function getControllerRoute()
-    {
-        if(!empty($this->controllerRoute))
-        {
-            $route =  $this->controllerRoute;
+    public function getControllerRoute() {
+        if (!empty($this->controllerRoute)) {
+            $route = $this->controllerRoute;
             if (strpos($route, '/') === false)
                 $route = Yii::app()->controller->id . '/' . $route;
         }
@@ -108,16 +102,14 @@ class EFrameJuiDlg extends EBaseJuiDlg
      * Get the id of the iframe tag
      * @return string
      */
-    protected function getFrameId()
-    {
+    protected function getFrameId() {
         return $this->id . '-frame';
     }
 
     /**
      * render the iframe tag inside the dialog
      */
-    public function renderDialogContent()
-    {
+    public function renderDialogContent() {
         $url = $this->getActionUrl();
         $src = $this->isAutoOpen() ? $url : '';
         $htmlOptions = array_merge($this->iframeHtmlOptions, array('width' => '100%', 'height' => '100%', 'src' => $src, 'id' => $this->getFrameId()));
@@ -128,8 +120,8 @@ class EFrameJuiDlg extends EBaseJuiDlg
      * Set the source of the iframe
      * @return string
      */
-    protected function jsBeforeOpenClick()
-    {
+    protected function jsBeforeOpenClick() {
         return parent::jsBeforeOpenClick() . "$('#{$this->getFrameId()}').attr('src','{$this->getActionUrl()}');";
     }
+
 }

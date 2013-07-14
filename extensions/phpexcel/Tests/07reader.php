@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -24,12 +25,11 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 
-define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 date_default_timezone_set('Europe/London');
 
@@ -38,21 +38,21 @@ require_once '../Classes/PHPExcel/IOFactory.php';
 
 
 if (!file_exists("05featuredemo.xlsx")) {
-	exit("Please run 05featuredemo.php first." . EOL);
+    exit("Please run 05featuredemo.php first." . EOL);
 }
 
-echo date('H:i:s') , " Load from Excel2007 file" , EOL;
+echo date('H:i:s'), " Load from Excel2007 file", EOL;
 $objPHPExcel = PHPExcel_IOFactory::load("05featuredemo.xlsx");
 
-echo date('H:i:s') , " Write to Excel2007 format" , EOL;
+echo date('H:i:s'), " Write to Excel2007 format", EOL;
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save(str_replace('.php', '.xlsx', __FILE__));
-echo date('H:i:s') , " File written to " , str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+echo date('H:i:s'), " File written to ", str_replace('.php', '.xlsx', pathinfo(__FILE__, PATHINFO_BASENAME)), EOL;
 
 
 // Echo memory peak usage
-echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;
 
 // Echo done
-echo date('H:i:s') , " Done writing file" , EOL;
-echo 'File has been created in ' , getcwd() , EOL;
+echo date('H:i:s'), " Done writing file", EOL;
+echo 'File has been created in ', getcwd(), EOL;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Weavora Team <hello@weavora.com>
  * @link http://weavora.com
@@ -14,7 +15,6 @@ namespace WUnit\Http;
  * Time: 10:22
  * To change this template use File | Settings | File Templates.
  */
-class YiiExitException extends \Exception
-{
-
+class YiiExitException extends \Exception {
+    
 }

@@ -17,36 +17,41 @@ class journalVoucherList2 extends fpdf {
     //Page header
     function myHeader($models) {
         $this->y0 = $this->GetY();
-        //$this->Image('css/LOGO.jpg',15,7,30);
+        $this->Cell(0, 5, '', 'T', 0, 'C');
+        $this->Image('shareimages/company/FA-logo-APL-2.jpg', 15, 12, 30);
         $this->SetY($this->y0);
-        $this->SetFont('Arial', 'B', 12);
-        $this->Cell(0, 5, Yii::app()->name, 0, 0, 'R');
+        $this->SetFont('Arial', 'B', 14);
+        $this->Cell(0, 5, '', 'LR');
         $this->Ln();
-        $this->Cell(190, 0, '', 'B');
+        $this->Cell(30, 5, '', 'L');
+        $this->Cell(0, 5, 'JOURNAL VOUCHER LIST', 'R', 0, 'C');
         $this->Ln();
+        $this->Cell(0, 5, '', 'LBR');
+        $this->Ln(7);
 
+        $this->SetFillColor(230, 230, 230);
         $this->SetFont('Arial', 'B', 12);
-        $this->Cell(0, 8, 'JOURNAL VOUCHER LIST', '', 0, 'C');
-        $this->Ln();
+        $this->Cell(0, 10, '', 0, 0, 'C', true);
+        $this->Ln(12);
 
-        $this->Cell(190, 0, '', 'B');
+        $this->Cell(0, 0, '', 'B');
         $this->Ln();
         $this->SetFont('Arial', '', 10);
-        $this->Cell(25, 4, 'Account No', 'L');
+        $this->Cell(25, 6, 'Account No', 'L');
         $this->SetFont('Arial', 'B', 10);
-        $this->Cell(0, 4, ': ' . $models->account_concat(), 'R');
+        $this->Cell(0, 6, ': ' . $models[0]->account->account_concat, 'R');
         $this->Ln();
         $this->SetFont('Arial', '', 10);
-        $this->Cell(25, 4, 'Periode: ', 'L');
+        $this->Cell(25, 6, 'Periode: ', 'L');
         $this->SetFont('Arial', 'B', 10);
-        //$this->Cell(0,4,': '. $begin_date." to ".$end_date,'R');
-        $this->Cell(0, 4, ': ', 'R');
+        //$this->Cell(0,6,': '. $begin_date." to ".$end_date,'R');
+        $this->Cell(0, 6, ': ', 'R');
         $this->Ln();
-        $this->Cell(190, 0, '', 'B');
+        $this->Cell(0, 0, '', 'B');
 
-        $this->Ln(8);
+        $this->Ln(5);
 
-        $w = array(7, 18, 14, 33, 18, 18, 70, 15);
+        $w = array(7, 18, 14, 33, 18, 18, 67, 15);
         //Header
         $this->SetFont('Arial', '', 8);
         $this->Cell($w[0], 8, 'No.', 1, 0, 'R');
@@ -83,45 +88,43 @@ class journalVoucherList2 extends fpdf {
         //Data
         $fill = false;
 
-        $w = array(7, 18, 14, 33, 18, 18, 70, 15);
+        $w = array(7, 18, 14, 33, 18, 18, 67, 15);
 
         foreach ($models as $mod) {
-            foreach ($mod as $mm) {
-                $this->SetFont('Arial', '', 8);
-                $this->Cell($w[0], 6, number_format($_countert, 0, ',', '.'), 'L', 0, 'R', $fill);
-                if ($_mdate != $mod->input_date) {
-                    $this->Cell($w[1], 6, $mod->input_date, 'LT', 0, 'L', $fill);
-                }
-                else
-                    $this->Cell($w[1], 6, '', 'L');
-
-                $_mdate = $mod->input_date;
-
-                $this->Cell($w[2], 6, $mod->yearmonth_periode, 'L', 0, 'L', $fill);
-                $this->Cell($w[3], 6, $mod->system_ref, 'L', 0, 'L', $fill);
-                $this->Cell($w[4], 6, number_format($mm->debit, 0, ',', '.'), 'L', 0, 'R', $fill);
-                $this->Cell($w[5], 6, number_format($mm->credit, 0, ',', '.'), 'L', 0, 'R', $fill);
-                $this->Cell($w[6], 6, (strlen($mod->remark) >= 40 ) ? substr($mod->remark, 0, 38) . " ... " : $mod->remark, 'L', 0, 'L', $fill);
-                $this->Cell($w[7], 6, $mod->status->name, 'LR', 0, 'L', $fill);
-
-                $this->Ln();
-
-                $_tdebet = $_tdebet + $mm->debit;
-                $_tcredit = $_tcredit + $mm->credit;
-
-                $_counter++;
-                $_countert++;
-
-                if ($_counter == 34) {
-                    $this->Cell(array_sum($w), 0, '', 'T');
-                    $this->AddPage();
-
-                    $this->myHeader($models);
-
-                    $_counter = 1;
-                }
-                $fill = !$fill;
+            $this->SetFont('Arial', '', 8);
+            $this->Cell($w[0], 6, number_format($_countert, 0, ',', '.'), 'L', 0, 'R', $fill);
+            if ($_mdate != $mod->journal->input_date) {
+                $this->Cell($w[1], 6, $mod->journal->input_date, 'LT', 0, 'L', $fill);
             }
+            else
+                $this->Cell($w[1], 6, '', 'L');
+
+            $_mdate = $mod->journal->input_date;
+
+            $this->Cell($w[2], 6, $mod->journal->yearmonth_periode, 'L', 0, 'L', $fill);
+            $this->Cell($w[3], 6, $mod->journal->system_ref, 'L', 0, 'L', $fill);
+            $this->Cell($w[4], 6, number_format($mod->debit, 0, ',', '.'), 'L', 0, 'R', $fill);
+            $this->Cell($w[5], 6, number_format($mod->credit, 0, ',', '.'), 'L', 0, 'R', $fill);
+            $this->Cell($w[6], 6, (strlen($mod->journal->remark) >= 40 ) ? substr($mod->journal->remark, 0, 38) . " ... " : $mod->journal->remark, 'L', 0, 'L', $fill);
+            $this->Cell($w[7], 6, $mod->journal->status->name, 'LR', 0, 'L', $fill);
+
+            $this->Ln();
+
+            $_tdebet = $_tdebet + $mod->debit;
+            $_tcredit = $_tcredit + $mod->credit;
+
+            $_counter++;
+            $_countert++;
+
+            if ($_counter == 34) {
+                $this->Cell(array_sum($w), 0, '', 'T');
+                $this->AddPage();
+
+                $this->myHeader($models);
+
+                $_counter = 1;
+            }
+            $fill = !$fill;
         }
 
         //Closure line

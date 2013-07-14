@@ -1,4 +1,5 @@
 <?php
+
 /**
  * TbPickerColumn
  *
@@ -11,67 +12,64 @@
  */
 Yii::import('bootstrap.widgets.TbDataColumn');
 
-class TbPickerColumn extends TbDataColumn
-{
-	/**
-	 * @var string $class the class name to use to display picker
-	 */
-	public $class = 'bootstrap-picker';
+class TbPickerColumn extends TbDataColumn {
 
-	/**
-	 * @var array $pickerOptions the javascript options for the picker bootstrap plugin. The picker bootstrap plugin
-	 * extends from the tooltip plugin.
-	 *
-	 * Note that picker has also a 'width' just in case we display AJAX'ed content.
-	 *
-	 * @see http://twitter.github.com/bootstrap/javascript.html#tooltips
-	 */
-	public $pickerOptions = array();
+    /**
+     * @var string $class the class name to use to display picker
+     */
+    public $class = 'bootstrap-picker';
 
-	/**
-	 * Initialization function
-	 */
-	public function init()
-	{
-		if (!$this->class)
-			$this->class = 'bootstrap-picker';
-		$this->registerClientScript();
-	}
+    /**
+     * @var array $pickerOptions the javascript options for the picker bootstrap plugin. The picker bootstrap plugin
+     * extends from the tooltip plugin.
+     *
+     * Note that picker has also a 'width' just in case we display AJAX'ed content.
+     *
+     * @see http://twitter.github.com/bootstrap/javascript.html#tooltips
+     */
+    public $pickerOptions = array();
 
-	/**
-	 * Renders a data cell content, wrapping the value with the link that will activate the picker
-	 * @param int $row
-	 * @param mixed $data
-	 */
-	public function renderDataCellContent($row, $data)
-	{
+    /**
+     * Initialization function
+     */
+    public function init() {
+        if (!$this->class)
+            $this->class = 'bootstrap-picker';
+        $this->registerClientScript();
+    }
 
-		if ($this->value !== null)
-			$value = $this->evaluateExpression($this->value, array('data' => $data, 'row' => $row));
-		else if ($this->name !== null)
-			$value = CHtml::value($data, $this->name);
+    /**
+     * Renders a data cell content, wrapping the value with the link that will activate the picker
+     * @param int $row
+     * @param mixed $data
+     */
+    public function renderDataCellContent($row, $data) {
 
-		$class = preg_replace('/\s+/', '.', $this->class);
-		$value = !isset($value) ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
-		$value = CHtml::link($value, '#', array('class' => $class));
+        if ($this->value !== null)
+            $value = $this->evaluateExpression($this->value, array('data' => $data, 'row' => $row));
+        else if ($this->name !== null)
+            $value = CHtml::value($data, $this->name);
 
-		echo $value;
-	}
+        $class = preg_replace('/\s+/', '.', $this->class);
+        $value = !isset($value) ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value, $this->type);
+        $value = CHtml::link($value, '#', array('class' => $class));
 
-	/**
-	 * Registers client script data
-	 */
-	public function registerClientScript()
-	{
+        echo $value;
+    }
 
-		$class = preg_replace('/\s+/', '.', $this->class);
-		/** @var $cs CClientScript */
-		$cs = Yii::app()->getClientScript();
-		$assetsUrl = Yii::app()->bootstrap->getAssetsUrl();
+    /**
+     * Registers client script data
+     */
+    public function registerClientScript() {
 
-		$cs->registerCssFile($assetsUrl . '/css/bootstrap-picker.css');
-		$cs->registerScriptFile($assetsUrl . '/js/bootstrap.picker.js');
-		$cs->registerScript(__CLASS__ . '#' . $this->id, "$(document).on('click','#{$this->grid->id} a.{$class}', function(){
+        $class = preg_replace('/\s+/', '.', $this->class);
+        /** @var $cs CClientScript */
+        $cs = Yii::app()->getClientScript();
+        $assetsUrl = Yii::app()->bootstrap->getAssetsUrl();
+
+        $cs->registerCssFile($assetsUrl . '/css/bootstrap-picker.css');
+        $cs->registerScriptFile($assetsUrl . '/js/bootstrap.picker.js');
+        $cs->registerScript(__CLASS__ . '#' . $this->id, "$(document).on('click','#{$this->grid->id} a.{$class}', function(){
 			if ($(this).hasClass('pickeron'))
 			{
 				$(this).removeClass('pickeron').picker('toggle');
@@ -80,5 +78,6 @@ class TbPickerColumn extends TbDataColumn
 			$('#{$this->grid->id} a.pickeron').removeClass('pickeron').picker('toggle');
 			$(this).picker(" . CJavaScript::encode($this->pickerOptions) . ").picker('toggle').addClass('pickeron'); return false;
 		})");
-	}
+    }
+
 }

@@ -27,16 +27,16 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 ?>
 
 <div class="pull-right">
-<?php
-$this->renderPartial('_search', array(
-    'model' => $model,
-));
-?>
+    <?php
+    $this->renderPartial('_search', array(
+        'model' => $model,
+    ));
+    ?>
 </div>
 
 <div class="page-header">
     <h1>
-<?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/balance.png') ?>
+        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/balance.png') ?>
         Unpost / Unlock Jurnal
     </h1>
 </div>

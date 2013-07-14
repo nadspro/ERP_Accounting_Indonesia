@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPExcel
  *
@@ -24,14 +25,13 @@
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.8, 2012-10-12
  */
-
 /** Error reporting */
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
 date_default_timezone_set('Europe/London');
 
-define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
+define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '<br />');
 
 date_default_timezone_set('Europe/London');
 
@@ -51,36 +51,35 @@ $rendererLibrary = 'domPDF0.6.0beta3';
 $rendererLibraryPath = '/php/libraries/PDF/' . $rendererLibrary;
 
 
-echo date('H:i:s') , " Hide grid lines" , EOL;
+echo date('H:i:s'), " Hide grid lines", EOL;
 $objPHPExcel->getActiveSheet()->setShowGridLines(false);
 
-echo date('H:i:s') , " Set orientation to landscape" , EOL;
+echo date('H:i:s'), " Set orientation to landscape", EOL;
 $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 
 
-echo date('H:i:s') , " Write to PDF format using {$rendererName}" , EOL;
+echo date('H:i:s'), " Write to PDF format using {$rendererName}", EOL;
 
 if (!PHPExcel_Settings::setPdfRenderer(
-		$rendererName,
-		$rendererLibraryPath
-	)) {
-	die(
-		'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
-		EOL .
-		'at the top of this script as appropriate for your directory structure'
-	);
+                $rendererName, $rendererLibraryPath
+        )) {
+    die(
+            'NOTICE: Please set the $rendererName and $rendererLibraryPath values' .
+            EOL .
+            'at the top of this script as appropriate for your directory structure'
+    );
 }
 
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'PDF');
 $objWriter->setSheetIndex(0);
-$objWriter->save(str_replace('.php', '_'.$rendererName.'.pdf', __FILE__));
-echo date('H:i:s') , " File written to " , str_replace('.php', '_'.$rendererName.'.pdf', pathinfo(__FILE__, PATHINFO_BASENAME)) , EOL;
+$objWriter->save(str_replace('.php', '_' . $rendererName . '.pdf', __FILE__));
+echo date('H:i:s'), " File written to ", str_replace('.php', '_' . $rendererName . '.pdf', pathinfo(__FILE__, PATHINFO_BASENAME)), EOL;
 
 
 // Echo memory peak usage
-echo date('H:i:s') , " Peak memory usage: " , (memory_get_peak_usage(true) / 1024 / 1024) , " MB" , EOL;
+echo date('H:i:s'), " Peak memory usage: ", (memory_get_peak_usage(true) / 1024 / 1024), " MB", EOL;
 
 // Echo done
-echo date('H:i:s') , " Done writing files" , EOL;
-echo 'File has been created in ' , getcwd() , EOL;
+echo date('H:i:s'), " Done writing files", EOL;
+echo 'File has been created in ', getcwd(), EOL;

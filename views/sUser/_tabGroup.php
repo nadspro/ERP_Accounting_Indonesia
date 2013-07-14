@@ -1,7 +1,7 @@
 <?php
 $this->widget('ext.bootstrap.widgets.TbGridView', array(
     'id' => 's-group-grid',
-    'dataProvider' => sGroup::model()->search($model->id),
+    'dataProvider' => sUserGroup::model()->search($model->id),
     'itemsCssClass' => 'table table-striped table-bordered',
     'template' => '{items}{pager}',
     //'filter'=>$model,

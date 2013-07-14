@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace WUnit\HttpFoundation\File\MimeType;
 
@@ -19,44 +19,43 @@ use WUnit\HttpFoundation\File\Exception\AccessDeniedException;
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  */
-class ContentTypeMimeTypeGuesser implements MimeTypeGuesserInterface
-{
-	/**
-	 * Returns whether this guesser is supported on the current OS/PHP setup
-	 *
-	 * @return Boolean
-	 */
-	static public function isSupported()
-	{
-		return function_exists('mime_content_type');
-	}
+class ContentTypeMimeTypeGuesser implements MimeTypeGuesserInterface {
 
-	/**
-	 * Guesses the mime type of the file with the given path
-	 *
-	 * @see MimeTypeGuesserInterface::guess()
-	 */
-	public function guess($path)
-	{
-		if (!is_file($path)) {
-			throw new FileNotFoundException($path);
-		}
+    /**
+     * Returns whether this guesser is supported on the current OS/PHP setup
+     *
+     * @return Boolean
+     */
+    static public function isSupported() {
+        return function_exists('mime_content_type');
+    }
 
-		if (!is_readable($path)) {
-			throw new AccessDeniedException($path);
-		}
+    /**
+     * Guesses the mime type of the file with the given path
+     *
+     * @see MimeTypeGuesserInterface::guess()
+     */
+    public function guess($path) {
+        if (!is_file($path)) {
+            throw new FileNotFoundException($path);
+        }
 
-		if (!self::isSupported()) {
-			return null;
-		}
+        if (!is_readable($path)) {
+            throw new AccessDeniedException($path);
+        }
 
-		$type = mime_content_type($path);
+        if (!self::isSupported()) {
+            return null;
+        }
 
-		// remove charset (added as of PHP 5.3)
-		if (false !== $pos = strpos($type, ';')) {
-			$type = substr($type, 0, $pos);
-		}
+        $type = mime_content_type($path);
 
-		return $type;
-	}
+        // remove charset (added as of PHP 5.3)
+        if (false !== $pos = strpos($type, ';')) {
+            $type = substr($type, 0, $pos);
+        }
+
+        return $type;
+    }
+
 }

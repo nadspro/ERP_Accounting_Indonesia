@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\DomCrawler\Field;
 
@@ -16,84 +16,78 @@ namespace Symfony\Component\DomCrawler\Field;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class FormField
-{
-	protected $node;
-	protected $name;
-	protected $value;
-	protected $document;
-	protected $xpath;
-	protected $disabled;
+abstract class FormField {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param \DOMNode $node The node associated with this field
-	 */
-	public function __construct(\DOMNode $node)
-	{
-		$this->node = $node;
-		$this->name = $node->getAttribute('name');
+    protected $node;
+    protected $name;
+    protected $value;
+    protected $document;
+    protected $xpath;
+    protected $disabled;
 
-		$this->document = new \DOMDocument('1.0', 'UTF-8');
-		$this->node = $this->document->importNode($this->node, true);
+    /**
+     * Constructor.
+     *
+     * @param \DOMNode $node The node associated with this field
+     */
+    public function __construct(\DOMNode $node) {
+        $this->node = $node;
+        $this->name = $node->getAttribute('name');
 
-		$root = $this->document->appendChild($this->document->createElement('_root'));
-		$root->appendChild($this->node);
-		$this->xpath = new \DOMXPath($this->document);
+        $this->document = new \DOMDocument('1.0', 'UTF-8');
+        $this->node = $this->document->importNode($this->node, true);
 
-		$this->initialize();
-	}
+        $root = $this->document->appendChild($this->document->createElement('_root'));
+        $root->appendChild($this->node);
+        $this->xpath = new \DOMXPath($this->document);
 
-	/**
-	 * Returns the name of the field.
-	 *
-	 * @return string The name of the field
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+        $this->initialize();
+    }
 
-	/**
-	 * Gets the value of the field.
-	 *
-	 * @return string|array The value of the field
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
+    /**
+     * Returns the name of the field.
+     *
+     * @return string The name of the field
+     */
+    public function getName() {
+        return $this->name;
+    }
 
-	/**
-	 * Sets the value of the field.
-	 *
-	 * @param string $value The value of the field
-	 *
-	 * @api
-	 */
-	public function setValue($value)
-	{
-		$this->value = (string) $value;
-	}
+    /**
+     * Gets the value of the field.
+     *
+     * @return string|array The value of the field
+     */
+    public function getValue() {
+        return $this->value;
+    }
 
-	/**
-	 * Returns true if the field should be included in the submitted values.
-	 *
-	 * @return Boolean true if the field should be included in the submitted values, false otherwise
-	 */
-	public function hasValue()
-	{
-		return true;
-	}
+    /**
+     * Sets the value of the field.
+     *
+     * @param string $value The value of the field
+     *
+     * @api
+     */
+    public function setValue($value) {
+        $this->value = (string) $value;
+    }
 
-	public function isDisabled()
-	{
-		return $this->node->hasAttribute('disabled');
-	}
+    /**
+     * Returns true if the field should be included in the submitted values.
+     *
+     * @return Boolean true if the field should be included in the submitted values, false otherwise
+     */
+    public function hasValue() {
+        return true;
+    }
 
-	/**
-	 * Initializes the form field.
-	 */
-	abstract protected function initialize();
+    public function isDisabled() {
+        return $this->node->hasAttribute('disabled');
+    }
+
+    /**
+     * Initializes the form field.
+     */
+    abstract protected function initialize();
 }

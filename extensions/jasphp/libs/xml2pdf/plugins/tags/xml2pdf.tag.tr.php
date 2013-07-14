@@ -1,4 +1,5 @@
 <?php
+
 /**
  * tr tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @package Xml2Pdf
  * @subpackage Tag
  */
-
 // dependances {{{
 
 /**
@@ -38,100 +38,100 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_tr extends Xml2PdfTag {
     // class properties {{{
-    
+
     /**
      * table.
      * @var object xml2pdf_tag_table 
      */
     public $table;
-    
+
     /**
      * line cells.
      * @var array object xml2pdf_tag_td
      */
     public $columns;
-    
+
     /**
      * font.
      * @var string 
      */
     public $font = null;
-    
+
     /**
      * font size.
      * @var integer 
      */
     public $fontSize = null;
-    
+
     /**
      * font style.
      * @var string 
      */
     public $fontStyle = null;
-    
+
     /**
      * font color.
      * @var string 
      */
     public $fontColor = null;
-    
+
     /**
      * fill the background.
      * @var boolean 
      */
     public $fill = null;
-    
+
     /**
      * fill color.
      * @var string 
      */
     public $fillColor = null;
-    
+
     /**
      * show the borders.
      * @var boolean 
      */
     public $border = null;
-    
+
     /**
      * border color.
      * @var string 
      */
     public $borderColor = null;
-    
+
     /**
      * text alignment.
      * @var string 
      */
     public $textAlign = null;
-    
+
     /**
      * text line height.
      * @var float 
      */
     public $lineHeight = null;
-    
+
     /**
      * table line height.
      * @var float 
      */
     public $height = 0;
-    
+
     /**
      * columns width.
      * @var array 
      */
     public $columnsWidth = false;
-    
+
     /**
      * number of line.
      * @var integer 
      */
     public $linesNumber = 0;
-    
+
     // }}}
     // xml2pdf_tag_tr::__construct() {{{
-    
+
     /**
      * Constructor.
      *
@@ -145,58 +145,58 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         parent::__construct($attrs);
         $this->table = $parent;
 
-        if(isset($attrs['FONT'])) {
+        if (isset($attrs['FONT'])) {
             $this->font = $attrs['FONT'];
         }
-        if(isset($attrs['FONTSIZE'])) {
+        if (isset($attrs['FONTSIZE'])) {
             $this->fontSize = $attrs['FONTSIZE'];
         }
-        if(isset($attrs['FONTSTYLE'])) {
+        if (isset($attrs['FONTSTYLE'])) {
             $this->fontStyle = $attrs['FONTSTYLE'];
         }
-        if(isset($attrs['FONTCOLOR'])) {
+        if (isset($attrs['FONTCOLOR'])) {
             $this->fontColor = $attrs['FONTCOLOR'];
         }
-        if(isset($attrs['FILL'])) {
+        if (isset($attrs['FILL'])) {
             $this->fill = $attrs['FILL'];
         }
-        if(isset($attrs['FILLCOLOR'])) {
+        if (isset($attrs['FILLCOLOR'])) {
             $this->fillColor = $attrs['FILLCOLOR'];
         }
-        if(isset($attrs['BORDER'])) {
+        if (isset($attrs['BORDER'])) {
             $this->border = $attrs['BORDER'];
         }
-        if(isset($attrs['BORDERCOLOR'])) {
+        if (isset($attrs['BORDERCOLOR'])) {
             $this->borderColor = $attrs['BORDERCOLOR'];
         }
-        if(isset($attrs['TEXTALIGN'])) {
+        if (isset($attrs['TEXTALIGN'])) {
             switch (strtolower($attrs['TEXTALIGN'])) {
                 case 'l':
                 case 'left':
-                $this->textAlign = 'L';
-                break;
+                    $this->textAlign = 'L';
+                    break;
                 case 'r':
                 case 'right':
-                $this->textAlign = 'R';
-                break;
+                    $this->textAlign = 'R';
+                    break;
                 case 'c':
                 case 'center':
-                $this->textAlign = 'C';
-                break;
+                    $this->textAlign = 'C';
+                    break;
                 case 'j':
                 case 'justify':
-                $this->textAlign = 'J';
-                break;
+                    $this->textAlign = 'J';
+                    break;
             }
         }
-        if(isset($attrs['LINEHEIGHT'])) {
+        if (isset($attrs['LINEHEIGHT'])) {
             $this->lineHeight = $attrs['LINEHEIGHT'];
         }
     }
-    
+
     // }}}    
     // xml2pdf_tag_tr::close() {{{
-    
+
     /**
      * Add the line to the table.
      *
@@ -205,55 +205,51 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
     public function close() {
         $this->table->rows[] = $this;
     }
-    
+
     // }}}    
     // xml2pdf_tag_tr::render() {{{
-    
+
     /**
      * Render the line.
      *
      * @return void 
-     */ 
+     */
     public function render() {
-        if(!$this->columnsWidth) {
+        if (!$this->columnsWidth) {
             // premi�re ligne, on calcule la largeur des colonnes.
             $this->_calculColumnsWidth();
         }
         $columnsProperties = array('font', 'fontSize', 'fontStyle',
             'fontColor', 'fill', 'fillColor', 'border',
             'borderColor', 'textAlign', 'lineHeight');
-        
+
         // param�trage des colonnes de la ligne
         $columnsWidth = array_reverse($this->columnsWidth);
         foreach ($this->columns as $column) {
             $height = 0;
             // d�finies les propri�t�s non d�finie de la colonne
             foreach ($columnsProperties as $property) {
-                if(!isset($column->$property)) {
+                if (!isset($column->$property)) {
                     $column->$property = $this->$property;
                 }
             }
             $column->width = array_pop($columnsWidth);
-            
+
             // positionne les infos de police et couleur
             $borderColor = Xml2Pdf::convertColor($this->borderColor);
-            $this->pdf->SetDrawColor($borderColor["r"],$borderColor["g"],
-                    $borderColor["b"]);
+            $this->pdf->SetDrawColor($borderColor["r"], $borderColor["g"], $borderColor["b"]);
             $fillColor = Xml2Pdf::convertColor($this->fillColor);
-            $this->pdf->SetFillColor($fillColor["r"],$fillColor["g"],
-                $fillColor["b"]);
+            $this->pdf->SetFillColor($fillColor["r"], $fillColor["g"], $fillColor["b"]);
             $fontColor = Xml2Pdf::convertColor($this->fontColor);
-            $this->pdf->setTextColor($fontColor["r"],$fontColor["g"],
-                $fontColor["b"]);
-            $this->pdf->SetFont($this->font, $this->fontStyle, 
-                $this->fontSize);
+            $this->pdf->setTextColor($fontColor["r"], $fontColor["g"], $fontColor["b"]);
+            $this->pdf->SetFont($this->font, $this->fontStyle, $this->fontSize);
         }
         // calcule la hauteur de la ligne
         $this->_calculRowHeight();
-        if(($this->pdf->getY() + $this->height) >= ($this->pdf->fh - $this->pdf->bMargin)) {
+        if (($this->pdf->getY() + $this->height) >= ($this->pdf->fh - $this->pdf->bMargin)) {
             $this->pdf->AddPage();
         }
-        
+
         // affiche les colonnes
         foreach ($this->columns as $column) {
             $this->_renderColumn($column);
@@ -262,10 +258,10 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $this->pdf->Ln($this->height);
         $this->pdf->setX($this->table->left);
     }
-    
+
     // }}}    
     // xml2pdf_tag_tr::_renderColumn(object) {{{
-    
+
     /**
      * Render a row cell
      *
@@ -275,10 +271,10 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $column->height = $this->height;
         $column->render();
     }
-    
+
     // }}}    
     // xml2pdf_tag_tr::_calculRowHeight() {{{
-    
+
     /**
      * Calcul the row height.
      *
@@ -290,14 +286,13 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
     private function _calculRowHeight() {
         foreach ($this->columns as $column) {
             $nbLines = $column->calculLinesNumber();
-            $this->height = max($this->height, 
-               $nbLines * $column->lineHeight);
+            $this->height = max($this->height, $nbLines * $column->lineHeight);
         }
     }
-    
+
     // }}}    
     // xml2pdf_tag_tr::_calculColumnsWidth() {{{
-    
+
     /**
      * Calcul the row cells width.
      *
@@ -307,10 +302,10 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
         $totalWidth = $this->table->width;
         $nbColumns = count($this->columns);
         foreach ($this->columns as $column) {
-            if(isset($column->width)) {
+            if (isset($column->width)) {
                 // valeur en % de la largeur de la table
                 preg_match('/^([0-9]+)([%])/', $column->width, $tokens);
-                if(!empty($tokens)) {
+                if (!empty($tokens)) {
                     $column->width = $tokens[1] * $this->table->width / 100;
                     unset($tokens);
                 }
@@ -320,14 +315,15 @@ class xml2pdf_tag_tr extends Xml2PdfTag {
             }
         }
         // renseigne les largeurs non pr�cis�
-        if($nbColumns) {
+        if ($nbColumns) {
             $width = $totalWidth / $nbColumns;
         }
         foreach ($this->columns as $column) {
-            $this->columnsWidth[] = isset($column->width)?$column->width:$width;
+            $this->columnsWidth[] = isset($column->width) ? $column->width : $width;
         }
     }
-    
+
     // }}}
 }
+
 ?>

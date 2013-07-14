@@ -39,8 +39,8 @@ $this->menu5 = array('Account');
 <div class="page-header">
     <h1>
         Update:
-<?php echo $model->account_no . ". " . $model->account_name; ?>
+        <?php echo $model->account_no . ". " . $model->account_name; ?>
     </h1>
 </div>
 
-        <?php echo $this->renderPartial('_formupdate', array('model' => $model)); ?>
+<?php echo $this->renderPartial('_formupdate', array('model' => $model)); ?>

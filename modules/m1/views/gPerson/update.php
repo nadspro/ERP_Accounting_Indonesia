@@ -20,7 +20,7 @@ $this->menu5 = array('Person');
 <div class="page-header">
     <h1>
         <i class="icon-fa-user"></i>
-<?php echo $model->employee_name_r; ?>
+        <?php echo $model->employee_name_r; ?>
     </h1>
 </div>
 

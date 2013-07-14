@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This are the default attributes used to initialize a E(Base)JuiDlg widget
  * Modify this to set the default height, width ...
@@ -9,7 +10,6 @@
  * @see the methods of the class EQuickDlgs
  *
  */
-
 return array(
     'dialogTitle' => '',
     'dialogWidth' => 580,
@@ -24,7 +24,6 @@ return array(
     'contentWrapperHtmlOptions' => array(),
     'jsBeforeOpenDialog' => null,
     'jsAfterOpenDialog' => null,
-
     //set the attributes of the CJuiDialog widget
     'dialogAttributes' => array(
         //'theme' => 'cupertino',

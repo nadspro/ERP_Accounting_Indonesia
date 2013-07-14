@@ -23,37 +23,36 @@
  */
 class Set extends CAction {
 
-	/**
-	 *
-	 * @var string $i18nComponentId the id set for the application component
-	 * Ei18n at the configuration file
-	 */
-	public $i18nComponentId = 'translate'; /* change name if different */
+    /**
+     *
+     * @var string $i18nComponentId the id set for the application component
+     * Ei18n at the configuration file
+     */
+    public $i18nComponentId = 'translate'; /* change name if different */
 
-	/**
-	 *
-	 * @var Ei18n $_i8n private reference to the application component to set
-	 * the language
-	 */
-	private $_i18n;
+    /**
+     *
+     * @var Ei18n $_i8n private reference to the application component to set
+     * the language
+     */
+    private $_i18n;
 
-	/**
-	 * Main function run
-	 */
-	public function run()
-	{
-		if (!($this->_i18n = Yii::app()->getComponent($this->i18nComponentId)) instanceof Ei18n)
-			throw new CException(Yii::t('translate', 'Set.run "{id}" does not point to a valid Ei18n application component.', array('{id}' => $this->i18nComponentId)));
+    /**
+     * Main function run
+     */
+    public function run() {
+        if (!($this->_i18n = Yii::app()->getComponent($this->i18nComponentId)) instanceof Ei18n)
+            throw new CException(Yii::t('translate', 'Set.run "{id}" does not point to a valid Ei18n application component.', array('{id}' => $this->i18nComponentId)));
 
-		$language = Yii::app()->getRequest()->getParam($this->_i18n->languageParameter);
+        $language = Yii::app()->getRequest()->getParam($this->_i18n->languageParameter);
 
-		if ($language)
-		{
-			$this->_i18n->setLanguage($language);
-				
-			$this->getController()->redirect(Yii::app()->getRequest()->getUrlReferrer());
-		}else
-			throw new CHttpException(400);
-	}
+        if ($language) {
+            $this->_i18n->setLanguage($language);
+
+            $this->getController()->redirect(Yii::app()->getRequest()->getUrlReferrer());
+        }
+        else
+            throw new CHttpException(400);
+    }
 
 }

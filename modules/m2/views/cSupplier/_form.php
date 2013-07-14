@@ -44,7 +44,7 @@ $form = $this->beginWidget('ext.bootstrap.widgets.TbActiveForm', array(
 
 
 <div class="form-actions">
-<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn primary')); ?>
+    <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn primary')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

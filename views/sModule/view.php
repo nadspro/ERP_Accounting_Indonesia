@@ -33,23 +33,23 @@ $this->menu4 = sModule::getTopOther();
         ?>
     </div>
     <div class="span7">
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
+        <?php
+        $this->widget('bootstrap.widgets.TbDetailView', array(
 //$this->widget('bootstrap.widgets.TbEditableDetailView', array(
-    'data' => $model,
-    //'url' => $this->createUrl('sModule/updateAjax'), 
-    'attributes' => array(
-        array(
-            'name' => 'getparent.title',
-            'label' => 'Parent'
-        ),
-        'title',
-        'description',
-        'link',
-        'image',
-    ),
-));
-?>
+            'data' => $model,
+            //'url' => $this->createUrl('sModule/updateAjax'), 
+            'attributes' => array(
+                array(
+                    'name' => 'getparent.title',
+                    'label' => 'Parent'
+                ),
+                'title',
+                'description',
+                'link',
+                'image',
+            ),
+        ));
+        ?>
 
         <h3>User on this Module</h3>
         <?php
@@ -98,11 +98,11 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         <?php echo $form->dropDownListRow($modelUserModule, 's_matrix_id', array("5" => "admin"), array('class' => 'span3')); ?>
 
         <div class="form-actions">
-        <?php echo CHtml::htmlButton($modelUserModule->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton($modelUserModule->isNewRecord ? '<i class="icon-ok"></i> Create' : '<i class="icon-ok"></i> Save', array('class' => 'btn', 'type' => 'submit')); ?>
         </div>
 
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

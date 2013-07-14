@@ -1,4 +1,5 @@
 <?php
+
 /**
  * German translation of JAppendo.
  *
@@ -7,9 +8,8 @@
  * @since 0.2
  * @uses YiiFramework 1.1.6
  */
-
 return array(
-		'Welcome' => 'Willkommen',
-		'Welcome' => 'Willkommen',
+    'Welcome' => 'Willkommen',
+    'Welcome' => 'Willkommen',
 );
 ?>

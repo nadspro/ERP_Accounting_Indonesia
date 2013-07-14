@@ -1,37 +1,36 @@
 <?php
 
-class RAssignmentDataProvider extends CActiveDataProvider
-{
-	/**
-	 * @property RAuthorizer
-	 */
-	private $_authorizer;
+class RAssignmentDataProvider extends CActiveDataProvider {
 
-	/**
-	 * Constructor.
-	 * (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
-	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
-	 */
-	public function __construct($config=array())
-	{
-		$module = Rights::module();
-		$userClass = $module->userClass;
-		parent::__construct($userClass, $config);
+    /**
+     * @property RAuthorizer
+     */
+    private $_authorizer;
 
-		$this->_authorizer = $module->getAuthorizer();
-	}
+    /**
+     * Constructor.
+     * (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
+     * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
+     */
+    public function __construct($config = array()) {
+        $module = Rights::module();
+        $userClass = $module->userClass;
+        parent::__construct($userClass, $config);
 
-	/**
-	 * Fetches the data from the persistent data storage.
-	 * @return array list of data items
-	 */
-	protected function fetchData()
-	{
-		$data = parent::fetchData();
+        $this->_authorizer = $module->getAuthorizer();
+    }
 
-		foreach( $data as $model )
-			$this->_authorizer->attachUserBehavior($model);
+    /**
+     * Fetches the data from the persistent data storage.
+     * @return array list of data items
+     */
+    protected function fetchData() {
+        $data = parent::fetchData();
 
-		return $data;
-	}
+        foreach ($data as $model)
+            $this->_authorizer->attachUserBehavior($model);
+
+        return $data;
+    }
+
 }

@@ -73,7 +73,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'header' => 'No Ref',
-            'value' => '$data->journal->system_reff()',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->journal->system_reff(),Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$data->parent_id)))',
         ),
         array(
             'name' => 'debit',

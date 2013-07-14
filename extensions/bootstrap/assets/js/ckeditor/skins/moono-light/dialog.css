@@ -93,12 +93,12 @@ Comments in this file will give more details about each of the above blocks.
     box-shadow: 0 1px 0 #fff inset;
 
     background: #b7b8b7;
-   	background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#b7b8b7));
-   	background-image: -moz-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -webkit-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -o-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: -ms-linear-gradient(top, #e8e8e8, #b7b8b7);
-   	background-image: linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#b7b8b7));
+    background-image: -moz-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -webkit-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -o-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: -ms-linear-gradient(top, #e8e8e8, #b7b8b7);
+    background-image: linear-gradient(top, #e8e8e8, #b7b8b7);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffe8e8e8', endColorstr='#ffb7b8b7');
 }
 
@@ -564,8 +564,8 @@ a.cke_dialog_ui_button
     border-bottom-color: #979797;
 
     -moz-border-radius: 3px;
-   	-webkit-border-radius: 3px;
-   	border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
@@ -573,11 +573,11 @@ a.cke_dialog_ui_button
 
     background: #e0e0e0;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e0));
-   	background-image: -moz-linear-gradient(top, #ffffff, #e0e0e0);
-   	background-image: -webkit-linear-gradient(top, #ffffff, #e0e0e0);
-   	background-image: -o-linear-gradient(top, #ffffff, #e0e0e0);
-   	background-image: -ms-linear-gradient(top, #ffffff, #e0e0e0);
-   	background-image: linear-gradient(top, #ffffff, #e0e0e0);
+    background-image: -moz-linear-gradient(top, #ffffff, #e0e0e0);
+    background-image: -webkit-linear-gradient(top, #ffffff, #e0e0e0);
+    background-image: -o-linear-gradient(top, #ffffff, #e0e0e0);
+    background-image: -ms-linear-gradient(top, #ffffff, #e0e0e0);
+    background-image: linear-gradient(top, #ffffff, #e0e0e0);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffffff', endColorstr='#ffe0e0e0');
 
 }
@@ -588,11 +588,11 @@ a.cke_dialog_ui_button:hover
 
     background: #ccc;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#ccc));
-   	background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
-   	background-image: linear-gradient(top, #f2f2f2, #ccc);
+    background-image: -moz-linear-gradient(top, #f2f2f2, #ccc);
+    background-image: -webkit-linear-gradient(top, #f2f2f2, #ccc);
+    background-image: -o-linear-gradient(top, #f2f2f2, #ccc);
+    background-image: -ms-linear-gradient(top, #f2f2f2, #ccc);
+    background-image: linear-gradient(top, #f2f2f2, #ccc);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#fff2f2f2', endColorstr='#ffcccccc');
 }
 

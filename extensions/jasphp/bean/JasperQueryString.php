@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperQueryString
  *
@@ -7,8 +8,11 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="queryString") */
 class JasperQueryString extends AbstractJasper {
+
     public $language = null;
     public $content = null;
+
 }

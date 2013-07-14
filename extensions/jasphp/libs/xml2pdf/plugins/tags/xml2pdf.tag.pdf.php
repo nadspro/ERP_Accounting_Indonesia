@@ -1,4 +1,5 @@
 <?php
+
 /**
  * pdf tag plugin file.
  * @filesource
@@ -6,12 +7,11 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright copyright © 2006, guillaume luchet
+ * @copyright copyright ï¿½ 2006, guillaume luchet
  * @package Xml2Pdf
  * @subpackage Tag
  * @version CVS: $Id: xml2pdf.tag.pdf.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  */
-
 // doc {{{
 
 /**
@@ -25,7 +25,7 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright copyright © 2006, guillaume luchet
+ * @copyright copyright ï¿½ 2006, guillaume luchet
  * @package Xml2Pdf
  * @subpackage Tag
  * @tutorial Xml2Pdf/Xml2Pdf.Tag.pdf.pkg
@@ -42,20 +42,20 @@ Class xml2pdf_tag_pdf {
      */
     public function __construct($tagProperties) {
         $pdf = Pdf::singleton();
-        if(isset($tagProperties['TITLE'])) {
+        if (isset($tagProperties['TITLE'])) {
             $pdf->setTitle($tagProperties['TITLE']);
         }
-        if(isset($tagProperties['SUBJECT'])) {
+        if (isset($tagProperties['SUBJECT'])) {
             $pdf->setSubject($tagProperties['SUBJECT']);
         }
-        if(isset($tagProperties['CREATOR'])) {
+        if (isset($tagProperties['CREATOR'])) {
             $pdf->setCreator($tagProperties['CREATOR']);
         }
-    } 
-    
+    }
+
     // }}}
     // xml2pdf_tag_pdf::addContent() {{{
-    
+
     /**
      * add content.
      *
@@ -75,8 +75,9 @@ Class xml2pdf_tag_pdf {
      */
     public function close() {
         return;
-    } 
-   
+    }
+
     // }}}
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -13,21 +14,21 @@
  *
  * @version $Id: $
  */
-return array (
-		'An error occurred while installing Rights.' => '',
-		'Application authorization manager must extend the RDbAuthManager class.' => '',
-		'Application web user must extend the RWebUser class.' => '',
-		'Congratulations!' => '',
-		'Error' => '',
-		'Install Rights' => '',
-		'No' => '',
-		'Notice: All your existing data will be lost.' => '',
-		'Please confirm if you wish to reinstall.' => '',
-		'Please try again or consult the documentation.' => '',
-		'Rights has been installed succesfully.' => '',
-		'Rights is already installed!' => '',
-		'Yes' => '',
-		'You can start by generating your authorization items' => '',
-		'You must be logged in to install Rights.' => '',
-		'here' => '',
-		);
+return array(
+    'An error occurred while installing Rights.' => '',
+    'Application authorization manager must extend the RDbAuthManager class.' => '',
+    'Application web user must extend the RWebUser class.' => '',
+    'Congratulations!' => '',
+    'Error' => '',
+    'Install Rights' => '',
+    'No' => '',
+    'Notice: All your existing data will be lost.' => '',
+    'Please confirm if you wish to reinstall.' => '',
+    'Please try again or consult the documentation.' => '',
+    'Rights has been installed succesfully.' => '',
+    'Rights is already installed!' => '',
+    'Yes' => '',
+    'You can start by generating your authorization items' => '',
+    'You must be logged in to install Rights.' => '',
+    'here' => '',
+);

@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\HttpFoundation;
 
@@ -18,186 +18,177 @@ namespace Symfony\Component\HttpFoundation;
  *
  * @api
  */
-class Cookie
-{
-	protected $name;
-	protected $value;
-	protected $domain;
-	protected $expire;
-	protected $path;
-	protected $secure;
-	protected $httpOnly;
+class Cookie {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param string                    $name       The name of the cookie
-	 * @param string                    $value      The value of the cookie
-	 * @param integer|string|\DateTime  $expire     The time the cookie expires
-	 * @param string                    $path       The path on the server in which the cookie will be available on
-	 * @param string                    $domain     The domain that the cookie is available to
-	 * @param Boolean                   $secure     Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-	 * @param Boolean                   $httpOnly   Whether the cookie will be made accessible only through the HTTP protocol
-	 *
-	 * @api
-	 */
-	public function __construct($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true)
-	{
-		// from PHP source code
-		if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
-			throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
-		}
+    protected $name;
+    protected $value;
+    protected $domain;
+    protected $expire;
+    protected $path;
+    protected $secure;
+    protected $httpOnly;
 
-		if (empty($name)) {
-			throw new \InvalidArgumentException('The cookie name cannot be empty.');
-		}
+    /**
+     * Constructor.
+     *
+     * @param string                    $name       The name of the cookie
+     * @param string                    $value      The value of the cookie
+     * @param integer|string|\DateTime  $expire     The time the cookie expires
+     * @param string                    $path       The path on the server in which the cookie will be available on
+     * @param string                    $domain     The domain that the cookie is available to
+     * @param Boolean                   $secure     Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     * @param Boolean                   $httpOnly   Whether the cookie will be made accessible only through the HTTP protocol
+     *
+     * @api
+     */
+    public function __construct($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true) {
+        // from PHP source code
+        if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
+            throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
+        }
 
-		// convert expiration time to a Unix timestamp
-		if ($expire instanceof \DateTime) {
-			$expire = $expire->format('U');
-		} elseif (!is_numeric($expire)) {
-			$expire = strtotime($expire);
+        if (empty($name)) {
+            throw new \InvalidArgumentException('The cookie name cannot be empty.');
+        }
 
-			if (false === $expire || -1 === $expire) {
-				throw new \InvalidArgumentException('The cookie expiration time is not valid.');
-			}
-		}
+        // convert expiration time to a Unix timestamp
+        if ($expire instanceof \DateTime) {
+            $expire = $expire->format('U');
+        } elseif (!is_numeric($expire)) {
+            $expire = strtotime($expire);
 
-		$this->name = $name;
-		$this->value = $value;
-		$this->domain = $domain;
-		$this->expire = $expire;
-		$this->path = empty($path) ? '/' : $path;
-		$this->secure = (Boolean) $secure;
-		$this->httpOnly = (Boolean) $httpOnly;
-	}
+            if (false === $expire || -1 === $expire) {
+                throw new \InvalidArgumentException('The cookie expiration time is not valid.');
+            }
+        }
 
-	public function __toString()
-	{
-		$str = urlencode($this->getName()).'=';
+        $this->name = $name;
+        $this->value = $value;
+        $this->domain = $domain;
+        $this->expire = $expire;
+        $this->path = empty($path) ? '/' : $path;
+        $this->secure = (Boolean) $secure;
+        $this->httpOnly = (Boolean) $httpOnly;
+    }
 
-		if ('' === (string) $this->getValue()) {
-			$str .= 'deleted; expires='.gmdate("D, d-M-Y H:i:s T", time() - 31536001);
-		} else {
-			$str .= urlencode($this->getValue());
+    public function __toString() {
+        $str = urlencode($this->getName()) . '=';
 
-			if ($this->getExpiresTime() !== 0) {
-				$str .= '; expires='.gmdate("D, d-M-Y H:i:s T", $this->getExpiresTime());
-			}
-		}
+        if ('' === (string) $this->getValue()) {
+            $str .= 'deleted; expires=' . gmdate("D, d-M-Y H:i:s T", time() - 31536001);
+        } else {
+            $str .= urlencode($this->getValue());
 
-		if ('/' !== $this->path) {
-			$str .= '; path='.$this->path;
-		}
+            if ($this->getExpiresTime() !== 0) {
+                $str .= '; expires=' . gmdate("D, d-M-Y H:i:s T", $this->getExpiresTime());
+            }
+        }
 
-		if (null !== $this->getDomain()) {
-			$str .= '; domain='.$this->getDomain();
-		}
+        if ('/' !== $this->path) {
+            $str .= '; path=' . $this->path;
+        }
 
-		if (true === $this->isSecure()) {
-			$str .= '; secure';
-		}
+        if (null !== $this->getDomain()) {
+            $str .= '; domain=' . $this->getDomain();
+        }
 
-		if (true === $this->isHttpOnly()) {
-			$str .= '; httponly';
-		}
+        if (true === $this->isSecure()) {
+            $str .= '; secure';
+        }
 
-		return $str;
-	}
+        if (true === $this->isHttpOnly()) {
+            $str .= '; httponly';
+        }
 
-	/**
-	 * Gets the name of the cookie.
-	 *
-	 * @return string
-	 *
-	 * @api
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+        return $str;
+    }
 
-	/**
-	 * Gets the value of the cookie.
-	 *
-	 * @return string
-	 *
-	 * @api
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
+    /**
+     * Gets the name of the cookie.
+     *
+     * @return string
+     *
+     * @api
+     */
+    public function getName() {
+        return $this->name;
+    }
 
-	/**
-	 * Gets the domain that the cookie is available to.
-	 *
-	 * @return string
-	 *
-	 * @api
-	 */
-	public function getDomain()
-	{
-		return $this->domain;
-	}
+    /**
+     * Gets the value of the cookie.
+     *
+     * @return string
+     *
+     * @api
+     */
+    public function getValue() {
+        return $this->value;
+    }
 
-	/**
-	 * Gets the time the cookie expires.
-	 *
-	 * @return integer
-	 *
-	 * @api
-	 */
-	public function getExpiresTime()
-	{
-		return $this->expire;
-	}
+    /**
+     * Gets the domain that the cookie is available to.
+     *
+     * @return string
+     *
+     * @api
+     */
+    public function getDomain() {
+        return $this->domain;
+    }
 
-	/**
-	 * Gets the path on the server in which the cookie will be available on.
-	 *
-	 * @return string
-	 *
-	 * @api
-	 */
-	public function getPath()
-	{
-		return $this->path;
-	}
+    /**
+     * Gets the time the cookie expires.
+     *
+     * @return integer
+     *
+     * @api
+     */
+    public function getExpiresTime() {
+        return $this->expire;
+    }
 
-	/**
-	 * Checks whether the cookie should only be transmitted over a secure HTTPS connection from the client.
-	 *
-	 * @return Boolean
-	 *
-	 * @api
-	 */
-	public function isSecure()
-	{
-		return $this->secure;
-	}
+    /**
+     * Gets the path on the server in which the cookie will be available on.
+     *
+     * @return string
+     *
+     * @api
+     */
+    public function getPath() {
+        return $this->path;
+    }
 
-	/**
-	 * Checks whether the cookie will be made accessible only through the HTTP protocol.
-	 *
-	 * @return Boolean
-	 *
-	 * @api
-	 */
-	public function isHttpOnly()
-	{
-		return $this->httpOnly;
-	}
+    /**
+     * Checks whether the cookie should only be transmitted over a secure HTTPS connection from the client.
+     *
+     * @return Boolean
+     *
+     * @api
+     */
+    public function isSecure() {
+        return $this->secure;
+    }
 
-	/**
-	 * Whether this cookie is about to be cleared
-	 *
-	 * @return Boolean
-	 *
-	 * @api
-	 */
-	public function isCleared()
-	{
-		return $this->expire < time();
-	}
+    /**
+     * Checks whether the cookie will be made accessible only through the HTTP protocol.
+     *
+     * @return Boolean
+     *
+     * @api
+     */
+    public function isHttpOnly() {
+        return $this->httpOnly;
+    }
+
+    /**
+     * Whether this cookie is about to be cleared
+     *
+     * @return Boolean
+     *
+     * @api
+     */
+    public function isCleared() {
+        return $this->expire < time();
+    }
+
 }

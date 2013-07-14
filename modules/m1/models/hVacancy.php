@@ -236,7 +236,7 @@ class hVacancy extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/hVacancy/view/id/' . $this->id, 'Vacancy. New Vacancy created: ' . $this->vacancy_title
+                    1, 'm1/hVacancy/view/id/' . $this->id, 'Vacancy. New Vacancy created: ' . strtoupper($this->vacancy_title)
             );
         }
         return true;
@@ -262,7 +262,9 @@ class hVacancy extends BaseModel {
 				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m')
 					= '" . date("Y") . "05') as `201305`,
 				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
-					= '" . date("Y") . "06') as `201306`
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `h_vacancy` `a` where date_format(FROM_UNIXTIME(created_date),'%Y%m') 
+					= '" . date("Y") . "06') as `201307`
 
 				FROM `a_organization` `o`
 				where `id` = 1  
@@ -292,7 +294,11 @@ class hVacancy extends BaseModel {
 				(select count(`a`.`id`) from `j_selection_part` `a` 
 				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
 				where date_format(`j`.`schedule_date`,'%Y%m') 
-					= '" . date("Y") . "06') as `201306`
+					= '" . date("Y") . "06') as `201306`,
+				(select count(`a`.`id`) from `j_selection_part` `a` 
+				inner join `j_selection` `j` ON `j`.`id` = `a`.`parent_id`
+				where date_format(`j`.`schedule_date`,'%Y%m') 
+					= '" . date("Y") . "07') as `201307`
 
 
 				FROM `a_organization` `o`
@@ -312,12 +318,12 @@ class hVacancy extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);

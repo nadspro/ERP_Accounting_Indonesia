@@ -43,7 +43,7 @@ foreach ($contents as $content) {
                     ?>
                 </ul>
             </div>
-        <?php
+            <?php
         }
 
         if ($counter == 5)

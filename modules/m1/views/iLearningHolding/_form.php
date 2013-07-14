@@ -22,8 +22,8 @@
         <?php echo $form->textAreaRow($model, 'outline', array('class' => 'span7', 'rows' => 8)); ?>
         <?php echo $form->textFieldRow($model, 'participant', array('class' => 'span4')); ?>
         <?php echo $form->textFieldRow($model, 'duration', array('class' => 'span1')); ?>
-<?php echo $form->dropDownListRow($model, 'type_id', sParameter::items('cTraining')); ?>
-            <?php echo $form->dropDownListRow($model, 'prerequisites_id', iLearning::model()->sylabusList()); ?>
+        <?php echo $form->dropDownListRow($model, 'type_id', sParameter::items('cTraining')); ?>
+        <?php echo $form->dropDownListRow($model, 'prerequisites_id', iLearning::model()->sylabusList()); ?>
 
         <div class="form-actions">
             <?php
@@ -36,7 +36,7 @@
 
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div><!-- form -->
 </div><!-- form -->

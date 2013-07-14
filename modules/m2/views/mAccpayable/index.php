@@ -13,7 +13,6 @@ $this->menu2 = vPorder::getTopCreated();
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/payment.png') ?>
         Account Payable:
         <?php if ($id == 1) echo "Waiting for Approval"; elseif ($id == 2) echo "Waiting for Payment"; elseif ($id == 3) echo "Paid"; ?>
     </h1>

@@ -16,8 +16,7 @@
  * The followings are the available model relations:
  * @property Forum $forum Forum this thread lives in
  */
-class Thread extends CActiveRecord
-{
+class Thread extends CActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
@@ -50,7 +49,7 @@ class Thread extends CActiveRecord
         // will receive user inputs.
         return array(
             array('subject', 'required'),
-            array('subject', 'length', 'max'=>120),
+            array('subject', 'length', 'max' => 120),
             /**
              * Normally, this would allow anyopne to set these, even non-admins,
              * however, since normal users do not create threads directly, hut
@@ -67,10 +66,9 @@ class Thread extends CActiveRecord
     /**
      * Default scope to always apply to this model
      */
-    public function defaultScope()
-    {
+    public function defaultScope() {
         return array(
-            'order'=>'is_sticky DESC, created DESC, subject',
+            'order' => 'is_sticky DESC, created DESC, subject',
         );
     }
 
@@ -81,10 +79,9 @@ class Thread extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'forum'=>array(self::BELONGS_TO, 'Forum', 'forum_id'),
-
-            'posts'=>array(self::HAS_MANY, 'Post', 'thread_id', 'order'=>'created'),
-            'postCount'=>array(self::STAT, 'Post', 'thread_id'),
+            'forum' => array(self::BELONGS_TO, 'Forum', 'forum_id'),
+            'posts' => array(self::HAS_MANY, 'Post', 'thread_id', 'order' => 'created'),
+            'postCount' => array(self::STAT, 'Post', 'thread_id'),
         );
     }
 
@@ -95,10 +92,10 @@ class Thread extends CActiveRecord
         return array_merge(parent::attributeLabels(), array(
             'id' => 'ID',
             'forum_id' => 'Forum ID',
-            'subject'=>'Subject',
+            'subject' => 'Subject',
             'is_sticky' => 'Is sticky?',
             'is_locked' => 'Is locked?',
-            'view_count'=>'View count',
+            'view_count' => 'View count',
             'created' => 'Created',
         ));
     }
@@ -106,9 +103,8 @@ class Thread extends CActiveRecord
     /**
      * Manage the created fields
      */
-    public function beforeSave()
-    {
-        if($this->isNewRecord)
+    public function beforeSave() {
+        if ($this->isNewRecord)
             $this->created = time();
 
         return parent::beforeSave();
@@ -134,31 +130,26 @@ class Thread extends CActiveRecord
     /**
      * Return the url to this thread
      */
-    public function getUrl()
-    {
-        return Yii::app()->createUrl('/forum/thread/view', array('id'=>$this->id));
+    public function getUrl() {
+        return Yii::app()->createUrl('/forum/thread/view', array('id' => $this->id));
     }
 
     /**
      * Returns breadcrumbs array to this forum
      */
-    public function getBreadcrumbs($currentlink=false)
-    {
+    public function getBreadcrumbs($currentlink = false) {
         return array_merge(
-            $this->forum->getBreadcrumbs(true),
-            ($currentlink?array(CHtml::encode($this->subject)=>array('/forum/thread/view', 'id'=>$this->id)):array(CHtml::encode($this->subject)))
-            // array(isset($this->subject)?$this->subject:'New thread')
+                $this->forum->getBreadcrumbs(true), ($currentlink ? array(CHtml::encode($this->subject) => array('/forum/thread/view', 'id' => $this->id)) : array(CHtml::encode($this->subject)))
+                // array(isset($this->subject)?$this->subject:'New thread')
         );
     }
 
     /**
      * Return the first post in this thread (or null)
      */
-    public function getFirstPost()
-    {
+    public function getFirstPost() {
         $result = Post::model()->findByAttributes(
-            array('thread_id'=>$this->id),
-            array('order'=>'created', 'limit'=>1)
+                array('thread_id' => $this->id), array('order' => 'created', 'limit' => 1)
         );
         return $result;
     }
@@ -166,38 +157,36 @@ class Thread extends CActiveRecord
     /**
      * Return the last post in this thread (or null)
      */
-    public function getLastPost()
-    {
+    public function getLastPost() {
         $result = Post::model()->findByAttributes(
-            array('thread_id'=>$this->id),
-            array('order'=>'created DESC', 'limit'=>1)
+                array('thread_id' => $this->id), array('order' => 'created DESC', 'limit' => 1)
         );
         return $result;
     }
 
-    public function renderSubjectCell()
-    {
+    public function renderSubjectCell() {
         $firstpost = $this->firstPost;
-        if(null == $firstpost) return '<div style="text-align:center;">-</div>';
+        if (null == $firstpost)
+            return '<div style="text-align:center;">-</div>';
 
         $subjlink = CHtml::link(CHtml::encode($this->subject), $this->url);
         $authorlink = CHtml::link(CHtml::encode($firstpost->author->username), $firstpost->author->url);
 
-        return '<div class="name">'. $subjlink .'</div>'.
-                '<div class="level2">by '. $authorlink .'</div>';
+        return '<div class="name">' . $subjlink . '</div>' .
+                '<div class="level2">by ' . $authorlink . '</div>';
     }
 
-    public function renderLastpostCell()
-    {
+    public function renderLastpostCell() {
         $lastpost = $this->lastPost;
-        if(null == $lastpost) return '<div style="text-align:center;">-</div>';
+        if (null == $lastpost)
+            return '<div style="text-align:center;">-</div>';
 
         $author = $lastpost->author;
 
         $authorlink = CHtml::link(CHtml::encode($author->username), $author->url);
 
-        return '<div class="level2">'. Yii::app()->controller->module->format_date($lastpost->created) .'</div>'.
-                '<div class="level3">by '. $authorlink .'</div>';
+        return '<div class="level2">' . Yii::app()->controller->module->format_date($lastpost->created) . '</div>' .
+                '<div class="level3">by ' . $authorlink . '</div>';
     }
 
 }

@@ -27,19 +27,19 @@ class SNotificationController extends Controller {
 
             $criteria1 = new CDbCriteria;
             $criteria1->condition = "`t`.`id` NOT IN (
-							SELECT `r`.`notification_id` FROM  `s_notification_message_read` `r` 
+							SELECT `r`.`notification_id` FROM  `s_notification_read` `r` 
 							WHERE `r`.`username` = " . Yii::app()->user->id . " AND `r`.`notification_id` = `t`.`id`)";
             $criteria->mergeWith($criteria1);
         }
 
         $criteria->order = 'expire DESC';
 
-        $model = sNotificationMessage::model()->find($criteria);
+        $model = sNotification::model()->find($criteria);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
 
         if ($add) {
-            $reads = new sNotificationMessageRead();
+            $reads = new sNotificationRead();
             $reads->username = Yii::app()->user->id;
             $reads->notification_id = $id;
             $reads->readed = true;
@@ -58,7 +58,7 @@ class SNotificationController extends Controller {
 
         $criteria1 = new CDbCriteria;
         $criteria1->condition = "`t`.`id` NOT IN (
-			SELECT `r`.`notification_id` FROM  `s_notification_message_read` `r` 
+			SELECT `r`.`notification_id` FROM  `s_notification_read` `r` 
 			WHERE `r`.`username` = " . Yii::app()->user->id . " AND `r`.`notification_id` = `t`.`id`)";
         $criteria->mergeWith($criteria1);
         $criteria->order = 'expire DESC';
@@ -87,7 +87,7 @@ class SNotificationController extends Controller {
         $criteria->order = 'expire DESC';
 
 
-        $dataProvider = new CActiveDataProvider('sNotificationMessage', array(
+        $dataProvider = new CActiveDataProvider('sNotification', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 50,
@@ -109,7 +109,7 @@ class SNotificationController extends Controller {
         $criteria = new CDbCriteria;
         $criteria->compare('id', $id);
         $criteria->addInCondition('group_id', sUser::model()->groupNotificationArray);
-        $model = sNotificationMessage::model()->find($criteria);
+        $model = sNotification::model()->find($criteria);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

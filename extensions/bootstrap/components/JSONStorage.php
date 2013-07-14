@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JSONStorage.php
  *
@@ -20,355 +21,326 @@
  * Date: 8/2/12
  * Time: 6:48 PM
  */
-class JSONStorage extends CComponent
-{
-	/**
-	 * const string the key to keep value information
-	 */
-	const META = 'meta';
+class JSONStorage extends CComponent {
+    /**
+     * const string the key to keep value information
+     */
 
-	/**
-	 * const string the key of the registry
-	 */
-	const REGISTRY = 'registry';
+    const META = 'meta';
 
-	/**
-	 * @var string the filename to save the values to
-	 */
-	protected  $filename = 'registry.json';
+    /**
+     * const string the key of the registry
+     */
+    const REGISTRY = 'registry';
 
-	/**
-	 * @var string the full path to the directory with read/write access to save the registry to. If none set, the
-	 * component will used the application's runtime folder
-	 */
-	protected $path;
+    /**
+     * @var string the filename to save the values to
+     */
+    protected $filename = 'registry.json';
 
-	/**
-	 * @var bool whether the registry has changed or not
-	 */
-	protected $dirty = false;
+    /**
+     * @var string the full path to the directory with read/write access to save the registry to. If none set, the
+     * component will used the application's runtime folder
+     */
+    protected $path;
 
-	/**
-	 * @var null|string the name of the default registry
-	 */
-	protected $default = "default";
+    /**
+     * @var bool whether the registry has changed or not
+     */
+    protected $dirty = false;
 
-	/**
-	 * @var array the data of the registry
-	 */
-	protected $data = array(
-		self::META => array(
-			"updated" => "",
-			"hash" => ""
-		),
-		self::REGISTRY => array(
-			/* collection name */
-			"default" => array(
-				"foo" => "bar" /* attributes by example */
-			)
-		)
-	);
+    /**
+     * @var null|string the name of the default registry
+     */
+    protected $default = "default";
 
-	/**
-	 * class constructor
-	 * @param null $registry
-	 */
-	public function __construct($registry = null)
-	{
-		if (null === $this->path)
-			$this->setPath(Yii::app()->getRuntimePath()); // JSON storage will be at the app runtime path
-		$this->setFile($this->filename);
+    /**
+     * @var array the data of the registry
+     */
+    protected $data = array(
+        self::META => array(
+            "updated" => "",
+            "hash" => ""
+        ),
+        self::REGISTRY => array(
+            /* collection name */
+            "default" => array(
+                "foo" => "bar" /* attributes by example */
+            )
+        )
+    );
 
-		$this->load();
+    /**
+     * class constructor
+     * @param null $registry
+     */
+    public function __construct($registry = null) {
+        if (null === $this->path)
+            $this->setPath(Yii::app()->getRuntimePath()); // JSON storage will be at the app runtime path
+        $this->setFile($this->filename);
 
-		// setup domain
-		if ($registry)
-		{
-			if ($this->registryExists($registry) == false)
-				$this->addRegistry($registry);
-			$this->default = $registry;
-		}
-	}
+        $this->load();
 
-	/**
-	 * class destructor - flush data
-	 */
-	public function __destruct()
-	{
-		$this->flush();
-	}
+        // setup domain
+        if ($registry) {
+            if ($this->registryExists($registry) == false)
+                $this->addRegistry($registry);
+            $this->default = $registry;
+        }
+    }
 
-	/**
-	 * Fires before registry has been saved
-	 * @param CEvent $event
-	 */
-	public function onBeforeSave($event)
-	{
-		$this->raiseEvent('onBeforeSave', $event);
-	}
+    /**
+     * class destructor - flush data
+     */
+    public function __destruct() {
+        $this->flush();
+    }
 
-	/**
-	 * Fires after the registry has been saved
-	 * @param CEvent $event
-	 */
-	public function onAfterSave($event)
-	{
-		$this->raiseEvent('onAfterSave', $event);
-	}
+    /**
+     * Fires before registry has been saved
+     * @param CEvent $event
+     */
+    public function onBeforeSave($event) {
+        $this->raiseEvent('onBeforeSave', $event);
+    }
 
-	/**
-	 * Property set path
-	 * @param string $path the full path of the directory with read/write access to save the registry file to
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function setPath($path)
-	{
-		if (is_dir($path) && is_writable($path))
-		{
-			$this->path = substr($path, -1) == DIRECTORY_SEPARATOR ? $path : $path . DIRECTORY_SEPARATOR;
-			return true;
-		}
-		throw new Exception('"Path" must be a writable directory.');
-	}
+    /**
+     * Fires after the registry has been saved
+     * @param CEvent $event
+     */
+    public function onAfterSave($event) {
+        $this->raiseEvent('onAfterSave', $event);
+    }
 
-	/**
-	 * Property get path
-	 * @return string
-	 */
-	public function getPath()
-	{
-		return $this->path;
-	}
+    /**
+     * Property set path
+     * @param string $path the full path of the directory with read/write access to save the registry file to
+     * @return bool
+     * @throws Exception
+     */
+    public function setPath($path) {
+        if (is_dir($path) && is_writable($path)) {
+            $this->path = substr($path, -1) == DIRECTORY_SEPARATOR ? $path : $path . DIRECTORY_SEPARATOR;
+            return true;
+        }
+        throw new Exception('"Path" must be a writable directory.');
+    }
 
-	/**
-	 * Property set file
-	 * @param string $file the filename to save the registry to
-	 */
-	public function setFile($file)
-	{
-		$this->filename = $this->path . $file;
-	}
+    /**
+     * Property get path
+     * @return string
+     */
+    public function getPath() {
+        return $this->path;
+    }
 
-	/**
-	 * Property get file
-	 * @return string filename
-	 */
-	public function getFile()
-	{
-		return $this->filename;
-	}
+    /**
+     * Property set file
+     * @param string $file the filename to save the registry to
+     */
+    public function setFile($file) {
+        $this->filename = $this->path . $file;
+    }
 
-	/**
-	 * Verifies data integrity
-	 * @return bool
-	 */
-	public function verify()
-	{
-		$registry = function_exists('json_encode') ? json_encode($this->data[self::REGISTRY]) : CJSON::encode($this->data[self::REGISTRY]);
-		return $this->data[self::META]["hash"] == md5($registry);
-	}
+    /**
+     * Property get file
+     * @return string filename
+     */
+    public function getFile() {
+        return $this->filename;
+    }
 
-	/**
-	 * Loads registry data into memory
-	 * @throws Exception
-	 */
-	public function load()
-	{
-		// load data
-		if (file_exists($this->getFile()))
-		{
-			$json = file_get_contents($this->getFile());
-			if (strlen($json) == 0)
-				return;
+    /**
+     * Verifies data integrity
+     * @return bool
+     */
+    public function verify() {
+        $registry = function_exists('json_encode') ? json_encode($this->data[self::REGISTRY]) : CJSON::encode($this->data[self::REGISTRY]);
+        return $this->data[self::META]["hash"] == md5($registry);
+    }
 
-			$this->data = $this->decode($json);
+    /**
+     * Loads registry data into memory
+     * @throws Exception
+     */
+    public function load() {
+        // load data
+        if (file_exists($this->getFile())) {
+            $json = file_get_contents($this->getFile());
+            if (strlen($json) == 0)
+                return;
 
-			if ($this->data === null)
-				throw new Exception('Error while trying to decode ' . $this->getFile() . '.');
+            $this->data = $this->decode($json);
 
-			if (!$this->verify())
-				throw new Exception($this->getFile() . ' failed checksum validation.');
-		}
-	}
+            if ($this->data === null)
+                throw new Exception('Error while trying to decode ' . $this->getFile() . '.');
 
-	/**
-	 * Saves registry data to the file
-	 */
-	public function save()
-	{
-		if ($this->hasEventHandler('onBeforeSave'))
-			$this->onBeforeSave(new CEvent($this));
-		$this->flush();
-		if ($this->hasEventHandler('onAfterSave'))
-			$this->onAfterSave(new CEvent($this));
-	}
+            if (!$this->verify())
+                throw new Exception($this->getFile() . ' failed checksum validation.');
+        }
+    }
 
-	/**
-	 * Saves data to the registry
-	 * @param string $key the name of the key that will hold the data
-	 * @param array $data the data to save
-	 * @param null $registry the name of the registry
-	 * @return bool
-	 */
-	public function setData($key, $data, $registry = null)
-	{
-		if ($registry == null)
-			$registry = $this->default;
-		if (is_string($key . $registry) && $this->registryExists($registry))
-		{
-			$this->data[self::REGISTRY][$registry][$key] = $data;
-			$this->dirty = true;
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Saves registry data to the file
+     */
+    public function save() {
+        if ($this->hasEventHandler('onBeforeSave'))
+            $this->onBeforeSave(new CEvent($this));
+        $this->flush();
+        if ($this->hasEventHandler('onAfterSave'))
+            $this->onAfterSave(new CEvent($this));
+    }
 
-	/**
-	 * Retrieves a data value from the registry
-	 * @param string $key the name of the key that holds the data
-	 * @param null $registry the registry name
-	 * @return mixed the data in the key value, null otherwise
-	 */
-	public function getData($key, $registry = null)
-	{
-		if ($registry == null)
-			$registry = $this->default;
-		if (is_string($key . $registry) && $this->registryExists($registry))
-		{
-			if (array_key_exists($key, $this->data[self::REGISTRY][$registry]))
-				return $this->data[self::REGISTRY][$registry][$key];
-		}
-		return null;
-	}
+    /**
+     * Saves data to the registry
+     * @param string $key the name of the key that will hold the data
+     * @param array $data the data to save
+     * @param null $registry the name of the registry
+     * @return bool
+     */
+    public function setData($key, $data, $registry = null) {
+        if ($registry == null)
+            $registry = $this->default;
+        if (is_string($key . $registry) && $this->registryExists($registry)) {
+            $this->data[self::REGISTRY][$registry][$key] = $data;
+            $this->dirty = true;
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Removes data from a key in the registry
-	 * @param string $key the key name that holds the data to remove
-	 * @param null $registry the registry name
-	 * @return bool true if successful, false otherwise
-	 */
-	public function removeData($key, $registry = null)
-	{
-		if ($registry == null)
-			$registry = $this->default;
+    /**
+     * Retrieves a data value from the registry
+     * @param string $key the name of the key that holds the data
+     * @param null $registry the registry name
+     * @return mixed the data in the key value, null otherwise
+     */
+    public function getData($key, $registry = null) {
+        if ($registry == null)
+            $registry = $this->default;
+        if (is_string($key . $registry) && $this->registryExists($registry)) {
+            if (array_key_exists($key, $this->data[self::REGISTRY][$registry]))
+                return $this->data[self::REGISTRY][$registry][$key];
+        }
+        return null;
+    }
 
-		if (is_string($key . $registry) && $this->registryExists($registry))
-		{
-			if (array_key_exists($key, $this->data[self::REGISTRY][$registry]))
-			{
-				unset($this->data[self::REGISTRY][$registry][$key]);
-				$this->dirty = true;
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Removes data from a key in the registry
+     * @param string $key the key name that holds the data to remove
+     * @param null $registry the registry name
+     * @return bool true if successful, false otherwise
+     */
+    public function removeData($key, $registry = null) {
+        if ($registry == null)
+            $registry = $this->default;
 
-	/**
-	 * Retrieves the number of keys in registry
-	 * @param null $registry the registry name
-	 * @return int the data length
-	 */
-	public function getLength($registry = null)
-	{
-		if ($registry == null)
-			$registry = $this->default;
-		if (is_string($registry) && $this->registryExists($registry))
-			return count($this->data[self::REGISTRY][$registry]);
-		return 0;
-	}
+        if (is_string($key . $registry) && $this->registryExists($registry)) {
+            if (array_key_exists($key, $this->data[self::REGISTRY][$registry])) {
+                unset($this->data[self::REGISTRY][$registry][$key]);
+                $this->dirty = true;
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * Retrieves a registry collection based on its name
-	 * @param string $registry the name of the registry to retrieve
-	 * @return mixed|null the registry, null if none found
-	 */
-	public function getRegistry($registry)
-	{
-		return $this->registryExists($registry) ? $this->data[self::REGISTRY][$registry] : null;
-	}
+    /**
+     * Retrieves the number of keys in registry
+     * @param null $registry the registry name
+     * @return int the data length
+     */
+    public function getLength($registry = null) {
+        if ($registry == null)
+            $registry = $this->default;
+        if (is_string($registry) && $this->registryExists($registry))
+            return count($this->data[self::REGISTRY][$registry]);
+        return 0;
+    }
 
-	/**
-	 * Checkes whether a collection exists (registry)
-	 * @param string $registry the name of the registry to check existence
-	 * @return bool
-	 */
-	public function registryExists($registry)
-	{
-		return array_key_exists($registry, $this->data[self::REGISTRY]);
-	}
+    /**
+     * Retrieves a registry collection based on its name
+     * @param string $registry the name of the registry to retrieve
+     * @return mixed|null the registry, null if none found
+     */
+    public function getRegistry($registry) {
+        return $this->registryExists($registry) ? $this->data[self::REGISTRY][$registry] : null;
+    }
 
-	/**
-	 * Add new collection name
-	 * @param string $registry the name of the registry (collection) to create
-	 * @return bool
-	 */
-	public function addRegistry($registry)
-	{
-		if ($this->registryExists($registry))
-			return false;
-		$this->data[self::REGISTRY][$registry] = array();
-		$this->dirty = true;
-		return true;
-	}
+    /**
+     * Checkes whether a collection exists (registry)
+     * @param string $registry the name of the registry to check existence
+     * @return bool
+     */
+    public function registryExists($registry) {
+        return array_key_exists($registry, $this->data[self::REGISTRY]);
+    }
 
-	/**
-	 * Remove an existing collection and all associated data
-	 * @param string $registry the name of the registry to remove
-	 * @return bool
-	 */
-	public function removeRegistry($registry)
-	{
-		if ($this->registryExists($registry))
-		{
-			unset($this->data[self::REGISTRY][$registry]);
-			$this->dirty = true;
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Add new collection name
+     * @param string $registry the name of the registry (collection) to create
+     * @return bool
+     */
+    public function addRegistry($registry) {
+        if ($this->registryExists($registry))
+            return false;
+        $this->data[self::REGISTRY][$registry] = array();
+        $this->dirty = true;
+        return true;
+    }
 
-	/**
-	 * Saves the global registry to the file
-	 * @return bool
-	 * @throws Exception
-	 */
-	private function flush()
-	{
-		// check if writeback is needed
-		if ($this->dirty == false)
-			return true;
-		// prepare to writeback to file
-		$data = $this->data;
-		$registry = $this->encode($this->data[self::REGISTRY]);
-		$data[self::META]["updated"] = date("c");
-		$data[self::META]["hash"] = md5($registry);
+    /**
+     * Remove an existing collection and all associated data
+     * @param string $registry the name of the registry to remove
+     * @return bool
+     */
+    public function removeRegistry($registry) {
+        if ($this->registryExists($registry)) {
+            unset($this->data[self::REGISTRY][$registry]);
+            $this->dirty = true;
+            return true;
+        }
+        return false;
+    }
 
-		// overwrite existing data
-		if (file_put_contents($this->getFile(), $this->encode($data)))
-			return true;
-		else
-			throw new Exception(strtr('Unable to write back to {FILE}. Data will be lost!', array('{FILE}' => $this->getFile())));
-	}
+    /**
+     * Saves the global registry to the file
+     * @return bool
+     * @throws Exception
+     */
+    private function flush() {
+        // check if writeback is needed
+        if ($this->dirty == false)
+            return true;
+        // prepare to writeback to file
+        $data = $this->data;
+        $registry = $this->encode($this->data[self::REGISTRY]);
+        $data[self::META]["updated"] = date("c");
+        $data[self::META]["hash"] = md5($registry);
 
-	/**
-	 * JSON encodes the data
-	 * @param string $data
-	 * @return string
-	 */
-	private function encode($data)
-	{
-		return function_exists('json_encode') ? json_encode($data) : CJSON::encode($data);
-	}
+        // overwrite existing data
+        if (file_put_contents($this->getFile(), $this->encode($data)))
+            return true;
+        else
+            throw new Exception(strtr('Unable to write back to {FILE}. Data will be lost!', array('{FILE}' => $this->getFile())));
+    }
 
-	/**
-	 * JSON decodes the data
-	 * @param string $data
-	 * @return mixed
-	 */
-	private function decode($data)
-	{
-		return function_exists('json_decode') ? json_decode($data, true) : CJSON::decode($data, true);
-	}
+    /**
+     * JSON encodes the data
+     * @param string $data
+     * @return string
+     */
+    private function encode($data) {
+        return function_exists('json_encode') ? json_encode($data) : CJSON::encode($data);
+    }
+
+    /**
+     * JSON decodes the data
+     * @param string $data
+     * @return mixed
+     */
+    private function decode($data) {
+        return function_exists('json_decode') ? json_decode($data, true) : CJSON::decode($data, true);
+    }
+
 }

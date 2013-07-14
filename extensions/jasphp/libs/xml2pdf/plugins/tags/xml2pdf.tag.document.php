@@ -1,4 +1,5 @@
 <?php
+
 /**
  * tag document plugin file.
  * @filesource
@@ -12,7 +13,6 @@
  * @version CVS $Id: xml2pdf.tag.document.php,v 1.3 2006/12/26 08:38:00 geelweb Exp $
  * @deprecated 0.6.10.11
  */
-
 // dependances {{{
 
 /**
@@ -38,5 +38,7 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  * @deprecated 0.6.10.11
  */ // }}}
 Class xml2pdf_tag_document extends Xml2PdfTag {
+    
 }
+
 ?>

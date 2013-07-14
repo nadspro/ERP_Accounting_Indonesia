@@ -36,7 +36,7 @@ $this->breadcrumbs = array(
             ?>
         </p>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
     </div>
 </div>
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperVariable
  *
@@ -7,13 +8,16 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="variable") */
 class JasperVariable extends AbstractJasper {
+
     public $name = null;
     public $class = null;
     public $resetType = null;
     public $calculation = null;
-    
+
     /** @BeanAnnotation(className="JasperVariableExpression") */
     public $variableExpression = null;
+
 }

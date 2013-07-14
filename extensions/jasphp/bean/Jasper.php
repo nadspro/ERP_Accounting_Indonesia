@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Jasper
  *
@@ -7,8 +8,10 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="jasperReport") */
 class Jasper extends AbstractJasper {
+
     public $name = null;
     public $pageWidth = null;
     public $pageHeight = null;

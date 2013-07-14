@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AbstractJasper
  *
@@ -8,7 +9,5 @@
  * @since 1.0
  */
 abstract class AbstractJasper {
-
 //    public $content = null;
-    
 }

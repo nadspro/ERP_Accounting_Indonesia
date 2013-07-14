@@ -1,67 +1,60 @@
 <?php
+
 /**
  * @author Weavora Team <hello@weavora.com>
  * @link http://weavora.com
  * @copyright Copyright (c) 2011 Weavora LLC
  */
-
 use WUnit\HttpKernel\Client;
 use WUnit\Http\YiiKernel;
 use WUnit\Http\YiiExitException;
 use WUnit\Http\YiiApplication;
 
+class WUnit extends CComponent {
 
+    private static $config = array();
+    private $_basePath = null;
 
-class WUnit extends CComponent
-{
+    public function init() {
+        // @todo what with 'header already sent' error?
+        error_reporting(E_ERROR);
 
-	private static $config = array();
-	private $_basePath = null;
+        $this->_basePath = dirname(__FILE__);
+    }
 
-	public function init()
-	{
-		// @todo what with 'header already sent' error?
-		error_reporting(E_ERROR);
+    public function createClient() {
+        $client = new Client(new YiiKernel());
+        return $client;
+    }
 
-		$this->_basePath = dirname(__FILE__);
-	}
+    public static function createWebApplication($config = null) {
+        if ($config !== null)
+            self::$config = $config;
 
-	public function createClient()
-	{
-		$client = new Client(new YiiKernel());
-		return $client;
-	}
+        spl_autoload_register(array('WUnit', 'autoload'));
 
-	public static function createWebApplication($config = null)
-	{
-		if ($config !== null)
-			self::$config = $config;
+        $basePath = dirname(__FILE__);
 
-		spl_autoload_register(array('WUnit', 'autoload'));
+        require_once($basePath . '/Http/YiiExitException.php');
+        require_once($basePath . '/Http/YiiApplication.php');
+        require_once($basePath . '/UploadedFile.php');
+        if (!defined('_PHP_INSULATE_'))
+            require_once($basePath . '/PHPUnit/ResultPrinter.php');
+        return new YiiApplication(self::$config);
+    }
 
-		$basePath = dirname(__FILE__);
+    public static function autoload($className) {
+        $basePath = dirname(__FILE__);
+        $className = str_replace("Symfony\\Component\\", "", $className);
+        $className = str_replace("WUnit\\", "", $className);
+        $className = str_replace("\\", "/", $className);
 
-		require_once($basePath . '/Http/YiiExitException.php');
-		require_once($basePath . '/Http/YiiApplication.php');
-		require_once($basePath . '/UploadedFile.php');
-		if (!defined('_PHP_INSULATE_'))
-			require_once($basePath . '/PHPUnit/ResultPrinter.php');
-		return new YiiApplication(self::$config);
-	}
+        $filePath = $basePath . DIRECTORY_SEPARATOR . $className . ".php";
 
-	public static function autoload($className)
-	{
-		$basePath = dirname(__FILE__);
-		$className = str_replace("Symfony\\Component\\", "", $className);
-		$className = str_replace("WUnit\\", "", $className);
-		$className = str_replace("\\", "/", $className);
+        if (!file_exists($filePath))
+            return false;
 
-		$filePath = $basePath . DIRECTORY_SEPARATOR . $className . ".php";
-
-		if (!file_exists($filePath))
-			return false;
-
-		require_once $filePath;
-	}
+        require_once $filePath;
+    }
 
 }

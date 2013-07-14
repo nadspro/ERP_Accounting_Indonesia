@@ -2,31 +2,29 @@
 
 Yii::import('zii.widgets.CPortlet');
 
-class treeviewBudget extends CPortlet
-{
-	public function init()
-	{
-		//$this->title='Tree Budget';
-		parent::init();
-	}
+class treeviewBudget extends CPortlet {
 
-	public function getId()
-	{
-		$value = 1;
+    public function init() {
+        //$this->title='Tree Budget';
+        parent::init();
+    }
 
-		foreach ($_GET as $key => $val)
-			if ($key == 'id')
-			return $val;
+    public function getId() {
+        $value = 1;
 
-		return $value;
-	}
+        foreach ($_GET as $key => $val)
+            if ($key == 'id')
+                return $val;
 
-	protected function renderContent()
-	{
-		$getId=$this->getId();
+        return $value;
+    }
 
-		$this->render('treeviewBudget',array(
-				'getId'=>$getId,
-		));
-	}
+    protected function renderContent() {
+        $getId = $this->getId();
+
+        $this->render('treeviewBudget', array(
+            'getId' => $getId,
+        ));
+    }
+
 }

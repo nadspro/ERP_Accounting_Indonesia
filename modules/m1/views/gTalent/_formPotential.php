@@ -38,7 +38,7 @@ Yii::app()->clientScript->registerScript('datepicker5', "
 
     <?php echo $form->hiddenField($model, 'qualification', array('value' => 0)); ?>
 
-        <?php echo $form->textAreaRow($model, 'remark', array('rows' => 3, 'class' => 'span5')); ?>
+    <?php echo $form->textAreaRow($model, 'remark', array('rows' => 3, 'class' => 'span5')); ?>
 
     <div class="form-actions">
         <?php
@@ -51,6 +51,6 @@ Yii::app()->clientScript->registerScript('datepicker5', "
     </div>
 
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->

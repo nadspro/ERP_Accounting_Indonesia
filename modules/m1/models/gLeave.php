@@ -305,7 +305,7 @@ class gLeave extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/gLeave/view/id/' . $this->parent_id, 'Leave. New Leave created: ' . $this->person->employee_name
+                    1, 'm1/gLeave/view/id/' . $this->parent_id, 'Leave. New Leave created: ' . strtotupper($this->person->employee_name)
             );
         }
         return true;

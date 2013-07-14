@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Io.
  * @filesource
@@ -6,11 +7,10 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @package Io
  * @version CVS: $Id: Io.php,v 1.4 2007/01/05 23:04:02 geelweb Exp $
  */
-
 // doc {{{
 /**
  * Manage the command-line.
@@ -62,13 +62,13 @@
  * @author guillaume l. <guillaume@geelweb.org>
  * @link http://www.geelweb.org
  * @license http://opensource.org/licenses/bsd-license.php BSD License
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @package Io
  * @version CVS: $Id: Io.php,v 1.4 2007/01/05 23:04:02 geelweb Exp $
  */ // }}}
 class Io {
     // class properties {{{
-    
+
     /**
      * Available command-line arguments.
      *
@@ -111,7 +111,7 @@ class Io {
      * @var string
      */
     protected $usage;
-    
+
     // }}}
     // Io::__construct() {{{
 
@@ -124,7 +124,7 @@ class Io {
      * @param string $usage Command line usage
      * @return void
      */
-    public function __construct($app='', $usage='') {
+    public function __construct($app = '', $usage = '') {
         $this->app = $app;
         $this->usage = $usage;
 
@@ -146,14 +146,14 @@ class Io {
      * @param array $valieValues valid values for options
      * @return void
      */
-    public function addOption($option, $tag, $shortcut, $help='', $type=false, $validValues=false) {
+    public function addOption($option, $tag, $shortcut, $help = '', $type = false, $validValues = false) {
         $this->args[$option] = array(
-            'tag' => array('-'.$shortcut, '--'.$tag),
+            'tag' => array('-' . $shortcut, '--' . $tag),
             'desc' => $help);
-        if($type && is_string($type)) {
+        if ($type && is_string($type)) {
             $this->args[$option]['type'] = $type;
         }
-        if($validValues && is_array($validValues)) {
+        if ($validValues && is_array($validValues)) {
             $this->args[$option]['validvalues'] = $validValues;
         }
     }
@@ -168,11 +168,11 @@ class Io {
      * @param boolean $merge Merge the options width existing options.
      * @return void
      */
-    public function setOptions($opts, $merge=false) {
-        if(!is_array($opts)) {
+    public function setOptions($opts, $merge = false) {
+        if (!is_array($opts)) {
             $this->_showErrorMsg('Io::setOptions() opts param must be an array.');
         }
-        if($merge) {
+        if ($merge) {
             $this->args += $opts;
         } else {
             $this->args = $opts;
@@ -181,7 +181,7 @@ class Io {
 
     // }}}
     // Io:setDefaults() {{{
-    
+
     /**
      * Set the defaults command line options values.
      *
@@ -189,15 +189,15 @@ class Io {
      * @return void
      */
     public function setDefaults($defaults) {
-        if(!is_array($defaults)) {
+        if (!is_array($defaults)) {
             $this->_showErrorMsg('Io::setDefaults() defaults param must be an array');
         }
         $this->defaultsOpts = $defaults;
     }
-    
+
     // }}}
     // Io::displayHelpMessage() {{{
-    
+
     /**
      * Display the help message.
      *
@@ -212,27 +212,27 @@ class Io {
         $ret = "\n{$this->app} usage :\n";
         $ret .= $spacer . "{$this->usage}\n";
         $ret .= "\n{$this->app} options :\n";
-        
-        foreach($this->args as $option) {
-            $tag ="";
+
+        foreach ($this->args as $option) {
+            $tag = "";
             $desc = "";
-            if(isset($option['tag'])) {
-                foreach($option['tag'] as $param) {
+            if (isset($option['tag'])) {
+                foreach ($option['tag'] as $param) {
                     $tag .= $spacer . $param;
                 }
             }
-            if(isset($option['desc'])) {
+            if (isset($option['desc'])) {
                 $desc = $bigSpacer . $option['desc'];
             }
             $ret .= $tag . "\n" . $desc . "\n";
-        }        
+        }
         $ret .= "\n";
         return $ret;
     }
 
     // }}}
     // Io::parseArgv() {{{
-    
+
     /**
      * Parse the command-line arguments.
      *
@@ -251,14 +251,14 @@ class Io {
      */
     public function parseArgv() {
         global $argv;
-        
+
         // set default setting
         $setting = $this->defaultsOpts;
-        
+
         $valnext = "junk";
         $data = array();
-        
-        if(isset($argv) && is_array($argv)) {
+
+        if (isset($argv) && is_array($argv)) {
             foreach ($argv as $cmd) {
                 if ($cmd == '--') {
                     continue;
@@ -269,15 +269,15 @@ class Io {
                 }
                 try {
                     $setting[$valnext] = $this->_validOption($valnext, $cmd);
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     $this->_showErrorMsg($e->getMessage());
                 }
-                foreach( $this->args as $name => $data ) {
+                foreach ($this->args as $name => $data) {
                     if (!empty($data['tag'])) {
-                        if (in_array($cmd,$data['tag'])) {
+                        if (in_array($cmd, $data['tag'])) {
                             $valnext = $name;
                             // Maybe it's the last tag ?
-                            if(isset($this->args[$valnext]['type']) && $this->args[$valnext]['type']=='use') {
+                            if (isset($this->args[$valnext]['type']) && $this->args[$valnext]['type'] == 'use') {
                                 $setting[$valnext] = true;
                             }
                             break;
@@ -286,7 +286,7 @@ class Io {
                         }
                     }
                 }
-                if ($valnext == 'junk' && (strpos(trim($cmd),'-') === 0)) {
+                if ($valnext == 'junk' && (strpos(trim($cmd), '-') === 0)) {
                     $this->_showErrorMsg("Unknow command line option: $cmd (use -h option to display help message).");
                 }
             }
@@ -299,7 +299,7 @@ class Io {
 
     // }}}
     // Io::_showErrorMsg() {{{
-    
+
     /**
      * Show an error message
      *
@@ -310,10 +310,10 @@ class Io {
         echo "$msg\n";
         die();
     }
-    
+
     // }}}
     // Io::_validOption() {{{
-    
+
     /**
      * Check the validation rules for an option.
      *
@@ -322,23 +322,22 @@ class Io {
      * @return mixed
      */
     private function _validOption($opt, $value) {
-        if(isset($this->args[$opt]['type']) && $this->args[$opt]['type']=='set') {
-            if(!in_array($value, $this->args[$opt]['validvalues'], true)) {
-                throw new Exception(sprintf("Invalid value %s for option %s (%s).\n    Valid values are: %s\n",
-                    $value, implode(',', $this->args[$opt]['tag']), $opt, 
-                    implode(',', $this->args[$opt]['validvalues'])));
+        if (isset($this->args[$opt]['type']) && $this->args[$opt]['type'] == 'set') {
+            if (!in_array($value, $this->args[$opt]['validvalues'], true)) {
+                throw new Exception(sprintf("Invalid value %s for option %s (%s).\n    Valid values are: %s\n", $value, implode(',', $this->args[$opt]['tag']), $opt, implode(',', $this->args[$opt]['validvalues'])));
             }
             return $value;
         }
-        if(isset($this->args[$opt]['type']) && $this->args[$opt]['type']=='use') {
-            if(!(strpos(trim($value), '-')===0 || strpos(trim($value), '--')===0)) {
+        if (isset($this->args[$opt]['type']) && $this->args[$opt]['type'] == 'use') {
+            if (!(strpos(trim($value), '-') === 0 || strpos(trim($value), '--') === 0)) {
                 throw new Exception(sprintf("%s option do not must have a value.\n", $opt));
             }
             return true;
         }
         return $value;
     }
-    
+
     // }}}
 }
+
 ?>

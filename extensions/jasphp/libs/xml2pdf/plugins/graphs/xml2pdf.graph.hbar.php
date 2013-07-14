@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Xml2Pdf horizontal bar graph plugin file.
  * @filesource
@@ -6,12 +7,11 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.graph.hbar.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Graph
  */
-
 // doc {{{
 
 /**
@@ -30,7 +30,7 @@
  * @author guillaume l. <guillaume@geelweb.org> 
  * @link http://www.geelweb.org geelweb-dot-org 
  * @license http://opensource.org/licenses/bsd-license.php BSD License 
- * @copyright Copyright © 2006, guillaume luchet
+ * @copyright Copyright ï¿½ 2006, guillaume luchet
  * @version CVS: $Id: xml2pdf.graph.hbar.php,v 1.5 2007/01/05 23:07:31 geelweb Exp $
  * @package Xml2Pdf
  * @subpackage Graph
@@ -38,12 +38,14 @@
  */ // }}}
 class xml2pdf_graph_hbar {
     // xml2pdf_graph_hbar::__construct() {{{
-    
+
     /**
      * Constructor.
      *
      */
-    public function __construct() {}
+    public function __construct() {
+        
+    }
 
     // }}}
     // xml2pdf_graph_hbar::render() {{{
@@ -57,7 +59,7 @@ class xml2pdf_graph_hbar {
     public static function render($graph) {
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $graph->setLegends();
- 
+
         $XPage = $graph->pdf->GetX();
         $YPage = $graph->pdf->GetY();
         $marge = 2;
@@ -65,7 +67,7 @@ class xml2pdf_graph_hbar {
         $hDiag = floor($graph->height - $marge * 2);
         $XDiag = $XPage + $marge * 2 + $graph->legendWidth;
         $lDiag = floor($graph->width - $marge * 3 - $graph->legendWidth);
-        if($graph->color == null) {
+        if ($graph->color == null) {
             $graph->color = Xml2Pdf::getColor();
         }
         if ($graph->maxValRepere == 0) {
@@ -79,16 +81,16 @@ class xml2pdf_graph_hbar {
         $hBaton = floor($hDiag / ($graph->nbVal + 1));
         $hDiag = $hBaton * ($graph->nbVal + 1);
         $eBaton = floor($hBaton * 80 / 100);
- 
+
         $graph->pdf->SetLineWidth(0.2);
         $graph->pdf->Rect($XDiag, $YDiag, $lDiag, $hDiag);
- 
+
         //Echelles
         $tab = Xml2Pdf::ConvertColor('#dcdcdc');
-        $graph->pdf->SetDrawColor($tab['r'],$tab['g'],$tab['b']);
-        for ($i=0 ; $i<=$graph->nbIndRepere ; $i++) {
+        $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
+        for ($i = 0; $i <= $graph->nbIndRepere; $i++) {
             $xpos = $XDiag + $lRepere * $i;
-            if($i>0 && $i<$graph->nbIndRepere) {
+            if ($i > 0 && $i < $graph->nbIndRepere) {
                 $graph->pdf->Line($xpos, $YDiag, $xpos, $YDiag + $hDiag);
             }
             $val = $i * $valIndRepere;
@@ -96,28 +98,28 @@ class xml2pdf_graph_hbar {
             $ypos = $YDiag + $hDiag - $marge;
             $graph->pdf->Text($xpos, $ypos, $val);
         }
- 
+
         $tab = Xml2Pdf::ConvertColor('#000000');
-        $graph->pdf->SetDrawColor($tab['r'],$tab['g'],$tab['b']);
+        $graph->pdf->SetDrawColor($tab['r'], $tab['g'], $tab['b']);
         $graph->pdf->SetFont('Courier', '', $graph->fontSize);
         $tab = Xml2Pdf::ConvertColor($graph->color);
         $graph->pdf->SetFillColor($tab['r'], $tab['g'], $tab['b']);
-        $i=0;
-        foreach($graph->data as $val) {
+        $i = 0;
+        foreach ($graph->data as $val) {
             //Barre
             $xval = $XDiag;
-            $lval = (int)($val * $unite);
+            $lval = (int) ($val * $unite);
             $yval = $YDiag + ($i + 1) * $hBaton - $eBaton / 2;
             $hval = $eBaton;
             $graph->pdf->Rect($xval, $yval, $lval, $hval, 'DF');
-            //Légende
+            //Lï¿½gende
             $graph->pdf->SetXY(0, $yval);
-            $graph->pdf->Cell($xval - $marge, $hval, $graph->legends[$i],0,0,'R');
+            $graph->pdf->Cell($xval - $marge, $hval, $graph->legends[$i], 0, 0, 'R');
             $i++;
         }
     }
-    
+
     // }}}
 }
- 
+
 ?>

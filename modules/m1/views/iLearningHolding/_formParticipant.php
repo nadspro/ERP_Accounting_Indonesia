@@ -9,7 +9,7 @@
 Yii::app()->getClientScript()->registerCoreScript('jquery.ui');
 
 
-Yii::app()->clientScript->registerScript('datepicker', "
+Yii::app()->clientScript->registerScript('autocom', "
 		$(function() {
 		$( \"#" . CHtml::activeId($model, 'employee_name') . "\" ).autocomplete({
 			'minLength' : 2,

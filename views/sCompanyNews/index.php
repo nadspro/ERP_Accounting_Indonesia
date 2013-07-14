@@ -52,9 +52,9 @@ $this->menu2 = sCompanyNews::getTopCreated();
         ));
         ?>
 
-<?php $this->renderPartial("/site/_category", array('category_id' => 1)) ?>
-<?php $this->renderPartial("/site/_category", array('category_id' => 2)) ?>
-<?php $this->renderPartial("/site/_category", array('category_id' => 3)) ?>
+        <?php $this->renderPartial("/site/_category", array('category_id' => 1)) ?>
+        <?php $this->renderPartial("/site/_category", array('category_id' => 2)) ?>
+        <?php $this->renderPartial("/site/_category", array('category_id' => 3)) ?>
     </div>
 </div>
 

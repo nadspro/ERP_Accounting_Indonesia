@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Message translations.
  *
@@ -13,21 +14,21 @@
  *
  * @version $Id: $
  */
-return array (
-		'An error occurred while installing Rights.' => '',
-		'Application authorization manager must extend the RDbAuthManager class.' => '',
-		'Application web user must extend the RWebUser class.' => '',
-		'Error' => '',
-		'Please try again or consult the documentation.' => '',
-		'Congratulations!' => 'Félicitation!',
-		'Install Rights' => 'Installer Rights',
-		'No' => 'Non',
-		'Notice: All your existing data will be lost.' => 'Note: Toutes vos données existantes seront effacées',
-		'Please confirm if you wish to reinstall.' => 'Veuillez confirmer que souhaitez re-installer',
-		'Rights has been installed succesfully.' => 'Rights a été installé avec succès',
-		'Rights is already installed!' => 'Rights est déjà installé',
-		'Yes' => 'Oui',
-		'You can start by generating your authorization items' => 'Vous pouvez commencer à générer vos éléments d\'autorisation',
-		'You must be logged in to install Rights.' => 'Vous devez être connecté pour installer Rights',
-		'here' => 'ici',
-		);
+return array(
+    'An error occurred while installing Rights.' => '',
+    'Application authorization manager must extend the RDbAuthManager class.' => '',
+    'Application web user must extend the RWebUser class.' => '',
+    'Error' => '',
+    'Please try again or consult the documentation.' => '',
+    'Congratulations!' => 'Félicitation!',
+    'Install Rights' => 'Installer Rights',
+    'No' => 'Non',
+    'Notice: All your existing data will be lost.' => 'Note: Toutes vos données existantes seront effacées',
+    'Please confirm if you wish to reinstall.' => 'Veuillez confirmer que souhaitez re-installer',
+    'Rights has been installed succesfully.' => 'Rights a été installé avec succès',
+    'Rights is already installed!' => 'Rights est déjà installé',
+    'Yes' => 'Oui',
+    'You can start by generating your authorization items' => 'Vous pouvez commencer à générer vos éléments d\'autorisation',
+    'You must be logged in to install Rights.' => 'Vous devez être connecté pour installer Rights',
+    'here' => 'ici',
+);

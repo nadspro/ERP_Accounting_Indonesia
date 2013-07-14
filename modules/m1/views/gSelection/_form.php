@@ -42,11 +42,11 @@ Yii::app()->clientScript->registerScript('datepicker4', "
         <?php echo $form->textFieldRow($model, 'input_date', array('value' => date("d-m-Y"))); ?>
         <?php echo $form->textFieldRow($model, 'code', array('class' => 'span2')); ?>
         <?php echo $form->textFieldRow($model, 'candidate_name', array('class' => 'span5')); ?>
-<?php echo $form->textFieldRow($model, 'for_position', array('class' => 'span3')); ?>
-            <?php echo $form->textAreaRow($model, 'job_description', array('class' => 'span6', 'rows' => 3)); ?>
+        <?php echo $form->textFieldRow($model, 'for_position', array('class' => 'span3')); ?>
+        <?php echo $form->textAreaRow($model, 'job_description', array('class' => 'span6', 'rows' => 3)); ?>
 
         <div class="control-group">
-                <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
+            <?php echo $form->labelEx($model, 'company_id', array("class" => "control-label")); ?>
             <div class="controls">
                 <?php
                 echo $form->dropDownList($model, 'company_id', aOrganization::model()->companyDropDown(), array(
@@ -79,7 +79,7 @@ Yii::app()->clientScript->registerScript('datepicker4', "
         <?php echo $form->dropDownListRow($model, 'source_id', sParameter::items('cSelectionSource')); ?>
         <?php echo $form->textAreaRow($model, 'operation_remark', array('class' => 'span6', 'rows' => 5)); ?>
         <?php echo $form->textFieldRow($model, 'document_date'); ?>
-<?php echo $form->textAreaRow($model, 'document_remark', array('class' => 'span6', 'rows' => 5)); ?>
+        <?php echo $form->textAreaRow($model, 'document_remark', array('class' => 'span6', 'rows' => 5)); ?>
 
         <div class="form-actions">
             <?php
@@ -91,7 +91,7 @@ Yii::app()->clientScript->registerScript('datepicker4', "
             ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div><!-- form -->

@@ -323,7 +323,9 @@ class hApplicant extends BaseModel {
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
 					<= '" . date("Y") . "-05-31') as `201305`,
 				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
-					<= '" . date("Y") . "-06-30') as `201306`
+					<= '" . date("Y") . "-06-30') as `201306`,
+				(select count(`a`.`id`) from `h_applicant` `a` where FROM_UNIXTIME(created_date) 
+					<= '" . date("Y") . "-07-30') as `201307`
 
 
 
@@ -344,12 +346,12 @@ class hApplicant extends BaseModel {
             $_data[] = (int) $row['201304'];
             $_data[] = (int) $row['201305'];
             $_data[] = (int) $row['201306'];
-            //$_data[]=(int)$row['l07'];
-            //$_data[]=(int)$row['l08'];
-            //$_data[]=(int)$row['l09'];
-            //$_data[]=(int)$row['l10'];
-            //$_data[]=(int)$row['l11'];
-            //$_data[]=(int)$row['l12'];
+            $_data[] = (int) $row['201307'];
+            //$_data[] = (int) $row['201308'];
+            //$_data[] = (int) $row['201309'];
+            //$_data[] = (int) $row['201310'];
+            //$_data[] = (int) $row['201311'];
+            //$_data[] = (int) $row['201312'];
             $_name['name'] = $row['state'];
             $_second['data'] = $_data;
             $_merge[] = array_merge($_name, $_second);

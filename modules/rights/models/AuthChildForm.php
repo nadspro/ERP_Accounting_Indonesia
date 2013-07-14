@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Auth item child form class file.
  *
@@ -6,27 +7,26 @@
  * @copyright Copyright &copy; 2010 Christoffer Niska
  * @since 0.9
  */
-class AuthChildForm extends CFormModel
-{
-	public $itemname;
+class AuthChildForm extends CFormModel {
 
-	/**
-	 * Declares the validation rules.
-	 */
-	public function rules()
-	{
-		return array(
-				array('itemname', 'safe'),
-		);
-	}
+    public $itemname;
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-				'itemname' => Rights::t('core', 'Authorization item'),
-		);
-	}
+    /**
+     * Declares the validation rules.
+     */
+    public function rules() {
+        return array(
+            array('itemname', 'safe'),
+        );
+    }
+
+    /**
+     * Declares attribute labels.
+     */
+    public function attributeLabels() {
+        return array(
+            'itemname' => Rights::t('core', 'Authorization item'),
+        );
+    }
+
 }

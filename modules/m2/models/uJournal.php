@@ -105,7 +105,7 @@ class uJournal extends BaseModel {
         $returnarray = array();
 
         foreach ($models as $model) {
-            $returnarray[] = array('id' => $model->system_ref, 'label' => '...' . substr($model->system_ref, strlen($model->system_ref) - 15, 15), 'icon' => 'list-alt', 'url' => array('view', 'id' => $model->id));
+            $returnarray[] = array('id' => $model->system_ref, 'label' => $model->system_ref, 'description' => peterFunc::shorten_string($model->remark, 8), 'icon' => 'list-alt', 'url' => array('view', 'id' => $model->id));
         }
 
         return $returnarray;

@@ -24,7 +24,7 @@
         "symfony/process": "self.version"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Component\\BrowserKit": "" }
+        "psr-0": {"Symfony\\Component\\BrowserKit": ""}
     },
     "target-dir": "Symfony/Component/BrowserKit"
 }

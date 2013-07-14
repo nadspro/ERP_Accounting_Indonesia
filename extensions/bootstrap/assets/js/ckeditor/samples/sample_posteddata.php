@@ -1,6 +1,6 @@
 <?php /* <body><pre>
 
--------------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------
   CKEditor - Posted Data
 
   We are sorry, but your Web server does not support the PHP language used in this script.
@@ -11,6 +11,6 @@
 
   Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
   For licensing, see LICENSE.html or <a href="http://ckeditor.com/license">http://ckeditor.com/license</a>
--------------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------
 
-</pre><div style="display:none"></body> */ include "assets/posteddata.php"; ?>
+  </pre><div style="display:none"></body> */ include "assets/posteddata.php"; ?>

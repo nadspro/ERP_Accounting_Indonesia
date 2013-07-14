@@ -1,5 +1,6 @@
 <?php
-/*## TbListView class file.
+
+/* ## TbListView class file.
  *
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
@@ -12,45 +13,45 @@ Yii::import('zii.widgets.CListView');
 /**
  * Bootstrap Zii list view.
  */
-class TbListView extends CListView
-{
-	/**
-	 * @var string the CSS class name for the pager container. Defaults to 'pagination'.
-	 */
-	public $pagerCssClass = 'pagination';
+class TbListView extends CListView {
 
-	/**
-	 * @var array the configuration for the pager.
-	 * Defaults to <code>array('class'=>'ext.bootstrap.widgets.TbPager')</code>.
-	 */
-	public $pager = array('class'=>'bootstrap.widgets.TbPager');
+    /**
+     * @var string the CSS class name for the pager container. Defaults to 'pagination'.
+     */
+    public $pagerCssClass = 'pagination';
 
-	/**
-	 * @var string the URL of the CSS file used by this detail view.
-	 * Defaults to false, meaning that no CSS will be included.
-	 */
-	public $cssFile = false;
+    /**
+     * @var array the configuration for the pager.
+     * Defaults to <code>array('class'=>'ext.bootstrap.widgets.TbPager')</code>.
+     */
+    public $pager = array('class' => 'bootstrap.widgets.TbPager');
 
-	/**
-	 *### .init()
-	 *
-	 * Initializes the widget.
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     * @var string the URL of the CSS file used by this detail view.
+     * Defaults to false, meaning that no CSS will be included.
+     */
+    public $cssFile = false;
 
-		$popover = Yii::app()->bootstrap->popoverSelector;
-		$tooltip = Yii::app()->bootstrap->tooltipSelector;
+    /**
+     * ### .init()
+     *
+     * Initializes the widget.
+     */
+    public function init() {
+        parent::init();
 
-		$afterAjaxUpdate = "js:function() {
+        $popover = Yii::app()->bootstrap->popoverSelector;
+        $tooltip = Yii::app()->bootstrap->tooltipSelector;
+
+        $afterAjaxUpdate = "js:function() {
 			jQuery('.popover').remove();
 			jQuery('{$popover}').popover();
 			jQuery('.tooltip').remove();
 			jQuery('{$tooltip}').tooltip();
 		}";
 
-		if (!isset($this->afterAjaxUpdate))
-			$this->afterAjaxUpdate = $afterAjaxUpdate;
-	}
+        if (!isset($this->afterAjaxUpdate))
+            $this->afterAjaxUpdate = $afterAjaxUpdate;
+    }
+
 }

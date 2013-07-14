@@ -1,4 +1,5 @@
 <?php
+
 /**
  * point tag plugin file.
  * @filesource
@@ -11,7 +12,6 @@
  * @package Xml2Pdf
  * @subpackage Tag
  */
-
 // dependances {{{
 
 /**
@@ -46,7 +46,7 @@ Yii::import('ext.jasPHP.libs.xml2pdf.main.Xml2PdfTag');
  */ // }}}
 class xml2pdf_tag_point extends Xml2PdfTag {
     // xml2pdf_tag_point::__construct() {{{
-    
+
     /**
      * Constructor
      * 
@@ -57,13 +57,14 @@ class xml2pdf_tag_point extends Xml2PdfTag {
      * @return void 
      */
     public function __construct(&$attributes, $parentTag) {
-        if(!isset($attributes['X']) || !isset($attributes['Y'])) {
+        if (!isset($attributes['X']) || !isset($attributes['Y'])) {
             Xml2Pdf::showError('Tag point must have x and y attributes.');
         }
         $parentTag->graph->data[$parentTag->legend]['x'][] = $attributes['X'];
         $parentTag->graph->data[$parentTag->legend]['y'][] = $attributes['Y'];
     }
-    
+
     // }}}
 }
+
 ?>

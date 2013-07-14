@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\HttpFoundation\SessionStorage;
 
@@ -21,171 +21,161 @@ namespace Symfony\Component\HttpFoundation\SessionStorage;
  *
  * @api
  */
-class FilesystemSessionStorage extends NativeSessionStorage
-{
-	/**
-	 * File path.
-	 *
-	 * @var string
-	 */
-	private $path;
+class FilesystemSessionStorage extends NativeSessionStorage {
 
-	/**
-	 * Data.
-	 *
-	 * @var array
-	 */
-	private $data;
+    /**
+     * File path.
+     *
+     * @var string
+     */
+    private $path;
 
-	/**
-	 * Session started flag.
-	 *
-	 * @var boolean
-	 */
-	private $started;
+    /**
+     * Data.
+     *
+     * @var array
+     */
+    private $data;
 
-	/**
-	 * Constructor.
-	 */
-	public function __construct($path, array $options = array())
-	{
-		$this->path = $path;
-		$this->started = false;
+    /**
+     * Session started flag.
+     *
+     * @var boolean
+     */
+    private $started;
 
-		parent::__construct($options);
-	}
+    /**
+     * Constructor.
+     */
+    public function __construct($path, array $options = array()) {
+        $this->path = $path;
+        $this->started = false;
 
-	/**
-	 * Starts the session.
-	 *
-	 * @api
-	 */
-	public function start()
-	{
-		if ($this->started) {
-			return;
-		}
+        parent::__construct($options);
+    }
 
-		session_set_cookie_params(
-				$this->options['lifetime'],
-				$this->options['path'],
-				$this->options['domain'],
-				$this->options['secure'],
-				$this->options['httponly']
-		);
+    /**
+     * Starts the session.
+     *
+     * @api
+     */
+    public function start() {
+        if ($this->started) {
+            return;
+        }
 
-		if (!ini_get('session.use_cookies') && isset($this->options['id']) && $this->options['id'] && $this->options['id'] != session_id()) {
-			session_id($this->options['id']);
-		}
+        session_set_cookie_params(
+                $this->options['lifetime'], $this->options['path'], $this->options['domain'], $this->options['secure'], $this->options['httponly']
+        );
 
-		if (!session_id()) {
-			session_id(hash('md5', uniqid(mt_rand(), true)));
-		}
+        if (!ini_get('session.use_cookies') && isset($this->options['id']) && $this->options['id'] && $this->options['id'] != session_id()) {
+            session_id($this->options['id']);
+        }
 
-		$file = $this->path.'/'.session_id().'.session';
+        if (!session_id()) {
+            session_id(hash('md5', uniqid(mt_rand(), true)));
+        }
 
-		$this->data = is_file($file) ? unserialize(file_get_contents($file)) : array();
-		$this->started = true;
-	}
+        $file = $this->path . '/' . session_id() . '.session';
 
-	/**
-	 * Returns the session ID
-	 *
-	 * @return mixed  The session ID
-	 *
-	 * @throws \RuntimeException If the session was not started yet
-	 *
-	 * @api
-	 */
-	public function getId()
-	{
-		if (!$this->started) {
-			throw new \RuntimeException('The session must be started before reading its ID');
-		}
+        $this->data = is_file($file) ? unserialize(file_get_contents($file)) : array();
+        $this->started = true;
+    }
 
-		return session_id();
-	}
+    /**
+     * Returns the session ID
+     *
+     * @return mixed  The session ID
+     *
+     * @throws \RuntimeException If the session was not started yet
+     *
+     * @api
+     */
+    public function getId() {
+        if (!$this->started) {
+            throw new \RuntimeException('The session must be started before reading its ID');
+        }
 
-	/**
-	 * Reads data from this storage.
-	 *
-	 * The preferred format for a key is directory style so naming conflicts can be avoided.
-	 *
-	 * @param  string $key  A unique key identifying your data
-	 *
-	 * @return mixed Data associated with the key
-	 *
-	 * @throws \RuntimeException If an error occurs while reading data from this storage
-	 *
-	 * @api
-	 */
-	public function read($key, $default = null)
-	{
-		return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
-	}
+        return session_id();
+    }
 
-	/**
-	 * Removes data from this storage.
-	 *
-	 * The preferred format for a key is directory style so naming conflicts can be avoided.
-	 *
-	 * @param  string $key  A unique key identifying your data
-	 *
-	 * @return mixed Data associated with the key
-	 *
-	 * @throws \RuntimeException If an error occurs while removing data from this storage
-	 *
-	 * @api
-	 */
-	public function remove($key)
-	{
-		$retval = $this->data[$key];
+    /**
+     * Reads data from this storage.
+     *
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
+     *
+     * @param  string $key  A unique key identifying your data
+     *
+     * @return mixed Data associated with the key
+     *
+     * @throws \RuntimeException If an error occurs while reading data from this storage
+     *
+     * @api
+     */
+    public function read($key, $default = null) {
+        return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
+    }
 
-		unset($this->data[$key]);
+    /**
+     * Removes data from this storage.
+     *
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
+     *
+     * @param  string $key  A unique key identifying your data
+     *
+     * @return mixed Data associated with the key
+     *
+     * @throws \RuntimeException If an error occurs while removing data from this storage
+     *
+     * @api
+     */
+    public function remove($key) {
+        $retval = $this->data[$key];
 
-		return $retval;
-	}
+        unset($this->data[$key]);
 
-	/**
-	 * Writes data to this storage.
-	 *
-	 * The preferred format for a key is directory style so naming conflicts can be avoided.
-	 *
-	 * @param  string $key   A unique key identifying your data
-	 * @param  mixed  $data  Data associated with your key
-	 *
-	 * @throws \RuntimeException If an error occurs while writing to this storage
-	 *
-	 * @api
-	 */
-	public function write($key, $data)
-	{
-		$this->data[$key] = $data;
+        return $retval;
+    }
 
-		if (!is_dir($this->path)) {
-			mkdir($this->path, 0777, true);
-		}
+    /**
+     * Writes data to this storage.
+     *
+     * The preferred format for a key is directory style so naming conflicts can be avoided.
+     *
+     * @param  string $key   A unique key identifying your data
+     * @param  mixed  $data  Data associated with your key
+     *
+     * @throws \RuntimeException If an error occurs while writing to this storage
+     *
+     * @api
+     */
+    public function write($key, $data) {
+        $this->data[$key] = $data;
 
-		file_put_contents($this->path.'/'.session_id().'.session', serialize($this->data));
-	}
+        if (!is_dir($this->path)) {
+            mkdir($this->path, 0777, true);
+        }
 
-	/**
-	 * Regenerates id that represents this storage.
-	 *
-	 * @param  Boolean $destroy Destroy session when regenerating?
-	 *
-	 * @return Boolean True if session regenerated, false if error
-	 *
-	 * @throws \RuntimeException If an error occurs while regenerating this storage
-	 *
-	 * @api
-	 */
-	public function regenerate($destroy = false)
-	{
-		if ($destroy) {
-			$this->data = array();
-		}
+        file_put_contents($this->path . '/' . session_id() . '.session', serialize($this->data));
+    }
 
-		return true;
-	}
+    /**
+     * Regenerates id that represents this storage.
+     *
+     * @param  Boolean $destroy Destroy session when regenerating?
+     *
+     * @return Boolean True if session regenerated, false if error
+     *
+     * @throws \RuntimeException If an error occurs while regenerating this storage
+     *
+     * @api
+     */
+    public function regenerate($destroy = false) {
+        if ($destroy) {
+            $this->data = array();
+        }
+
+        return true;
+    }
+
 }

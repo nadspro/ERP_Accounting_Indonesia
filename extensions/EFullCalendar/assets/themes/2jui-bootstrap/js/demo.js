@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     // Accordion
     $("#accordion").accordion({
@@ -24,23 +24,23 @@ $(function () {
         autoOpen: false,
         width: 600,
         buttons: {
-            "Ok": function () {
+            "Ok": function() {
                 $(this).dialog("close");
             },
-            "Cancel": function () {
+            "Cancel": function() {
                 $(this).dialog("close");
             }
         }
     });
 
     // Dialog Link
-    $('#dialog_link').click(function () {
+    $('#dialog_link').click(function() {
         $('#dialog').dialog('open');
         return false;
     });
 
     // Modal Link
-    $('#modal_link').click(function () {
+    $('#modal_link').click(function() {
         $('#dialog-message').dialog('open');
         return false;
     });
@@ -63,10 +63,9 @@ $(function () {
 
     //hover states on the static widgets
     $('#dialog_link, #modal_link, ul#icons li').hover(
-
-    function () {
-        $(this).addClass('ui-state-hover');
-    }, function () {
+            function() {
+                $(this).addClass('ui-state-hover');
+            }, function() {
         $(this).removeClass('ui-state-hover');
     });
 
@@ -83,7 +82,7 @@ $(function () {
         autoOpen: false,
         modal: true,
         buttons: {
-            Ok: function () {
+            Ok: function() {
                 $(this).dialog("close");
             }
         }
@@ -102,7 +101,7 @@ $(function () {
         min: 0,
         max: 100,
         value: 60,
-        slide: function (event, ui) {
+        slide: function(event, ui) {
             $("#amount").val(ui.value);
         }
     });
@@ -110,26 +109,26 @@ $(function () {
 
 
     // Split button
-    $("#rerun").button().click(function () {
+    $("#rerun").button().click(function() {
         alert("Running the last action");
     }).next().button({
         text: false,
         icons: {
             primary: "ui-icon-triangle-1-s"
         }
-    }).click(function () {
+    }).click(function() {
         alert("Could display a menu to select an action");
     }).parent().buttonset();
 
 
     var $tab_title_input = $("#tab_title"),
-        $tab_content_input = $("#tab_content");
+            $tab_content_input = $("#tab_content");
     var tab_counter = 2;
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $("#tabs2").tabs({
         tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
-        add: function (event, ui) {
+        add: function(event, ui) {
             var tab_content = $tab_content_input.val() || "Tab " + tab_counter + " content.";
             $(ui.panel).append("<p>" + tab_content + "</p>");
         }
@@ -140,24 +139,24 @@ $(function () {
         autoOpen: false,
         modal: true,
         buttons: {
-            Add: function () {
+            Add: function() {
                 addTab();
                 $(this).dialog("close");
             },
-            Cancel: function () {
+            Cancel: function() {
                 $(this).dialog("close");
             }
         },
-        open: function () {
+        open: function() {
             $tab_title_input.focus();
         },
-        close: function () {
+        close: function() {
             $form[0].reset();
         }
     });
 
     // addTab form: calls addTab function on submit and closes the dialog
-    var $form = $("form", $dialog).submit(function () {
+    var $form = $("form", $dialog).submit(function() {
         addTab();
         $dialog.dialog("close");
         return false;
@@ -173,13 +172,13 @@ $(function () {
     }
 
     // addTab button: just opens the dialog
-    $("#add_tab").button().click(function () {
+    $("#add_tab").button().click(function() {
         $dialog.dialog("open");
     });
 
     // close icon: removing the tab on click
     // note: closable tabs gonna be an option in the future - see http://dev.jqueryui.com/ticket/3924
-    $("#tabs span.ui-icon-close").live("click", function () {
+    $("#tabs span.ui-icon-close").live("click", function() {
         var index = $("li", $tabs).index($(this).parent());
         $tabs.tabs("remove", index);
     });
@@ -191,13 +190,13 @@ $(function () {
 
     // Dynamic tabs
     var $tab_title_input = $("#tab_title"),
-        $tab_content_input = $("#tab_content");
+            $tab_content_input = $("#tab_content");
     var tab_counter = 2;
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $("#tabs2").tabs({
         tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
-        add: function (event, ui) {
+        add: function(event, ui) {
             var tab_content = $tab_content_input.val() || "Tab " + tab_counter + " content.";
             $(ui.panel).append("<p>" + tab_content + "</p>");
         }
@@ -208,24 +207,24 @@ $(function () {
         autoOpen: false,
         modal: true,
         buttons: {
-            Add: function () {
+            Add: function() {
                 addTab();
                 $(this).dialog("close");
             },
-            Cancel: function () {
+            Cancel: function() {
                 $(this).dialog("close");
             }
         },
-        open: function () {
+        open: function() {
             $tab_title_input.focus();
         },
-        close: function () {
+        close: function() {
             $form[0].reset();
         }
     });
 
     // addTab form: calls addTab function on submit and closes the dialog
-    var $form = $("form", $dialog).submit(function () {
+    var $form = $("form", $dialog).submit(function() {
         addTab();
         $dialog.dialog("close");
         return false;
@@ -240,13 +239,13 @@ $(function () {
     }
 
     // addTab button: just opens the dialog
-    $("#add_tab").button().click(function () {
+    $("#add_tab").button().click(function() {
         $dialog.dialog("open");
     });
 
     // close icon: removing the tab on click
     // note: closable tabs gonna be an option in the future - see http://dev.jqueryui.com/ticket/3924
-    $("#tabs span.ui-icon-close").live("click", function () {
+    $("#tabs span.ui-icon-close").live("click", function() {
         var index = $("li", $tabs).index($(this).parent());
         $tabs.tabs("remove", index);
     });
@@ -254,12 +253,12 @@ $(function () {
 
     // File input (using http://filamentgroup.com/lab/jquery_custom_file_input_book_designing_with_progressive_enhancement/)
     $('#file').customFileInput({
-        button_position : 'right'
+        button_position: 'right'
     });
 
 
     //Wijmo
-    $("#menu1").wijmenu({ trigger: ".wijmo-wijmenu-item", triggerEvent: "click" });
+    $("#menu1").wijmenu({trigger: ".wijmo-wijmenu-item", triggerEvent: "click"});
     //$(".wijmo-wijmenu-text").parent().bind("click", function () {
     //    $("#menu1").wijmenu("hideAllMenus");
     //});

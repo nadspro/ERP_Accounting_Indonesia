@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Image tag plugin file.
  * @filesource
@@ -12,7 +13,6 @@
  * @subpackage Tag
  *
  */
-
 // doc {{{
 /**
  * <image> tag.
@@ -70,23 +70,23 @@ Class xml2pdf_tag_image {
      * @var string
      */
     public $position = 'relative';
-    
+
     /**
      * image's type
      * @var string
      */
     public $type = 'png';
-    
+
     /**
      * parent tag
      * @var object
      */
     private $_parent;
-
     protected $pdf;
+
     // }}}
     // xml2pdf_tag_image::__construct() {{{
-    
+
     /**
      * Constructor.
      *
@@ -94,35 +94,35 @@ Class xml2pdf_tag_image {
      * @param object $parent Object Xml2PfdTag
      * @return void
      */
-    public function __construct($tagProperties, $parent=false) {
-        if(isset($tagProperties['FILE'])) {
+    public function __construct($tagProperties, $parent = false) {
+        if (isset($tagProperties['FILE'])) {
             $this->file = $tagProperties['FILE'];
         }
-        if(isset($tagProperties['WIDTH'])) {
+        if (isset($tagProperties['WIDTH'])) {
             $this->width = $tagProperties['WIDTH'];
         }
-        if(isset($tagProperties['HEIGHT'])) {
+        if (isset($tagProperties['HEIGHT'])) {
             $this->height = $tagProperties['HEIGHT'];
         }
-        if(isset($tagProperties['TOP'])) {
+        if (isset($tagProperties['TOP'])) {
             $this->top = $tagProperties['TOP'];
         }
-        if(isset($tagProperties['LEFT'])) {
+        if (isset($tagProperties['LEFT'])) {
             $this->left = $tagProperties['LEFT'];
         }
-        if(isset($tagProperties['POSITION'])) {
+        if (isset($tagProperties['POSITION'])) {
             $this->position = $tagProperties['POSITION'];
         }
-        if(isset($tagProperties['TYPE'])) {
+        if (isset($tagProperties['TYPE'])) {
             $this->type = $tagProperties['TYPE'];
         }
 
-        $this->_parent = $parent;    
+        $this->_parent = $parent;
         $this->pdf = Pdf::singleton();
-   }
+    }
 
     // }}}
-   // xml2pdf_tag_image::addContent(string) {{{
+    // xml2pdf_tag_image::addContent(string) {{{
 
     /**
      * Add content.
@@ -131,11 +131,11 @@ Class xml2pdf_tag_image {
      */
     public function addContent($content) {
         $this->file = base64_decode($content);
-    } 
-    
+    }
+
     // }}}
     // xml2pdf_tag_image::close() {{{
-    
+
     /**
      * close the tag.
      *
@@ -143,19 +143,18 @@ Class xml2pdf_tag_image {
      */
     public function close() {
         if (is_a($this->_parent, 'xml2pdf_tag_header')) {
-                $this->_parent->elements[] = $this;
+            $this->_parent->elements[] = $this;
         } else {
             // Displaying the image
-            if($this->position=='relative') {
+            if ($this->position == 'relative') {
                 $this->left += $this->pdf->GetX();
                 $this->top += $this->pdf->GetY();
             }
-            $this->pdf->Image((string)$this->file, $this->left, $this->top, 
-                $this->width, $this->height, $this->type);
+            $this->pdf->Image((string) $this->file, $this->left, $this->top, $this->width, $this->height, $this->type);
         }
- 
     }
 
     // }}}
 }
+
 ?>

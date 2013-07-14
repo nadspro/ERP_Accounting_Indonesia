@@ -8,10 +8,9 @@ Yii::import('application.extensions.iwi.vendors.image.CImageComponent');
  *
  * @author Administrator
  */
-class IwiComponent extends CImageComponent
-{
-    public function load($image)
-    {
+class IwiComponent extends CImageComponent {
+
+    public function load($image) {
         $config = array(
             'driver' => $this->driver,
             'params' => $this->params,
@@ -19,6 +18,7 @@ class IwiComponent extends CImageComponent
 
         return new Iwi($image, $config);
     }
+
 }
 
 ?>

@@ -94,7 +94,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         </tr>
     </thead>
     <tbody>
-<?php if (empty($data)): ?>
+        <?php if (empty($data)): ?>
             <tr class="row">
                 <td><?php echo CHtml::dropDownList('budget_id[]', '', tAccount::item()); ?>
                 </td>
@@ -104,15 +104,15 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                 <td><?php echo CHtml::textField('amount[]', '', array('maxlength' => 15)); ?>
                 </td>
             </tr>
-<?php else: ?>
-    <?php
-    $idx = 0;
-    $count = count($data);
+        <?php else: ?>
+            <?php
+            $idx = 0;
+            $count = count($data);
 
-    foreach ($data as $person):
-        //the last added row is the row to copy
-        $copyClass = ($idx == $count - 1) ? ' copy' : '';
-        ?>
+            foreach ($data as $person):
+                //the last added row is the row to copy
+                $copyClass = ($idx == $count - 1) ? ' copy' : '';
+                ?>
                 <tr class="row<?php echo $copyClass; ?>">
                     <td><?php echo CHtml::dropDownList('budget_id[]', $model->budget_id[$i], tAccount::item()); ?>
                     </td>
@@ -124,22 +124,22 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                     </td>
                     <td><a class="nocopy"
                            onclick="$(this).parent().remove();
-                                   return false;" href="#"><?php echo $removeText; ?>
+                                           return false;" href="#"><?php echo $removeText; ?>
                         </a>
                     </td>
                 </tr>
-        <?php
-        $idx++;
-    endforeach;
-    ?>
-<?php endif; ?>
+                <?php
+                $idx++;
+            endforeach;
+            ?>
+        <?php endif; ?>
     </tbody>
 </table>
 
 
 
 <div class="form-actions">
-        <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i>' . $model->isNewRecord ? 'Create' : 'Save', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

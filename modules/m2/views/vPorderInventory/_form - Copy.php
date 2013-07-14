@@ -30,11 +30,11 @@ Yii::app()->clientScript->registerScript('datepicker', "
 
         <?php echo $form->dropDownListRow($model, 'supplier_id', cSupplier::items()); ?>
 
-<?php echo $form->textAreaRow($model, 'remark', array('rows' => 2, 'class' => 'span5')); ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('rows' => 2, 'class' => 'span5')); ?>
 
 
         <div id="xForm">
-        <?php echo $this->renderPartial('_formDetail', array('model' => $model, 'dataProvider' => $dataProvider)); ?>
+            <?php echo $this->renderPartial('_formDetail', array('model' => $model, 'dataProvider' => $dataProvider)); ?>
         </div>
 
         <?php
@@ -82,11 +82,11 @@ Yii::app()->clientScript->registerScript('datepicker', "
             else //update
                 echo CHtml::ajaxSubmitButton('Add Row', Yii::app()->createUrl($this->route, array("id" => $model->id)), array('update' => '#xForm'));
             ?>
-<?php echo CHtml::SubmitButton('Create'); ?>
-        <?php echo CHtml::link('Close', array('/m2/vPorderInventory/deleteTemp'), array('class' => 'btn')); ?>
+            <?php echo CHtml::SubmitButton('Create'); ?>
+            <?php echo CHtml::link('Close', array('/m2/vPorderInventory/deleteTemp'), array('class' => 'btn')); ?>
         </div>
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div>

@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\DomCrawler\Field;
 
@@ -21,27 +21,27 @@ namespace Symfony\Component\DomCrawler\Field;
  *
  * @api
  */
-class InputFormField extends FormField
-{
-	/**
-	 * Initializes the form field.
-	 *
-	 * @throws \LogicException When node type is incorrect
-	 */
-	protected function initialize()
-	{
-		if ('input' != $this->node->nodeName) {
-			throw new \LogicException(sprintf('An InputFormField can only be created from an input tag (%s given).', $this->node->nodeName));
-		}
+class InputFormField extends FormField {
 
-		if ('checkbox' == $this->node->getAttribute('type')) {
-			throw new \LogicException('Checkboxes should be instances of ChoiceFormField.');
-		}
+    /**
+     * Initializes the form field.
+     *
+     * @throws \LogicException When node type is incorrect
+     */
+    protected function initialize() {
+        if ('input' != $this->node->nodeName) {
+            throw new \LogicException(sprintf('An InputFormField can only be created from an input tag (%s given).', $this->node->nodeName));
+        }
 
-		if ('file' == $this->node->getAttribute('type')) {
-			throw new \LogicException('File inputs should be instances of FileFormField.');
-		}
+        if ('checkbox' == $this->node->getAttribute('type')) {
+            throw new \LogicException('Checkboxes should be instances of ChoiceFormField.');
+        }
 
-		$this->value = $this->node->getAttribute('value');
-	}
+        if ('file' == $this->node->getAttribute('type')) {
+            throw new \LogicException('File inputs should be instances of FileFormField.');
+        }
+
+        $this->value = $this->node->getAttribute('value');
+    }
+
 }

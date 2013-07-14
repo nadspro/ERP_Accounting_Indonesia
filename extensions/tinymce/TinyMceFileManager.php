@@ -4,14 +4,13 @@
  * Abstract FileManager to use with TinyMce.
  * For example see elFinder extension.
  */
-abstract class TinyMceFileManager extends CComponent
-{
+abstract class TinyMceFileManager extends CComponent {
+
     /**
      * Initialize FileManager component, registers required JS
      */
-    public function init()
-    {
-
+    public function init() {
+        
     }
 
     /**

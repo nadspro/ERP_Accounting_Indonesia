@@ -23,7 +23,7 @@ $this->menu = array(
 <div class="page-header">
     <h1>
         <i class="icon-fa-copy"></i>
-<?php echo $model->applicant_name; ?>
+        <?php echo $model->applicant_name; ?>
     </h1>
 </div>
 
@@ -32,21 +32,21 @@ $this->menu = array(
         <p><?php echo $model->photoPath; ?></p>
     </div>
     <div class="span7">
-<?php
-$this->widget('bootstrap.widgets.TbTabs', array(
-    'type' => 'tabs', // 'tabs' or 'pills'
-    'tabs' => array(
-        array('label' => 'Selection Process', 'content' => $this->renderPartial("_tabSelection", array("model" => $model), true), 'active' => true),
-        array('label' => 'Candidate Profile', 'content' => $this->renderPartial("_tabDetail", array("model" => $model), true)),
-        array('id' => 'tab2', 'label' => 'Create New', 'items' => array(
-                array('label' => 'Experience', 'content' => $this->renderPartial("_tabExperience", array("model" => $model, "modelExperience" => $modelExperience), true)),
-                array('label' => 'Education', 'content' => $this->renderPartial("_tabEducation", array("model" => $model, "modelEducation" => $modelEducation), true)),
-                array('label' => 'Family', 'content' => $this->renderPartial("_tabFamily", array("model" => $model, "modelFamily" => $modelFamily), true)),
-                array('label' => 'Non Formal Education', 'content' => $this->renderPartial("_tabEducationNf", array("model" => $model, "modelEducationNf" => $modelEducationNf), true)),
-            )),
-    ),
-));
-?>
+        <?php
+        $this->widget('bootstrap.widgets.TbTabs', array(
+            'type' => 'tabs', // 'tabs' or 'pills'
+            'tabs' => array(
+                array('label' => 'Selection Process', 'content' => $this->renderPartial("_tabSelection", array("model" => $model), true), 'active' => true),
+                array('label' => 'Candidate Profile', 'content' => $this->renderPartial("_tabDetail", array("model" => $model), true)),
+                array('id' => 'tab2', 'label' => 'Create New', 'items' => array(
+                        array('label' => 'Experience', 'content' => $this->renderPartial("_tabExperience", array("model" => $model, "modelExperience" => $modelExperience), true)),
+                        array('label' => 'Education', 'content' => $this->renderPartial("_tabEducation", array("model" => $model, "modelEducation" => $modelEducation), true)),
+                        array('label' => 'Family', 'content' => $this->renderPartial("_tabFamily", array("model" => $model, "modelFamily" => $modelFamily), true)),
+                        array('label' => 'Non Formal Education', 'content' => $this->renderPartial("_tabEducationNf", array("model" => $model, "modelEducationNf" => $modelEducationNf), true)),
+                    )),
+            ),
+        ));
+        ?>
 
     </div>
 </div>

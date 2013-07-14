@@ -463,7 +463,7 @@ class gSelection extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    2, 'm1/gSelection/view/id/' . $this->id, 'Selection. New Candidate created: ' . $this->candidate_name . ' at ' . $this->company->name
+                    2, 'm1/gSelection/view/id/' . $this->id, 'Selection. New Candidate created: ' . strtoupper($this->candidate_name) . ' at ' . $this->company->name
             );
         }
         return true;

@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\CssSelector\Node;
 
@@ -21,39 +21,37 @@ use Symfony\Component\CssSelector\XPathExpr;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class HashNode implements NodeInterface
-{
-	protected $selector;
-	protected $id;
+class HashNode implements NodeInterface {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param NodeInterface $selector The NodeInterface object
-	 * @param string $id The ID
-	 */
-	public function __construct($selector, $id)
-	{
-		$this->selector = $selector;
-		$this->id = $id;
-	}
+    protected $selector;
+    protected $id;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function __toString()
-	{
-		return sprintf('%s[%s#%s]', __CLASS__, $this->selector, $this->id);
-	}
+    /**
+     * Constructor.
+     *
+     * @param NodeInterface $selector The NodeInterface object
+     * @param string $id The ID
+     */
+    public function __construct($selector, $id) {
+        $this->selector = $selector;
+        $this->id = $id;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function toXpath()
-	{
-		$path = $this->selector->toXpath();
-		$path->addCondition(sprintf('@id = %s', XPathExpr::xpathLiteral($this->id)));
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString() {
+        return sprintf('%s[%s#%s]', __CLASS__, $this->selector, $this->id);
+    }
 
-		return $path;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function toXpath() {
+        $path = $this->selector->toXpath();
+        $path->addCondition(sprintf('@id = %s', XPathExpr::xpathLiteral($this->id)));
+
+        return $path;
+    }
+
 }

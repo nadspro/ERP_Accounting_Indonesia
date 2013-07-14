@@ -12,8 +12,7 @@
  * @property Post[] $posts List of posts user has authored
  * @property integer $postCount Number of posts user has authored
  */
-class Forumuser extends CActiveRecord
-{
+class Forumuser extends CActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
@@ -56,16 +55,16 @@ class Forumuser extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'posts'=>array(self::HAS_MANY, 'Post', 'author_id'),
-            'postCount'=>array(self::STAT, 'Post', 'author_id'),
+            'posts' => array(self::HAS_MANY, 'Post', 'author_id'),
+            'postCount' => array(self::STAT, 'Post', 'author_id'),
         );
     }
 
     /**
      * Return the url to this user
      */
-    public function getUrl()
-    {
-        return Yii::app()->createUrl('/sUser/viewAuthenticated', array('id'=>$this->id));
+    public function getUrl() {
+        return Yii::app()->createUrl('/sUser/viewAuthenticated', array('id' => $this->id));
     }
+
 }

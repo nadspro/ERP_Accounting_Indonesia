@@ -15,11 +15,11 @@
 
     <?php echo $form->errorSummary($model); ?>
 
-<?php //echo $form->textFieldRow($model,'pic',array('class'=>'span3'));  ?>
-        <?php echo $form->dropDownListRow($model, 'category_id', sParameter::items('cSelectionType')); ?>
+    <?php //echo $form->textFieldRow($model,'pic',array('class'=>'span3'));  ?>
+    <?php echo $form->dropDownListRow($model, 'category_id', sParameter::items('cSelectionType')); ?>
 
     <div class="control-group">
-            <?php echo $form->labelEx($model, 'schedule_date', array('class' => 'control-label')); ?>
+        <?php echo $form->labelEx($model, 'schedule_date', array('class' => 'control-label')); ?>
         <div class="controls">
             <?php
             $this->widget(
@@ -39,7 +39,7 @@
 
     <?php echo $form->textAreaRow($model, 'additional_info', array('class' => 'span4', 'rows' => 3)); ?>
     <?php //echo $form->textFieldRow($model,'cost'); ?>
-<?php echo $form->dropDownListRow($model, 'status_id', sParameter::items("cTrainingStatus")); ?>
+    <?php echo $form->dropDownListRow($model, 'status_id', sParameter::items("cTrainingStatus")); ?>
 
     <div class="form-actions">
         <?php
@@ -52,6 +52,6 @@
 
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->

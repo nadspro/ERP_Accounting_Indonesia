@@ -34,9 +34,9 @@ $form = $this->beginWidget('TbActiveForm', array(
         ));
 ?>
 
-    <?php echo $form->textFieldRow($model, 'email', array('class' => 'span5')); ?>
+<?php echo $form->textFieldRow($model, 'email', array('class' => 'span5')); ?>
 <div class="control-group">
-        <?php echo $form->labelEx($model, 'datetime', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'datetime', array('class' => 'control-label')); ?>
     <div class="controls">
         <?php
         $this->widget(

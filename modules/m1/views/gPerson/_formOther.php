@@ -41,8 +41,8 @@ Yii::app()->clientScript->registerScript('datepicker4', "
         <?php echo $form->textFieldRow($model, 'valid_to', array()); ?>
         <?php echo $form->textAreaRow($model, 'custom_info1', array('rows' => 2, 'class' => 'span4')); ?>
         <?php //echo $form->textAreaRow($model,'custom_info2',array('rows'=>2,'class'=>'span4')); ?>
-<?php //echo $form->textAreaRow($model,'custom_info3',array('rows'=>2,'class'=>'span4'));  ?>
-            <?php echo $form->textAreaRow($model, 'remark', array('rows' => 4, 'class' => 'span4')); ?>
+        <?php //echo $form->textAreaRow($model,'custom_info3',array('rows'=>2,'class'=>'span4'));  ?>
+        <?php echo $form->textAreaRow($model, 'remark', array('rows' => 4, 'class' => 'span4')); ?>
 
         <div class="form-actions">
             <?php
@@ -55,7 +55,7 @@ Yii::app()->clientScript->registerScript('datepicker4', "
         </div>
 
 
-<?php $this->endWidget(); ?>
+        <?php $this->endWidget(); ?>
 
     </div>
 </div><!-- form -->

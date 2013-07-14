@@ -68,12 +68,13 @@ echo $form->dropDownListRow($model, 'type_report_id', array(
 ));
 ?>
 
-<?php echo $form->dropDownListRow($model, 'post_id', sParameter::items("cStatus", 2)
+<?php
+echo $form->dropDownListRow($model, 'post_id', sParameter::items("cStatus", 2)
 );
 ?>
 
 <div class="form-actions">
-<?php echo CHtml::htmlButton('<i class="icon-ok"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Report', array('class' => 'btn', 'type' => 'submit')); ?>
 </div>
 
 <?php $this->endWidget(); ?>

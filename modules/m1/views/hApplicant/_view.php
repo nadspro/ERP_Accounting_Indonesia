@@ -62,33 +62,6 @@
             <b><?php echo CHtml::encode($data->getAttributeLabel('freshgrad_id')); ?>:</b>
             <?php echo CHtml::encode($data->freshgrad); ?>
         </p>
-        <p>
-            <?php
-            $model = new hApplicantComment;
-
-            $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-                'id' => 'comment-form',
-                'type' => 'horizontal',
-                'enableAjaxValidation' => false,
-            ));
-
-            echo CHtml::openTag('div', array('class' => 'row'));
-            echo CHtml::tag('div', array('class' => 'span5'), $form->textArea($model, 'comment', array('class' => 'span5')));
-
-            echo CHtml::tag('div', array('class' => 'span2'), CHtml::AjaxSubmitButton('Comment', array('/m1/hApplicant/comment', 'id' => $data->id), array(
-                        'update' => '
-						function() {
-							$.fn.yiiGridView.update("c18393", {
-								data: $(this).serialize()
-							})
-							return false;	
-						}'
-                            )
-            ));
-            echo CHtml::closeTag('div');
-            $this->endWidget();
-            ?>
-        </p>
     </div>
 </div>
 

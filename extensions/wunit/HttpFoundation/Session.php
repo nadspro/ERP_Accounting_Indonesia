@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\HttpFoundation;
 
@@ -20,339 +20,316 @@ use Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface;
  *
  * @api
  */
-class Session implements \Serializable
-{
-	protected $storage;
-	protected $started;
-	protected $attributes;
-	protected $flashes;
-	protected $oldFlashes;
-	protected $closed;
+class Session implements \Serializable {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param SessionStorageInterface $storage A SessionStorageInterface instance
-	 */
-	public function __construct(SessionStorageInterface $storage)
-	{
-		$this->storage = $storage;
-		$this->flashes = array();
-		$this->oldFlashes = array();
-		$this->attributes = array();
-		$this->started = false;
-		$this->closed = false;
-	}
+    protected $storage;
+    protected $started;
+    protected $attributes;
+    protected $flashes;
+    protected $oldFlashes;
+    protected $closed;
 
-	/**
-	 * Starts the session storage.
-	 *
-	 * @api
-	 */
-	public function start()
-	{
-		if (true === $this->started) {
-			return;
-		}
+    /**
+     * Constructor.
+     *
+     * @param SessionStorageInterface $storage A SessionStorageInterface instance
+     */
+    public function __construct(SessionStorageInterface $storage) {
+        $this->storage = $storage;
+        $this->flashes = array();
+        $this->oldFlashes = array();
+        $this->attributes = array();
+        $this->started = false;
+        $this->closed = false;
+    }
 
-		$this->storage->start();
+    /**
+     * Starts the session storage.
+     *
+     * @api
+     */
+    public function start() {
+        if (true === $this->started) {
+            return;
+        }
 
-		$attributes = $this->storage->read('_symfony2');
+        $this->storage->start();
 
-		if (isset($attributes['attributes'])) {
-			$this->attributes = $attributes['attributes'];
-			$this->flashes = $attributes['flashes'];
+        $attributes = $this->storage->read('_symfony2');
 
-			// flag current flash messages to be removed at shutdown
-			$this->oldFlashes = $this->flashes;
-		}
+        if (isset($attributes['attributes'])) {
+            $this->attributes = $attributes['attributes'];
+            $this->flashes = $attributes['flashes'];
 
-		$this->started = true;
-	}
+            // flag current flash messages to be removed at shutdown
+            $this->oldFlashes = $this->flashes;
+        }
 
-	/**
-	 * Checks if an attribute is defined.
-	 *
-	 * @param string $name The attribute name
-	 *
-	 * @return Boolean true if the attribute is defined, false otherwise
-	 *
-	 * @api
-	 */
-	public function has($name)
-	{
-		return array_key_exists($name, $this->attributes);
-	}
+        $this->started = true;
+    }
 
-	/**
-	 * Returns an attribute.
-	 *
-	 * @param string $name    The attribute name
-	 * @param mixed  $default The default value
-	 *
-	 * @return mixed
-	 *
-	 * @api
-	 */
-	public function get($name, $default = null)
-	{
-		return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
-	}
+    /**
+     * Checks if an attribute is defined.
+     *
+     * @param string $name The attribute name
+     *
+     * @return Boolean true if the attribute is defined, false otherwise
+     *
+     * @api
+     */
+    public function has($name) {
+        return array_key_exists($name, $this->attributes);
+    }
 
-	/**
-	 * Sets an attribute.
-	 *
-	 * @param string $name
-	 * @param mixed  $value
-	 *
-	 * @api
-	 */
-	public function set($name, $value)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+    /**
+     * Returns an attribute.
+     *
+     * @param string $name    The attribute name
+     * @param mixed  $default The default value
+     *
+     * @return mixed
+     *
+     * @api
+     */
+    public function get($name, $default = null) {
+        return array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
+    }
 
-		$this->attributes[$name] = $value;
-	}
+    /**
+     * Sets an attribute.
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @api
+     */
+    public function set($name, $value) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Returns attributes.
-	 *
-	 * @return array Attributes
-	 *
-	 * @api
-	 */
-	public function all()
-	{
-		return $this->attributes;
-	}
+        $this->attributes[$name] = $value;
+    }
 
-	/**
-	 * Sets attributes.
-	 *
-	 * @param array $attributes Attributes
-	 *
-	 * @api
-	 */
-	public function replace(array $attributes)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+    /**
+     * Returns attributes.
+     *
+     * @return array Attributes
+     *
+     * @api
+     */
+    public function all() {
+        return $this->attributes;
+    }
 
-		$this->attributes = $attributes;
-	}
+    /**
+     * Sets attributes.
+     *
+     * @param array $attributes Attributes
+     *
+     * @api
+     */
+    public function replace(array $attributes) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Removes an attribute.
-	 *
-	 * @param string $name
-	 *
-	 * @api
-	 */
-	public function remove($name)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        $this->attributes = $attributes;
+    }
 
-		if (array_key_exists($name, $this->attributes)) {
-			unset($this->attributes[$name]);
-		}
-	}
+    /**
+     * Removes an attribute.
+     *
+     * @param string $name
+     *
+     * @api
+     */
+    public function remove($name) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Clears all attributes.
-	 *
-	 * @api
-	 */
-	public function clear()
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        if (array_key_exists($name, $this->attributes)) {
+            unset($this->attributes[$name]);
+        }
+    }
 
-		$this->attributes = array();
-		$this->flashes = array();
-	}
+    /**
+     * Clears all attributes.
+     *
+     * @api
+     */
+    public function clear() {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Invalidates the current session.
-	 *
-	 * @api
-	 */
-	public function invalidate()
-	{
-		$this->clear();
-		$this->storage->regenerate(true);
-	}
+        $this->attributes = array();
+        $this->flashes = array();
+    }
 
-	/**
-	 * Migrates the current session to a new session id while maintaining all
-	 * session attributes.
-	 *
-	 * @api
-	 */
-	public function migrate()
-	{
-		$this->storage->regenerate();
-	}
+    /**
+     * Invalidates the current session.
+     *
+     * @api
+     */
+    public function invalidate() {
+        $this->clear();
+        $this->storage->regenerate(true);
+    }
 
-	/**
-	 * Returns the session ID
-	 *
-	 * @return mixed  The session ID
-	 *
-	 * @api
-	 */
-	public function getId()
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+    /**
+     * Migrates the current session to a new session id while maintaining all
+     * session attributes.
+     *
+     * @api
+     */
+    public function migrate() {
+        $this->storage->regenerate();
+    }
 
-		return $this->storage->getId();
-	}
+    /**
+     * Returns the session ID
+     *
+     * @return mixed  The session ID
+     *
+     * @api
+     */
+    public function getId() {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Gets the flash messages.
-	 *
-	 * @return array
-	 */
-	public function getFlashes()
-	{
-		return $this->flashes;
-	}
+        return $this->storage->getId();
+    }
 
-	/**
-	 * Sets the flash messages.
-	 *
-	 * @param array $values
-	 */
-	public function setFlashes($values)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+    /**
+     * Gets the flash messages.
+     *
+     * @return array
+     */
+    public function getFlashes() {
+        return $this->flashes;
+    }
 
-		$this->flashes = $values;
-		$this->oldFlashes = array();
-	}
+    /**
+     * Sets the flash messages.
+     *
+     * @param array $values
+     */
+    public function setFlashes($values) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Gets a flash message.
-	 *
-	 * @param string      $name
-	 * @param string|null $default
-	 *
-	 * @return string
-	 */
-	public function getFlash($name, $default = null)
-	{
-		return array_key_exists($name, $this->flashes) ? $this->flashes[$name] : $default;
-	}
+        $this->flashes = $values;
+        $this->oldFlashes = array();
+    }
 
-	/**
-	 * Sets a flash message.
-	 *
-	 * @param string $name
-	 * @param string $value
-	 */
-	public function setFlash($name, $value)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+    /**
+     * Gets a flash message.
+     *
+     * @param string      $name
+     * @param string|null $default
+     *
+     * @return string
+     */
+    public function getFlash($name, $default = null) {
+        return array_key_exists($name, $this->flashes) ? $this->flashes[$name] : $default;
+    }
 
-		$this->flashes[$name] = $value;
-		unset($this->oldFlashes[$name]);
-	}
+    /**
+     * Sets a flash message.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function setFlash($name, $value) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Checks whether a flash message exists.
-	 *
-	 * @param string $name
-	 *
-	 * @return Boolean
-	 */
-	public function hasFlash($name)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        $this->flashes[$name] = $value;
+        unset($this->oldFlashes[$name]);
+    }
 
-		return array_key_exists($name, $this->flashes);
-	}
+    /**
+     * Checks whether a flash message exists.
+     *
+     * @param string $name
+     *
+     * @return Boolean
+     */
+    public function hasFlash($name) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Removes a flash message.
-	 *
-	 * @param string $name
-	 */
-	public function removeFlash($name)
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        return array_key_exists($name, $this->flashes);
+    }
 
-		unset($this->flashes[$name]);
-	}
+    /**
+     * Removes a flash message.
+     *
+     * @param string $name
+     */
+    public function removeFlash($name) {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	/**
-	 * Removes the flash messages.
-	 */
-	public function clearFlashes()
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        unset($this->flashes[$name]);
+    }
 
-		$this->flashes = array();
-		$this->oldFlashes = array();
-	}
+    /**
+     * Removes the flash messages.
+     */
+    public function clearFlashes() {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-	public function save()
-	{
-		if (false === $this->started) {
-			$this->start();
-		}
+        $this->flashes = array();
+        $this->oldFlashes = array();
+    }
 
-		$this->flashes = array_diff_key($this->flashes, $this->oldFlashes);
+    public function save() {
+        if (false === $this->started) {
+            $this->start();
+        }
 
-		$this->storage->write('_symfony2', array(
-				'attributes' => $this->attributes,
-				'flashes'    => $this->flashes,
-		));
-	}
+        $this->flashes = array_diff_key($this->flashes, $this->oldFlashes);
 
-	/**
-	 * This method should be called when you don't want the session to be saved
-	 * when the Session object is garbaged collected (useful for instance when
-	 * you want to simulate the interaction of several users/sessions in a single
-	 * PHP process).
-	 */
-	public function close()
-	{
-		$this->closed = true;
-	}
+        $this->storage->write('_symfony2', array(
+            'attributes' => $this->attributes,
+            'flashes' => $this->flashes,
+        ));
+    }
 
-	public function __destruct()
-	{
-		if (true === $this->started && !$this->closed) {
-			$this->save();
-		}
-	}
+    /**
+     * This method should be called when you don't want the session to be saved
+     * when the Session object is garbaged collected (useful for instance when
+     * you want to simulate the interaction of several users/sessions in a single
+     * PHP process).
+     */
+    public function close() {
+        $this->closed = true;
+    }
 
-	public function serialize()
-	{
-		return serialize($this->storage);
-	}
+    public function __destruct() {
+        if (true === $this->started && !$this->closed) {
+            $this->save();
+        }
+    }
 
-	public function unserialize($serialized)
-	{
-		$this->storage = unserialize($serialized);
-		$this->attributes = array();
-		$this->started = false;
-	}
+    public function serialize() {
+        return serialize($this->storage);
+    }
+
+    public function unserialize($serialized) {
+        $this->storage = unserialize($serialized);
+        $this->attributes = array();
+        $this->started = false;
+    }
+
 }

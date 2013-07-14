@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperReader display a jrxml file in PDF file
  *
@@ -70,27 +71,27 @@ class JasperReader {
     public function dbConnection($url, $username, $password) {
         DbConnection::getInstance()->connect($url, $username, $password);
     }
-    
+
     /**
      * Call all the necessary methods
      */
-    public function read($directory, $fileName, $parameters, $config = array(), $left=0, $top=0, $subreport=false) {
+    public function read($directory, $fileName, $parameters, $config = array(), $left = 0, $top = 0, $subreport = false) {
 
         //geting the bean
         $xmlContent = FileUtils::readFile($directory . trim($fileName));
-        
+
         //Turn the jrxml to bean
         $jasper = BeanUtils::xmlToBean($xmlContent, 'Jasper');
-        
+
         //Get the db stuff
         $dbResult = null;
-        if($jasper->queryString) {
+        if ($jasper->queryString) {
             $dbResult = DbConnection::getInstance()->listAll($jasper->queryString->content, $parameters);
         }
 
         $left += $jasper->leftMargin;
         $top += $jasper->topMargin;
-        
+
         $jasperXml = new JasperXml();
         $jasperXml->dbResult = $dbResult;
         $jasperXml->config = $config;

@@ -2,12 +2,12 @@
 
 /*
  * This file is part of the Symfony package.
-*
-* (c) Fabien Potencier <fabien@symfony.com>
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Symfony\Component\DomCrawler;
 
@@ -18,119 +18,114 @@ namespace Symfony\Component\DomCrawler;
  *
  * @api
  */
-class Link
-{
-	protected $node;
-	protected $method;
-	protected $currentUri;
+class Link {
 
-	/**
-	 * Constructor.
-	 *
-	 * @param \DOMNode $node       A \DOMNode instance
-	 * @param string   $currentUri The URI of the page where the link is embedded (or the base href)
-	 * @param string   $method     The method to use for the link (get by default)
-	 *
-	 * @throws \LogicException if the node is not a link
-	 *
-	 * @api
-	 */
-	public function __construct(\DOMNode $node, $currentUri, $method = 'GET')
-	{
-		if (!in_array(substr($currentUri, 0, 4), array('http', 'file'))) {
-			throw new \InvalidArgumentException(sprintf('Current URI must be an absolute URL ("%s").', $currentUri));
-		}
+    protected $node;
+    protected $method;
+    protected $currentUri;
 
-		$this->setNode($node);
-		$this->method = $method ? strtoupper($method) : null;
-		$this->currentUri = $currentUri;
-	}
+    /**
+     * Constructor.
+     *
+     * @param \DOMNode $node       A \DOMNode instance
+     * @param string   $currentUri The URI of the page where the link is embedded (or the base href)
+     * @param string   $method     The method to use for the link (get by default)
+     *
+     * @throws \LogicException if the node is not a link
+     *
+     * @api
+     */
+    public function __construct(\DOMNode $node, $currentUri, $method = 'GET') {
+        if (!in_array(substr($currentUri, 0, 4), array('http', 'file'))) {
+            throw new \InvalidArgumentException(sprintf('Current URI must be an absolute URL ("%s").', $currentUri));
+        }
 
-	/**
-	 * Gets the node associated with this link.
-	 *
-	 * @return \DOMNode A \DOMNode instance
-	 */
-	public function getNode()
-	{
-		return $this->node;
-	}
+        $this->setNode($node);
+        $this->method = $method ? strtoupper($method) : null;
+        $this->currentUri = $currentUri;
+    }
 
-	/**
-	 * Gets the method associated with this link.
-	 *
-	 * @return string The method
-	 *
-	 * @api
-	 */
-	public function getMethod()
-	{
-		return $this->method;
-	}
+    /**
+     * Gets the node associated with this link.
+     *
+     * @return \DOMNode A \DOMNode instance
+     */
+    public function getNode() {
+        return $this->node;
+    }
 
-	/**
-	 * Gets the URI associated with this link.
-	 *
-	 * @return string The URI
-	 *
-	 * @api
-	 */
-	public function getUri()
-	{
-		$uri = trim($this->getRawUri());
+    /**
+     * Gets the method associated with this link.
+     *
+     * @return string The method
+     *
+     * @api
+     */
+    public function getMethod() {
+        return $this->method;
+    }
 
-		// absolute URL?
-		if (0 === strpos($uri, 'http')) {
-			return $uri;
-		}
+    /**
+     * Gets the URI associated with this link.
+     *
+     * @return string The URI
+     *
+     * @api
+     */
+    public function getUri() {
+        $uri = trim($this->getRawUri());
 
-		// empty URI
-		if (!$uri) {
-			return $this->currentUri;
-		}
+        // absolute URL?
+        if (0 === strpos($uri, 'http')) {
+            return $uri;
+        }
 
-		// only an anchor
-		if ('#' ===  $uri[0]) {
-			$baseUri = $this->currentUri;
-			if (false !== $pos = strpos($baseUri, '#')) {
-				$baseUri = substr($baseUri, 0, $pos);
-			}
+        // empty URI
+        if (!$uri) {
+            return $this->currentUri;
+        }
 
-			return $baseUri.$uri;
-		}
+        // only an anchor
+        if ('#' === $uri[0]) {
+            $baseUri = $this->currentUri;
+            if (false !== $pos = strpos($baseUri, '#')) {
+                $baseUri = substr($baseUri, 0, $pos);
+            }
 
-		// only a query string
-		if ('?' === $uri[0]) {
-			$baseUri = $this->currentUri;
+            return $baseUri . $uri;
+        }
 
-			// remove the query string from the current uri
-			if (false !== $pos = strpos($baseUri, '?')) {
-				$baseUri = substr($baseUri, 0, $pos);
-			}
+        // only a query string
+        if ('?' === $uri[0]) {
+            $baseUri = $this->currentUri;
 
-			return $baseUri.$uri;
-		}
+            // remove the query string from the current uri
+            if (false !== $pos = strpos($baseUri, '?')) {
+                $baseUri = substr($baseUri, 0, $pos);
+            }
 
-		// absolute path
-		if ('/' === $uri[0]) {
-			return preg_replace('#^(.*?//[^/]+)(?:\/.*)?$#', '$1', $this->currentUri).$uri;
-		}
+            return $baseUri . $uri;
+        }
 
-		// relative path
-		return substr($this->currentUri, 0, strrpos($this->currentUri, '/') + 1).$uri;
-	}
+        // absolute path
+        if ('/' === $uri[0]) {
+            return preg_replace('#^(.*?//[^/]+)(?:\/.*)?$#', '$1', $this->currentUri) . $uri;
+        }
 
-	protected function getRawUri()
-	{
-		return $this->node->getAttribute('href');
-	}
+        // relative path
+        return substr($this->currentUri, 0, strrpos($this->currentUri, '/') + 1) . $uri;
+    }
 
-	protected function setNode(\DOMNode $node)
-	{
-		if ('a' != $node->nodeName) {
-			throw new \LogicException(sprintf('Unable to click on a "%s" tag.', $node->nodeName));
-		}
+    protected function getRawUri() {
+        return $this->node->getAttribute('href');
+    }
 
-		$this->node = $node;
-	}
+    protected function setNode(\DOMNode $node) {
+        if ('a' != $node->nodeName) {
+            throw new \LogicException(sprintf('Unable to click on a "%s" tag.', $node->nodeName));
+        }
+
+        $this->node = $node;
+    }
+
 }

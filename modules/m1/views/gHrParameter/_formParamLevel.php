@@ -18,8 +18,8 @@
 
     <?php echo $form->dropDownListRow($model, 'parent_id', gParamLevel::levelDropDownParent()); ?>
     <?php echo $form->textFieldRow($model, 'sort'); ?>
-<?php echo $form->textFieldRow($model, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-        <?php echo $form->textFieldRow($model, 'golongan', array('size' => 50, 'maxlength' => 50)); ?>
+    <?php echo $form->textFieldRow($model, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+    <?php echo $form->textFieldRow($model, 'golongan', array('size' => 50, 'maxlength' => 50)); ?>
 
     <div class="form-actions">
         <?php
@@ -32,6 +32,6 @@
 
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->

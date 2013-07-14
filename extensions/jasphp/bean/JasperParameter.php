@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JasperParameter
  *
@@ -7,12 +8,15 @@
  * @package 
  * @since 1.0
  */
+
 /** @TagAnnotation(tagName="parameter") */
 class JasperParameter extends AbstractJasper {
+
     public $name = null;
     public $class = null;
     public $isForPrompting = null;
-    
+
     /** @BeanAnnotation(className="JasperDefaultValueExpression") */
     public $defaultValueExpression = null;
+
 }
