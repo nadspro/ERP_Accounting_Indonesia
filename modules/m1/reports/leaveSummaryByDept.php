@@ -57,7 +57,7 @@ class leaveSummaryByDept extends fpdf {
         $this->Cell($w[3], 4, 'Msl', 'BLR', 0, 'C');
         $this->Cell($w[4], 4, 'Pri', 'BLR', 0, 'C');
         $this->Cell($w[5], 4, 'Sisa', 'BLR', 0, 'C');
-        $this->Cell($w[6], 4, 'terakh', 'BLR', 0, 'C');
+        $this->Cell($w[6], 4, 'terakhir', 'BLR', 0, 'C');
         $this->Cell($w[7], 4, 's/d', 'BLR', 0, 'C');
         $this->Cell($w[8], 4, '', 'BLR', 0, 'C');
         $this->Ln();
@@ -91,9 +91,8 @@ class leaveSummaryByDept extends fpdf {
             $this->Cell($w[5], 5, $row['balance'], 'LR', 0, 'C');
             $this->Cell($w[6], 5, ($row['last_leave'] != null) ? date("d-m-Y", strtotime($row['last_leave'])) : "", 'LR', 0, 'C');
             if (strtotime(date("y-") . date("m-d", strtotime($row['join_date']))) > time()) {
-                $berlaku = date("d-m-y", strtotime($row['join_date']));
-            }
-            else
+                $berlaku = date("d-m-Y", strtotime(date("y-") . date("m-d", strtotime($row['join_date']))));
+            } else
                 $berlaku = date("d-m-Y", strtotime(date("y-") . date("m-d", strtotime($row['join_date'])) . " next year"));
 
             $this->Cell($w[7], 5, $berlaku, 'LR', 0, 'C');
@@ -104,6 +103,7 @@ class leaveSummaryByDept extends fpdf {
             if ($this->GetY() > 180) {
                 $this->Cell(0, 5, '', 'T');
                 $this->AddPage();
+                $dept = null;
                 $this->myheader($rows, $w);
             }
         }

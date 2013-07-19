@@ -1,6 +1,8 @@
 <h4>Holding Training</h4>
 
-<?php echo $this->renderPartial('_tabTrainingHolding', array("model" => $model, "modelTraining" => $modelTraining)); ?>
+<?php echo $this->renderPartial('_tabTrainingHolding', array("model" => $model)); ?>
+
+<br/>
 
 <?php
 EQuickDlgs::iframeButton(
@@ -20,5 +22,5 @@ EQuickDlgs::iframeButton(
 ?> 
 
 <h4>Local Training</h4>
-<?php echo $this->renderPartial('_tabTraining', array("model" => $model, "modelTraining" => $modelTraining)); ?>
+<?php echo $this->renderPartial('_tabTraining', array("model" => $model)); ?>
 

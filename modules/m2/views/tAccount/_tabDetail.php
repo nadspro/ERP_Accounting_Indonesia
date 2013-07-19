@@ -1,21 +1,3 @@
-<!--
-<h2>Parent Account</h2>
-<?php
-$this->widget('bootstrap.widgets.TbDetailView', array(
-    'data' => $model,
-    'attributes' => array(
-        array(
-            'label' => 'Parent Account',
-            'type' => 'raw',
-            'value' => isset($model->getparent->account_name) ? CHtml::link($model->getparent->account_no . ". " . $model->getparent->account_name, Yii::app()->createUrl('/m2/tAccount/view', array('id' => $model->parent_id))) : "::root::",
-        ),
-        'short_description',
-    ),
-));
-?>
-
-<br />
--->
 <h3>Account Properties</h3>
 
 <?php
@@ -24,26 +6,26 @@ $this->widget('ext.XDetailView', array(
     'ItemColumns' => 2,
     'data' => array(
         'id' => 1,
-        'account_type' => $model->getRoot(),
-        'currency' => $model->getCurrency(),
-        'state' => $model->getState(),
-        'has_child' => $model->getHaschildIsInherited(),
-        'parent_account' => (isset($model->getparent)) ? $model->getparent->account_concat : "ROOT",
-        'cash_bank' => (isset($model->cashbank)) ? $model->cashbank->mvalue : "Not Set",
-        'cash_bank_code' => (isset($model->cashbankCode)) ? $model->cashbankCode->mvalue : "Not Set",
-        'hutang' => (isset($model->hutang)) ? $model->hutang->setMvalue() : "Not Set",
-        'inventory' => (isset($model->inventory)) ? $model->inventory->setMvalue() : "Not Set",
+        'account_type' => $model->cRoot,
+        'currency' => $model->cCurrency,
+        'state' => $model->cState,
+        'has_child' => $model->haschildIsInherited,
+        'parent_account' => $model->parentNameLink,
+        'cash_bank' => $model->cashbankValue,
+        'cash_bank_code' => $model->cashbankCodeValue,
+        //'hutang' => (isset($model->hutang)) ? $model->hutang->setMvalue() : "Not Set",
+        //'inventory' => (isset($model->inventory)) ? $model->inventory->setMvalue() : "Not Set",
     ),
     'attributes' => array(
         array('name' => 'account_type', 'label' => 'Account Type'),
         array('name' => 'currency', 'label' => 'Currency'),
         array('name' => 'state', 'label' => 'Status'),
         array('name' => 'has_child', 'label' => 'Has Child'),
-        array('name' => 'parent_account', 'label' => 'Parent Account'),
+        array('name' => 'parent_account', 'type'=>'raw', 'label' => 'Parent Account'),
         array('name' => 'cash_bank', 'label' => 'Cash Bank Account', 'visible' => (isset($model->cashbank))),
         array('name' => 'cash_bank_code', 'label' => 'Cash Bank Code', 'visible' => (isset($model->cashbankCode))),
-        array('name' => 'hutang', 'label' => 'Payable Account', 'visible' => (isset($model->hutang))),
-        array('name' => 'inventory', 'label' => 'Inventory Account', 'visible' => (isset($model->inventory))),
+        //array('name' => 'hutang', 'label' => 'Payable Account', 'visible' => (isset($model->hutang))),
+        //array('name' => 'inventory', 'label' => 'Inventory Account', 'visible' => (isset($model->inventory))),
     ),
 ));
 ?>
@@ -71,19 +53,19 @@ if ($model->haschild) {
             ),
             array(
                 'name' => 'haschild_id',
-                'value' => '$data->getHaschildIsInherited()',
+                'value' => '$data->haschildIsInherited',
             ),
             array(
                 'header' => 'Account Type',
-                'value' => '$data->getRoot()',
+                'value' => '$data->cRoot',
             ),
             array(
                 'header' => 'Currency',
-                'value' => '$data->getCurrency()',
+                'value' => '$data->cCurrency',
             ),
             array(
                 'header' => 'Status',
-                'value' => '$data->getState()',
+                'value' => '$data->cState',
             ),
         ),
     ));
@@ -106,7 +88,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'name' => 'account_no',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->account_no. ". ".$data->account_name,Yii::app()->createUrl("/m2/tAccount/view",array("id"=>$data->id)))',
+            'value' => 'CHtml::link($data->account_concat,Yii::app()->createUrl("/m2/tAccount/view",array("id"=>$data->id)))',
         ),
         array(
             'name' => 'haschild_id',
@@ -114,15 +96,15 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'header' => 'Type Account',
-            'value' => '$data->getRoot()',
+            'value' => '$data->cRoot',
         ),
         array(
             'header' => 'Currency',
-            'value' => '$data->getCurrency()',
+            'value' => '$data->cCurrency',
         ),
         array(
             'header' => 'Status',
-            'value' => '$data->getState()',
+            'value' => '$data->cState',
         ),
     ),
 ));

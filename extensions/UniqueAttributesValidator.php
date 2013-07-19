@@ -26,7 +26,7 @@ class UniqueAttributesValidator extends CValidator {
         $conditionParams = array();
         $params = array();
         foreach ($with as $attribute) {
-            if ($attribute = "cdate") {
+            if ($attribute == "cdate") {
                 $conditionParams[] = "`{$attribute}`= :{$attribute}";
                 $params[":{$attribute}"] = date("Y-m-d", strtotime($object->$attribute));
             } else {

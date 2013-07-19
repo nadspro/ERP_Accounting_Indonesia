@@ -41,7 +41,9 @@ class fJournal extends CFormModel {
 
     public function rules() {
         return array(
-            array('input_date, account_no_id, debit, credit', 'required'),
+            array('input_date, account_no_id, debit, credit,remark', 'required'),
+            array('cb_receiver', 'required','on'=>'expense'),
+            array('cb_received_from', 'required','on'=>'income'),
             array('field', 'multiItemRequired', 'compare' => 'cb_receiver,cb_received_from', 'on' => 'cashbank'),
             array('input_date', 'type', 'type' => 'date', 'dateFormat' => 'dd-MM-yyyy'),
             array('balance', 'boolean', 'allowEmpty' => false, 'strict' => true, 'trueValue' => "OK", 'message' => 'Journal is not Balance'),

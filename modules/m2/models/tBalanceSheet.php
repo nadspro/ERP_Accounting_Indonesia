@@ -12,7 +12,8 @@ class tBalanceSheet extends BaseModel {
 
     public function rules() {
         return array(
-            array('yearmonth_periode, type_balance_id, beginning_balance, debit, credit, end_balance, created_date, created_by', 'numerical', 'integerOnly' => true),
+            array('yearmonth_periode, type_balance_id, created_date, created_by', 'numerical', 'integerOnly' => true),
+            array('beginning_balance, debit, credit, end_balance', 'numerical'),
             array('remark', 'length', 'max' => 50),
             array('id, parent_id, input_date, yearmonth_periode, type_balance_id, remark, balance, created_date, created_by', 'safe', 'on' => 'search'),
         );

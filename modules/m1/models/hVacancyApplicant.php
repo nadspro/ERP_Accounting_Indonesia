@@ -136,5 +136,8 @@ class hVacancyApplicant extends BaseModel {
 
         return $returnarray;
     }
+    
+
+
 
 }

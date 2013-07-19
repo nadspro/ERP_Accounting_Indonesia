@@ -43,8 +43,6 @@ class GLeaveController extends Controller {
             $model->attributes = $_POST['gLeave'];
             $model->approved_id = 1; ///request
             if ($model->save())
-            //$this->redirect(array('view','id'=>$model->id));
-            //$this->redirect(array('view','id'=>gPerson::model()->find('userid = '.Yii::app()->user->id)->id));
                 $this->redirect(array('/m1/gLeave'));
         }
 
@@ -524,10 +522,10 @@ class GLeaveController extends Controller {
 
                     $connection = Yii::app()->db;
                     $sql = "SELECT a.employee_name, a.department, a.level, a.join_date, a.job_title,
-						(SELECT l.mass_leave from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1,9) ORDER BY l.start_date DESC LIMIT 1) as mass_leave,
-						(SELECT l.person_leave from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1,9) ORDER BY l.start_date DESC LIMIT 1) as person_leave,
-						(SELECT l.balance from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1,9) ORDER BY l.start_date DESC LIMIT 1) as balance,
-						(SELECT l.start_date from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1,9) ORDER BY l.start_date DESC LIMIT 1) as last_leave
+						(SELECT l.mass_leave from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as mass_leave,
+						(SELECT l.person_leave from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as person_leave,
+						(SELECT l.balance from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as balance,
+						(SELECT l.start_date from g_leave l WHERE l.parent_id = a.id AND approved_id NOT IN (1) ORDER BY l.start_date DESC LIMIT 1) as last_leave
 						FROM g_bi_person a
 						WHERE company_id = " . sUser::model()->getGroup() . " AND employee_status NOT IN ('Resign','End of Contract','Black List')
 						ORDER by a.department, a.employee_name";

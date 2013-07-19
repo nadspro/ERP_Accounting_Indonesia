@@ -53,8 +53,8 @@ $this->widget('ext.bootstrap.widgets.TbDetailView', array(
     <div class="span3">
         <table width="100%">
             <tr bgcolor="EAEFFF">
-                <td  align="center"><h3><?php echo $model->mPartCount ?></h3>
-                    <h6 align="center" ><font COLOR="#999">Total Participant</font></h6></td>
+                <td  align="center"><h3><?php echo $model->partCount ?></h3>
+                    <h6 align="center" ><font COLOR="#999">Total Participant (Max 35)</font></h6></td>
             </tr>
         </table>
     </div>
@@ -84,8 +84,16 @@ if (is_dir(Yii::app()->basePath . "/../shareimages/hr/learning/" . $model->id))
     $this->renderPartial('/iLearningHolding/_tabPhotoView', array("id" => $model->id));
 ?>
 
+<?php if ($model->partCount() >= 35 || $model->status_id != 1 || strtotime($model->schedule_date) < time()) { ?>
 
-<?php if ($model->status_id == 1 && strtotime($model->schedule_date) >= time()) { ?>
+	<p>
+    <div class="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Full or Closed or Passed Date!</strong> The Registration is full or has been closed by Training Administrator
+    </div>
+	</p>
+	
+<?php } else  { ?>
 
     <div class="page-header">
         <h3>New Participant</h3>
@@ -94,6 +102,8 @@ if (is_dir(Yii::app()->basePath . "/../shareimages/hr/learning/" . $model->id))
     <?php echo $this->renderPartial('/iLearning/_formParticipant', array('model' => $modelParticipant)); ?>
 
 <?php } ?>
+
+<p><strong>Displayed only Participant from Current Company</srong></p>
 
 <?php
 $this->widget('ext.bootstrap.widgets.TbGridView', array(
@@ -134,8 +144,3 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
 ));
 ?>
 
-<br/>
-<div class="pull-right">
-    <strong>Displayed only Participant from Current Company</strong>
-</div>
-<br/>

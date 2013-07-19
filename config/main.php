@@ -100,14 +100,16 @@ return array(
         //),
         'cache' => array(
             //'class'=>'system.caching.CFileCache',
-            'class' => 'CZendDataCache',
-        //'class'=>'CDummyCache',
+            //'class' => 'CZendDataCache',
+	        'class'=>'CDummyCache',
         ),
         'session' => array(
             'class' => 'CCacheHttpSession',
         ),
         'indoFormat' => array(
             'class' => 'ext.IndoNumberFormatter',
+        	//'class'=>'system.utils.CLocalizedFormatter',
+	        //'locale'=>'id_id',
         ),
         'settings' => array(
             'class' => 'CmsSettings',
@@ -201,7 +203,14 @@ return array(
                     'countLimit' => 1, // How many times the same query should be executed to be considered inefficient
                     'slowQueryMin' => 0.01, // Minimum time for the query to be slow
                 ),
-            /**/
+	            /**/
+	            array(
+                    'class'=>'ext.LogDb',
+                    'autoCreateLogTable'=>true,
+                    'connectionID'=>'db',
+                    'enabled'=>true,
+                    'levels'=>'error',//You can replace trace,info,warning,error
+                ),
             ),
         ),
     ),

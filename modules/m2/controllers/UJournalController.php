@@ -237,10 +237,10 @@ class UJournalController extends Controller {
                 $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
                 $modelHeader->remark = $_POST['fJournal']['remark'];
 
-                $modelHeader->entity_id = 1;
+                $modelHeader->entity_id = sUser::model()->getGroup(); //default Group
                 $modelHeader->module_id = 1; //GL
                 $modelHeader->state_id = 1;
-                $modelHeader->journal_type_id = 1;
+                $modelHeader->journal_type_id = 3; //Journal Memorial
 
                 $modelHeader->save();
 

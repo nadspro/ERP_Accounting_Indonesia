@@ -12,9 +12,11 @@
         <div class="span3">
             <?php $this->renderPartial("_latestNews") ?>
         </div>
-        <div class="span3">
+        
+		<div class="span3">
             <?php $this->renderPartial("_tabLogin", array("model" => $model)) ?>
         </div>
+        
         <div class="row">
             <div class="span6">
                 <?php

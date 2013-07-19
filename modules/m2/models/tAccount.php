@@ -159,6 +159,7 @@ class tAccount extends BaseModel {
         $_grandtotalI = 0;
         $_grandtotalH = 0;
         $_grandtotalE = 0;
+        $_grossprofit = 0;
 
 
         foreach ($model1 as $mmm) {
@@ -233,7 +234,8 @@ class tAccount extends BaseModel {
         $_grandtotalOI = 0;
         $_grandtotalOE = 0;
         $_netprofitFinal = 0;
-
+		$_grandtotalOIE = 0;
+		
         foreach ($model1 as $mmm) {
 
             foreach ($mmm->account_list as $mm) {
@@ -304,9 +306,9 @@ class tAccount extends BaseModel {
                 $_grandtotalOIE = $_grandtotal;
                 $_grandtotal = 0;
             }
-
-            $_netprofitFinal = $_netprofit + $_grandtotalOIE;
         }
+
+        $_netprofitFinal = $_netprofit + $_grandtotalOIE;
 
         return $_netprofitFinal;
     }
@@ -417,6 +419,26 @@ class tAccount extends BaseModel {
         return $_items;
     }
 
+    public static function cashBankAccountList() {
+        $_items[] = array();
+
+        $criteria = new CDbCriteria;
+        $criteria->with = array('cashbank', 'entity');
+        if (Yii::app()->user->name != "admin") {
+            $criteria->addInCondition('entity.entity_id', sUser::model()->getGroupArray());
+        }
+
+        $criteria->order = 'account_no';
+
+        $models = self::model()->findAll($criteria);
+
+        foreach ($models as $model) {
+            $_items[$model->id] = $model->id;
+        }
+
+        return $_items;
+    }
+
     public static function purchasingAccount($all = null) {
 
         $criteria = new CDbCriteria;
@@ -492,7 +514,7 @@ class tAccount extends BaseModel {
         return $_id;
     }
 
-    public function getRoot() {
+    public function getCRoot() {
         if ($this->parent_id == 0) {
             $_id = $this->accmain->parentAccount->name;
         } elseif ($this->getparent->parent_id == 0) {
@@ -511,7 +533,7 @@ class tAccount extends BaseModel {
         return $_id;
     }
 
-    public function getCurrency() {
+    public function getCCurrency() {
         if ($this->currency != null) {
             $_id = $this->currency->currencyName->name;
             $_id = "[ " . $_id . " ]";
@@ -533,7 +555,7 @@ class tAccount extends BaseModel {
         return $_id;
     }
 
-    public function getState() {
+    public function getCState() {
         if ($this->state != null) {
             $_id = $this->state->stateName->name;
             $_id = "[ " . $_id . " ]";
@@ -556,13 +578,10 @@ class tAccount extends BaseModel {
 
     public function getHasChild() {
         if ($this->childs != null) {
-            if (isset($this->haschildM->mvalue)) {
-                return true;
-            }
-            else
-                return true;
-        }
-        else
+            return true;
+        } elseif (isset($this->haschildM) && $this->haschildM->mvalue == "Yes")  {
+            return true;
+		} else
             return false;
     }
 
@@ -576,6 +595,34 @@ class tAccount extends BaseModel {
         }
         else
             return "No";
+    }
+
+    public function getParentName() {
+        if ($this->getparent) {
+			return $this->getparent->account_concat;
+        } else
+            return "ROOT";
+    }
+
+    public function getParentNameLink() {
+        if ($this->getparent) {
+			return CHtml::link($this->getparent->account_concat,Yii::app()->createUrl('/m2/tAccount/view',array('id'=>$this->parent_id)));
+        } else
+            return "ROOT";
+    }
+
+    public function getCashbankValue() {
+        if ($this->cashbank) {
+			return $this->cashbank->mvalue;
+        } else
+            return "Not Set";
+    }
+
+    public function getCashbankCodeValue() {
+        if ($this->cashbankCode) {
+			return $this->cashbankCode->mvalue;
+        } else
+            return "Not Set";
     }
 
     public function getAccount_concat() {

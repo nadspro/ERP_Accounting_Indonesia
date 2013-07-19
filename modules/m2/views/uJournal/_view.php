@@ -7,25 +7,13 @@ $this->beginWidget('bootstrap.widgets.TbBox', array(
 ));
 ?>
 
-
-<?php
-Yii::app()->clientScript->registerScript('search' . $data->id, "
-			$('.hide-info'+$data->id).click(function(){
-			$('.list'+$data->id).toggle('slow');
-			return false;
-});
-			");
-?>
-
-
 <div class="row-fluid">
     <div class="span4">
-        <h4>
+        <h3>
             <?php
-            //echo CHtml::image(Yii::app()->request->baseUrl.'/images/icon/live_journal.png') . CHtml::link(CHtml::encode($data->system_ref), array('view', 'id'=>$data->id));
-            echo CHtml::link(CHtml::encode($data->system_reff()), array('view', 'id' => $data->id));
+            echo CHtml::link($data->system_reff, array('view', 'id' => $data->id));
             ?>
-        </h4>
+        </h3>
         <p>
             <?php
             if ($data->state_id != 4) {
@@ -35,8 +23,7 @@ Yii::app()->clientScript->registerScript('search' . $data->id, "
                 echo " ";
             }
             echo CHtml::link('<i class="fam-printer"></i>', Yii::app()->createUrl($this->module->id . '/' . $this->id . '/print', array("id" => $data->id)), array('target' => '_blank', "class" => "btn btn-mini"));
-            //echo " | ";
-            //echo CHtml::link('Detail','#',array('class'=>'hide-info'.$data->id));
+
             echo ($data->journalSum != $data->journalSumCek) ? " WARNING!!!... FAULT BY SYSTEM. JOURNAL IS NOT BALANCE, PLEASE DELETE.." : "";
             ?>
         </p>
@@ -61,12 +48,14 @@ Yii::app()->clientScript->registerScript('search' . $data->id, "
                 'yearmonth_periode' => $data->yearmonth_periode,
                 'user_ref' => $data->user_ref,
                 'total' => Yii::app()->indoFormat->number($data->journalSum),
+                'cb_custom1' => $data->cb_custom1,
             ),
             'attributes' => array(
                 array('name' => 'entity_id', 'label' => 'Entity'),
                 array('name' => 'input_date', 'label' => 'Input Date'),
                 array('name' => 'yearmonth_periode', 'label' => 'Periode'),
-                array('name' => 'user_ref', 'label' => 'Rec\'er/Rec\'ed From', 'visible' => (isset($data->user_ref))),
+                array('name' => 'cb_custom1', 'label' => 'Receiver', 'visible' => ($data->journal_type_id ==2)),
+                array('name' => 'cb_custom1', 'label' => 'Received From', 'visible' => ($data->journal_type_id ==1)),
                 array('name' => 'total', 'label' => 'Total'),
             ),
         ));
@@ -74,11 +63,7 @@ Yii::app()->clientScript->registerScript('search' . $data->id, "
     </div>
 </div>
 
-<?php /* 	<div class="list<?php echo $data->id ?>" style="display: none"> */ ?>
-
 <?php echo $this->renderPartial('/uJournal/_viewDetail', array('data' => $data)); ?>
-
-<?php /* 	</div> */ ?>
 
 <?php
 $this->endWidget();

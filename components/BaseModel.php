@@ -16,16 +16,20 @@ class BaseModel extends CActiveRecord {
             'datetimeI18NBehavior' => array(
                 'class' => 'DateTimeI18NBehavior'
             ),
-                //'defaults'=>array(
-                //	'class'=>'ext.decimali18nbehavior.DecimalI18NBehavior',
-                //	//'format'=>'db',
-                //),
+			//'defaults'=>array(
+			//	'class'=>'ext.decimali18nbehavior.DecimalI18NBehavior',
+			//	//'format'=>'db',
+			//),
+			//'CTimestampBehavior' => array(
+			//	'class' => 'zii.behaviors.CTimestampBehavior',
+			//	'setUpdateOnCreate'=>true,
+			//	'createAttribute' => 'created_date',
+			//	'updateAttribute' => 'updated_date',
+			//),			
         );
     }
 
     protected function beforeSave() {
-        //foreach($this->tableSchema->columns as $val)
-        //	$_listField[]=$val->name;
 
         if (parent::beforeSave()) {
             if ($this->isNewRecord) {

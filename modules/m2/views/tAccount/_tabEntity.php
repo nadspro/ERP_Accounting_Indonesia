@@ -15,7 +15,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'name' => 'entity_id',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->entity->name,Yii::app()->createUrl("/m2/aOrganization/view",array("id"=>$data->entity->id)))',
+            'value' => 'CHtml::link($data->entity->name,Yii::app()->createUrl("/aOrganization/view",array("id"=>$data->entity->id)))',
         ),
         array(
             'name' => 'state_id',

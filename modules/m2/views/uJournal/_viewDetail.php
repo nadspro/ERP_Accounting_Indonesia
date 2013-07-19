@@ -23,7 +23,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
             'footerHtmlOptions' => array(
-                'style' => 'text-align: right; padding-right: 5px;'
+                'style' => 'text-align: right; padding-right: 5px; font-weight:bold'
             ),
         ),
         array(
@@ -36,7 +36,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
             'footerHtmlOptions' => array(
-                'style' => 'text-align: right; padding-right: 5px;'
+                'style' => 'text-align: right; padding-right: 5px; font-weight:bold'
             ),
         ),
         /* array(

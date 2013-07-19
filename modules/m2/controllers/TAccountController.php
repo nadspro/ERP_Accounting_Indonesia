@@ -321,6 +321,159 @@ class TAccountController extends Controller {
             'pages' => $pages,
         ));
     }
+    
+/*    public function actionNetProfit() {
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+
+        $_labarugi = tAccount::netprofit($_curPeriod);
+		
+		echo $_labarugi;    
+        $model1 = tAccountMain::model()->with('account_list')->findAll('type_id= 3');
+        
+        foreach ($model1 as $mmm) 
+            foreach ($mmm->account_list as $mm) 
+	        	echo $mm->parent_id. "<br/>";
+
+    }
+*/    
+    public function actionLabarugiExecution() {
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+
+        $_labarugi = tAccount::netprofit($_curPeriod);
+
+        $_lraccount = tAccount::model()->with('accmain')->find('accmain.mvalue=8')->id;
+
+        if ($_lraccount === null)
+            throw new CHttpException(404, 'Account Laba diTahan is not set.');
+
+        $modelBalanceCurrent = tBalanceSheet::model()->find(array(
+            'condition' => 'parent_id = :account AND yearmonth_periode = :period',
+            'params' => array(':account' => $_lraccount, ':period' => $_curPeriod),
+        ));
+
+        if ($modelBalanceCurrent == null) { //New Account on This Period
+            $sql = 'INSERT INTO t_balance_sheet (parent_id, yearmonth_periode, type_balance_id, remark, budget, beginning_balance,debit,credit,end_balance) VALUES ('
+                    . $_lraccount . ','
+                    . $_curPeriod . ', 1, "Automated posted", 0,'
+                    . $_labarugi . ',0,0,'
+                    //.$_debit.','
+                    //.$_credit.','
+                    . $_labarugi . ')';
+        } else {
+            $_labarugi = $_labarugi + $modelBalanceCurrent->beginning_balance;
+
+            $sql = 'UPDATE t_balance_sheet SET
+			debit = 0,
+			credit = 0,
+			end_balance = ' . $_labarugi . '
+			WHERE yearmonth_periode = ' . $_curPeriod . ' AND parent_id = ' . $_lraccount;
+        }
+
+        $command = Yii::app()->db->createCommand($sql);
+
+        $command->execute();
+    }
+
+	public  function actionGenerate($id)  {
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+
+		$modelBalanceCurrent = tBalanceSheet::model()->find(array(
+			'condition' => 'parent_id = :accid AND yearmonth_periode = :period',
+			'params' => array(':accid' => $id, ':period' => $_curPeriod),
+		));
+
+		if ($modelBalanceCurrent ==null) { 
+				$modelBalanceCurrent= new tBalanceSheet;
+				$modelBalanceCurrent->parent_id = $id;
+				$modelBalanceCurrent->yearmonth_periode = $_curPeriod;
+				$modelBalanceCurrent->save(false);
+		}
+	
+        $this->redirect(array('/m2/tAccount/view','id'=>$id));
+	
+	}
+    public function actionReload() {
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+        $_lastPeriod = peterFunc::cBeginDateBefore(Yii::app()->settings->get("System", "cCurrentPeriod"));
+
+		$criteria=new CDbCriteria;
+		$criteria->with=array('journal');
+		$criteria->compare('journal.state_id',4);
+		$criteria->compare('journal.yearmonth_periode',$_curPeriod);
+        $models = uJournalDetail::model()->findAll($criteria);
+        
+        //Reset
+		foreach ($models as $model) {
+            $modelBalanceCurrent = tBalanceSheet::model()->find(array(
+                'condition' => 'parent_id = :accid AND yearmonth_periode = :period',
+                'params' => array(':accid' => $model->account_no_id, ':period' => $_curPeriod),
+            ));
+
+			if ($modelBalanceCurrent ==null) { 
+					$modelBalanceCurrent= new tBalanceSheet;
+					$modelBalanceCurrent->parent_id = $model->account_no_id;
+					$modelBalanceCurrent->yearmonth_periode = $_curPeriod;
+					$modelBalanceCurrent->save(false);
+			}
+
+			$command=Yii::app()->db->createCommand('
+					UPDATE  t_balance_sheet SET
+					debit = 0,
+					credit = 0,
+					end_balance = beginning_balance
+					WHERE yearmonth_periode = '.$_curPeriod.' AND parent_id = '.$model->account_no_id.';');
+
+			$command->execute();
+		}
+
+		foreach ($models as $model) {
+            $modelBalanceCurrent = tBalanceSheet::model()->find(array(
+                'condition' => 'parent_id = :accid AND yearmonth_periode = :period',
+                'params' => array(':accid' => $model->account_no_id, ':period' => $_curPeriod),
+            ));
+			
+            $_debit = $model->debit;
+            $_credit = $model->credit;
+            $_endbalance = 0;
+
+            $_curdebit = $modelBalanceCurrent->debit + $_debit;
+            $_curcredit = $modelBalanceCurrent->credit + $_credit;
+            $_curbalance = $modelBalanceCurrent->end_balance;
+
+            //if ($model->account->getSideValue() == 1 || isset($model->account->reverse)) { //Asset, Expense
+            if ($model->account->getSideValue() == 1 ) { //Asset, Expense
+                $_endbalance = $_curbalance + $_debit - $_credit;
+            } else { //Pasiva, Income
+                $_endbalance = $_curbalance + $_credit - $_debit;
+            }
+
+			$command=Yii::app()->db->createCommand('
+					UPDATE  t_balance_sheet SET
+					debit = '.$_curdebit.',
+					credit = '.$_curcredit.',
+					end_balance = '.$_endbalance.'
+					WHERE yearmonth_periode = '.$_curPeriod.' AND parent_id = '.$model->account_no_id.';');
+
+			$command->execute();
+
+            //LOG
+            /* $commandLog = Yii::app()->db->createCommand('
+					INSERT INTO t_balance_sheet_log (journal_id, yearmonth_periode, type_balance_id, remark, budget, account_no_id, beginning_balance,debit,credit,end_balance) VALUES ('
+                    . $model->parent_id . ','
+                    . $_curPeriod . ', 1, \'POSTING LOG\', 0,'
+                    . $model->account_no_id . ','
+                    . $_curbalance . ','
+                    . $_debit . ','
+                    . $_credit . ','
+                    . $_endbalance . ')
+					');
+
+            $commandLog->execute(); */
+        }
+        
+        $this->redirect(array('/m2/tAccount'));
+        
+    }
 
     public function loadModel($id) {
         $model = tAccount::model()->findByPk($id);
@@ -446,45 +599,31 @@ class TAccountController extends Controller {
         $this->render('printList', array('model' => $model));
     }
 
-    private $_indexFiles = 'runtime.search';
 
-    public function actionSearchIndex() {
-        $this->layout = 'column2';
-        if (($term = Yii::app()->getRequest()->getParam('q', null)) !== null) {
-            $index = new Zend_Search_Lucene(Yii::getPathOfAlias('application.' . $this->_indexFiles));
-            $results = $index->find($term);
-            $query = Zend_Search_Lucene_Search_QueryParser::parse($term);
+    public function actionUpdateBalance($id) {
+        $model = $this->loadModelBalance($id);
 
-            $this->render('/sParameter/search', compact('results', 'term', 'query'));
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+
+        if (isset($_POST['tBalanceSheet'])) {
+            $model->attributes = $_POST['tBalanceSheet'];
+            if ($model->save())
+                EQuickDlgs::checkDialogJsScript();
         }
+
+        EQuickDlgs::render('_formBalance', array('model' => $model));
     }
 
-    /**
-     * Search index creation
-     */
-    public function actionSearchCreate() {
-        $index = new Zend_Search_Lucene(Yii::getPathOfAlias('application.' . $this->_indexFiles), true);
 
-        $posts = tAccount::model()->findAll();
-        foreach ($posts as $post) {
-            $doc = new Zend_Search_Lucene_Document();
-
-            $doc->addField(Zend_Search_Lucene_Field::Text('account_no', CHtml::encode($post->account_no), 'utf-8')
-            );
-
-            $doc->addField(Zend_Search_Lucene_Field::Text('short_description', CHtml::encode($post->short_description)
-                            , 'utf-8')
-            );
-
-            $doc->addField(Zend_Search_Lucene_Field::Text('account_name', CHtml::encode($post->account_name)
-                            , 'utf-8')
-            );
+	public function loadModelBalance($id)
+	{
+		$model=tBalanceSheet::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
 
 
-            $index->addDocument($doc);
-        }
-        $index->commit();
-        echo 'Lucene index created';
-    }
 
 }

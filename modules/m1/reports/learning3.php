@@ -45,7 +45,7 @@ class learning3 extends fpdf {
         $this->Cell($w[1], 8, 'Employee Name', 'LTRB', 0, 'C', true);
         $this->Cell($w[2], 8, 'Topics', 'LTRB', 0, 'C', true);
         $this->Cell($w[3], 8, 'Instructor', 'LTRB', 0, 'C', true);
-        $this->Cell($w[4], 8, 'Duration', 'LTRB', 0, 'C', true);
+        $this->Cell($w[4], 8, 'Mandays', 'LTRB', 0, 'C', true);
         $this->Ln();
     }
 
@@ -72,13 +72,26 @@ class learning3 extends fpdf {
         $w = array(20, 40, 75, 40, 15);
 
         $fill = false;
+		$_mandays=0;
+		$_total=0;
+		$_totalMonth=0;
         $check = "";
 
         foreach ($models as $mod) {
 
             if (date("Ym", strtotime($mod->getparent->schedule_date)) != $check) {
+
+                if ($check != "") {
+		            $this->SetFont('Arial', 'B', 8);
+					$this->Cell($w[0] + $w[1] + $w[2], 5,'', 'LT', 0, 'L');
+					$this->Cell($w[3], 5, "T O T A L  ", 'TR', 0, 'R');
+					$this->Cell($w[4], 5, number_format($_totalMonth,1), 'TR', 0, 'C');
+					$this->Ln();
+					
+					$_totalMonth=0;
+				}
+				
                 $fill = true;
-                $this->SetFont('Arial', 'B', 10);
                 $this->Cell($w[0] + $w[1] + $w[2], 8, peterFunc::bulan($mod->getparent->schedule_date) . " " . date("Y", strtotime($mod->getparent->schedule_date)), 'LT', 0, 'L', $fill);
                 $this->Cell($w[3], 8, "", 'T', 0, 'L', $fill);
                 $this->Cell($w[4], 8, "", 'TR', 0, 'L', $fill);
@@ -86,13 +99,19 @@ class learning3 extends fpdf {
             }
 
             $fill = false;
+			
+			$_mandays=(int) $mod->getparent->actual_mandays / (int)$mod->getparent->partCount();
+            
             $this->SetFont('Arial', '', 8);
             $this->Cell($w[0], 5, $mod->getparent->schedule_date, 'LR', 0, 'L', $fill);
             $this->Cell($w[1], 5, $mod->employee->employee_name, 'LR', 0, 'L', $fill);
             $this->Cell($w[2], 5, $mod->getparent->getparent->learning_title, 'LR', 0, 'L', $fill);
             $this->Cell($w[3], 5, $mod->getparent->trainer_name, 'LR', 0, 'L', $fill);
-            $this->Cell($w[4], 5, $mod->getparent->getparent->duration, 'LR', 0, 'L', $fill);
+            $this->Cell($w[4], 5, number_format($_mandays,1), 'LR', 0, 'C', $fill);
             $this->Ln();
+			
+			$_total=$_total+$_mandays;
+			$_totalMonth=$_totalMonth+$_mandays;
 
             $check = date("Ym", strtotime($mod->getparent->schedule_date));
 
@@ -103,6 +122,23 @@ class learning3 extends fpdf {
                 $this->myheader($models);
             }
         }
+
+		$this->SetFont('Arial', 'B', 8);
+		$this->Cell($w[0] + $w[1] + $w[2], 5,'', 'LT', 0, 'L');
+		$this->Cell($w[3], 5, "T O T A L  ", 'TR', 0, 'R');
+		$this->Cell($w[4], 5, number_format($_totalMonth,1), 'TR', 0, 'C');
+		$this->Ln();
+
+        $this->Cell(array_sum($w), 4, '', 'TB');
+		$this->Ln();
+
+		$this->SetFont('Arial', 'B', 8);
+		$this->Cell($w[0], 5, '', 'LR', 0, 'C', $fill);
+		$this->Cell($w[1], 5, '', 'LR', 0, 'L', $fill);
+		$this->Cell($w[2], 5, '', 'LR', 0, 'L', $fill);
+		$this->Cell($w[3], 5, 'T O T A L', 'LR', 0, 'C', $fill);
+		$this->Cell($w[4], 5, number_format($_total,1), 'LR', 0, 'C', $fill);
+		$this->Ln();
         $this->Cell(array_sum($w), 4, '', 'T');
     }
 

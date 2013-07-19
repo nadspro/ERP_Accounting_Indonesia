@@ -34,32 +34,32 @@ Yii::app()->clientScript->registerScript('datepicker', "
 });
 
 		");
-?>
 
+Yii::app()->clientScript->registerScript('something', '$("#' . CHtml::activeId($model, 'employee_name') . '").focus();');
+		
+?>
 
 <?php
 $form = $this->beginWidget('TbActiveForm', array(
     'id' => 'i-learning-sch-part-form',
     'enableAjaxValidation' => false,
-    'type' => 'horizontal',
+    'type' => 'inline',
         ));
 ?>
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->textFieldRow($model, 'employee_name', array('class' => 'span3')); ?>
+<?php echo $form->textFieldRow($model, 'employee_name', array('class' => 'span4')); ?>
 <?php echo $form->hiddenField($model, 'employee_id'); ?>
 
-<div class="form-actions">
-    <?php
-    $this->widget('bootstrap.widgets.TbButton', array(
-        'buttonType' => 'submit',
-        'type' => 'primary',
-        'label' => $model->isNewRecord ? 'Create' : 'Save',
-    ));
-    ?>
+<?php
+$this->widget('bootstrap.widgets.TbButton', array(
+    'buttonType' => 'submit',
+    'type' => 'primary',
+    'label' => $model->isNewRecord ? 'Create' : 'Save',
+));
+?>
 
-</div>
 
 <?php
 $this->endWidget();

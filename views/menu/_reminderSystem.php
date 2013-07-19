@@ -10,7 +10,7 @@
 
     foreach ($notifiche as $notifica) {
         echo CHtml::openTag('li', array());
-        echo CHtml::link($notifica->mStatus() . ". " . strtoupper($notifica->employee_name) . " probation status is " . $notifica->countContract(), Yii::app()->createUrl('/gPerson/view', array('id' => $notifica->id)));
+        echo CHtml::link($notifica->mStatus() . ". " . strtoupper($notifica->employee_name) . " probation status is " . $notifica->countContract(), Yii::app()->createUrl('/m1/gPerson/view', array('id' => $notifica->id)));
         echo CHtml::closeTag('li');
     }
     ?>

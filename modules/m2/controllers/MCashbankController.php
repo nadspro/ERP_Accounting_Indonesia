@@ -36,9 +36,7 @@ class MCashbankController extends Controller {
 
         $dependency = new CDbCacheDependency('SELECT MAX(id) FROM u_journal');
 
-        //$dataProvider=new CActiveDataProvider('uJournal', array(
-        $dataProvider = new EActiveDataProviderEx('uJournal', array(
-            'cache' => array(3600, $dependency),
+        $dataProvider=new CActiveDataProvider('uJournal', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 10,
@@ -121,7 +119,7 @@ class MCashbankController extends Controller {
                         else
                             $modelDetail->debit = 0;
 
-                        if ($model->credit[$i] != null) {
+                        if ($modelDetail->credit[$i] != null) {
                             $modelDetail->credit = $model->credit[$i];
                         }
                         else
@@ -242,26 +240,23 @@ class MCashbankController extends Controller {
             $model->system_ref = $modelHeader->system_ref;
             $model->master_id = $modelHeader->id;
 
+            if ($model->journal_type_id ==1) {   
+				$model->cb_received_from = $modelHeader->cb_custom1;
+			} else 
+				$model->cb_receiver = $modelHeader->cb_custom1;
+	
             $modelDetail = uJournalDetail::model()->findAll('parent_id =' . $modelHeader->id);
 
             foreach ($modelDetail as $mm) {
-                //if ($model->journal_type_id ==1) {   *TODO* PENGECEKAN BALANCE NOT BY REMARKS BUT MY JOURNAL_TYPE_ID
-                if ($mm->system_remark != "Automated by System") {
-                    $model->account_no_id[] = $mm->account_no_id;
+				if (!in_array($mm->account_no_id,tAccount::cashBankAccountList())) {            
+					$model->account_no_id[] = $mm->account_no_id;
 
-                    $model->debit[] = $mm->debit;
+					$model->debit[] = $mm->debit;
 
-                    $model->credit[] = $mm->credit;
+					$model->credit[] = $mm->credit;
 
-                    $model->user_remark[] = $mm->user_remark;
-                } else {
-                    $model->var_account = $mm->account_no_id;
-                    if ($mm->debit != 0) { //Income
-                        $model->cb_received_from = $modelHeader->user_ref;
-                    } else {
-                        $model->cb_receiver = $modelHeader->user_ref;
-                    }
-                }
+					$model->user_remark[] = $mm->user_remark;
+				}
             }
         }
 
@@ -360,6 +355,7 @@ class MCashbankController extends Controller {
 
     public function actionCreate() {
         $model = new fJournal('cashbank');
+        $model->setScenario('expense');
 
         //$this->performAjaxValidation($model);
 
@@ -372,7 +368,6 @@ class MCashbankController extends Controller {
         if (isset($_POST['account_no_id'])) {
             $model->attributes = $_POST['fJournal'];
 
-            if (isset($_POST['fJournal']['cb_receiver'])) {  //Expense
                 $model->account_no_id = $_POST['account_no_id'];
                 $model->debit = $_POST['debit'];
                 //$model->credit=$_POST['credit'];
@@ -394,8 +389,8 @@ class MCashbankController extends Controller {
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
                     $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
+                    $modelHeader->cb_custom1 = $_POST['fJournal']['cb_receiver'];
                     $modelHeader->remark = $_POST['fJournal']['remark'];
-                    $modelHeader->user_ref = $_POST['fJournal']['cb_receiver'];
 
                     $modelHeader->entity_id = sUser::model()->getGroup(); //default Group
                     $modelHeader->module_id = 2; //CB
@@ -424,8 +419,12 @@ class MCashbankController extends Controller {
                         else
                             $modelDetail->credit = 0;
 
-                        $modelDetail->user_remark = $model->user_remark[$i];
-                        $modelDetail->sub_account_id = 0;
+						if ($modelDetail->user_remark[$i] !=  null) {
+	                        $modelDetail->user_remark = $model->user_remark[$i];
+	                    } else
+	                        $modelDetail->user_remark = $modelHeader->cb_custom1.". ".$modelHeader->remark;
+   
+	                     $modelDetail->sub_account_id = 0;
 
                         $modelDetail->save();
                     endfor;
@@ -438,7 +437,7 @@ class MCashbankController extends Controller {
                     $modelDetail->credit = $_myBalance;
 
                     $modelDetail->system_remark = "Automated by System";
-                    $modelDetail->user_remark = $model->user_remark[0];
+                    $modelDetail->user_remark = $modelHeader->cb_custom1.". ".$modelHeader->remark;
                     $modelDetail->sub_account_id = 0;
                     $modelDetail->save();
 
@@ -450,10 +449,25 @@ class MCashbankController extends Controller {
 
                     $this->redirect(array('/m2/mCashbank'));
                 }
+        }
+        $this->render('create', array('model' => $model));
+    }
 
-                $this->render('create', array('model' => $model));
-                Yii::app()->end();
-            } else { //Income
+    public function actionCreateIncome() {
+        $model = new fJournal('cashbank');
+        $model->setScenario('income');
+
+        //$this->performAjaxValidation($model);
+
+        $_myDebit = 0;
+        $_myCredit = 0;
+        $_myBalance = 0;
+
+        $model->balance = "NOT OK";
+
+        if (isset($_POST['account_no_id'])) {
+            $model->attributes = $_POST['fJournal'];
+
                 $model->account_no_id = $_POST['account_no_id'];
                 //$model->debit=$_POST['debit'];
                 $model->debit = array(0);
@@ -475,8 +489,8 @@ class MCashbankController extends Controller {
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
                     $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
+                    $modelHeader->cb_custom1 = $_POST['fJournal']['cb_received_from'];
                     $modelHeader->remark = $_POST['fJournal']['remark'];
-                    $modelHeader->user_ref = $_POST['fJournal']['cb_received_from'];
 
                     $modelHeader->entity_id = sUser::model()->getGroup(); //default Group
                     $modelHeader->module_id = 2; //CB
@@ -493,7 +507,7 @@ class MCashbankController extends Controller {
                     $modelDetail->credit = 0;
 
                     $modelDetail->system_remark = "Automated by System";
-                    $modelDetail->user_remark = $model->user_remark[0];
+                    $modelDetail->user_remark = $modelHeader->cb_custom1.". ".$modelHeader->remark;
                     $modelDetail->sub_account_id = 0;
                     $modelDetail->save();
 
@@ -521,7 +535,11 @@ class MCashbankController extends Controller {
                         else
                             $modelDetail->credit = 0;
 
-                        $modelDetail->user_remark = $model->user_remark[$i];
+						if ($modelDetail->user_remark[$i] !=  null) {
+	                        $modelDetail->user_remark = $model->user_remark[$i];
+	                    } else
+	                        $modelDetail->user_remark = $modelHeader->cb_custom1.". ".$modelHeader->remark;
+
                         $modelDetail->sub_account_id = 0;
 
                         $modelDetail->save();
@@ -530,13 +548,9 @@ class MCashbankController extends Controller {
                     Yii::app()->user->setFlash("success", "Journal created succesfully... View Jurnal: " . CHtml::link($modelHeader->system_ref, Yii::app()->createUrl("/m2/mCashbank/view", array("id" => $modelHeader->id))));
                     $this->redirect(array('/m2/mCashbank'));
                 }
-
-                $this->render('create', array('model' => $model));
-                Yii::app()->end();
-            }
         }
 
-        $this->render('create', array('model' => $model));
+        $this->render('createIncome', array('model' => $model));
     }
 
     public function actionPrint($id) {

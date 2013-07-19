@@ -24,8 +24,8 @@ $this->menu5 = array('Sylabus');
     <div class="span3">
         <table width="100%">
             <tr bgcolor="EAEFFF">
-                <td  align="center"><h3><?php echo $model->mPartCount ?></h3>
-                    <h6 align="center" ><font COLOR="#999">Total Participant</font></h6></td>
+                <td  align="center"><h3><?php echo $model->getMPartCount() ." / ".$model->partCountConfirm ?></h3>
+                    <h6 align="center" ><font COLOR="#999">Total Participant / Confirm</font></h6></td>
             </tr>
         </table>
     </div>

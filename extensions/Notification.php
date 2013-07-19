@@ -17,7 +17,7 @@
 
 Class Notification {
 
-    public function create($group, $url, $message) {
+    public function create($group, $url, $message, $company = null) {
         $model = new sNotification();
         $model->expire = time();
         $model->alert_after_date = time();
@@ -26,7 +26,10 @@ Class Notification {
         $model->group_id = $group;
         $model->link = $url;
         $model->content = $message;
-        $model->company_id = sUser::model()->getGroup();
+        if ($company ==null) {
+	        $model->company_id = sUser::model()->getGroup();
+	    } else
+	        $model->company_id = $company;
 
         if ($model->save(false)) {
             return true;

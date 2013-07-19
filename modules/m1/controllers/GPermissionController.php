@@ -39,11 +39,8 @@ class GPermissionController extends Controller {
 
         if (isset($_POST['gPermission'])) {
             $model->attributes = $_POST['gPermission'];
-            //$model->parent_id=gPerson::model()->find('userid = '.Yii::app()->user->id)->id;  //default PETER
             $model->approved_id = 1; ///request
             if ($model->save())
-            //$this->redirect(array('view','id'=>$model->id));
-            //$this->redirect(array('view','id'=>gPerson::model()->find('userid = '.Yii::app()->user->id)->id));
                 $this->redirect(array('/m1/gPermission'));
         }
 

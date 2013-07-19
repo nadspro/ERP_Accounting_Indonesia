@@ -13,12 +13,6 @@ $this->menu2 = uJournal::getTopCreated(2);
 ?>
 
 
-<div class="page-header">
-    <h1>
-        Cash and Bank
-    </h1>
-</div>
-
 <?php
 if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
     $this->widget('bootstrap.widgets.TbTabs', array(
@@ -29,19 +23,12 @@ if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
         ),
     ));
 } elseif (isset($model->cb_receiver)) {
-    $this->widget('bootstrap.widgets.TbTabs', array(
-        'type' => 'tabs', // 'tabs' or 'pills'
-        'tabs' => array(
-            array('label' => 'Expense', 'content' => $this->renderPartial("_tabCreateExpense", array("model" => $model), true), 'active' => true),
-        ),
-    ));
+
+    $this->renderPartial("_tabCreateExpense", array("model" => $model));
+
 } else {
-    $this->widget('bootstrap.widgets.TbTabs', array(
-        'type' => 'tabs', // 'tabs' or 'pills'
-        'tabs' => array(
-            array('label' => 'Income', 'content' => $this->renderPartial("_tabCreateIncome", array("model" => $model), true), 'active' => true),
-        ),
-    ));
+
+	$this->renderPartial("_tabCreateIncome", array("model" => $model));
+
 }
 ?>
-

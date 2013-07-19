@@ -84,7 +84,7 @@ class balanceSheet1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, $model2->account_concat());
+                $this->Cell($w[0], 4, $model2->account_concat);
                 $this->SetX($this->x0);
                 $this->Cell($w[1], 4, '');
                 $this->Ln();
@@ -92,21 +92,21 @@ class balanceSheet1 extends fpdf {
                 foreach ($model2->childs as $model) {
                     $this->SetFont('Arial', 'B', 8);
                     $this->Cell($_s, 4, '');
-                    $this->Cell($w[0], 4, $model->account_concat());
+                    $this->Cell($w[0], 4, $model->account_concat);
                     $this->SetX($this->x0);
                     $this->Cell($w[1], 4, '');
                     $this->Ln();
 
                     if ($model->childs) {
                         foreach ($model->childs as $mod) {
-                            if ($mod->childs) {
+                            if ($mod->haschild) {
                                 $this->SetFont('Arial', 'B', 8);
                             }
                             else
                                 $this->SetFont('Arial', '', 8);
 
                             $this->Cell($_s + 5, 4, '');
-                            $this->Cell($w[0], 4, $mod->account_concat());
+                            $this->Cell($w[0], 4, $mod->account_concat);
                             $this->SetX($this->x0);
                             $_mod = $mod->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                             if (isset($_mod->end_balance)) {
@@ -117,7 +117,7 @@ class balanceSheet1 extends fpdf {
                             else
                                 $_balance = 0;
 
-                            if ($mod->childs) {
+                            if ($mod->haschild) {
                                 $this->Cell($w[1], 4, '', 0, 0, 'R');
                             } else {
                                 /* if (isset($mod->accmain) && $mod->accmain->mvalue ==8) {
@@ -132,16 +132,16 @@ class balanceSheet1 extends fpdf {
                             $this->Ln();
 
 
-                            if ($mod->childs) {
+                            if ($mod->haschild) {
                                 foreach ($mod->childs as $m) {
-                                    if ($m->childs) {
+                                    if ($m->haschild) {
                                         $this->SetFont('Arial', 'B', 8);
                                     }
                                     else
                                         $this->SetFont('Arial', '', 8);
 
                                     $this->Cell($_s + 10, 4, '');
-                                    $this->Cell($w[0], 4, $m->account_concat());
+                                    $this->Cell($w[0], 4, $m->account_concat);
                                     $this->SetX($this->x0);
                                     $_m = $m->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                                     if (isset($_m->end_balance)) {
@@ -153,7 +153,7 @@ class balanceSheet1 extends fpdf {
                                     else
                                         $_balance = 0;
 
-                                    if ($m->childs) {
+                                    if ($m->haschild) {
                                         $this->Cell($w[1], 4, '', 0, 0, 'R');
                                     } else {
                                         /* if (isset($m->accmain) && $m->accmain->mvalue ==8) {
@@ -167,18 +167,18 @@ class balanceSheet1 extends fpdf {
 
                                     $this->Ln();
 
-                                    if ($m->childs) {
+                                    if ($m->haschild) {
 
                                         ////////////////LAST
                                         foreach ($m->childs as $n) {
-                                            if ($n->childs) {
+                                            if ($n->haschild) {
                                                 $this->SetFont('Arial', 'B', 8);
                                             }
                                             else
                                                 $this->SetFont('Arial', '', 8);
 
                                             $this->Cell($_s + 15, 4, '');
-                                            $this->Cell($w[0], 4, $n->account_concat());
+                                            $this->Cell($w[0], 4, $n->account_concat);
                                             $this->SetX($this->x0);
                                             $_n = $n->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                                             if (isset($_n->end_balance)) {
@@ -190,7 +190,7 @@ class balanceSheet1 extends fpdf {
                                             else
                                                 $_balance = 0;
 
-                                            if ($n->childs) {
+                                            if ($n->haschild) {
                                                 $this->Cell($w[1], 4, '', 0, 0, 'R');
                                             } else {
                                                 /* if (isset($n->accmain) && $n->accmain->mvalue ==8) {
@@ -212,7 +212,7 @@ class balanceSheet1 extends fpdf {
                             if ($mod->childs && $mod->childsCount >= 2) {
                                 $this->SetFont('Arial', 'B', 8);
                                 $this->Cell($_s + 5, 4, '');
-                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_name);
+                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_concat);
                                 $this->SetX($this->x0);
                                 $this->Cell($w[1], 4, number_format($_total, 0, ',', '.'), 'T', 0, 'R');
                                 $this->Ln(5);
@@ -230,7 +230,7 @@ class balanceSheet1 extends fpdf {
                     }
                     $this->SetFont('Arial', 'B', 8);
                     $this->Cell($_s, 4, '');
-                    $this->Cell($w[0], 4, 'TOTAL ' . $model->account_name);
+                    $this->Cell($w[0], 4, 'TOTAL ' . $model->account_concat);
                     $this->SetX($this->x0 + 20);
                     $this->Cell($w[1], 4, number_format($_subtotal, 0, ',', '.'), 'T', 0, 'R');
                     $this->Ln(5);
@@ -239,7 +239,7 @@ class balanceSheet1 extends fpdf {
 
                     if ($this->GetY() >= 250) {
                         $this->AddPage();
-                        $this->myheader();
+				        $this->myheader($periode_date, $report_id);
                     }
                 }
 
@@ -247,7 +247,7 @@ class balanceSheet1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_name, 0, 0, 'L', true);
+                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_concat, 0, 0, 'L', true);
                 $this->SetX($this->x0 + 20);
                 $this->Cell($w[1], 4, number_format($_grandtotal, 0, ',', '.'), 0, 0, 'R', true);
                 $this->Cell($w[1], 4, '');

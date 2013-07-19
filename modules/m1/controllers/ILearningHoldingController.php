@@ -285,7 +285,10 @@ class ILearningHoldingController extends Controller {
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 12);
 
-        $model = iLearningSch::model()->findByPk((int) $id);
+		$criteria= new CDbCriteria;
+		$criteria->with=array('participant', 'participant.employee', 'participant.employee.company');
+		$criteria->order='company.company_id';
+        $model = iLearningSch::model()->findByPk((int) $id,$criteria);
         if ($model == null)
             throw new CHttpException(404, 'The requested page does not exist.');
 
@@ -312,7 +315,7 @@ class ILearningHoldingController extends Controller {
         $detail = array();
         $input = array("#CC0000", "#0000CC", "#333333", "#663333", "#993333", "#CC3333", "#003366", "#663366", "#993366", "#CC3366", "#6633CC");
         foreach ($models as $model) {
-            $detail['title'] = $model->learning_status . " (" . $model->partCount . ")";
+            $detail['title'] = $model->learning_status . " (" . $model->mPartCount . " / ".$model->partCountConfirm.")";
             $detail['start'] = date('Y') . '-' . date('m', strtotime($model->schedule_date)) . '-' . date('d', strtotime($model->schedule_date));
             //$detail['start']= $model->schedule_date;
             $detail['color'] = $input[rand(0, 10)];

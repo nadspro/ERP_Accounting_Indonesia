@@ -110,7 +110,8 @@ class gPerson extends BaseModel {
             'many_educationnfC' => array(self::STAT, 'gPersonEducationNf', 'parent_id'),
             'many_otherC' => array(self::STAT, 'gPersonOther', 'parent_id'),
             'many_training' => array(self::HAS_MANY, 'gPersonTraining', 'parent_id', 'order' => 'many_training.start_date'),
-            'many_training_holding' => array(self::HAS_MANY, 'iLearningSchPart', 'employee_id'),
+            'many_training_holding' => array(self::HAS_MANY, 'iLearningSchPart', 'employee_id','condition'=>'flow_id = 2'),
+            'many_training_holding_empty' => array(self::HAS_MANY, 'iLearningSchPart', 'employee_id','condition'=>'flow_id is null or flow_id = 2'),
             'many_trainingC' => array(self::STAT, 'gPersonTraining', 'parent_id'),
             'many_family' => array(self::HAS_MANY, 'gPersonFamily', 'parent_id', 'order' => 'many_family.relation_id'),
             'many_familyC' => array(self::STAT, 'gPersonFamily', 'parent_id'),
@@ -372,7 +373,38 @@ class gPerson extends BaseModel {
                 'description' => $model->employeeShortId . " | " . $model->mDepartment(),
                 'label' => $_nama,
                 'photo' => $model->photoPath,
-                'url' => array('view',
+                'url' => array('view', 'id' => $model->id,
+            ));
+        }
+
+        return $returnarray;
+    }
+
+    public static function getTopUpdatedCareer() {
+
+        $criteria = new CDbCriteria;
+        $criteria->limit = 10;
+        $criteria->order = "many_career.updated_date DESC";
+        $criteria->together=true;
+        $criteria->with=array('many_career');
+    
+        if (Yii::app()->user->name != "admin") {
+            $criteria1 = new CDbCriteria;
+            $criteria1->condition = '(select c.company_id from g_person_career c WHERE t.id=c.parent_id AND c.status_id IN (' . implode(',', Yii::app()->getModule('m1')->PARAM_COMPANY_ARRAY) . ') ORDER BY c.start_date DESC LIMIT 1) IN (' . implode(",", sUser::model()->getGroupArray()) . ')';
+            $criteria->mergeWith($criteria1);
+        }
+        $models = self::model()->findAll($criteria);
+
+        $returnarray = array();
+
+        foreach ($models as $model) {
+            $_nama = (strlen($model->employee_name) > 28) ? substr($model->employee_name, 0, 28) . "..." : $model->employee_name;
+            $returnarray[] = array(
+                'id' => $model->id,
+                'description' => $model->employeeShortId . " | " . $model->mDepartment(),
+                'label' => $_nama,
+                'photo' => $model->photoPath,
+                'url' => array('view', 'id' => $model->id,
             ));
         }
 

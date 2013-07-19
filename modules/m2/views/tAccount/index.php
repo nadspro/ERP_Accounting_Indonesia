@@ -7,6 +7,7 @@ $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m2/tAccount')),
     array('label' => 'New Root Account', 'icon' => 'plus', 'url' => array('/m2/tAccount/create')),
     array('label' => 'Print List', 'icon' => 'print', 'url' => array('printList')),
+    array('label' => 'Reload', 'icon' => 'random', 'url' => array('reload')),
 );
 
 

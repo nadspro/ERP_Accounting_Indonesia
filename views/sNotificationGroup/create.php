@@ -8,9 +8,13 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'List sNotificationGroup', 'url' => array('index')),
-    array('label' => 'Manage sNotificationGroup', 'url' => array('admin')),
+    //array('label' => 'List sNotificationGroup', 'url' => array('index')),
+    //array('label' => 'Manage sNotificationGroup', 'url' => array('admin')),
 );
+
+$this->menu1 = sNotificationGroup::getTopUpdated();
+$this->menu2 = sNotificationGroup::getTopCreated();
+
 ?>
 
 <div class="page-header">

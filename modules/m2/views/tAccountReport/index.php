@@ -1,14 +1,8 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->getClientScript()->getCoreScriptUrl() . '/jui/css/2jui-bootstrap/js/jquery-ui-1.8.16.custom.min.js');
-Yii::app()->clientScript->registerCssFile(Yii::app()->getClientScript()->getCoreScriptUrl() . '/jui/css/2jui-bootstrap/jquery-ui.css');
 Yii::app()->getClientScript()->registerCoreScript('maskedinput');
 
 Yii::app()->clientScript->registerScript('periode_date', "
 		$(function() {
-		$( \"#" . CHtml::activeId($model, 'periode_date') . "\" ).datepicker({
-			
-		'dateFormat' : 'yymm',
-});
 		$( \"#" . CHtml::activeId($model, 'periode_date') . "\" ).mask('999999');
 });
 
@@ -24,7 +18,6 @@ $this->breadcrumbs = array(
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/report.png') ?>
         Accounting Report
     </h1>
 </div>
@@ -42,7 +35,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <div class="control-group">
-    <?php echo $form->labelEx($model, 'some_date', array('class' => 'control-label')); ?>
+    <?php echo $form->labelEx($model, 'periode_date', array('class' => 'control-label')); ?>
 
     <div class="controls">
 

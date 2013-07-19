@@ -25,7 +25,7 @@ $this->breadcrumbs = array(
 
 $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m2/uJournal')),
-    array('label' => 'View', 'icon' => 'zoom-in', 'url' => array('view', 'id' => $model->master_id)),
+    array('label' => 'View', 'icon' => 'edit', 'url' => array('view', 'id' => $model->master_id)),
 );
 
 $this->menu1 = uJournal::getTopUpdated(1);
@@ -35,7 +35,6 @@ $this->menu2 = uJournal::getTopCreated(1);
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/cash.png') ?>
         Update:
         <?php echo $model->system_ref; ?>
     </h1>
@@ -62,7 +61,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 $this->widget('ext.appendo.JAppendo', array(
     'id' => 'repeateEnum',
     'model' => $model,
-    'viewName' => '_detailJournal',
+    'viewName' => '_detailJournalMemorial',
     'labelDel' => 'Remove Row',
     'appendoPath' => '/modules/m2/views/jAppendo/',
         //'cssFile' => 'css/jquery.appendo2.css'

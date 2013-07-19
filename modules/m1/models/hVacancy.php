@@ -77,7 +77,7 @@ class hVacancy extends BaseModel {
         // class name for the relations automatically generated below.
         return array(
             'applicant' => array(self::HAS_MANY, 'hVacancyApplicant', 'vacancy_id'),
-            'applicantMany' => array(self::MANY_MANY, 'hApplicant', 'h_vacancy_applicant(vacancy_id, applicant_id)'),
+            'applicantMany' => array(self::MANY_MANY, 'hApplicant', 'h_vacancy_applicant(vacancy_id, applicant_id)','order'=>'applicantMany_applicantMany.created_date DESC'),
             'applicantCount' => array(self::STAT, 'hVacancyApplicant', 'vacancy_id'),
             'company' => array(self::BELONGS_TO, 'aOrganization', 'company_id'),
             'edulevel' => array(self::BELONGS_TO, 'sParameter', array('min_education_level' => 'code'), 'condition' => 'type = \'EDU\''),

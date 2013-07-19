@@ -45,6 +45,17 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 'style' => 'text-align: right; padding-right: 5px;'
             ),
         ),
+        array(
+            'class' => 'EJuiDlgsColumn',
+            'template' => '{update}',
+            'updateDialog' => array(
+                'controllerRoute' => 'm2/tAccount/updateBalance',
+                'actionParams' => array('id' => '$data->id'),
+                'dialogTitle' => 'Update Balance',
+                'dialogWidth' => 512, //override the value from the dialog config
+                'dialogHeight' => 530
+            ),
+        ),
     ),
 ));
 ?>
@@ -74,7 +85,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'No Ref',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->journal->system_reff(),Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$data->parent_id)))',
+            'value' => 'CHtml::link($data->journal->system_reff,Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$data->parent_id)))',
         ),
         array(
             'name' => 'debit',

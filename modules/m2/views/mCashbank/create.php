@@ -15,18 +15,18 @@ $this->menu2 = uJournal::getTopCreated(2);
 
 <div class="page-header">
     <h1>
-        Cash and Bank
+        Cash and Bank: Expense
     </h1>
 </div>
 
 <?php
-$this->widget('bootstrap.widgets.TbTabs', array(
-    'type' => 'tabs', // 'tabs' or 'pills'
-    'tabs' => array(
-        array('label' => 'Expense', 'content' => $this->renderPartial("_tabCreateExpense", array("model" => $model), true), 'active' => true),
-        array('label' => 'Income', 'content' => $this->renderPartial("_tabCreateIncome", array("model" => $model), true)),
+$this->widget('bootstrap.widgets.TbMenu', array(
+    'type' => 'pills', // '', 'tabs', 'pills' (or 'list')
+    'stacked' => false, // whether this is a stacked menu
+    'items' => array(
+        array('label' => 'Expense', 'url' => Yii::app()->createUrl('/m2/mCashbank/create'), 'active' => true),
+        array('label' => 'Income', 'url' => Yii::app()->createUrl('/m2/mCashbank/createIncome')),
     ),
 ));
 
-
-
+echo $this->renderPartial('_tabCreateExpense', array('model' => $model));

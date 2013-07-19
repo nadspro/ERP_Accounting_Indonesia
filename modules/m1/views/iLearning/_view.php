@@ -32,7 +32,7 @@
             <?php
             foreach ($data->schedule as $list) {
                 echo CHtml::link($list->schedule_date, Yii::app()->createUrl('/m1/iLearning/viewDetail', array('id' => $list->id)));
-                echo "  (" . $list->partCount . ")";
+               // echo "  (" . $list->partCount . ")";
                 echo " | ";
             }
             ?>

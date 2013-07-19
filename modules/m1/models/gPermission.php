@@ -248,7 +248,7 @@ class gPermission extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/gPermission/view/id/' . $this->parent_id, 'Permission. New Permission created: ' . $this->person->employee_name
+                    1, 'm1/gPermission/view/id/' . $this->parent_id, 'Permission. New Permission created: ' . strtoupper($this->person->employee_name)
             );
         }
         return true;

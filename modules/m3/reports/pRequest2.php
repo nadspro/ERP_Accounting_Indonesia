@@ -98,7 +98,7 @@ class pRequest2 extends fpdf {
             $this->Cell($w[0], 6, $_counter, 'LB', 0, 'R');
             $this->Cell($w[1], 6, $mod->input_date, 'LB');
             $this->Cell($w[2], 6, $mod->no_ref, 'LB');
-            $this->Cell($w[3], 6, sParameter::BulanTahun1($mod->periode_date), 'LB');
+            $this->Cell($w[3], 6, peterFunc::BulanTahun1($mod->periode_date), 'LB');
             $this->Cell($w[4], 6, number_format($mod->tcredit, 0, ',', '.'), 'LB', 0, 'R');
             $this->Cell($w[4], 6, number_format($mod->balance, 0, ',', '.'), 'LB', 0, 'R');
             $this->Cell($w[6], 6, aPorder::model()->issuerBy((int) $mod->prequest_id), 'LB');

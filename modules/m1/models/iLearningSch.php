@@ -64,6 +64,7 @@ class iLearningSch extends BaseModel {
             'getparent' => array(self::BELONGS_TO, 'iLearning', 'parent_id'),
             'participant' => array(self::HAS_MANY, 'iLearningSchPart', 'parent_id'),
             'partCount' => array(self::STAT, 'iLearningSchPart', 'parent_id'),
+            'partCountConfirm' => array(self::STAT, 'iLearningSchPart', 'parent_id','condition'=>'flow_id = 2'),
             'status' => array(self::BELONGS_TO, 'sParameter', array('status_id' => 'code'), 'condition' => 'type = \'cTrainingStatus\''),
         );
     }
@@ -87,6 +88,14 @@ class iLearningSch extends BaseModel {
             'updated_by' => 'Updated By',
             'partCount' => 'Total Participant',
         );
+    }
+
+    public function getMPartCount() {
+        if ($this->getparent->type_id == 3) {
+            return $this->total_participant;
+        }
+        else
+            return $this->partCount;
     }
 
     public function getPartCountFb() {
@@ -406,12 +415,5 @@ class iLearningSch extends BaseModel {
         return $_merge;
     }
 
-    public function getMPartCount() {
-        if ($this->getparent->type_id == 3) {
-            return $this->total_participant;
-        }
-        else
-            return $this->partCount;
-    }
 
 }

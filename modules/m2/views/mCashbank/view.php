@@ -6,8 +6,8 @@ $this->breadcrumbs = array(
 
 $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m2/mCashbank')),
-    array('label' => 'Update', 'icon' => 'edit', 'url' => array('update', 'id' => $model->id)),
-    array('label' => 'Delete', 'icon' => 'remove', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this item?'), 'visible' => $model->state_id == 1),
+    array('label' => 'Update', 'icon' => 'edit', 'url' => array('update', 'id' => $model->id),'visible'=>in_array($model->state_id,array(1,2))),
+    array('label' => 'Delete', 'icon' => 'remove', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this item?'), 'visible' => in_array($model->state_id,array(1,2))),
     array('label' => 'Print', 'icon' => 'print', 'url' => array('print', 'id' => $model->id)),
 );
 
@@ -19,8 +19,7 @@ $this->menu5 = array('Journal');
 
 <div class="page-header">
     <h1>
-        Cash and Bank:
-        <?php echo $model->system_reff(); ?>
+        <?php echo $model->system_reff; ?>
     </h1>
 </div>
 
@@ -36,10 +35,17 @@ $this->widget('ext.XDetailView', array(
     'attributes' => array(
         'input_date',
         'yearmonth_periode',
-        'user_ref',
-        'system_ref',
+        array(
+        	'label'=>'Receiver',
+        	'name'=>'cb_custom1',
+        	'visible'=>$model->journal_type_id == 2,
+        ),
+        array(
+        	'label'=>'Received From',
+        	'name'=>'cb_custom1',
+        	'visible'=>$model->journal_type_id == 1,
+        ),
     //'remark',
-    //'journal_type_id',
     ),
 ));
 ?>

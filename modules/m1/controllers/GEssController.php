@@ -212,7 +212,7 @@ class GEssController extends Controller {
         //$this->layout='//layouts/column2';
 
         $model = $this->loadModel();
-
+        
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -255,6 +255,9 @@ class GEssController extends Controller {
         $model = $this->loadModel();
         $modelLeave = $this->loadModelLeave($id);
 
+        if (strtotime($modelLeave->start_date) <= time())
+                $this->redirect(array('/m1/gEss/leave'));
+
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -272,7 +275,13 @@ class GEssController extends Controller {
 
     public function actionDeleteLeave($id) {
 
-        $model = $this->loadModelLeave($id)->delete();
+        $model = $this->loadModelLeave($id);
+
+
+        if (strtotime($model->start_date) < time())
+                $this->redirect(array('/m1/gEss/leave'));
+
+        $model->delete();
 
         $this->redirect(array('/m1/gEss/leave'));
     }

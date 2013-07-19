@@ -44,6 +44,7 @@ class iLearningSchPart extends BaseModel {
         return array(
             array('parent_id, employee_id, flow_id', 'required'),
             array('parent_id, employee_id, flow_id, day1, day2, day3, day4, created_date', 'numerical', 'integerOnly' => true),
+			array('parent_id', 'UniqueAttributesValidator', 'with'=>'employee_id'),
             array('created_by', 'length', 'max' => 50),
             array('remark', 'length', 'max' => 500),
             // The following rule is used by search().
@@ -164,13 +165,25 @@ class iLearningSchPart extends BaseModel {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-            'pagination' => array(
-                'pageSize' => 50,
-            ),
-            'sort' => array(
-                'defaultOrder' => 'getparent.schedule_date',
-            )
+            //'sort' => array(
+            //    'defaultOrder' => 'getparent.schedule_date',
+            //)
         ));
     }
+    
+    public function afterSave() {
+        if ($this->isNewRecord) {
+            Notification::create(
+                    3, //Learning Group 
+                    'm1/iLearning/viewDetail/id/' . $this->parent_id, 
+                    strtoupper($this->employee->employee_name).' from '.$this->employee->mCompany(). ' has been added to ' 
+                    . strtoupper($this->getparent->getparent->learning_title).' on '
+                    . $this->getparent->schedule_date
+            );
+        }
+        return true;
+    }
+    
+    
 
 }

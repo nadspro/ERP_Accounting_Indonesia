@@ -5,6 +5,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => gPersonTraining::model()->search($model->id),
     //'filter'=>$model,
     'template' => '{items}',
+    'htmlOptions'=>array(
+    	'style'=>'padding-top:0'
+    ),
     'columns' => array(
         'type.name',
         'topic',

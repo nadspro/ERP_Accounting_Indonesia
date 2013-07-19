@@ -15,9 +15,9 @@ class uJournal extends BaseModel {
             array('input_date, yearmonth_periode', 'required'),
             array('entity_id, module_id, yearmonth_periode, journal_type_id, state_id, created_date, created_by, updated_date, updated_by', 'numerical', 'integerOnly' => true),
             array('user_ref, system_ref', 'length', 'max' => 100),
-            array('cb_receiver', 'length', 'max' => 50),
+            array('cb_custom1', 'length', 'max' => 50),
             array('remark', 'safe'),
-            array('id, entity_id, module_id, input_date, yearmonth_periode, user_ref, system_ref, remark, journal_type_id, state_id, cb_receiver, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
+            array('id, entity_id, module_id, input_date, yearmonth_periode, user_ref, system_ref, remark, journal_type_id, state_id, cb_custom1, created_date, created_by, updated_date, updated_by', 'safe', 'on' => 'search'),
         );
     }
 
@@ -46,7 +46,7 @@ class uJournal extends BaseModel {
             'remark' => 'Remark / Tag',
             'journal_type_id' => 'Journal Type',
             'state_id' => 'State',
-            'cb_receiver' => 'Cb Receiver',
+            'cb_custom1' => 'Receiver/Received From',
             'created_date' => 'Created Date',
             'created_by' => 'Created',
             'updated_date' => 'Updated Date',
@@ -194,23 +194,13 @@ class uJournal extends BaseModel {
         return $_format;
     }
 
-    public function system_reff() {
+    public function getSystem_reff() {
         $_state = null;
 
         if ($this->state_id != 1)
-            $_state = " (" . $this->status->name . ")";
+            $_state = CHtml::tag("span", array('style' => 'font-size:inherit', 'class' => 'label label-info'), $this->status->name);
 
-        $_format = $this->system_ref . $_state;
-
-        return $_format;
-    }
-
-    public function getStatus() {
-
-        if ($this->state_id == 1)
-            $_state = " (" . sParameter::item("cStatus", $this->state_id) . ")";
-
-        $_format = $this->system_ref . $_state;
+        $_format = $this->system_ref ." ". $_state;
 
         return $_format;
     }

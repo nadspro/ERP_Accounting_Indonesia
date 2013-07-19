@@ -64,7 +64,7 @@ class leaveForm extends fpdf {
         $this->Ln();
         $this->Cell(60, 6, 'Masuk Bekerja Kembali', 'L');
         //$this->Cell(40,6,': Hari  '.Yii::app()->dateFormatter->format("EEEE",strtotime($model->work_date)));
-        $this->Cell(40, 6, ': Hari  ' . sFunction::convertHari((int) date("w", strtotime($model->work_date))));
+        $this->Cell(40, 6, ': Hari  ' . peterFunc::convertHari((int) date("w", strtotime($model->work_date))));
         $this->Cell(10, 6, ' Tgl ');
         $this->Cell(30, 6, $model->work_date);
         $this->Cell(0, 6, '', 'R');

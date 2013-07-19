@@ -63,12 +63,12 @@ class SNotificationController extends Controller {
         $criteria->mergeWith($criteria1);
         $criteria->order = 'expire DESC';
 
-        $models = sNotificationMessage::model()->findAll($criteria);
+        $models = sNotification::model()->findAll($criteria);
         if ($models === null)
             throw new CHttpException(404, 'The requested page does not exist.');
 
         foreach ($models as $model) {
-            $reads = new sNotificationMessageRead();
+            $reads = new sNotificationRead();
             $reads->username = Yii::app()->user->id;
             $reads->notification_id = $model->id;
             $reads->readed = true;

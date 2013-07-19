@@ -74,7 +74,7 @@ class profitLost1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, $model2->account_concat());
+                $this->Cell($w[0], 4, $model2->account_concat);
                 $this->SetX($this->x0);
                 $this->Cell($w[1], 4, '');
                 $this->Ln();
@@ -87,7 +87,7 @@ class profitLost1 extends fpdf {
                         $this->SetFont('Arial', '', 8);
 
                     $this->Cell($_s, 4, '');
-                    $this->Cell($w[0], 4, $model->account_concat());
+                    $this->Cell($w[0], 4, $model->account_concat);
                     $this->SetX($this->x0);
                     $_model = $model->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                     if (isset($_model->end_balance)) {
@@ -116,7 +116,7 @@ class profitLost1 extends fpdf {
                                 $this->SetFont('Arial', '', 8);
 
                             $this->Cell($_s + 5, 4, '');
-                            $this->Cell($w[0], 4, $mod->account_concat());
+                            $this->Cell($w[0], 4, $mod->account_concat);
                             $this->SetX($this->x0);
                             $_mod = $mod->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                             if (isset($_mod->end_balance)) {
@@ -140,7 +140,7 @@ class profitLost1 extends fpdf {
                                 foreach ($mod->childs as $m) {
                                     $this->SetFont('Arial', '', 8);
                                     $this->Cell($_s + 10, 4, '');
-                                    $this->Cell($w[0], 4, $m->account_concat());
+                                    $this->Cell($w[0], 4, $m->account_concat);
                                     $this->SetX($this->x0);
                                     $_m = $m->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                                     if (isset($_m->end_balance)) {
@@ -165,7 +165,7 @@ class profitLost1 extends fpdf {
                             if ($mod->childs) {
                                 $this->SetFont('Arial', 'B', 8);
                                 $this->Cell($_s + 5, 4, '');
-                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_name);
+                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_concat);
                                 $this->SetX($this->x0);
                                 $this->Cell($w[1], 4, number_format($_total, 0, ',', '.'), 'T', 0, 'R');
                                 $this->Ln(5);
@@ -182,7 +182,7 @@ class profitLost1 extends fpdf {
                     if ($model->childs && $model->childsCount >= 2) {
                         $this->SetFont('Arial', 'B', 8);
                         $this->Cell($_s, 4, '');
-                        $this->Cell($w[0], 4, 'TOTAL ' . $model->account_name);
+                        $this->Cell($w[0], 4, 'TOTAL ' . $model->account_concat);
                         $this->SetX($this->x0);
                         $this->Cell($w[1], 4, number_format($_subtotal, 0, ',', '.'), 'T', 0, 'R');
                         $this->Ln(5);
@@ -199,18 +199,23 @@ class profitLost1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_name);
+                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_concat);
                 $this->SetX($this->x0 + 20);
                 $this->Cell($w[1], 4, number_format($_grandtotal, 0, ',', '.'), 0, 0, 'R');
                 $this->Cell($w[1], 4, '');
                 $this->Ln(8);
 
+				$_grossprofit=0;
+				
                 if ($mmm->id == 3) {  //income
                     $_grandtotalI = $_grandtotal;
                 } elseif ($mmm->id == 4) { //HPP
                     $_grandtotalH = $_grandtotal;
                     $_grossprofit = $_grandtotalI - $_grandtotalH;
                 } else { //Expenses
+                	if ($_grandtotalH == 0) //No HPP 
+                		$_grossprofit = $_grandtotalI ;
+                		
                     $_grandtotalE = $_grandtotal;
                     $_netprofit = $_grossprofit - $_grandtotalE;
                 }
@@ -250,7 +255,7 @@ class profitLost1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, $model2->account_concat());
+                $this->Cell($w[0], 4, $model2->account_concat);
                 $this->SetX($this->x0);
                 $this->Cell($w[1], 4, '');
                 $this->Ln();
@@ -263,7 +268,7 @@ class profitLost1 extends fpdf {
                         $this->SetFont('Arial', '', 8);
 
                     $this->Cell($_s, 4, '');
-                    $this->Cell($w[0], 4, $model->account_concat());
+                    $this->Cell($w[0], 4, $model->account_concat);
                     $this->SetX($this->x0);
                     $_model = $model->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                     if (isset($_model->end_balance)) {
@@ -292,7 +297,7 @@ class profitLost1 extends fpdf {
                                 $this->SetFont('Arial', '', 8);
 
                             $this->Cell($_s + 5, 4, '');
-                            $this->Cell($w[0], 4, $mod->account_concat());
+                            $this->Cell($w[0], 4, $mod->account_concat);
                             $this->SetX($this->x0);
                             $_mod = $mod->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                             if (isset($_mod->end_balance)) {
@@ -322,7 +327,7 @@ class profitLost1 extends fpdf {
                                 foreach ($mod->childs as $m) {
                                     $this->SetFont('Arial', '', 8);
                                     $this->Cell($_s + 10, 4, '');
-                                    $this->Cell($w[0], 4, $m->account_concat());
+                                    $this->Cell($w[0], 4, $m->account_concat);
                                     $this->SetX($this->x0);
                                     $_m = $m->balancesheet(array('condition' => 'yearmonth_periode =' . $periode_date));
                                     if (isset($_m->end_balance)) {
@@ -353,7 +358,7 @@ class profitLost1 extends fpdf {
                             if ($mod->childs) {
                                 $this->SetFont('Arial', 'B', 8);
                                 $this->Cell($_s + 5, 4, '');
-                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_name);
+                                $this->Cell($w[0], 4, 'TOTAL ' . $mod->account_concat);
                                 $this->SetX($this->x0);
                                 $this->Cell($w[1], 4, number_format($_total, 0, ',', '.'), 'T', 0, 'R');
                                 $this->Ln(5);
@@ -365,7 +370,7 @@ class profitLost1 extends fpdf {
                     if ($model->childs && $model->childsCount >= 2) {
                         $this->SetFont('Arial', 'B', 8);
                         $this->Cell($_s, 4, '');
-                        $this->Cell($w[0], 4, 'TOTAL ' . $model->account_name);
+                        $this->Cell($w[0], 4, 'TOTAL ' . $model->account_concat);
                         $this->SetX($this->x0);
                         $this->Cell($w[1], 4, number_format($_subtotal, 0, ',', '.'), 'T', 0, 'R');
                         $this->Ln(5);
@@ -382,7 +387,7 @@ class profitLost1 extends fpdf {
                 $this->SetFont('Arial', 'B', 8);
                 if ($mmm->id == 2)
                     $this->Cell(5, 4, '');
-                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_name);
+                $this->Cell($w[0], 4, 'TOTAL ' . $model2->account_concat);
                 $this->SetX($this->x0 + 20);
                 $this->Cell($w[1], 4, number_format($_grandtotal, 0, ',', '.'), 0, 0, 'R');
                 $this->Cell($w[1], 4, '');

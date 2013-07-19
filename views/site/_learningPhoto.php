@@ -9,6 +9,7 @@
 $dir = Yii::app()->basePath . "/../shareimages/hr/learning";
 $contents = scandir($dir, 1);
 $counter = 1;
+$counterdir = 1;
 ?>
 
 
@@ -49,6 +50,12 @@ foreach ($contents as $content) {
         if ($counter == 5)
             $counter = 1;
     }
+    
+    $counterdir++;
+    
+    if ($counterdir == 9)
+    	break;
+    
 };
 ?>
 

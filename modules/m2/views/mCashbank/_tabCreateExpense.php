@@ -18,9 +18,11 @@ Yii::app()->clientScript->registerScript('datepicker1', "
 ?>
 
 
-<h2>
+<div class="page-header">
+<h1>
     <?php echo (isset($model->system_ref) ? "Update: " . $model->system_ref : "") ?>
-</h2>
+</h1>
+</div>
 
 <?php
 $form = $this->beginWidget('TbActiveForm', array(

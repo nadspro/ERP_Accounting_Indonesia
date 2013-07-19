@@ -19,7 +19,7 @@ $this->menu5 = array('Journal');
 
 <div class="page-header">
     <h1>
-        <?php echo $model->system_reff(); ?>
+        <?php echo $model->system_reff; ?>
     </h1>
 </div>
 

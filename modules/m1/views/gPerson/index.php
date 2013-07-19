@@ -12,7 +12,7 @@ $this->menu = array(
     array('label' => 'Black List', 'icon' => 'th-list', 'url' => array('/m1/default/blacklist')),
 );
 
-$this->menu1 = gPerson::getTopUpdated();
+$this->menu1 = gPerson::getTopUpdatedCareer();
 $this->menu2 = gPerson::getTopCreated();
 //$this->menu4=gPerson::getTopOther();  //uncomplete data
 $this->menu5 = array('Person');

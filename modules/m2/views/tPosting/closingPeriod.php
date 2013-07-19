@@ -62,13 +62,12 @@ Yii::app()->clientScript->registerScript('myCap', "
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/calendar_month.png') ?>
         Closing Month and Year Period
     </h1>
 </div>
 
 <?php
-//Yii::app()->settings->set("System", "cCurrentPeriod", 201203, $toDatabase=true);
+//Yii::app()->settings->set("System", "cCurrentPeriod", 201306, $toDatabase=true);
 ?>
 <?php
 //echo tAccount::labarugiDitahan(201202);
@@ -79,8 +78,8 @@ Yii::app()->clientScript->registerScript('myCap', "
 //echo $modelBalanceCurrent->beginning_balance;
 ?>
 
-<div class="row-fluid">
-    <div class="span10 well">
+<div class="row">
+    <div class="span12">
         <h2>
             Current Period:
             <?php echo Yii::app()->settings->get("System", "cCurrentPeriod"); ?>
@@ -89,8 +88,8 @@ Yii::app()->clientScript->registerScript('myCap', "
     </div>
 </div>
 
-<div class="row-fluid">
-    <div class="span10 well">
+<div class="row">
+    <div class="span12">
         <p>When Button "Closing Month Period" executed, it will do this 3
             following steps.</p>
         <p>#1. It will check, of any unposted journal on Current Period, will

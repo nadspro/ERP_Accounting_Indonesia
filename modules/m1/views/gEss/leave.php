@@ -85,7 +85,7 @@ $this->renderPartial('_menuEss', array('model' => $model));
                             'label' => 'Delete',
                             //'icon'=>'icon-delete',
                             'url' => 'Yii::app()->createUrl("/m1/gEss/deleteLeave",array("id"=>$data->id))',
-                            'visible' => '$data->balance == null',
+                            'visible' => '$data->balance == null && strtotime($data->start_date) > time()',
                             'options' => array(
                                 'class' => 'btn btn-mini',
                             ),
@@ -101,7 +101,7 @@ $this->renderPartial('_menuEss', array('model' => $model));
                             (
                             'label' => 'Update',
                             'url' => 'Yii::app()->createUrl("/m1/gEss/updateLeave",array("id"=>$data->id))',
-                            'visible' => '$data->approved_id ==1',
+                            'visible' => '$data->approved_id ==1 && strtotime($data->start_date) > time()',
                             'options' => array(
                                 'class' => 'btn btn-mini',
                             ),
@@ -110,7 +110,7 @@ $this->renderPartial('_menuEss', array('model' => $model));
                             (
                             'label' => 'Update',
                             'url' => 'Yii::app()->createUrl("/m1/gEss/updateCancellationLeave",array("id"=>$data->id))',
-                            'visible' => '$data->approved_id ==8 AND $data->balance ==null',
+                            'visible' => '$data->approved_id ==8 && $data->balance ==null && strtotime($data->start_date) > time()',
                             'options' => array(
                                 'class' => 'btn btn-mini',
                             ),

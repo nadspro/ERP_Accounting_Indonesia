@@ -1,26 +1,14 @@
 <?php
-Yii::app()->clientScript->registerScript('search' . $data->id, "
-		$('.hide-info'+$data->id).click(function(){
-		$('.list'+$data->id).toggle('slow');
-		return false;
-});
-		");
-?>
+Yii::app()->clientScript->registerScript('myCap'.$data->id, "
 
-
-<?php
-Yii::app()->clientScript->registerScript('myCap' . $data->id, "
-
-		$('#myCap'+$data->id).click(function(){
+		$('#myCap$data->id').click(function(){
 		$(this).slideUp();
 		$.ajax({
 		type : 'get',
 		url  : $(this).attr('href'),
 		data: '',
 		success : function(r){
-		$('#mydialog').dialog('open');
-		$('#list-'+$data->id).slideUp('slow');
-		setTimeout(\"$('#mydialog').dialog('close') \",1200);
+		$('#list-$data->id').slideUp('slow');
 }
 })
 		return false;
@@ -28,51 +16,118 @@ Yii::app()->clientScript->registerScript('myCap' . $data->id, "
 
 
 		");
+
 ?>
 
 
-<div id="list-<?php echo $data->id; ?>" class="well">
+<div id="list-<?php echo $data->id; ?>">
 
-    <div class="pull-right">
-        <?php echo CHtml::link('detail<i class="icon-chevron-right"></i>', '#', array('class' => 'hide-info' . $data->id)); ?>
+<?php
+$this->beginWidget('bootstrap.widgets.TbBox', array(
+    'title' => false,
+    'headerIcon' => 'icon-globe',
+    'htmlHeaderOptions' => array('style' => 'background:white'),
+        //'htmlContentOptions'=>array('style'=>'background:#FFA573'),
+));
+?>
+
+
+
+<div class="row-fluid">
+    <div class="span5">
+        <h3>
+            <?php
+            echo CHtml::link($data->system_reff, array('view', 'id' => $data->id));
+            ?>
+        </h3>
+        <p>
+            <?php
+				if ($data->state_id ==1 || $data->state_id ==2) {
+					$this->widget('zii.widgets.jui.CJuiButton', array(
+							'buttonType'=>'link',
+							'id'=>'myCap'.$data->id,
+							'name'=>'btnGo'.$data->id,
+							'url'=>Yii::app()->createUrl("/m2/tPosting/posting",array("id"=>$data->id)),
+							'caption'=>($data->state_id == 1) ? 'Post' : 'Re-Post',
+							'options'=>array(
+									//'icons'=>'js:{secondary:"ui-icon-extlink"}',
+							),
+							'htmlOptions'=>array(
+									'class'=>'ui-button-primary',
+							),
+
+					));
+				} elseif ($data->state_id == 4) {
+					$this->widget('zii.widgets.jui.CJuiButton', array(
+							'buttonType'=>'link',
+							'id'=>'myCap'.$data->id,
+							'name'=>'btnGo'.$data->id,
+							'url'=>Yii::app()->createUrl("/m2/tPosting/unposting",array("id"=>$data->id)),
+							'caption'=>'Un-Post',
+							'options'=>array(
+									//'icons'=>'js:{secondary:"ui-icon-extlink"}',
+							),
+							'htmlOptions'=>array(
+									'class'=>'ui-button-primary',
+							),
+
+					));
+				} else {
+					$this->widget('zii.widgets.jui.CJuiButton', array(
+							'buttonType'=>'link',
+							'id'=>'myCap'.$data->id,
+							'name'=>'btnGo'.$data->id,
+							'url'=>Yii::app()->createUrl("/m2/tPosting/unlock",array("id"=>$data->id)),
+							'caption'=>'Un-Lock',
+							'options'=>array(
+									//'icons'=>'js:{secondary:"ui-icon-extlink"}',
+							),
+
+					));
+				}
+				
+            echo ($data->journalSum != $data->journalSumCek) ? " WARNING!!!... FAULT BY SYSTEM. JOURNAL IS NOT BALANCE, PLEASE DELETE.." : "";
+            ?>
+        </p>
+
+
+        <?php if ($data->remark != null) { ?>
+            <p>
+                <?php echo CHtml::encode($data->remark); ?>
+            </p>
+        <?php }; ?>
     </div>
 
-    <h4><?php
-        echo CHtml::encode($data->system_ref);
-        if ($data->state_id != 1)
-            echo " (" . sParameter::item("cStatus", $data->state_id) . ")";
-        ?> </h4>
-
-    <br /> <br />
-    <div class="list<?php echo $data->id ?>" style="display: none">
-
+    <div class="span7">
         <?php
-        //$this->widget('bootstrap.widgets.TbDetailView', array(
-        $this->widget('ext.XDetailView', array(
-            'ItemColumns' => 2,
+        $this->widget('bootstrap.widgets.TbDetailView', array(
+            //$this->widget('ext.XDetailView', array(
+            //		'ItemColumns' => 3,
             'data' => array(
                 'id' => 1,
-                'module_id' => $data->module->name,
+                'entity_id' => $data->entity->name,
                 'input_date' => $data->input_date,
                 'yearmonth_periode' => $data->yearmonth_periode,
                 'user_ref' => $data->user_ref,
-                'entity_id' => $data->entity->name,
-                'remark' => $data->remark,
+                'total' => Yii::app()->indoFormat->number($data->journalSum),
             ),
             'attributes' => array(
-                array('name' => 'module_id', 'label' => 'Module'),
+                array('name' => 'entity_id', 'label' => 'Entity'),
                 array('name' => 'input_date', 'label' => 'Input Date'),
                 array('name' => 'yearmonth_periode', 'label' => 'Periode'),
-                array('name' => 'user_ref', 'label' => 'User Ref'),
-                array('name' => 'entity_id', 'label' => 'Entity'),
-                array('name' => 'remark', 'label' => 'Remark'),
+                array('name' => 'user_ref', 'label' => 'Rec\'er/Rec\'ed From', 'visible' => (isset($data->user_ref))),
+                array('name' => 'total', 'label' => 'Total'),
             ),
         ));
         ?>
-
-
     </div>
-
-    <?php echo $this->renderPartial('_viewDetail', array('id' => $data->id, 'data' => $data)); ?>
 </div>
 
+
+<?php echo $this->renderPartial('/uJournal/_viewDetail', array('data' => $data)); ?>
+
+<?php
+$this->endWidget();
+?>
+
+</div>
