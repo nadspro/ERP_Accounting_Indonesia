@@ -9,8 +9,8 @@ $this->menu = array(
     array('label' => 'Home Supplier', 'icon' => 'home', 'url' => array('/m2/mAccpayable/indexSupplier')),
 );
 
-$this->menu1 = cSupplier::getTopUpdated();
-$this->menu2 = cSupplier::getTopCreated();
+$this->menu1 = uSupplier::getTopUpdated();
+$this->menu2 = uSupplier::getTopCreated();
 ?>
 
 <div class="page-header">

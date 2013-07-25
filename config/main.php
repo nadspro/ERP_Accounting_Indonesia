@@ -203,7 +203,7 @@ return array(
                     'countLimit' => 1, // How many times the same query should be executed to be considered inefficient
                     'slowQueryMin' => 0.01, // Minimum time for the query to be slow
                 ),
-	            /**/
+	            /*
 	            array(
                     'class'=>'ext.LogDb',
                     'autoCreateLogTable'=>true,
@@ -211,6 +211,7 @@ return array(
                     'enabled'=>true,
                     'levels'=>'error',//You can replace trace,info,warning,error
                 ),
+                */
             ),
         ),
     ),

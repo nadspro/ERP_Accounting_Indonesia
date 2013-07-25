@@ -17,12 +17,12 @@
 
 
 <div class="row">
-    <div class="span1">
+    <div class="span2">
         <?php echo $data->photoPath; ?>
         <?php echo CHtml::tag('div', array('class' => 'pull-right', 'style' => 'color:#cbcbcb;text-size:10px'), waktu::nicetime($data->created_date)); ?>
 
     </div>
-    <div class="span8">
+    <div class="span7">
         <p>
             <?php
             $expC = ($data->many_experienceC != 0) ? " (" . $data->many_experienceC . ")" : "";

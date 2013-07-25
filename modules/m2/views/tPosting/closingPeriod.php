@@ -128,7 +128,7 @@ Yii::app()->clientScript->registerScript('myCap', "
 $this->widget('ext.groupgridview.GroupGridView', array(
     'mergeColumns' => array('input_date'),
     'id' => 'u-journal-grid',
-    'dataProvider' => uJournal::model()->search(),
+    'dataProvider' => tJournal::model()->search(),
     'itemsCssClass' => 'table table-striped table-bordered',
     'template' => '{items}{pager}{summary}',
     'columns' => array(

@@ -8,13 +8,13 @@ $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m2/mCashbank')),
 );
 
-$this->menu1 = uJournal::getTopUpdated(2);
-$this->menu2 = uJournal::getTopCreated(2);
+$this->menu1 = tJournal::getTopUpdated(2);
+$this->menu2 = tJournal::getTopCreated(2);
 ?>
 
 
 <?php
-if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
+if ($model->journal_type_id == null) {
     $this->widget('bootstrap.widgets.TbTabs', array(
         'type' => 'tabs', // 'tabs' or 'pills'
         'tabs' => array(
@@ -22,7 +22,8 @@ if (!isset($model->cb_receiver) && !isset($model->cb_received_from)) {
             array('label' => 'Income', 'content' => $this->renderPartial("_tabCreateIncome", array("model" => $model), true)),
         ),
     ));
-} elseif (isset($model->cb_receiver)) {
+    
+} elseif ($model->journal_type_id == 1) {
 
     $this->renderPartial("_tabCreateExpense", array("model" => $model));
 

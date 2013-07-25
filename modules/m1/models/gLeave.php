@@ -185,7 +185,7 @@ class gLeave extends BaseModel {
         $criteria->compare('approved_id', 4);
         $criteria->compare('start_date>', Yii::app()->dateFormatter->format("yyyy-MM-dd", time()));
         $criteria->group = 'employee_name';
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         //if (Yii::app()->user->name != "admin") {
         $criteria2 = new CDbCriteria;
@@ -212,7 +212,7 @@ class gLeave extends BaseModel {
         $criteria->compare('approved_id', 2);
         $criteria->compare('start_date>', Yii::app()->dateFormatter->format("yyyy-MM-dd", time()));
         $criteria->group = 'employee_name';
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         //if (Yii::app()->user->name != "admin") {
         $criteria2 = new CDbCriteria;
@@ -244,7 +244,7 @@ class gLeave extends BaseModel {
         $criteria3->condition = 'CURDATE() BETWEEN start_date AND end_date';
         $criteria->mergeWith($criteria3);
 
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         //if (Yii::app()->user->name != "admin") {
         $criteria2 = new CDbCriteria;
@@ -305,7 +305,11 @@ class gLeave extends BaseModel {
     public function afterSave() {
         if ($this->isNewRecord) {
             Notification::create(
-                    1, 'm1/gLeave/view/id/' . $this->parent_id, 'Leave. New Leave created: ' . strtotupper($this->person->employee_name)
+				1, 
+				'm1/gLeave/view/id/' . $this->parent_id, 
+				'Leave. New Leave created: ' . strtoupper($this->person->employee_name),
+				null,
+             	$this->person->photoPath
             );
         }
         return true;

@@ -6,39 +6,21 @@ $this->breadcrumbs = array(
 $this->menu = array(
 );
 
-$this->menu1 = uJournal::getTopUpdated(1);
-$this->menu2 = uJournal::getTopCreated(1);
+$this->menu1 = tJournal::getTopUpdated(1);
+$this->menu2 = tJournal::getTopCreated(1);
 ?>
-
-<?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id' => 'mydialog',
-    'options' => array(
-        'title' => 'Posting',
-        'autoOpen' => false,
-        'modal' => true,
-        'buttons' => array(
-            'OK' => 'js:function(){$(this).dialog("close");}',
-        ),
-    ),
-));
-echo 'UnPosting Complete...';
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-?>
-
-<div class="pull-right">
-    <?php
-    $this->renderPartial('_search', array(
-        'model' => $model,
-    ));
-    ?>
-</div>
 
 <div class="page-header">
     <h1>
         Unpost / Unlock Jurnal
     </h1>
 </div>
+
+<?php
+$this->renderPartial('_search', array(
+	'model' => $model,
+));
+?>
 
 <?php
 $this->widget('DropDownRedirect', array(

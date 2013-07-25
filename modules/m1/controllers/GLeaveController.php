@@ -406,6 +406,16 @@ class GLeaveController extends Controller {
             'updated_date' => time(),
             'updated_by' => Yii::app()->user->id
         ));
+        
+		Notification::newInbox(
+			$modelBalance->userid, 
+			"Leave Approved. Your Leave has been approved by HR Admin", 
+			"Dear ".$modelBalance->employee_name.",<br/> 
+			Your leave request on ".$model->start_date." has been approved by HR Admin. <br/> 
+			Thank You.. <br/>
+			APHRIS"
+		);
+
     }
 
     public function actionUnblock($id, $pid) {

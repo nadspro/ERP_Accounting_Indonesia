@@ -28,7 +28,7 @@ Yii::app()->clientScript->registerScript('datepicker', "
 
         <?php echo $form->textFieldRow($model, 'input_date'); ?>
 
-        <?php echo $form->dropDownListRow($model, 'supplier_id', cSupplier::items()); ?>
+        <?php echo $form->dropDownListRow($model, 'supplier_id', uSupplier::items()); ?>
 
         <?php echo $form->textAreaRow($model, 'remark', array('rows' => 2, 'class' => 'span5')); ?>
 

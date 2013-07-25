@@ -32,6 +32,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 <?php echo $form->passwordFieldRow($model, 'password', array('class' => 'span3')); ?>
 <?php echo $form->passwordFieldRow($model, 'password_repeat', array('class' => 'span3')); ?>
 
+<?php /*
 <?php if (extension_loaded('gd')): ?>
 
     <?php echo $form->labelEx($model, 'verifyCode'); ?>
@@ -41,7 +42,7 @@ $form = $this->beginWidget('TbActiveForm', array(
     </div>
 
 <?php endif; ?>
-
+*/ ?>
 
 <div class="form-actions">
     <?php echo CHtml::htmlButton('<i class="icon-ok"></i> Submit', array('class' => 'btn btn-primary', 'type' => 'submit')); ?>

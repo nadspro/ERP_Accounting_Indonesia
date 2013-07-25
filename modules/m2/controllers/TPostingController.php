@@ -11,14 +11,14 @@ class TPostingController extends Controller {
     }
 
     public function actionUnlock($id) {
-        uJournal::model()->updateByPk((int) $id, array('state_id' => 2, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
+        tJournal::model()->updateByPk((int) $id, array('state_id' => 2, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
     }
 
     public function actionRePosting() {  //backup Posting only
         $criteria = new CDbCriteria;
         $criteria->compare('state_id', 99);
         $criteria->compare('yearmonth_periode', Yii::app()->settings->get("System", "cCurrentPeriod"));
-        $models = uJournal::model()->findAll($criteria);
+        $models = tJournal::model()->findAll($criteria);
 
         foreach ($models as $model) {
             set_time_limit(0);  //
@@ -30,28 +30,30 @@ class TPostingController extends Controller {
     }
 
     public function actionPosting($id) {
-        uJournal::model()->updateByPk((int) $id, array('state_id' => 4, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
+        tJournal::model()->updateByPk((int) $id, array('state_id' => 4, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
 		return true;
     }
 
     public function actionUnposting($id) {
-        $locked = uJournal::model()->updateByPk((int) $id, array('state_id' => 2, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
+        $locked = tJournal::model()->updateByPk((int) $id, array('state_id' => 2, 'updated_date' => time(), 'updated_by' => Yii::app()->user->id));
 		return true;
     }
 
     public function actionIndex($acc = null) {
-        $model = new uJournal('search');
+        $model = new tJournal('search');
         $model->unsetAttributes();
 
         $criteria = new CDbCriteria;
-        $criteria1 = new CDbCriteria;
         $criteria->condition = 'state_id = 1 OR state_id = 2';
+        $criteria->order='updated_date DESC';
 
-        if (isset($_GET['uJournal'])) {
-            $model->attributes = $_GET['uJournal'];
+        if (isset($_GET['tJournal'])) {
+            $model->attributes = $_GET['tJournal'];
 
-            $criteria1->compare('system_ref', $_GET['uJournal']['system_ref'], true, 'OR');
-            $criteria1->compare('remark', $_GET['uJournal']['system_ref'], true, 'OR');
+	        $criteria1 = new CDbCriteria;
+            $criteria1->compare('system_ref', $_GET['tJournal']['system_ref'], true, 'OR');
+            $criteria1->compare('remark', $_GET['tJournal']['system_ref'], true, 'OR');
+	        $criteria->mergeWith($criteria1);
         }
 
         if (isset($_GET['acc'])) {
@@ -64,9 +66,8 @@ class TPostingController extends Controller {
 
         $criteria->limit = 20;
 
-        $criteria->mergeWith($criteria1);
 
-        $dataProvider=new CActiveDataProvider('uJournal', array(
+        $dataProvider=new CActiveDataProvider('tJournal', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 20,
@@ -80,20 +81,21 @@ class TPostingController extends Controller {
     }
 
     public function actionIndexUnPost($acc = null) {
-        $model = new uJournal('search');
+        $model = new tJournal('search');
         $model->unsetAttributes();  // clear any default values
 
         $criteria = new CDbCriteria;
-        $criteria1 = new CDbCriteria;
         $criteria->condition = 'state_id =4 or state_id = 3';
         $criteria->order = 't.updated_date DESC'; //last updated
         //$criteria->compare('journal_type_id',4);
 
-        if (isset($_GET['uJournal'])) {
-            $model->attributes = $_GET['uJournal'];
+        if (isset($_GET['tJournal'])) {
+            $model->attributes = $_GET['tJournal'];
 
-            $criteria1->compare('system_ref', $_GET['uJournal']['system_ref'], true, 'OR');
-            $criteria1->compare('remark', $_GET['uJournal']['system_ref'], true, 'OR');
+	        $criteria1 = new CDbCriteria;
+            $criteria1->compare('system_ref', $_GET['tJournal']['system_ref'], true, 'OR');
+            $criteria1->compare('remark', $_GET['tJournal']['system_ref'], true, 'OR');
+	        $criteria->mergeWith($criteria1);
         }
 
         if (isset($_GET['acc'])) {
@@ -104,9 +106,8 @@ class TPostingController extends Controller {
 
         $criteria->limit = 20;
 
-        $criteria->mergeWith($criteria1);
 
-        $dataProvider=new CActiveDataProvider('uJournal', array(
+        $dataProvider=new CActiveDataProvider('tJournal', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 20,
@@ -130,7 +131,7 @@ class TPostingController extends Controller {
     }
 
     public function loadModel($id) {
-        $model = uJournal::model()->findByPk($id);
+        $model = tJournal::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -140,7 +141,7 @@ class TPostingController extends Controller {
         $res = array();
         if (isset($_GET['term'])) {
             $qtxt =
-                    "SELECT system_ref FROM u_journal WHERE system_ref LIKE :name ORDER BY system_ref LIMIT 20";
+                    "SELECT system_ref FROM t_journal WHERE system_ref LIKE :name ORDER BY system_ref LIMIT 20";
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryColumn();

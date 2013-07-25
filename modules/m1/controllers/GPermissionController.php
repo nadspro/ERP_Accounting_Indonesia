@@ -224,6 +224,16 @@ class GPermissionController extends Controller {
         gPermission::model()->updateByPk((int) $id, array(
             'approved_id' => 2,
         ));
+        
+		Notification::newInbox(
+			$modelBalance->userid, 
+			"Permission Approved. Your Permission has been approved by HR Admin", 
+			"Dear ".$model->person->employee_name.",<br/> 
+			Your permission request on ".$model->start_date." has been approved by HR Admin. <br/> 
+			Thank You.. <br/>
+			APHRIS"
+		);
+        
     }
 
     public function actionUnblock($id, $pid) {

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Purchase Order',
+    'Sales Order',
 );
 
 $this->menu = array(
@@ -15,7 +15,6 @@ $this->menu5 = array('PO');
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/shopcart.png') ?>
         PO Inventory:
         <?php
         if ($id == 1)
@@ -54,7 +53,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'Supplier',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->supplier->company_name,Yii::app()->createUrl("/m2/cSupplier/view",array("id"=>$data->supplier_id)))',
+            'value' => 'CHtml::link($data->supplier->company_name,Yii::app()->createUrl("/m2/uSupplier/view",array("id"=>$data->supplier_id)))',
         ),
         'input_date',
         array(

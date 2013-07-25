@@ -33,7 +33,7 @@ class sUser extends CActiveRecord {
             array('password_repeat', 'compare', 'compareAttribute' => 'password', 'on' => 'passwordupdate,registration'),
             array('password, password_repeat', 'required', 'on' => 'passwordupdate,registration'),
             array('activation_code', 'required', 'on' => 'registration', 'message' => ''),
-            array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on' => 'registration'),
+            //array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements(), 'on' => 'registration'),
         );
     }
 
@@ -487,5 +487,16 @@ class sUser extends CActiveRecord {
 
         return $dataProvider;
     }
+    
+    public function afterSave() {
+        if ($this->isNewRecord) {
+            Notification::create(
+                    5, 'sUser/view/id/' . $this->id, 'User. New User created: ' . strtoupper($this->username)
+            );
+        }
+        return true;
+    }
+
+
 
 }

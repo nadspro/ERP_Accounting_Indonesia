@@ -62,14 +62,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
 <br>
 
-<h3>Last 20 Journal List</h3>
+<h3>Journal List</h3>
 
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
 //$this->widget('ext.groupgridview.GroupGridView', array(
     //		'mergeColumns' => array('journal.input_date'),
     'id' => 't-account-balance-grid',
-    'dataProvider' => uJournalDetail::model()->searchByAccount($model->id),
+    'dataProvider' => tJournalDetail::model()->searchByAccount($model->id),
     'template' => '{items}',
     'itemsCssClass' => 'table table-striped table-bordered',
     'columns' => array(
@@ -85,7 +85,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'No Ref',
             'type' => 'raw',
-            'value' => 'CHtml::link($data->journal->system_reff,Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$data->parent_id)))',
+            'value' => '($data->journal->journal_type_id == 3) ? 
+            CHtml::link($data->journal->system_reff,Yii::app()->createUrl("/m2/tJournal/view",array("id"=>$data->parent_id))) :
+            CHtml::link($data->journal->system_reff,Yii::app()->createUrl("/m2/mCashbank/view",array("id"=>$data->parent_id)))
+            ',
         ),
         array(
             'name' => 'debit',

@@ -20,7 +20,7 @@ $model->system_ref = null;
 $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
     'model' => $model,
     'attribute' => 'system_ref',
-    'source' => $this->createUrl('/m2/uJournal/journalAutoComplete'),
+    'source' => $this->createUrl('/m2/tJournal/journalAutoComplete'),
     'options' => array(
         'minLength' => '2',
         'focus' => 'js:function( event, ui ) {

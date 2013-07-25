@@ -20,6 +20,7 @@ $this->breadcrumbs = array(
                 'options' => array(
                     'chart' => array('defaultSeriesType' => 'column'),
                     'title' => array('text' => 'Basic Profile'),
+                    'theme' => 'dark-blue',
                     'xAxis' => array(
                         'categories' => gPerson::getUncompleteHoldingCompany(),
                         'labels' => array(

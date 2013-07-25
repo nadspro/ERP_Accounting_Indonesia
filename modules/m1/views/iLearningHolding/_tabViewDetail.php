@@ -90,6 +90,11 @@ $this->widget('ext.bootstrap.widgets.TbGridView', array(
                 'url' => $this->createUrl('/m1/iLearningHolding/updateParticipantAjax'),
                 //'placement' => 'right',
                 'inputclass' => 'span3'
-            )),
+            )
+        ),
+        array(
+            'header' => 'Inputed By',
+            'name' => 'created.username'
+        ),
     ),
 ));

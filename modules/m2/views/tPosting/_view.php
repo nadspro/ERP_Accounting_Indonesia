@@ -37,7 +37,7 @@ $this->beginWidget('bootstrap.widgets.TbBox', array(
     <div class="span5">
         <h3>
             <?php
-            echo CHtml::link($data->system_reff, array('view', 'id' => $data->id));
+            echo $data->system_reff;
             ?>
         </h3>
         <p>
@@ -100,31 +100,13 @@ $this->beginWidget('bootstrap.widgets.TbBox', array(
 
     <div class="span7">
         <?php
-        $this->widget('bootstrap.widgets.TbDetailView', array(
-            //$this->widget('ext.XDetailView', array(
-            //		'ItemColumns' => 3,
-            'data' => array(
-                'id' => 1,
-                'entity_id' => $data->entity->name,
-                'input_date' => $data->input_date,
-                'yearmonth_periode' => $data->yearmonth_periode,
-                'user_ref' => $data->user_ref,
-                'total' => Yii::app()->indoFormat->number($data->journalSum),
-            ),
-            'attributes' => array(
-                array('name' => 'entity_id', 'label' => 'Entity'),
-                array('name' => 'input_date', 'label' => 'Input Date'),
-                array('name' => 'yearmonth_periode', 'label' => 'Periode'),
-                array('name' => 'user_ref', 'label' => 'Rec\'er/Rec\'ed From', 'visible' => (isset($data->user_ref))),
-                array('name' => 'total', 'label' => 'Total'),
-            ),
-        ));
+	        $this->renderPartial('/tJournal/_viewJournalInfo',array('data'=>$data));
         ?>
     </div>
 </div>
 
 
-<?php echo $this->renderPartial('/uJournal/_viewDetail', array('data' => $data)); ?>
+<?php echo $this->renderPartial('/tJournal/_viewDetail', array('data' => $data)); ?>
 
 <?php
 $this->endWidget();

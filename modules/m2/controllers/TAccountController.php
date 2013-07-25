@@ -2,7 +2,7 @@
 
 class TAccountController extends Controller {
 
-    public $layout = '//layouts/column2';
+    public $layout = '//layouts/column2breadcrumb';
 
     public function filters() {
         return array(
@@ -34,15 +34,15 @@ class TAccountController extends Controller {
             $this->layout = '//layouts/iframe';
         //----- end new code --------------------
 
-        $model = uJournal::model()->findByPk($id);
+        $model = tJournal::model()->findByPk($id);
 
-        $this->render('/uJournal/view', array(
+        $this->render('/tJournal/view', array(
             'model' => $model,
         ));
     }
 
     public function actionView($id) {
-        $this->layout = '//layouts/column2breadcrumb';
+        //$this->layout = '//layouts/column2breadcrumb';
 
         $account = $this->newAccount($id);
         $entity = $this->newEntity($id);
@@ -53,7 +53,7 @@ class TAccountController extends Controller {
           $criteria->with=('journal');
           $criteria->compare('yearmonth_periode',Yii::app()->settings->get("System", "cCurrentPeriod"));
 
-          $total=uJournalDetail::model()->count($criteria);
+          $total=tJournalDetail::model()->count($criteria);
 
           $pages = new CPagination($total);
           $pages->pageSize = 20;
@@ -109,7 +109,15 @@ class TAccountController extends Controller {
                 $modelProperties5Add->end_balance = $_POST['tAccount']['beginning_balance'];
                 $modelProperties5Add->save();
 
-                $this->redirect(array('view', 'id' => $model->id));
+                //Default Entity
+                $modelEntity = new tAccountEntity();
+                $modelEntity->parent_id = $model->id;
+                $modelEntity->entity_id = sUser::model()->getGroup();
+                $modelEntity->state_id = 1; //Active
+                $modelEntity->remark = "Default Current Login Entity"; 
+                $modelEntity->save();
+
+                $this->redirect(array('view', 'id' => $model->parent_id));
             }
         }
 
@@ -154,6 +162,12 @@ class TAccountController extends Controller {
                 $modelProperties3Add->mkey = "state_id";
                 $modelProperties3Add->mvalue = $_POST['tAccount']['state_id'];
                 $modelProperties3Add->save();
+
+                //Default Entity
+                $modelEntity = new tAccountEntity();
+                $modelEntity->parent_id = $model->id;
+                $modelEntity->entity_id = sUser::model()->getGroup();
+                $modelEntity->save();
 
                 $this->redirect(array('view', 'id' => $model->id));
             }
@@ -392,6 +406,7 @@ class TAccountController extends Controller {
         $this->redirect(array('/m2/tAccount/view','id'=>$id));
 	
 	}
+	
     public function actionReload() {
         $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
         $_lastPeriod = peterFunc::cBeginDateBefore(Yii::app()->settings->get("System", "cCurrentPeriod"));
@@ -400,7 +415,7 @@ class TAccountController extends Controller {
 		$criteria->with=array('journal');
 		$criteria->compare('journal.state_id',4);
 		$criteria->compare('journal.yearmonth_periode',$_curPeriod);
-        $models = uJournalDetail::model()->findAll($criteria);
+        $models = tJournalDetail::model()->findAll($criteria);
         
         //Reset
 		foreach ($models as $model) {
@@ -589,7 +604,7 @@ class TAccountController extends Controller {
 
                 $criteria->addBetweenCondition('journal.input_date', Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['begindate']), Yii::app()->dateFormatter->format('yyyy-MM-dd', $_POST['fJournalList']['enddate']));
 
-                $models = uJournalDetail::model()->findAll($criteria);
+                $models = tJournalDetail::model()->findAll($criteria);
 
                 $pdf->report($models);
                 $pdf->Output();

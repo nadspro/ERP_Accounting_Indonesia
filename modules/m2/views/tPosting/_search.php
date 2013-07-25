@@ -1,4 +1,3 @@
-<div class="pull-right">
 
     <?php
     $form = $this->beginWidget('TbActiveForm', array(
@@ -25,15 +24,13 @@
         //}',
         ),
         'htmlOptions' => array(
-            'class' => 'input-medium',
+            'class' => 'span4',
             'placeholder' => 'Search NoRef or Remark',
         ),
     ));
     ?>
 
-    <?php echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
+    <?php //echo CHtml::htmlButton('<i class="icon-search"></i> Search', array('class' => 'btn', 'type' => 'submit')); ?>
 
     <?php $this->endWidget(); ?>
-
-</div>
 

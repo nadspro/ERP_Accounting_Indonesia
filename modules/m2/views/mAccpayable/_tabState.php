@@ -1,6 +1,6 @@
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
-    'id' => 'csupplierap-grid',
+    'id' => 'uSupplierap-grid',
     'dataProvider' => vPorder::model()->searchSupplier($model->id),
     'itemsCssClass' => 'table table-striped table-bordered',
     'template' => '{items}{pager}{summary}',

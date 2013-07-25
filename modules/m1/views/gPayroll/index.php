@@ -263,7 +263,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array(
             'header' => 'Category',
-            'value' => '$data->payroll->category_id',
+            'value' => '(isset($data->payroll)) ? $data->payroll->category_id : ""',
         ),
         array(
             'header' => 'Resign Date',
@@ -285,9 +285,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'Status',
             'type' => 'raw',
-            'value' => '($data->payroll->category_id ==5) ? CHtml::tag("span",array("class"=>"label label-success"),"Process") : 
+            'value' => '(isset($data->payroll) && $data->payroll->category_id ==5) ? CHtml::tag("span",array("class"=>"label label-success"),"Process") : 
 				CHtml::tag("span",array("class"=>"label label-warning"),"Unprocess") ',
-        ),
+        ), 
     ),
 ));
 ?>

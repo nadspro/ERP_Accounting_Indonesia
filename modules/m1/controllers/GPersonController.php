@@ -872,9 +872,38 @@ class GPersonController extends Controller {
     public function actionPersonAutoCompleteIdAdmin() {
         $res = array();
         if (isset($_GET['term'])) {
-            $qtxt = "SELECT CONCAT(employee_name,' (',employee_code_global,')') as label, id FROM g_person 
-			WHERE employee_name LIKE :name 
-			ORDER BY employee_name LIMIT 20";
+            //$qtxt = "SELECT CONCAT(employee_name,' (',employee_code_global,')') as label, id FROM g_person 
+			//WHERE employee_name LIKE :name 
+			//ORDER BY employee_name LIMIT 20";
+			$qtxt="
+				select 
+					`a`.`id` AS `id`,
+					CONCAT( `a`.`employee_name`,' | ',
+					(select 
+							`o`.`branch_code` AS `name`
+						from
+							(`erp_apl`.`g_person_career` `c`
+							left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`company_id`)))
+						where
+							((`a`.`id` = `c`.`parent_id`)
+								and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+						order by `c`.`start_date` desc
+						limit 1) ,' | ',
+					(select 
+							`o`.`name` AS `name`
+						from
+							(`erp_apl`.`g_person_career` `c`
+							left join `erp_apl`.`a_organization` `o` ON ((`o`.`id` = `c`.`department_id`)))
+						where
+							((`a`.`id` = `c`.`parent_id`)
+								and (`c`.`status_id` in (1 , 2, 3, 4, 5, 6, 15)))
+						order by `c`.`start_date` desc
+						limit 1))  AS `label`
+				from
+					`erp_apl`.`g_person` `a`
+				WHERE `a`.`employee_name` LIKE :name 
+				ORDER BY `employee_name` LIMIT 20";
+
 
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);

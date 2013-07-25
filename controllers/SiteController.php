@@ -6,11 +6,19 @@ class SiteController extends Controller {
 
     public function init() {
         //Yii::app()->language='id';
-        return parent::init();
+        //return parent::init();
 
         //Yii::import('ext.LanguagePicker.ELanguagePicker');
         //ELanguagePicker::setLanguage();
         //return parent::init();
+
+        // register class paths for extension captcha extended
+        Yii::$classMap = array_merge( Yii::$classMap, array(
+            'CaptchaExtendedAction' => Yii::getPathOfAlias('ext.captchaExtended').DIRECTORY_SEPARATOR.'CaptchaExtendedAction.php',
+            'CaptchaExtendedValidator' => Yii::getPathOfAlias('ext.captchaExtended').DIRECTORY_SEPARATOR.'CaptchaExtendedValidator.php'
+        ));
+        return parent::init();
+        
     }
 
     /**
@@ -22,6 +30,8 @@ class SiteController extends Controller {
             'captcha' => array(
                 'class' => 'CCaptchaAction',
                 'backColor' => 0xFFFFFF,
+				//'class'=>'CaptchaExtendedAction',
+				//'mode'=>CaptchaExtendedAction::MODE_MATH,
             ),
             // page action renders "static" pages stored under 'protected/views/site/pages'
             // They can be accessed via: index.php?r=site/page&view=FileName
@@ -222,6 +232,7 @@ class SiteController extends Controller {
 
                 $model->created_date = time();
                 $model->created_by = 1;
+                $model->full_name=$cekValidationCode->employee_name;
                 $_mysalt = sUser::blowfishSalt();
                 //$model->password = crypt($model->password, $_mysalt);
 

@@ -52,7 +52,7 @@ class journalVoucherList1 extends fpdf {
         $criteria = new CDbCriteria;
         $criteria->with = array('journalDetail');
         $criteria->group = 't.id, module_id, input_date, yearmonth_periode, system_ref, state_id';
-        $criteria->join = 'INNER JOIN u_journal_detail tt ON t.id = tt.parent_id';
+        $criteria->join = 'INNER JOIN t_journal_detail tt ON t.id = tt.parent_id';
         $criteria->compare('tt.account_no_id', $acc_id);
         $criteria->order = 't.input_date, system_ref';
 
@@ -61,7 +61,7 @@ class journalVoucherList1 extends fpdf {
 
         $criteria->addBetweenCondition('input_date', Yii::app()->dateFormatter->format('yyyy-MM-dd', $begin_date), Yii::app()->dateFormatter->format('yyyy-MM-dd', $end_date));
 
-        $models = uJournal::model()->findAll($criteria);
+        $models = tJournal::model()->findAll($criteria);
 
         foreach ($models as $model) {
             //Header
@@ -94,7 +94,7 @@ class journalVoucherList1 extends fpdf {
             $this->Cell($w[3], 9, 'Remark', 'TBR', 0, 'C');
             $this->Ln();
 
-            $modeld = uJournalDetail::model()->findAll('parent_id = ' . $model->id);
+            $modeld = tJournalDetail::model()->findAll('parent_id = ' . $model->id);
             foreach ($modeld as $mod) {
                 $this->SetFont('Arial', '', 10);
                 $this->Cell($w[0], 5, $mod->account->account_concat(), 'LR');

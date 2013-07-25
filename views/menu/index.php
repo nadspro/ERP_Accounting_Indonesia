@@ -21,8 +21,6 @@
         <?php
         $this->renderPartial("_tabAnnouncement");
 
-        $this->renderPartial("_tabCompanyDocuments");
-
         $isExist = is_file(Yii::app()->basePath . "/modules/m1/models/gPerson.php");
         if ($isExist) {
             if (sUser::model()->getGroup() != 1100 || Yii::app()->user->name == "admin")
@@ -30,6 +28,8 @@
         }
 
         echo $this->renderPartial("_tabMailbox", array("dataProvider" => $dataProviderInbox), true);
+
+        $this->renderPartial("_tabCompanyDocuments");
         ?>
     </div>
     <div class="span4">

@@ -22,7 +22,7 @@ class cv extends fpdf {
         $this->SetFont('Arial', 'B', 13);
         $this->Ln();
         $this->Cell(15);
-        $this->Cell(100, 5, strtoupper($model->employee_name));
+        $this->Cell(100, 5, strtoupper($model->applicant_name));
         $this->Ln(14);
     }
 

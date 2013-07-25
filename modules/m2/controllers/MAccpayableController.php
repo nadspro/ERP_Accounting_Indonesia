@@ -61,7 +61,7 @@ class MAccpayableController extends Controller {
                 }
             }
 
-            $modelHeader = new uJournal;
+            $modelHeader = new tJournal;
             $modelHeader->input_date = Yii::app()->dateFormatter->format("dd-MM-yyyy", time());
             $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
             $modelHeader->remark = implode($m_ref, " ");
@@ -79,7 +79,7 @@ class MAccpayableController extends Controller {
             $modelHeader->updateByPk((int) $modelHeader->id, array('system_ref' => $_ref));
 
 
-            $modelDetail = new uJournalDetail;
+            $modelDetail = new tJournalDetail;
             $modelDetail->parent_id = $modelHeader->id;
             $_inventory = tAccount::model()->with('inventory')->find('inventory.mvalue=1')->id;
             $modelDetail->account_no_id = $_inventory;
@@ -89,7 +89,7 @@ class MAccpayableController extends Controller {
             $modelDetail->user_remark = implode($m_ref2, " ");
             $modelDetail->save();
 
-            $modelDetail = new uJournalDetail;
+            $modelDetail = new tJournalDetail;
             $modelDetail->parent_id = $modelHeader->id;
             $_hutang = tAccount::model()->with('hutang')->find('hutang.mvalue=1')->id;
             $modelDetail->account_no_id = $_hutang;
@@ -126,7 +126,7 @@ class MAccpayableController extends Controller {
                     vPorder::model()->updateByPk((int) $val, array('journal_state_id' => 3));
             }
 
-            $modelHeader = new uJournal;
+            $modelHeader = new tJournal;
             $modelHeader->input_date = Yii::app()->dateFormatter->format("dd-MM-yyyy", time());
             $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
             $modelHeader->remark = implode($m_ref, " ");
@@ -144,7 +144,7 @@ class MAccpayableController extends Controller {
             $modelHeader->updateByPk((int) $modelHeader->id, array('system_ref' => $_ref));
 
 
-            $modelDetail = new uJournalDetail;
+            $modelDetail = new tJournalDetail;
             $modelDetail->parent_id = $modelHeader->id;
             $_inventory = tAccount::model()->with('hutang')->find('hutang.mvalue=1')->id;
             $modelDetail->account_no_id = $_inventory;
@@ -158,7 +158,7 @@ class MAccpayableController extends Controller {
             $modelPayment = vPorderPayment::model()->findAll('parent_id = ' . $model->id);
 
             foreach ($modelPayment as $payment) {
-                $modelDetail = new uJournalDetail;
+                $modelDetail = new tJournalDetail;
                 $modelDetail->parent_id = $modelHeader->id;
                 $modelDetail->account_no_id = $payment->payment_source_id;
                 $modelDetail->debit = 0;
@@ -169,7 +169,7 @@ class MAccpayableController extends Controller {
 
             //in case ada selisih
             if ($payment->amount != $total) {
-                $modelDetail = new uJournalDetail;
+                $modelDetail = new tJournalDetail;
                 $modelDetail->parent_id = $modelHeader->id;
                 $_inventory = tAccount::model()->with('hutang')->find('hutang.mvalue=1')->id;
                 $modelDetail->account_no_id = $_inventory;
@@ -236,7 +236,7 @@ class MAccpayableController extends Controller {
     }
 
     public function actionIndexSupplier() {
-        $dataProvider = new CActiveDataProvider('cSupplier');
+        $dataProvider = new CActiveDataProvider('uSupplier');
 
         $this->render('indexSupplier', array(
             'dataProvider' => $dataProvider,
@@ -244,7 +244,7 @@ class MAccpayableController extends Controller {
     }
 
     public function loadModelSupplier($id) {
-        $model = cSupplier::model()->findByPk($id);
+        $model = uSupplier::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;

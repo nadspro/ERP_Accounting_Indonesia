@@ -1,4 +1,4 @@
-<h2>Listed Entity</h2>
+<h3>Entity List</h3>
 
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -26,6 +26,5 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 ));
 ?>
 
-<br />
-<h2>New Entity</h2>
+<h3>New Entity</h3>
 <?php echo $this->renderPartial('_formEntity', array('model' => $modelEntity)); ?>

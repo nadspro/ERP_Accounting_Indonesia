@@ -8,8 +8,8 @@ $this->menu = array(
 );
 
 
-$this->menu1 = uJournal::getTopUpdated(2);
-$this->menu2 = uJournal::getTopCreated(2);
+$this->menu1 = tJournal::getTopUpdated(2);
+$this->menu2 = tJournal::getTopCreated(2);
 $this->menu5 = array('Journal');
 
 
@@ -61,7 +61,7 @@ if (isset($_GET['pid'])) {
 $this->widget('bootstrap.widgets.TbListView', array(
     'dataProvider' => $dataProvider,
     'template' => '{items}{pager}',
-    'itemView' => '/uJournal/_view',
+    'itemView' => '/tJournal/_view',
     'htmlOptions' => array(
         'style' => 'padding-top:0',
     )

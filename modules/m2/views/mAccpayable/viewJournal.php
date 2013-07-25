@@ -15,7 +15,7 @@ $this->menu = array(
 
 $this->menu1 = vPorder::getTopUpdated(1);
 $this->menu2 = vPorder::getTopCreated(1);
-//$this->menu3=uJournal::getTopRelated($model->user_ref);
+//$this->menu3=tJournal::getTopRelated($model->user_ref);
 ?>
 
 <div class="page-header">
@@ -46,7 +46,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
 
 <br />
 
-<?php echo $this->renderPartial('/uJournal/_viewDetail', array('id' => $model->id)); ?>
+<?php echo $this->renderPartial('/tJournal/_viewDetail', array('id' => $model->id)); ?>
 
 <hr />
 <?php echo CHtml::link('See Journal Detail >>', Yii::app()->createUrl('/m2/mAccpayable/viewRelated', array("id" => $model->id))); ?>

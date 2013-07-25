@@ -34,9 +34,9 @@ class MCashbankController extends Controller {
 
         $criteria->mergeWith($criteria1);
 
-        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM u_journal');
+        $dependency = new CDbCacheDependency('SELECT MAX(id) FROM t_journal');
 
-        $dataProvider=new CActiveDataProvider('uJournal', array(
+        $dataProvider=new CActiveDataProvider('tJournal', array(
             'criteria' => $criteria,
             'pagination' => array(
                 'pageSize' => 10,
@@ -52,7 +52,7 @@ class MCashbankController extends Controller {
 
     public function actionUpdate($id) {
         $model = new fJournal;
-        $modelHeader = uJournal::model()->findByPk((int) $id);
+        $modelHeader = tJournal::model()->findByPk((int) $id);
 
         if ($modelHeader->state_id == 3 or $modelHeader->state_id == 4) {
             Yii::app()->user->setFlash("error", "<strong>Error!</strong> Journal cannot be edited. It has been posted/locked...");
@@ -103,13 +103,13 @@ class MCashbankController extends Controller {
 
                     $modelHeader->save();
 
-                    $t = uJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal Detail
+                    $t = tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal Detail
 
                     $_tdebet = 0;
                     $_tcredit = 0;
 
                     for ($i = 0; $i < sizeof($model->account_no_id); ++$i):
-                        $modelDetail = new uJournalDetail;
+                        $modelDetail = new tJournalDetail;
                         $modelDetail->parent_id = $modelHeader->id;
                         $modelDetail->account_no_id = $model->account_no_id[$i];
 
@@ -130,7 +130,7 @@ class MCashbankController extends Controller {
                         $modelDetail->save();
                     endfor;
 
-                    $modelDetail = new uJournalDetail;
+                    $modelDetail = new tJournalDetail;
                     $modelDetail->parent_id = $modelHeader->id;
                     $modelDetail->account_no_id = $_POST['fJournal']['var_account'];
 
@@ -183,9 +183,9 @@ class MCashbankController extends Controller {
 
                     $modelHeader->save();
 
-                    $t = uJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal
+                    $t = tJournalDetail::model()->deleteAll('parent_id = ' . $id); //delete All Journal
 
-                    $modelDetail = new uJournalDetail;
+                    $modelDetail = new tJournalDetail;
                     $modelDetail->parent_id = $modelHeader->id;
                     $modelDetail->account_no_id = $_POST['fJournal']['var_account'];
 
@@ -204,7 +204,7 @@ class MCashbankController extends Controller {
                     $_tcredit = 0;
 
                     for ($i = 0; $i < sizeof($model->account_no_id); ++$i):
-                        $modelDetail = new uJournalDetail;
+                        $modelDetail = new tJournalDetail;
                         $modelDetail->parent_id = $modelHeader->id;
                         $modelDetail->account_no_id = $model->account_no_id[$i];
 
@@ -239,24 +239,24 @@ class MCashbankController extends Controller {
             $model->remark = $modelHeader->remark;
             $model->system_ref = $modelHeader->system_ref;
             $model->master_id = $modelHeader->id;
+            $model->journal_type_id = $modelHeader->journal_type_id;
 
             if ($model->journal_type_id ==1) {   
 				$model->cb_received_from = $modelHeader->cb_custom1;
 			} else 
 				$model->cb_receiver = $modelHeader->cb_custom1;
 	
-            $modelDetail = uJournalDetail::model()->findAll('parent_id =' . $modelHeader->id);
+            $modelDetail = tJournalDetail::model()->findAll('parent_id =' . $modelHeader->id);
 
             foreach ($modelDetail as $mm) {
 				if (!in_array($mm->account_no_id,tAccount::cashBankAccountList())) {            
 					$model->account_no_id[] = $mm->account_no_id;
-
-					$model->debit[] = $mm->debit;
-
-					$model->credit[] = $mm->credit;
-
-					$model->user_remark[] = $mm->user_remark;
+				} else {
+					$model->var_account = $mm->account_no_id;
 				}
+					$model->debit[] = $mm->debit;
+					$model->credit[] = $mm->credit;
+					$model->user_remark[] = $mm->user_remark;
             }
         }
 
@@ -278,7 +278,7 @@ class MCashbankController extends Controller {
     }
 
     public function actionIndex($pid = 0) {
-        $model = new uJournal;
+        $model = new tJournal;
         $model->unsetAttributes();
 
         $criteria = new CDbCriteria;
@@ -288,7 +288,7 @@ class MCashbankController extends Controller {
         $criteria->together = true;
         $criteria->limit = 20;
         $criteria->compare('module_id', 2);
-        $criteria->order = 't.yearmonth_periode DESC, t.created_date DESC, journalDetail.debit';
+        $criteria->order = 't.yearmonth_periode DESC, journalDetail.updated_date DESC, journalDetail.debit';
         //$criteria->compare('yearmonth_periode',Yii::app()->settings->get("System", "cCurrentPeriod"));
 
         if ($pid != 0) {
@@ -296,10 +296,10 @@ class MCashbankController extends Controller {
             $criteria->compare('journalDetail.account_no_id', $pid);
         }
 
-        if (isset($_GET['uJournal'])) {
-            $model->attributes = $_GET['uJournal'];
-            $criteria1->compare('system_ref', $_GET['uJournal']['system_ref'], true, 'OR');
-            $criteria1->compare('remark', $_GET['uJournal']['system_ref'], true, 'OR');
+        if (isset($_GET['tJournal'])) {
+            $model->attributes = $_GET['tJournal'];
+            $criteria1->compare('system_ref', $_GET['tJournal']['system_ref'], true, 'OR');
+            $criteria1->compare('remark', $_GET['tJournal']['system_ref'], true, 'OR');
         }
 
         if (Yii::app()->user->name != "admin") {
@@ -308,7 +308,7 @@ class MCashbankController extends Controller {
 
         $criteria->mergeWith($criteria1);
 
-        $dataProvider = new CActiveDataProvider('uJournal', array(
+        $dataProvider = new CActiveDataProvider('tJournal', array(
             'criteria' => $criteria
         ));
 
@@ -328,7 +328,7 @@ class MCashbankController extends Controller {
             $criteria->addInCondition('entity_id', sUser::model()->getGroupArray());
         }
 
-        $model = uJournal::model()->findByPk($id, $criteria);
+        $model = tJournal::model()->findByPk($id, $criteria);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
@@ -338,7 +338,7 @@ class MCashbankController extends Controller {
         $res = array();
         if (isset($_GET['term'])) {
             $qtxt =
-                    "SELECT system_ref FROM u_journal WHERE module_id = 2 AND system_ref LIKE :name ORDER BY system_ref DESC LIMIT 20";
+                    "SELECT system_ref FROM t_journal WHERE module_id = 2 AND system_ref LIKE :name ORDER BY system_ref DESC LIMIT 20";
             $command = Yii::app()->db->createCommand($qtxt);
             $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
             $res = $command->queryColumn();
@@ -385,7 +385,7 @@ class MCashbankController extends Controller {
                 $model->balance = "OK";
 
                 if ($model->validate()) {
-                    $modelHeader = new uJournal;
+                    $modelHeader = new tJournal;
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
                     $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
@@ -403,7 +403,7 @@ class MCashbankController extends Controller {
                     $_tcredit = 0;
 
                     for ($i = 0; $i < sizeof($model->account_no_id); ++$i):
-                        $modelDetail = new uJournalDetail;
+                        $modelDetail = new tJournalDetail;
                         $modelDetail->parent_id = $modelHeader->id;
                         $modelDetail->account_no_id = $model->account_no_id[$i];
 
@@ -429,7 +429,7 @@ class MCashbankController extends Controller {
                         $modelDetail->save();
                     endfor;
 
-                    $modelDetail = new uJournalDetail;
+                    $modelDetail = new tJournalDetail;
                     $modelDetail->parent_id = $modelHeader->id;
                     $modelDetail->account_no_id = $_POST['fJournal']['var_account'];
 
@@ -485,7 +485,7 @@ class MCashbankController extends Controller {
                 $model->balance = "OK";
 
                 if ($model->validate()) {
-                    $modelHeader = new uJournal;
+                    $modelHeader = new tJournal;
 
                     $modelHeader->input_date = $_POST['fJournal']['input_date'];
                     $modelHeader->yearmonth_periode = Yii::app()->settings->get("System", "cCurrentPeriod");
@@ -499,7 +499,7 @@ class MCashbankController extends Controller {
 
                     $modelHeader->save();
 
-                    $modelDetail = new uJournalDetail;
+                    $modelDetail = new tJournalDetail;
                     $modelDetail->parent_id = $modelHeader->id;
                     $modelDetail->account_no_id = $_POST['fJournal']['var_account'];
 
@@ -519,7 +519,7 @@ class MCashbankController extends Controller {
                     $_tcredit = 0;
 
                     for ($i = 0; $i < sizeof($model->account_no_id); ++$i):
-                        $modelDetail = new uJournalDetail;
+                        $modelDetail = new tJournalDetail;
                         $modelDetail->parent_id = $modelHeader->id;
                         $modelDetail->account_no_id = $model->account_no_id[$i];
 

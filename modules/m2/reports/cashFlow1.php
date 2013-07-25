@@ -50,10 +50,10 @@ class cashFlow1 extends fpdf {
     /* 	function penerimaan() {
       $rawData=Yii::app()->db->createCommand(
       'SELECT b.account_no_id, Sum(b.debit) AS T_debit, Sum(b.credit) AS T_credit
-      FROM u_journal a
-      INNER JOIN u_journal_detail b ON a.id = b.parent_id
+      FROM t_journal a
+      INNER JOIN t_journal_detail b ON a.id = b.parent_id
       WHERE a.id IN (
-      SELECT c.id FROM u_journal c INNER JOIN u_journal_detail d ON c.id = d.parent_id
+      SELECT c.id FROM t_journal c INNER JOIN t_journal_detail d ON c.id = d.parent_id
       WHERE d.account_no_id = 8 AND c.state_id = 4 and c.yearmonth_periode = 201202)
       AND b.account_no_id <> 8
       GROUP BY b.account_no_id

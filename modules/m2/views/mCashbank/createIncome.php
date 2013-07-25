@@ -8,8 +8,8 @@ $this->menu = array(
     array('label' => 'Home', 'icon' => 'home', 'url' => array('/m2/mCashbank')),
 );
 
-$this->menu1 = uJournal::getTopUpdated(2);
-$this->menu2 = uJournal::getTopCreated(2);
+$this->menu1 = tJournal::getTopUpdated(2);
+$this->menu2 = tJournal::getTopCreated(2);
 ?>
 
 

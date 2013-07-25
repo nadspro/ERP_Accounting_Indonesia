@@ -14,6 +14,7 @@
 
     foreach ($notifiche as $notifica) {
         echo CHtml::openTag('li', array());
+        //echo $notifica->photo_path;
         echo CHtml::link($notifica->content, Yii::app()->createUrl('/sNotification/read', array('id' => $notifica->id)));
         echo CHtml::tag('i', array('style' => 'color:grey;font-size:11px; margin-bottom:10px;'), '  (' . waktu::nicetime($notifica->expire) . ')');
         echo CHtml::closeTag('li');

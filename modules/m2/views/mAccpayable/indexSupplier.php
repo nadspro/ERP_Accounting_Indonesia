@@ -6,7 +6,6 @@ $this->breadcrumbs = array(
 
 <div class="page-header">
     <h1>
-        <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/icon/lorrygreen.png') ?>
         Data Supplier
     </h1>
 </div>
@@ -14,7 +13,7 @@ $this->breadcrumbs = array(
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'p-product-grid',
-    'dataProvider' => cSupplier::model()->search(),
+    'dataProvider' => uSupplier::model()->search(),
     'itemsCssClass' => 'table table-striped table-bordered',
     'template' => '{items}{pager}',
     'columns' => array(

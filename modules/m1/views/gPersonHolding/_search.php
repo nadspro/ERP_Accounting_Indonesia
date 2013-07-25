@@ -15,7 +15,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
     'model' => $model,
     'attribute' => 'employee_name',
-    'source' => $this->createUrl('/m1/gPerson/personAutoComplete'),
+    'source' => $this->createUrl('/m1/gPersonHolding/personAutoComplete'),
     'options' => array(
         'minLength' => '2',
         'focus' => 'js:function( event, ui ) {

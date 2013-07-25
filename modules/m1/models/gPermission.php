@@ -109,6 +109,9 @@ class gPermission extends BaseModel {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 50,
+            )
         ));
     }
 
@@ -128,7 +131,7 @@ class gPermission extends BaseModel {
         $criteria->together = true;
         $criteria->compare('approved_id', 1);
         //$criteria->compare('start_date>',Yii::app()->dateFormatter->format("yyyy-MM-dd",time()));
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -152,7 +155,7 @@ class gPermission extends BaseModel {
         $criteria->together = true;
         $criteria->compare('approved_id', 4);
         $criteria->compare('start_date>', Yii::app()->dateFormatter->format("yyyy-MM-dd", time()));
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -176,7 +179,7 @@ class gPermission extends BaseModel {
         $criteria->together = true;
         $criteria->compare('approved_id', 2);
         $criteria->compare('start_date>', Yii::app()->dateFormatter->format("yyyy-MM-dd", time()));
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -200,7 +203,7 @@ class gPermission extends BaseModel {
         $criteria->together = true;
         $criteria->compare('approved_id', 2);
         $criteria->condition = 'CURDATE() BETWEEN start_date AND end_date';
-        $criteria->order = 't.created_date DESC';
+        $criteria->order = 't.start_date';
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

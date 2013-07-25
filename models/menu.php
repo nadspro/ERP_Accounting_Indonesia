@@ -32,7 +32,7 @@ class menu extends BaseModel {
             }
         }
 
-        $_image = (isset($this->image)) ? $this->image : 'th-large';
+        $_image = (!isset($this->image) || $this->image == '') ? 'th-large' : $this->image ;
 
         $returnarray = array('label' => $this->title, 'icon' => $_image, 'url' => array($this->link));
 

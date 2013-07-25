@@ -148,4 +148,32 @@ class GPersonHoldingController extends Controller {
         $pdf->Output();
     }
 
+    public function actionPersonAutoComplete() {
+        $res = array();
+        if (isset($_GET['term'])) {
+            if (Yii::app()->user->name != "admin") {
+                $qtxt = 'SELECT DISTINCT a.employee_name FROM g_person a
+			WHERE a.employee_name LIKE :name AND ' .
+                        '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
+                        implode(",", Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                        ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ') OR ' .
+                        '(select c2.company_id from g_person_career2 c2 WHERE a.id=c2.parent_id AND c2.company_id IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ')) ' .
+                        'ORDER BY a.employee_name LIMIT 20';
+            } else {
+                $qtxt = "SELECT DISTINCT a.employee_name FROM g_person a
+			WHERE a.employee_name LIKE :name
+			ORDER BY a.employee_name LIMIT 20";
+            }
+            $command = Yii::app()->db->createCommand($qtxt);
+            $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+            $res = $command->queryColumn();
+            //$res =$command->queryAll();
+        }
+        echo CJSON::encode($res);
+    }
+
+
 }

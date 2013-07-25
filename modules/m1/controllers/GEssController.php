@@ -111,6 +111,7 @@ class GEssController extends Controller {
     public function actionCreateLeave() {
         $model = new gLeave;
 
+
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -118,9 +119,13 @@ class GEssController extends Controller {
             $model->attributes = $_POST['gLeave'];
             $model->parent_id = gPerson::model()->find('userid = ' . Yii::app()->user->id)->id;  //default PETER
             $model->approved_id = 1; ///request
-            if ($model->save())
-                $this->redirect(array('leave'));
+            if ($model->save()) {
+				$this->redirect(array('/m1/gEss/leave'));
+			}
         }
+
+		Yii::app()->user->setFlash('info','<strong>Info Penting!</strong> Sesuai prosedur, setelah mengisi seluruh kolom inputan, 
+		simpan kemudian cetak formulir cuti  ini. Selanjutnya, ditanda tangan atasan dan diserahkan ke bagian HRD');
 
         $this->render('createLeave', array(
             'model' => $model,
@@ -465,5 +470,35 @@ class GEssController extends Controller {
             throw new CHttpException(404, 'The requested page does not exist.');
         return $model;
     }
+    
+    public function actionPersonAutoComplete() {
+
+        $res = array();
+        if (isset($_GET['term'])) {
+            if (Yii::app()->user->name != "admin") {
+                $qtxt = 'SELECT DISTINCT a.employee_name FROM g_person a
+			WHERE a.employee_name LIKE :name AND ' .
+                        '((select c.company_id from g_person_career c WHERE a.id=c.parent_id AND c.status_id IN (' .
+                        implode(",", Yii::app()->getModule("m1")->PARAM_COMPANY_ARRAY) .
+                        ') ORDER BY c.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ') OR ' .
+                        '(select c2.company_id from g_person_career2 c2 WHERE a.id=c2.parent_id AND c2.company_id IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ') ORDER BY c2.start_date DESC LIMIT 1) IN (' .
+                        implode(",", sUser::model()->getGroupArray()) . ')) ' .
+                        'ORDER BY a.employee_name LIMIT 20';
+            } else {
+                $qtxt = "SELECT DISTINCT a.employee_name FROM g_person a
+			WHERE a.employee_name LIKE :name
+			ORDER BY a.employee_name LIMIT 20";
+            }
+            $command = Yii::app()->db->createCommand($qtxt);
+            $command->bindValue(":name", '%' . $_GET['term'] . '%', PDO::PARAM_STR);
+            $res = $command->queryColumn();
+            //$res =$command->queryAll();
+        }
+        echo CJSON::encode($res);
+    }
+
+    
 
 }

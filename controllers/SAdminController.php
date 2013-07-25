@@ -283,5 +283,53 @@ class SAdminController extends Controller {
 			$this->render('logging');
 	
 	}    
+	
+	public function actionMessageManual() {
+	
+	    	$conv = new Mailbox();
+            $conv->subject = "My Subject";
+            $conv->to = "admin";
+            $conv->initiator_id = 1;
+
+			$conv->interlocutor_id = "admin";
+
+            $conv->modified = time();
+            $conv->bm_read = 0;
+
+            $msg = new Message('admin');
+            $msg->text = "Test Message";
+            
+            $msg->created = time();
+            $msg->sender_id = 1;
+            $msg->recipient_id = 1;
+			
+			$msg->crc64 = 0;
+
+			$conv->save(false);
+			$msg->conversation_id = $conv->conversation_id;
+			$msg->save(false);
+	
+	}
+	
+	public function actionYiiLog() {
+		$rawData=Yii::app()->db->createCommand('SELECT * FROM YiiLog')->queryAll();
+		$dataProvider=new CArrayDataProvider($rawData, array(
+			'id'=>'log',
+			'sort'=>array(
+				'attributes'=>array(
+					 'logtime',
+				),
+			),
+			'pagination'=>array(
+				'pageSize'=>50,
+			),
+			'sort'=>array(
+				'defaultOrder'=>'logtime DESC',
+			)
+		));	
+		
+		$this->render('yiiLog',array('dataProvider'=>$dataProvider));
+	}
+	
 
 }

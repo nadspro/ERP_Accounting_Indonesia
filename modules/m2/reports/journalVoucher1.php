@@ -20,7 +20,7 @@ class journalVoucher1 extends fpdf {
         $this->Cell(0, 8, 'JOURNAL VOUCHER', '', 0, 'C');
         $this->Ln(8);
 
-        $model = uJournal::model()->findByPk((int) $id);
+        $model = tJournal::model()->findByPk((int) $id);
 
         //Header
         $this->SetFont('Arial', '', 10);
@@ -52,7 +52,7 @@ class journalVoucher1 extends fpdf {
         $this->Cell($w[3], 9, 'Remark', 'TBR', 0, 'C');
         $this->Ln();
 
-        $modelD = uJournalDetail::model()->findAll('parent_id = ' . (int) $id);
+        $modelD = tJournalDetail::model()->findAll('parent_id = ' . (int) $id);
         //Detail
         foreach ($modelD as $mod) {
             $this->SetFont('Arial', '', 10);

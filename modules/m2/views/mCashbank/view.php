@@ -11,9 +11,9 @@ $this->menu = array(
     array('label' => 'Print', 'icon' => 'print', 'url' => array('print', 'id' => $model->id)),
 );
 
-$this->menu1 = uJournal::getTopUpdated(2);
-$this->menu2 = uJournal::getTopCreated(2);
-//$this->menu3=uJournal::getTopRelated($model->user_ref);
+$this->menu1 = tJournal::getTopUpdated(2);
+$this->menu2 = tJournal::getTopCreated(2);
+//$this->menu3=tJournal::getTopRelated($model->user_ref);
 $this->menu5 = array('Journal');
 ?>
 
@@ -50,7 +50,7 @@ $this->widget('ext.XDetailView', array(
 ));
 ?>
 
-<?php echo $this->renderPartial('/uJournal/_viewDetail', array('data' => $model)); ?>
+<?php echo $this->renderPartial('/tJournal/_viewDetail', array('data' => $model)); ?>
 
 
 <div style="border-bottom:solid;border-width:1px;border-color:#D5D5D5;padding:0;margin:10px 0;">

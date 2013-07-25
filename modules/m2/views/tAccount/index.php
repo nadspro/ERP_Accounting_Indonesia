@@ -23,7 +23,7 @@ $this->menu1 = tAccount::getTopUpdated();
 </div>
 
 <div class="row">
-    <div class="span3">
+    <div class="span2">
 
         <?php
         $Hierarchy = tAccount::model()->findAll(array('condition' => 'parent_id = 0'));
@@ -44,7 +44,7 @@ $this->menu1 = tAccount::getTopUpdated();
         ?>
 
     </div>
-    <div class="span6">
+    <div class="span7">
 
 
         <?php

@@ -31,9 +31,9 @@ class cronCommand extends CConsoleCommand {
         Yii::app()->db->createCommand($sqlRaw)->execute();
     }
 
-    public function actionDeleteNotificationOld() { //Notif more than 90 days
+    public function actionDeleteNotificationOld() { //Notif more than 360 days or 6 months
         $connection = Yii::app()->db;
-        $sqlRaw = "DELETE FROM s_notification WHERE alert_after_date < " . strtotime("-90 day");
+        $sqlRaw = "DELETE FROM s_notification WHERE alert_after_date < " . strtotime("-360 day");
         Yii::app()->db->createCommand($sqlRaw)->execute();
     }
 

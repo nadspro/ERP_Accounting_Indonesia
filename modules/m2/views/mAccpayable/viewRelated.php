@@ -101,7 +101,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 <h2>Purchased Journal</h2>
 <?php
 $this->widget('bootstrap.widgets.TbDetailView', array(
-    'data' => uJournal::model()->searchTagPurchasing($model->system_ref),
+    'data' => tJournal::model()->searchTagPurchasing($model->system_ref),
     'attributes' => array(
         'input_date',
         'yearmonth_periode',
@@ -110,7 +110,7 @@ $this->widget('bootstrap.widgets.TbDetailView', array(
         'remark',
     ),
 ));
-echo $this->renderPartial('/uJournal/_viewDetail', array('id' => uJournal::model()->searchTagPurchasing($model->system_ref)->id));
+echo $this->renderPartial('/tJournal/_viewDetail', array('id' => tJournal::model()->searchTagPurchasing($model->system_ref)->id));
 ?>
 
 <?php
@@ -120,7 +120,7 @@ if ($model->journal_state_id == 3) {
     <h2>Payment Journal</h2>
     <?php
     $this->widget('bootstrap.widgets.TbDetailView', array(
-        'data' => uJournal::model()->searchTagPayment($model->system_ref),
+        'data' => tJournal::model()->searchTagPayment($model->system_ref),
         'attributes' => array(
             'input_date',
             'yearmonth_periode',
@@ -129,6 +129,6 @@ if ($model->journal_state_id == 3) {
             'remark',
         ),
     ));
-    echo $this->renderPartial('/uJournal/_viewDetail', array('id' => uJournal::model()->searchTagPayment($model->system_ref)->id));
+    echo $this->renderPartial('/tJournal/_viewDetail', array('id' => tJournal::model()->searchTagPayment($model->system_ref)->id));
 }
 ?>

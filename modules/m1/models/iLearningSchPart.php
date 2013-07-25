@@ -66,6 +66,7 @@ class iLearningSchPart extends BaseModel {
             'feedbackCount' => array(self::STAT, 'iLearningSchPartFb', 'parent_id', 'select' => 'sum(A1+A2+A3+A4+A5+B1+B2+B3+B4+C1+C2)'),
             'feedbackCountFb' => array(self::STAT, 'iLearningSchPartFb', 'parent_id'),
             'feedback' => array(self::HAS_ONE, 'iLearningSchPartFb', 'parent_id'),
+            'created' => array(self::BELONGS_TO, 'sUser', 'created_by'),
         );
     }
 
@@ -172,7 +173,7 @@ class iLearningSchPart extends BaseModel {
     }
     
     public function afterSave() {
-        if ($this->isNewRecord) {
+        if ($this->isNewRecord && strtotime($this->getparent->schedule_date) > time()) {
             Notification::create(
                     3, //Learning Group 
                     'm1/iLearning/viewDetail/id/' . $this->parent_id, 

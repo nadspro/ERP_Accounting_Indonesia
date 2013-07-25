@@ -6,33 +6,10 @@ $this->breadcrumbs = array(
 $this->menu = array(
 );
 
-$this->menu1 = uJournal::getTopUpdated(1);
-$this->menu2 = uJournal::getTopCreated(1);
+$this->menu1 = tJournal::getTopUpdated(1);
+$this->menu2 = tJournal::getTopCreated(1);
 ?>
 
-<?php
-$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-    'id' => 'mydialog',
-    'options' => array(
-        'title' => 'Posting',
-        'autoOpen' => false,
-        'modal' => true,
-    //'buttons'=>array(
-    //		'OK'=>'js:function(){$(this).dialog("close");}',
-    //),
-    ),
-));
-echo 'Posting Complete...';
-$this->endWidget('zii.widgets.jui.CJuiDialog');
-?>
-
-<div class="pull-right">
-    <?php
-    $this->renderPartial('_search', array(
-        'model' => $model,
-    ));
-    ?>
-</div>
 
 <div class="page-header">
     <h1>
@@ -40,14 +17,10 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
     </h1>
 </div>
 
-<?php /*
-  <br/>
-  <p>Current Period: <b><?php echo sParameter::item("cCurrentPeriod",201112); ?> </b></p>
-  <br/>
-  <p>
-
-  <br/>
- */
+<?php
+$this->renderPartial('_search', array(
+	'model' => $model,
+));
 ?>
 
 <?php

@@ -49,7 +49,7 @@ class tAccount extends BaseModel {
             'cashbankCode' => array(self::HAS_ONE, 'tAccountProperties', 'parent_id', 'condition' => 'cashbankCode.mkey = \'cashbank_code\''),
             'inventory' => array(self::HAS_ONE, 'tAccountProperties', 'parent_id', 'condition' => 'inventory.mvalue <>0 AND inventory.mkey = \'inventory_id\''),
             'hutang' => array(self::HAS_ONE, 'tAccountProperties', 'parent_id', 'condition' => 'hutang.mvalue <>0 AND hutang.mkey = \'hutang_id\''),
-            'hasJournal' => array(self::HAS_MANY, 'uJournalDetail', 'account_no_id', 'with' => 'journal',
+            'hasJournal' => array(self::HAS_MANY, 'tJournalDetail', 'account_no_id', 'with' => 'journal',
                 'condition' => 'journal.yearmonth_periode = ' . Yii::app()->settings->get("System", "cCurrentPeriod")),
             //'balancesheet' => array(self::HAS_ONE, 'tBalanceSheet', 'parent_id','condition'=>'yearmonth_periode = '.Yii::app()->settings->get("System", "cCurrentPeriod")),
             'balancesheet' => array(self::HAS_ONE, 'tBalanceSheet', 'parent_id'),
@@ -82,6 +82,12 @@ class tAccount extends BaseModel {
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination'=>array(
+            	'pageSize'=>30,
+            ),
+            'sort'=>array(
+            	'defaultOrder'=>'account_no',
+            )
         ));
     }
 
@@ -631,10 +637,20 @@ class tAccount extends BaseModel {
         return $_concat;
     }
 
-    public function entityList() {
+    public function getEntityList() {
         $list = array();
         foreach ($this->entity_many as $l)
             $list[] = $l->branch_code;
+
+        $_imList = implode(", ", $list);
+
+        return $_imList;
+    }
+
+    public function getEntityListComp() {
+        $list = array();
+        foreach ($this->entity_many as $l)
+            $list[] = $l->name;
 
         $_imList = implode(", ", $list);
 
@@ -672,5 +688,50 @@ class tAccount extends BaseModel {
 
         return true;
     }
+    
+    public function getParentFamily($id) {
+
+        $model = self::model()->findByPk($id);
+
+        $criteria = new CDbCriteria;
+
+        if (isset($model->getparent->parent_id) && $model->getparent->parent_id != 0) {
+            $criteria->compare('parent_id', $model->getparent->parent_id);
+        }
+        else
+            $criteria->compare('id', 0); //null
+
+        $criteria->limit = 10;
+        $criteria->order = 'account_no';
+
+        $models = self::model()->findAll($criteria);
+
+        $returnarray = array();
+
+        foreach ($models as $model) {
+            $returnarray[] = array('id' => $model->account_name, 'label' => $model->account_name, 'icon' => 'list-alt', 'url' => array('view', 'id' => $model->id));
+        }
+
+        return $returnarray;
+    }
+
+
+	public  function getIsEmptyBalance()  {
+        $_curPeriod = Yii::app()->settings->get("System", "cCurrentPeriod");
+
+		$modelBalanceCurrent = self::model()->with('balancesheet')->find(array(
+			'condition' => 't.id = :accid AND yearmonth_periode = :period',
+			'params' => array(':accid' => $this->id, ':period' => $_curPeriod),
+		));
+
+		if (!$this->hasChild && $modelBalanceCurrent ==null) { 
+			return true;
+		} else
+			return false;
+	
+	}
+	
+
+
 
 }
